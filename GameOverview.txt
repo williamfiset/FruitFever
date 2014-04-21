@@ -1,0 +1,38 @@
+
+- Project Dev Environment
+	- Create A New GitHub shared GitHub account?
+
+- Project Roles
+	
+	Micah:
+		- Menu/Titles/Text
+		- Level Selection Interface
+		- Resource Management
+		- AI & AI physics
+		- Music
+	
+	Will:
+		- Sprite Design
+		- World/Sprite Layout 
+		- Main Character Implementation
+		- Sound Effects
+
+	Both:
+		- Overall game physics (This cannot be done alone)
+
+- Project End Goal (What do we seek to accomplish):
+		- We should have a finished, functional game (before school starts).
+		- It should be completely our work, so that we have we the option to
+		  sell and distribute it if we so choose.
+		- Fun and playable, lots of content. Easy to add stuff.
+		- Good for our "portfolio"
+		- no hardcoding 
+
+- Radical Game Design Idea:
+	- Swirls = Portals
+	- Fruit Craving/creating Smoothies  
+
+- Documentation File?
+- Screen Width/Height (700, 500)
+
+
