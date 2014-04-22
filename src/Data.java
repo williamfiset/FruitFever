@@ -45,17 +45,17 @@ public abstract class Data{
 		sceneryImages[3] = makeImage(spriteSheet, TILE_SIZE*9, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
 		sceneryImages[4] = makeImage(spriteSheet, TILE_SIZE*10, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
 		sceneryImages[5] = makeImage(spriteSheet, TILE_SIZE*11, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[6] = makeImage(spriteSheet, TILE_SIZE*12, TILE_SIZE*11, TILE_SIZE, TILE_SIZE); /** Adjust bounds!!! **/
+		sceneryImages[6] = makeImage(spriteSheet, TILE_SIZE*12, TILE_SIZE*11 - 2, TILE_SIZE + 5, TILE_SIZE + 2);
 
 		// Scenery (Bottom Row in spriteSheet)
-		sceneryImages[7] = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[8] = makeImage(spriteSheet, TILE_SIZE*6, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[9] = makeImage(spriteSheet, TILE_SIZE*7, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[10] = makeImage(spriteSheet, TILE_SIZE*8, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[11] = makeImage(spriteSheet, TILE_SIZE*9, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[12] = makeImage(spriteSheet, TILE_SIZE*10, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[13] = makeImage(spriteSheet, TILE_SIZE*11, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[14] = makeImage(spriteSheet, TILE_SIZE*12, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[7] = makeImage(spriteSheet, TILE_SIZE*6, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[8] = makeImage(spriteSheet, TILE_SIZE*7, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[9] = makeImage(spriteSheet, TILE_SIZE*8, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[10] = makeImage(spriteSheet, TILE_SIZE*9, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[11] = makeImage(spriteSheet, TILE_SIZE*10, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[12] = makeImage(spriteSheet, TILE_SIZE*11, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[13] = makeImage(spriteSheet, TILE_SIZE*12, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[14] = makeImage(spriteSheet, TILE_SIZE*13, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
 		
 		// Swirl Animation Images
 		for(int i = 0; i < 6; i++)
@@ -151,7 +151,8 @@ public abstract class Data{
 					// Hard-Coded Exceptions
 					if(type == 0)
 						xOffset = -TILE_SIZE/2;
-					//else if(type == 6)
+					else if(type == 6)
+						xOffset = -3;
 
 					// Add Scenery to the ArrayList
 					thingsArray.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
