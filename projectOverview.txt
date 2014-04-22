@@ -4,10 +4,12 @@
 
 - Project Roles
 	
+	(Project Roles are in order of Doing)
+
 	Micah:
+		- Resource Management
 		- Menu/Titles/Text
 		- Level Selection Interface
-		- Resource Management
 		- AI & AI physics
 		- Music
 	

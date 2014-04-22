@@ -1,3 +1,95 @@
 
+LEVEL FILE STRUCTURE:
+
+	Add a '+' character between each section 	
+
+	BLOCKS:
+
+		Brownblock0 --> a
+		Brownblock1 --> b
+		Brownblock2 --> c
+		Brownblock3 --> d
+		Brownblock4 --> e
+		BlueBlock   --> f
+		YellowBlock --> g
+		RedBlock    --> h
+		GreenBlock  --> i
+		PurpleBlock --> j
+		GrayBlock   --> k
+		WhiteBlock0 --> l
+		WhiteBlock1 --> m
+		WhiteBlock2 --> n
+		BlackBlock  --> o
+
+		GrassBrownblock0 --> A
+		GrassBrownblock1 --> B
+		GrassBrownblock2 --> C
+		GrassBrownblock3 --> D
+		GrassBrownblock4 --> E
+		GrassBlueBlock   --> F
+		GrassYellowBlock --> G
+		GrassRedBlock    --> H
+		GrassGreenBlock  --> I
+		GrassPurpleBlock --> J
+		GrassGrayBlock   --> K
+		GrassWhiteBlock0 --> L
+		GrassWhiteBlock1 --> M
+		GrassWhiteBlock2 --> N
+		GrassBlackBlock  --> O
+
+	SCENERY:
+
+
+		// Micah document Flower file structure (with the exception cases)  
+
+
+	ENEMIES:
+
+		The accepted format for declaring an enemy is to replace
+		a '-' character with <Enemy-Type Race-Color left right up down> in the
+		for format of <a-z a-z int , int , int , int>. 
+
+		NOTE: If all left, right, up & down are all zero then the enemy assumes 
+		default behavior. 
+
+		Examples:
+
+		------
+		--<ab4,12,0,0>---
+		------
+
+		^^^creates an enemy of type 'a' (triangle) of Color/Race 'b' (yellow) that
+		can move 4 units left of its original position and 12 units right (total of 17 units). 
+
+
+		-----
+		<ba0,0,5, 6>--<ba0,0,5,2>--
+		-----
+
+		^^^ Creates Two enemies of type 'b' (flying circle) and Race/Color 'a' (blue).
+		One moves between its original position and 5 units down and the other moves up 5
+		and down 2 (covers a total of 8 units)
+
+
+BLOCK TYPES (Each Block has an associated type/integer value):
+
+	Brownblock0 (block a) --> 0
+	Brownblock1 (block b) --> 1
+	Brownblock2 (block c) --> 2
+	Brownblock3 (block d) --> 3
+	Brownblock4 (block e) --> 4
+	BlueBlock   (block f) --> 5
+	YellowBlock (block g) --> 6
+	RedBlock    (block h) --> 7
+	GreenBlock  (block i) --> 8
+	PurpleBlock (block j) --> 9
+	GrayBlock   (block k) --> 10
+	WhiteBlock0 (block l) --> 11
+	WhiteBlock1 (block m) --> 12
+	WhiteBlock2 (block n) --> 13
+	BlackBlock  (block o) --> 14
+
+
+
 
  
