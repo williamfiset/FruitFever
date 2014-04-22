@@ -23,28 +23,7 @@ public class FruitFever extends GraphicsProgram {
 
 		@Override public void init() {
 			
-			// Set background (Shove elsewhere)			
-			GRect background = new GRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
-			background.setFillColor(Color.BLACK);
-			background.setFilled(true);
-			add(background);
-
-			Data.loadImages();
-			Data.loadBlocks("../levels/levels.txt", 1);
-
-			for(int i = 0; i < blocks.length; i++){
-
-				blocks[i].image.setLocation(blocks[i].x, blocks[i].y);
-				add(blocks[i].image);
-
-			}
-
-			for(int i = 0; i < scenery.length; i++){
-
-				scenery[i].image.setLocation(scenery[i].x, scenery[i].y);
-				add(scenery[i].image);
-
-			}
+			displayInitialScreenGraphics();
 
 			// Set up keyboard and mouse
 			addMouseListeners();
@@ -65,8 +44,35 @@ public class FruitFever extends GraphicsProgram {
 		
 		@Override public void keyReleased(KeyEvent key) {}
 		
-		@Override public void mousePressed(MouseEvent mouse) {
-			
-			
+		@Override public void mousePressed(MouseEvent mouse) { }
+		
+
+		/** Loads and Displays all initial graphics on the screen  **/
+		private void displayInitialScreenGraphics(){
+
+			// Creates a Black background on the screen
+			GRect background = new GRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
+			background.setFillColor(Color.BLACK);
+			background.setFilled(true);
+			add(background);
+
+			// renders Images in the Data class
+			Data.loadImages();
+			Data.loadBlocks("../levels/levels.txt", 0);
+
+			for(int i = 0; i < blocks.length; i++){
+				blocks[i].image.setLocation(blocks[i].x, blocks[i].y);
+				add(blocks[i].image);
+			}
+
+			// displays all scenery on screen (plants, trees, mushrooms... )
+			for(int i = 0; i < scenery.length; i++){
+				scenery[i].image.setLocation(scenery[i].x, scenery[i].y);
+				add(scenery[i].image);
+			}
 		}
+
+
+
+
 	}
