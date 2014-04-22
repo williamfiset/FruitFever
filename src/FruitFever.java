@@ -18,8 +18,6 @@ public class FruitFever extends GraphicsProgram {
 		public static Block[] blocks;
 		public static Scenery[] scenery;
 		public static ArrayList<Animation> animations = new ArrayList<Animation>();
-		public static ArrayList<MovingAnimation> movingAnimations = new ArrayList<MovingAnimation>();
-		// public static ArrayList<Swirl> swirls = new ArrayList<Swirl>();
 		
 		public static int currentLevel = 1;
 		
@@ -32,29 +30,25 @@ public class FruitFever extends GraphicsProgram {
 			addMouseListeners();
 			addKeyListeners();
 			
-			/** Example of Animation and MovingAnimation class **/
+			/** Example of Animation and MovingAnimation and Swirl classes **/
 			
 			animations.add(new Animation(50, 50, Data.berryAnimation, true, 3, true));
 			animations.add(new Animation(150, 75, Data.berryAnimation, true, 2, false));
 			animations.add(new Animation(250, 50, Data.swirlAnimation, false, 1, true));
+			
+			animations.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
+			animations.add(new Swirl(250, 50, 10, 5));
 			
 			for(Animation a : animations){
 				a.currentImage.setLocation(a.x, a.y);
 				add(a.currentImage);
 			}
 			
-			// MovingAnimations can be created like this, but extending the MovingAnimation class is usually the best
-			// option, since it will allow us to give it more functionality
-			movingAnimations.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
-			
-			// Notice how you can add Swirl objects to a MovingAnimation array? :)
-			movingAnimations.add(new Swirl(250, 50, 10, 5));
-			
 			for(MovingAnimation a : movingAnimations){
 				a.currentImage.setLocation(a.x, a.y);
 				add(a.currentImage);
 			}
-			/** End of Example of Animation and MovingAnimation class **/
+			/** End of Example of Animation and MovingAnimation and Swirl classes **/
 		}
 		
 		/** Contains the main game loop **/
@@ -63,15 +57,9 @@ public class FruitFever extends GraphicsProgram {
 			
 			while(true){
 			
-				/** Example of Animation and MovingAnimation class **/
-				
+				/** Animate all objects (Animation, MovingAnimation, Swirl)**/
 				for(Animation a : animations)
 					a.animate();
-				
-				for(MovingAnimation a : movingAnimations)
-					a.animate();
-					
-				/** End of Example of Animation and MovingAnimation class **/
 				
 				pause(30);
 			}
