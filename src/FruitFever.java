@@ -9,6 +9,7 @@ import acm.graphics.*;
 import acm.program.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.util.*;
 
 public class FruitFever extends GraphicsProgram {
 
@@ -16,7 +17,9 @@ public class FruitFever extends GraphicsProgram {
 
 		public static Block[] blocks;
 		public static Scenery[] scenery;
-		public static Animation[] animations = new Animation[3];
+		public static ArrayList<Animation> animations = new ArrayList<Animation>();
+		public static ArrayList<MovingAnimation> movingAnimations = new ArrayList<MovingAnimation>();
+		// public static ArrayList<Swirl> swirls = new ArrayList<Swirl>();
 		
 		public static int currentLevel = 1;
 		
@@ -29,18 +32,29 @@ public class FruitFever extends GraphicsProgram {
 			addMouseListeners();
 			addKeyListeners();
 			
-			/** Example of Animation class **/
+			/** Example of Animation and MovingAnimation class **/
 			
-			animations[0] = new Animation(50, 50, Data.berryAnimation, true, 3);
-			animations[1] = new Animation(150, 75, Data.berryAnimation, true, 2);
-			animations[2] = new Animation(250, 50, Data.swirlAnimation, false, 1);
+			animations.add(new Animation(50, 50, Data.berryAnimation, true, 3, true));
+			animations.add(new Animation(150, 75, Data.berryAnimation, true, 2, false));
+			animations.add(new Animation(250, 50, Data.swirlAnimation, false, 1, true));
 			
-			for(int i = 0; i < animations.length; i++){
-				animations[i].currentImage.setLocation(animations[i].x, animations[i].y);
-				add(animations[i].currentImage);
+			for(Animation a : animations){
+				a.currentImage.setLocation(a.x, a.y);
+				add(a.currentImage);
 			}
 			
-			/** End of Example of Animation class **/
+			// MovingAnimations can be created like this, but extending the MovingAnimation class is usually the best
+			// option, since it will allow us to give it more functionality
+			movingAnimations.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
+			
+			// Notice how you can add Swirl objects to a MovingAnimation array? :)
+			movingAnimations.add(new Swirl(250, 50, 10, 5));
+			
+			for(MovingAnimation a : movingAnimations){
+				a.currentImage.setLocation(a.x, a.y);
+				add(a.currentImage);
+			}
+			/** End of Example of Animation and MovingAnimation class **/
 		}
 		
 		/** Contains the main game loop **/
@@ -49,12 +63,16 @@ public class FruitFever extends GraphicsProgram {
 			
 			while(true){
 			
-				/** Example of Animation class **/
+				/** Example of Animation and MovingAnimation class **/
 				
-				for(int i = 0; i < animations.length; i++)
-					animations[i].animate();
+				for(Animation a : animations)
+					a.animate();
+				
+				for(MovingAnimation a : movingAnimations)
+					a.animate();
 					
-				/** End of Example of Animation class **/
+				/** End of Example of Animation and MovingAnimation class **/
+				
 				pause(30);
 			}
 			
