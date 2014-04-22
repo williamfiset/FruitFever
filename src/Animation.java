@@ -94,6 +94,7 @@ public class Animation extends Thing {
 			image.setImage(images[counter].getImage());
 		
 		}
+		
 		// Update position
 		image.setLocation(x - FruitFever.viewX, y  - FruitFever.viewY);
 	

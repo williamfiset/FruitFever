@@ -79,6 +79,7 @@ public abstract class Data{
 		return new GImage(i.getSubimage(x, y, width, height));
 	}
 
+/** Loads objects from the file **/
 	public static void loadObjects(String fileName, int level){
 		
 		try{
@@ -163,7 +164,9 @@ public abstract class Data{
 
 			}
 			
-			/** Add other Objects (such as berries or possibly even enemies) to this array right here **/
+			/** Add other Objects (such as berries or possibly even enemies) to this array right here
+			
+			**/
 			
 			FruitFever.things = thingsArray;
 
