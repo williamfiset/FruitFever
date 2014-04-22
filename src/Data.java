@@ -17,9 +17,12 @@ public abstract class Data{
 	public static int TILE_SIZE = 25;
 
 	public static BufferedImage spriteSheet = null;
+	public static GImage heartImage;
 	public static GImage[] blockImages = new GImage[15],
 						   blockGrassImages = new GImage[15],
-						   sceneryImages = new GImage[16];
+						   sceneryImages = new GImage[15],
+						   swirlAnimation = new GImage[6],
+						   berryAnimation = new GImage[5];
 	    
 /** Loads all the images from the sprite sheet **/
 	public static void loadImages(){
@@ -52,7 +55,17 @@ public abstract class Data{
 		sceneryImages[12] = makeImage(spriteSheet, TILE_SIZE*10, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
 		sceneryImages[13] = makeImage(spriteSheet, TILE_SIZE*11, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
 		sceneryImages[14] = makeImage(spriteSheet, TILE_SIZE*12, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[15] = makeImage(spriteSheet, TILE_SIZE*13, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		
+		// Swirl Animation Images
+		for(int i = 0; i < 6; i++)
+			swirlAnimation[i] = makeImage(spriteSheet, TILE_SIZE*(i + 5), 0, TILE_SIZE, TILE_SIZE);
+			
+		// Berry Animation Images
+		for(int i = 0; i < 5; i++)
+			berryAnimation[i] = makeImage(spriteSheet, TILE_SIZE*(i + 7), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		
+		// Heart Image
+		heartImage = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 
 	}
 		
@@ -61,7 +74,7 @@ public abstract class Data{
 		return new GImage(i.getSubimage(x, y, width, height));
 	}
 
-	public static void loadBlocks(String fileName, int level){
+	public static void loadObjects(String fileName, int level){
 		
 		try{
 
@@ -133,8 +146,9 @@ public abstract class Data{
 					// Hard-Coded Exceptions
 					if(type == 0)
 						xOffset = -TILE_SIZE/2;
+					//else if(type == 6)
 
-					// Add Block to the ArrayList
+					// Add Scenery to the ArrayList
 					sceneryArray.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
 
 				}
