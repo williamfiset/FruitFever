@@ -163,7 +163,7 @@ public abstract class Data{
 
 			}
 			
-			/** Add other Objects (such as berries or even enemies) to this array right here **/
+			/** Add other Objects (such as berries or possibly even enemies) to this array right here **/
 			
 			FruitFever.things = thingsArray;
 

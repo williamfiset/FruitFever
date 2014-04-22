@@ -13,7 +13,7 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram {
 
-		protected final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500;
+		protected final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
 		public static Block[] blocks;
 		public static ArrayList<Thing> things = new ArrayList<Thing>();
@@ -37,12 +37,6 @@ public class FruitFever extends GraphicsProgram {
 		@Override public void run(){
 			
 			while(true){
-			
-				
-				/**/// When these variables are adjusted, the entire screen 
-				//viewX++;
-				//viewY++;
-				//**/
 				
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
 				for(Thing obj : things)
@@ -53,7 +47,7 @@ public class FruitFever extends GraphicsProgram {
 					blocks[i].image.setLocation(blocks[i].x - viewX, blocks[i].y - viewY);
 
 				
-				pause(30);
+				pause(MAIN_LOOP_SPEED);
 			}
 			
 		}
