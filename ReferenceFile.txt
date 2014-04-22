@@ -1,5 +1,5 @@
 
-LEVEL FILE STRUCTURE:
+-LEVEL FILE STRUCTURE:
 
 	Add a '+' character between each section 	
 
@@ -37,12 +37,27 @@ LEVEL FILE STRUCTURE:
 		GrassWhiteBlock2 --> N
 		GrassBlackBlock  --> O
 
-	SCENERY:
+	SCENERY (Will, I gave these (poor) names, can you give them better names, since you know exactly what they are?):
 
-
-		// Micah document Flower file structure (with the exception cases)  
-
-
+		-TOP ROW:
+		Wide Plant (V-Shaped) --> a
+		Weeds --> b
+		Yellow Flower --> c
+		Pink Flower --> d
+		Plant --> e
+		Tree (No Blossoms) --> f
+		Tree (Blossoms) --> g
+		
+		-BOTTOM ROW:
+		Tree Trunk --> h
+		Grass --> i
+		Plant2 --> j
+		Marijuana Plant --> k
+		Plant3 --> l
+		Mushroom (Small) --> m
+		Mushroom (Medium) --> n
+		Mushroom (Large) --> o
+		
 	ENEMIES:
 
 		The accepted format for declaring an enemy is to replace
@@ -70,8 +85,7 @@ LEVEL FILE STRUCTURE:
 		One moves between its original position and 5 units down and the other moves up 5
 		and down 2 (covers a total of 8 units)
 
-
-BLOCK TYPES (Each Block has an associated type/integer value):
+-BLOCK TYPES (Each Block has an associated type/integer value):
 
 	Brownblock0 (block a) --> 0
 	Brownblock1 (block b) --> 1
@@ -88,8 +102,19 @@ BLOCK TYPES (Each Block has an associated type/integer value):
 	WhiteBlock1 (block m) --> 12
 	WhiteBlock2 (block n) --> 13
 	BlackBlock  (block o) --> 14
-
-
-
-
- 
+	
+	GrassBrownblock0 (block A) --> 0
+	GrassBrownblock1 (block B) --> 1
+	GrassBrownblock2 (block C) --> 2
+	GrassBrownblock3 (block D) --> 3
+	GrassBrownblock4 (block E) --> 4
+	GrassBlueBlock   (block F) --> 5
+	GrassYellowBlock (block G) --> 6
+	GrassRedBlock    (block H) --> 7
+	GrassGreenBlock  (block I) --> 8
+	GrassPurpleBlock (block J) --> 9
+	GrassGrayBlock   (block K) --> 10
+	GrassWhiteBlock0 (block L) --> 11
+	GrassWhiteBlock1 (block M) --> 12
+	GrassWhiteBlock2 (block N) --> 13
+	GrassBlackBlock  (block O) --> 14
