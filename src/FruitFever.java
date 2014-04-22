@@ -18,7 +18,8 @@ public class FruitFever extends GraphicsProgram {
 		public static Block[] blocks;
 		public static ArrayList<Thing> things = new ArrayList<Thing>();
 		
-		public static int currentLevel = 1;
+		public static int currentLevel = 1, lives = 3, maxLives = 3;
+		public static GImage[] livesImages = new GImage[maxLives]; 
 		
 		public static int viewX = 0, viewY = 0;
 		
@@ -45,7 +46,6 @@ public class FruitFever extends GraphicsProgram {
 				/** Blocks **/
 				for(int i = 0; i < blocks.length; i++)
 					blocks[i].image.setLocation(blocks[i].x - viewX, blocks[i].y - viewY);
-
 				
 				pause(MAIN_LOOP_SPEED);
 			}
@@ -54,7 +54,7 @@ public class FruitFever extends GraphicsProgram {
 		
 		@Override public void keyPressed(KeyEvent key){}
 		
-		@Override public void keyReleased(KeyEvent key) {}
+		@Override public void keyReleased(KeyEvent key){}
 		
 		@Override public void mousePressed(MouseEvent mouse) { }
 		
@@ -90,6 +90,27 @@ public class FruitFever extends GraphicsProgram {
 				obj.image.setLocation(obj.x, obj.y);
 				add(obj.image);
 			}
+			
+			for(int i = 0; i < maxLives; i++){
+				livesImages[i] = new GImage(Data.heartImage.getImage());
+				livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
+				add(livesImages[i]);
+			}
+				
+		}
+		
+		
+		public static void adjustLives(int changeInLives){
+		
+			lives += changeInLives;
+			
+			for(int i = 0; i < maxLives; i++){
+				if(i < lives)
+					livesImages[i].setVisible(true);
+				else
+					livesImages[i].setVisible(false);
+			}
+		
 		}
 
 	}
