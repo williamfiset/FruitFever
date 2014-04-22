@@ -7,18 +7,16 @@
 import acm.graphics.*;
 import java.awt.*;
 
-public class Scenery {
+public class Scenery extends Thing{
 
-	public int x, y, type;
-	public GImage image;
+	public int type;
 
 	public Scenery(int x, int y, int type, GImage image){
-
-		this.x = x;
-		this.y = y;
+		
+		super(x, y, image);
+		
 		this.type = type;
-		this.image = image;
-
+		
 	}
 
 }

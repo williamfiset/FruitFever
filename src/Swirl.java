@@ -16,7 +16,7 @@ public class Swirl extends MovingAnimation{
 	}
 	
 	// Overrides MovingAnimation.animate()
-	public void animate(){
+	@Override public void animate(){
 		
 		// Right here is where we can do things like checking to see if the swirl has hit a Block, and acting accordingly
 		

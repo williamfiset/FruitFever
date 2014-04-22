@@ -21,15 +21,14 @@ public class MovingAnimation extends Animation{
 	}
 	
 	// Overrides Animation.animate()
-	public void animate(){
-		
+	@Override public void animate(){
 		moveIt(xSpeed, ySpeed);
 		super.animate();
-		
 	}
 
 	public void moveIt(int xChange, int yChange){
-		currentImage.move(xChange, yChange);
+		x += xChange;
+		y += yChange;
 	}
 
 }

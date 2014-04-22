@@ -16,10 +16,12 @@ public class FruitFever extends GraphicsProgram {
 		protected final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500;
 
 		public static Block[] blocks;
-		public static Scenery[] scenery;
-		public static ArrayList<Animation> animations = new ArrayList<Animation>();
+		// public static Scenery[] scenery;
+		public static ArrayList<Thing> things = new ArrayList<Thing>();
 		
 		public static int currentLevel = 1;
+		
+		public static int viewX = 0, viewY = 0;
 		
 		@Override public void init() {
 			
@@ -30,36 +32,27 @@ public class FruitFever extends GraphicsProgram {
 			addMouseListeners();
 			addKeyListeners();
 			
-			/** Example of Animation and MovingAnimation and Swirl classes **/
-			
-			animations.add(new Animation(50, 50, Data.berryAnimation, true, 3, true));
-			animations.add(new Animation(150, 75, Data.berryAnimation, true, 2, false));
-			animations.add(new Animation(250, 50, Data.swirlAnimation, false, 1, true));
-			
-			animations.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
-			animations.add(new Swirl(250, 50, 10, 5));
-			
-			for(Animation a : animations){
-				a.currentImage.setLocation(a.x, a.y);
-				add(a.currentImage);
-			}
-			
-			for(MovingAnimation a : movingAnimations){
-				a.currentImage.setLocation(a.x, a.y);
-				add(a.currentImage);
-			}
-			/** End of Example of Animation and MovingAnimation and Swirl classes **/
 		}
 		
 		/** Contains the main game loop **/
 		@Override public void run(){
 			
-			
 			while(true){
 			
-				/** Animate all objects (Animation, MovingAnimation, Swirl)**/
-				for(Animation a : animations)
-					a.animate();
+				
+				/** When these variables are adjusted, the entire screen 
+				viewX++;
+				viewY++;
+				**/
+				
+				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
+				for(Thing obj : things)
+					obj.animate();
+				
+				/** Blocks **/
+				for(int i = 0; i < blocks.length; i++)
+					blocks[i].image.setLocation(blocks[i].x - viewX, blocks[i].y - viewY);
+
 				
 				pause(30);
 			}
@@ -93,9 +86,22 @@ public class FruitFever extends GraphicsProgram {
 			}
 
 			// Displays all Scenery on-screen (plants, trees, mushrooms... )
-			for(int i = 0; i < scenery.length; i++){
-				scenery[i].image.setLocation(scenery[i].x, scenery[i].y);
-				add(scenery[i].image);
+			// for(int i = 0; i < scenery.length; i++){
+				// scenery[i].image.setLocation(scenery[i].x, scenery[i].y);
+				// add(scenery[i].image);
+			// }
+			
+			things.add(new Animation(50, 50, Data.berryAnimation, true, 3, true));
+			things.add(new Animation(150, 75, Data.berryAnimation, true, 2, false));
+			things.add(new Animation(250, 50, Data.swirlAnimation, false, 1, true));
+			
+			things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
+			things.add(new Swirl(250, 50, 10, 5));
+			things.add(new BlueEnemy(175, 50, 0, 0));
+			
+			for(Thing obj : things){
+				obj.image.setLocation(obj.x, obj.y);
+				add(obj.image);
 			}
 		}
 

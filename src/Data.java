@@ -22,7 +22,8 @@ public abstract class Data{
 						   blockGrassImages = new GImage[15],
 						   sceneryImages = new GImage[15],
 						   swirlAnimation = new GImage[6],
-						   berryAnimation = new GImage[5];
+						   berryAnimation = new GImage[5],
+						   blueEnemyAnimation = new GImage[4];
 	    
 /** Loads all the images from the sprite sheet **/
 	public static void loadImages(){
@@ -66,6 +67,10 @@ public abstract class Data{
 		
 		// Heart Image
 		heartImage = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		
+		// Blue Enemy Animation Images
+		for(int i = 0; i < 4; i++)
+			blueEnemyAnimation[i] = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
 
 	}
 		
@@ -128,7 +133,7 @@ public abstract class Data{
 
 			/** SCENERY **/
 
-			ArrayList<Scenery> sceneryArray = new ArrayList<Scenery>();
+			ArrayList<Thing> thingsArray = new ArrayList<Thing>();
 
 			while(sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")){
 
@@ -149,15 +154,17 @@ public abstract class Data{
 					//else if(type == 6)
 
 					// Add Scenery to the ArrayList
-					sceneryArray.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
+					thingsArray.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
 
 				}
 
 				lineNumber++;
 
 			}
-
-			FruitFever.scenery = sceneryArray.toArray(new Scenery[0]);
+			
+			/** Add other Objects (such as berries or even enemies) to this array right here **/
+			
+			FruitFever.things = thingsArray;
 
 			sc.close();
 		
