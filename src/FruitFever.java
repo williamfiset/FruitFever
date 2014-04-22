@@ -16,7 +16,6 @@ public class FruitFever extends GraphicsProgram {
 		protected final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500;
 
 		public static Block[] blocks;
-		// public static Scenery[] scenery;
 		public static ArrayList<Thing> things = new ArrayList<Thing>();
 		
 		public static int currentLevel = 1;
@@ -40,10 +39,10 @@ public class FruitFever extends GraphicsProgram {
 			while(true){
 			
 				
-				/** When these variables are adjusted, the entire screen 
-				viewX++;
-				viewY++;
-				**/
+				/**/// When these variables are adjusted, the entire screen 
+				//viewX++;
+				//viewY++;
+				//**/
 				
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
 				for(Thing obj : things)
@@ -84,12 +83,6 @@ public class FruitFever extends GraphicsProgram {
 				blocks[i].image.setLocation(blocks[i].x, blocks[i].y);
 				add(blocks[i].image);
 			}
-
-			// Displays all Scenery on-screen (plants, trees, mushrooms... )
-			// for(int i = 0; i < scenery.length; i++){
-				// scenery[i].image.setLocation(scenery[i].x, scenery[i].y);
-				// add(scenery[i].image);
-			// }
 			
 			things.add(new Animation(50, 50, Data.berryAnimation, true, 3, true));
 			things.add(new Animation(150, 75, Data.berryAnimation, true, 2, false));

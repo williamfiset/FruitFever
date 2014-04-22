@@ -86,3 +86,23 @@
 		^^^ Creates Two enemies of type 'b' (flying circle) and Race/Color 'a' (blue).
 		One moves between its original position and 5 units down and the other moves up 5
 		and down 2 (covers a total of 8 units)
+		
+_____________________________________________________________________________________________________________
+
+-CLASS HIERARCHY:
+	
+	-FruitFever
+	
+	-GameStarter
+	
+	-Data
+	
+	-Thing
+		-Scenery
+		-Animation
+			-MovingAnimation
+				-Swirl (temporary)
+				-BlueEnemy (temporary)
+	
+	-GRectangle
+		-Block (this might end up being moved under Thing instead)
