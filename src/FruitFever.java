@@ -16,13 +16,10 @@ public class FruitFever extends GraphicsProgram {
 
 		public static Block[] blocks;
 		public static Scenery[] scenery;
-		
-		public static void main(String[] args) {
-			new FruitFever().start();
-		}
 
 		@Override public void init() {
 			
+			setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 			displayInitialScreenGraphics();
 
 			// Set up keyboard and mouse
