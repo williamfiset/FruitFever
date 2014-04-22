@@ -106,3 +106,18 @@ ________________________________________________________________________________
 	
 	-GRectangle
 		-Block (this might end up being moved under Thing instead)
+		
+_______________________________________________________________________________________________________________
+
+HELPFUL NOTES BY MICAH:
+
+	1. Since we have many different classes in our ArrayList<Thing>, we need some way of checking to see what type of object we are dealing with. Here's an easy way to do that:
+
+		for(Thing obj : things)
+			if(obj instanceof MovingAnimation)
+				System.out.println("This is either a MovingAnimation or one of its subclasses.");
+				
+	2. viewX and viewY are the variables used to store the current view of the screen. The following code fragment would move the entire view to the right 10 pixels and up 5 pixels;
+		
+		viewX += 10;
+		viewY -= 5;
