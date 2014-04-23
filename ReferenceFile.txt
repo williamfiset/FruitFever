@@ -1,3 +1,12 @@
+-CURRENT SCREEN VARIABLE:
+
+0 = Loading Game, 1 = Main Menu, 2 = Playing, 3 = Controls, 4 = Options, 5 = Multiplayer Playing
+
+The game is currently set to begin at the Main Menu (our final game will likely have a cool loading screen though)
+
+	public static int currentScreen = 1;
+
+_____________________________________________________________________________________________________________
 
 -LEVEL FILE STRUCTURE:
 

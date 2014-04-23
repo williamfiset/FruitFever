@@ -1,5 +1,5 @@
 /**
-*	Data - Loads images from a sprite-sheet and sets their location on the screen, if applicable.
+*	Data - Loads images from file and stores them as GImages or arrays of GImages.
 * 
 * @Author Micah Stairs
 *
@@ -16,22 +16,23 @@ public abstract class Data{
 
 	public static int TILE_SIZE = 25;
 
-	public static BufferedImage spriteSheet = null;
+	public static BufferedImage spriteSheet = null, menuSheet = null;
 	public static GImage heartImage;
 	public static GImage[] blockImages = new GImage[15],
 						   blockGrassImages = new GImage[15],
 						   sceneryImages = new GImage[15],
 						   swirlAnimation = new GImage[6],
 						   berryAnimation = new GImage[5],
-						   blueEnemyAnimation = new GImage[4];
+						   blueEnemyAnimation = new GImage[4],
+						   menuImages = new GImage[12];
 	    
 /** Loads all the images from the sprite sheet **/
 	public static void loadImages(){
 			
-		// Import sprite-sheet
+		/** Import sprite-sheet **/
 		try { spriteSheet = ImageIO.read(new File("../img/spriteSheet.png"));	}
 		catch (IOException e) {	e.printStackTrace(); }
-
+	
 		// Blocks
 		for(int i = 0; i < 15; i++){
 			blockImages[i] = makeImage(spriteSheet, 0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
@@ -71,6 +72,15 @@ public abstract class Data{
 		// Blue Enemy Animation Images
 		for(int i = 0; i < 4; i++)
 			blueEnemyAnimation[i] = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
+			
+			
+		/** Import menu images **/
+		try { menuSheet = ImageIO.read(new File("../img/menu0.png"));	}
+		catch (IOException e) {	e.printStackTrace(); }
+		
+		// Menu Button Images
+		for(int i = 0; i < 12; i++)
+			menuImages[i] = makeImage(menuSheet, 0, i*69, 266, 69);
 
 	}
 		

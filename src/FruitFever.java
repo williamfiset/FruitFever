@@ -18,10 +18,12 @@ public class FruitFever extends GraphicsProgram {
 	public static Block[] blocks;
 	public static ArrayList<Thing> things = new ArrayList<Thing>();
 	
-	public static int currentLevel = 1, lives = 3, maxLives = 3;
-	public static GImage[] livesImages = new GImage[maxLives]; 
+	// 0 = Loading Game, 1 = Main Menu, 2 = Playing, 3 = Controls, 4 = Options, 5 = Multiplayer Playing
+	public static int currentScreen = 1;
 	
 	public static int viewX = 0, viewY = 0;
+	public static int currentLevel = 1, lives = 3, maxLives = 3;
+	public static GImage[] livesImages = new GImage[maxLives]; 
 	
 	@Override public void init() {
 		
@@ -90,11 +92,9 @@ public class FruitFever extends GraphicsProgram {
 		things.add(new Animation(50, 50, Data.berryAnimation, true, 3, true));
 		things.add(new Animation(150, 75, Data.berryAnimation, true, 2, false));
 		things.add(new Animation(250, 50, Data.swirlAnimation, false, 1, true));
-		
 		things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
 		things.add(new Swirl(250, 50, 10, 5));
 		things.add(new BlueEnemy(175, 50, 0, 0));
-		
 		/** **/
 		
 		for(Thing obj : things){
