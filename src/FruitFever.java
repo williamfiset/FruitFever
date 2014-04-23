@@ -11,18 +11,20 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 
-public class FruitFever extends GraphicsProgram {
+public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	protected final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
 	public static ArrayList<Block> blocks = new ArrayList<Block>();
+	public static ArrayList<Button> buttons = new ArrayList<Button>();
+	public static Button clickedOnButton = null;
 	public static ArrayList<Thing> things = new ArrayList<Thing>();
 	
 	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
 	public static int currentScreen = 1;
 	
 	public static int viewX = 0, viewY = 0;
-	public static int currentLevel, lives = 3, maxLives = 3;
+	public static int currentLevel = 1, lives = 3, maxLives = 3;
 	public static GImage[] livesImages = new GImage[maxLives]; 
 	
 	@Override public void init() {
@@ -32,6 +34,10 @@ public class FruitFever extends GraphicsProgram {
 		
 		// Renders Images in the Data class
 		Data.loadImages();
+		
+		// Adds main menu buttons to the ArrayList
+		for(int i = 0; i < 4; i++)
+			buttons.add(new Button((int) (FruitFever.SCREEN_WIDTH/2 - Data.menuImages[i/3].getWidth()/2), 100 + 75*i, i, Data.menuImages[3*i], Data.menuImages[3*i + 1], Data.menuImages[3*i + 2]));
 
 		// Set up keyboard and mouse
 		addMouseListeners();
@@ -68,34 +74,90 @@ public class FruitFever extends GraphicsProgram {
 	
 	@Override public void keyReleased(KeyEvent key){}
 	
+	@Override public void mouseMoved(MouseEvent mouse) {
+	
+		/** Check to see if the mouse is hovering over any images and sets them accordingly **/
+		for(Button obj : buttons){
+		
+			if(obj.equals(clickedOnButton))
+				continue;
+				
+			if(obj.checkOverlap(mouse.getX(), mouse.getY()))
+				obj.setHover();
+			else
+				obj.setDefault();
+				
+		}		
+	
+	}
+	
+	@Override public void mouseDragged(MouseEvent mouse) {
+	
+		/** Check to see if the mouse is on the selected button or not and sets the image accordingly **/			
+		if(clickedOnButton.checkOverlap(mouse.getX(), mouse.getY()))
+			clickedOnButton.setClick();
+		else
+			clickedOnButton.setDefault();
+						
+	
+	}
+	
 	@Override public void mousePressed(MouseEvent mouse) {
 	
-		/** 
-		
-			LEVEL SELECTION
-		
-		**/
+		clickedOnButton = null;
 	
-		currentLevel = 0;
+		for(Button obj : buttons){
+			
+			/** Main Menu buttons **/
+			if(currentScreen == 1){
+				
+				// Check to see if the mouse is on the button
+				if(obj.checkOverlap(mouse.getX(), mouse.getY())){
+					
+					// Make the image appear to be clicked on
+					obj.setClick();
+					clickedOnButton = obj;
+					
+				}
+			}
 		
-		// Load level
-		loadLevel();
+		}		
 		
+	}
+	
+	@Override public void mouseReleased(MouseEvent mouse) {
+	
+		if(clickedOnButton != null){
 		
-		currentScreen = 3;
+			/** Unclick the button image and preform action (if applicable) **/
+			if(clickedOnButton.contains(mouse.getX(), mouse.getY())){
+				clickedOnButton.setHover();
+				
+				// Play button
+				if(clickedOnButton.type == 0){
+				
+					// Load level
+					loadLevel();
+					currentScreen = 3;
+				
+				}
+				
+			}
+			else clickedOnButton.setDefault();
+		}
 		
-		
+		clickedOnButton = null;
 		
 	}
 		
-	public void drawMainMenu(){
+	private void drawMainMenu(){
 		
 		// Clear the screen
 		removeAll();
 		
-		for(int i = 0; i < Data.menuImages.length; i++)
-			add(Data.menuImages[i]);
-	
+		for(Button obj : buttons)
+			add(obj.image);
+		
 	}
 
 /** Loads and Displays all initial graphics of a level on the screen  **/

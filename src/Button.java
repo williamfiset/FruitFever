@@ -1,0 +1,51 @@
+
+/**
+ *
+ *	Button - This class provides the functionality to have a clickable button, with different images for each mode.
+ *
+ *	@Author Micah Stairs
+ *
+ *	NOTE: It is assumed that all 3 button images have identical dimensions.
+ *
+ **/
+
+import acm.graphics.*;
+import java.awt.*;
+
+public class Button extends Thing {
+
+	public GImage defaultImage, hoverImage, clickImage;
+	public int type;
+
+	public Button(int x, int y, int type, GImage defaultImg, GImage hoverImg, GImage clickImg){
+	
+		super(x, y, (int) defaultImg.getWidth(), (int) defaultImg.getHeight(), new GImage(defaultImg.getImage()));
+		
+		// Sets the position of the button images
+		animate();
+		
+		this.type = type;
+		this.defaultImage = new GImage(defaultImg.getImage());
+		this.hoverImage = new GImage(hoverImg.getImage());
+		this.clickImage = new GImage(clickImg.getImage());
+	
+	}
+
+/** Checks to see if the given coordinates are on the button **/
+	public boolean checkOverlap(int xPos, int yPos){
+		return contains(xPos, yPos);
+	}
+	
+	public void setDefault(){
+		image.setImage(defaultImage.getImage());
+	}
+	
+	public void setHover(){
+		image.setImage(hoverImage.getImage());
+	}
+	
+	public void setClick(){
+		image.setImage(clickImage.getImage());
+	}
+	
+}

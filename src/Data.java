@@ -79,10 +79,8 @@ public abstract class Data{
 		catch (IOException e) {	e.printStackTrace(); }
 		
 		// Menu Button Images
-		for(int i = 0; i < 12; i++){
+		for(int i = 0; i < 12; i++)
 			menuImages[i] = makeImage(menuSheet, 0, i*69, 266, 69);
-			menuImages[i].setLocation(FruitFever.SCREEN_WIDTH/2 - menuImages[i].getWidth()/2, (i/3)*69);
-		}
 
 	}
 		
