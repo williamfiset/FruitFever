@@ -15,14 +15,14 @@ public class FruitFever extends GraphicsProgram {
 
 	protected final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
-	public static Block[] blocks;
+	public static ArrayList<Block> blocks = new ArrayList<Block>();
 	public static ArrayList<Thing> things = new ArrayList<Thing>();
 	
-	// 0 = Loading Game, 1 = Main Menu, 2 = Playing, 3 = Controls, 4 = Options, 5 = Multiplayer Playing
+	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
 	public static int currentScreen = 1;
 	
 	public static int viewX = 0, viewY = 0;
-	public static int currentLevel = 1, lives = 3, maxLives = 3;
+	public static int currentLevel, lives = 3, maxLives = 3;
 	public static GImage[] livesImages = new GImage[maxLives]; 
 	
 	@Override public void init() {
@@ -32,15 +32,12 @@ public class FruitFever extends GraphicsProgram {
 		
 		// Renders Images in the Data class
 		Data.loadImages();
-		
-		// Allow user to select level
-		
-		// Load level
-		loadLevel();
 
 		// Set up keyboard and mouse
 		addMouseListeners();
 		addKeyListeners();
+		
+		drawMainMenu();
 
 	}
 	
@@ -49,13 +46,18 @@ public class FruitFever extends GraphicsProgram {
 		
 		while(true){
 			
-			/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
-			for(Thing obj : things)
-				obj.animate();
+			// Playing
+			if(currentScreen == 3){
 			
-			/** Blocks **/
-			for(int i = 0; i < blocks.length; i++)
-				blocks[i].image.setLocation(blocks[i].x - viewX, blocks[i].y - viewY);
+				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
+				for(Thing obj : things)
+					obj.animate();
+				
+				/** Blocks **/
+				for(Block obj : blocks)
+					obj.image.setLocation(obj.x - viewX, obj.y - viewY);
+			
+			}
 			
 			pause(MAIN_LOOP_SPEED);
 		}
@@ -66,11 +68,41 @@ public class FruitFever extends GraphicsProgram {
 	
 	@Override public void keyReleased(KeyEvent key){}
 	
-	@Override public void mousePressed(MouseEvent mouse) { }
+	@Override public void mousePressed(MouseEvent mouse) {
+	
+		/** 
 		
+			LEVEL SELECTION
+		
+		**/
+	
+		currentLevel = 0;
+		
+		// Load level
+		loadLevel();
+		
+		
+		currentScreen = 3;
+		
+		
+		
+	}
+		
+	public void drawMainMenu(){
+		
+		// Clear the screen
+		removeAll();
+		
+		for(int i = 0; i < Data.menuImages.length; i++)
+			add(Data.menuImages[i]);
+	
+	}
 
 /** Loads and Displays all initial graphics of a level on the screen  **/
 	private void loadLevel(){
+	
+		// Clear the screen
+		removeAll();
 
 		// Creates a black background on the screen
 		GRect background = new GRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -82,9 +114,9 @@ public class FruitFever extends GraphicsProgram {
 		Data.loadObjects("../levels/levels.txt", currentLevel);
 		
 		// Displays all blocks on-screen
-		for(int i = 0; i < blocks.length; i++){
-			blocks[i].image.setLocation(blocks[i].x, blocks[i].y);
-			add(blocks[i].image);
+		for(Block obj : blocks){
+			obj.image.setLocation(obj.x, obj.y);
+			add(obj.image);
 		}
 		
 		

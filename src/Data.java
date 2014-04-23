@@ -74,13 +74,15 @@ public abstract class Data{
 			blueEnemyAnimation[i] = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
 			
 			
-		/** Import menu images **/
+		/** Import and set location of menu images **/
 		try { menuSheet = ImageIO.read(new File("../img/menu0.png"));	}
 		catch (IOException e) {	e.printStackTrace(); }
 		
 		// Menu Button Images
-		for(int i = 0; i < 12; i++)
+		for(int i = 0; i < 12; i++){
 			menuImages[i] = makeImage(menuSheet, 0, i*69, 266, 69);
+			menuImages[i].setLocation(FruitFever.SCREEN_WIDTH/2 - menuImages[i].getWidth()/2, (i/3)*69);
+		}
 
 	}
 		
@@ -95,6 +97,10 @@ public abstract class Data{
 		try{
 
 			Scanner sc = new Scanner(new File(fileName));
+			
+			// Clear ArrayLists
+			FruitFever.blocks.clear();
+			FruitFever.things.clear();
 
 			/** Find the correct level **/
 			while(!sc.nextLine().equals(String.valueOf(level))){}
@@ -103,8 +109,6 @@ public abstract class Data{
 			String line = "";
 
 			/** BLOCKS **/
-
-			ArrayList<Block> blocksArray = new ArrayList<Block>();
 
 			while(sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")){
 
@@ -130,7 +134,7 @@ public abstract class Data{
 					}
 
 					// Add Block to the ArrayList
-					blocksArray.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, type, image));
+					FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, type, image));
 
 				}
 
@@ -138,13 +142,9 @@ public abstract class Data{
 
 			}
 
-			FruitFever.blocks = blocksArray.toArray(new Block[0]);
-
 			lineNumber = 0;
 
 			/** SCENERY **/
-
-			ArrayList<Thing> thingsArray = new ArrayList<Thing>();
 
 			while(sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")){
 
@@ -166,19 +166,13 @@ public abstract class Data{
 						xOffset = -3;
 
 					// Add Scenery to the ArrayList
-					thingsArray.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
+					FruitFever.things.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
 
 				}
 
 				lineNumber++;
 
 			}
-			
-			/** Add other Objects (such as berries or possibly even enemies) to this array right here
-			
-			**/
-			
-			FruitFever.things = thingsArray;
 
 			sc.close();
 		
