@@ -97,15 +97,14 @@ ________________________________________________________________________________
 	
 	-Data
 	
-	-Thing
-		-Scenery
-		-Animation
-			-MovingAnimation
-				-Swirl (temporary)
-				-BlueEnemy (temporary)
-	
-	-GRectangle
-		-Block (this might end up being moved under Thing instead)
+	-Rectangle (part of java.awt.*)
+		-Thing
+			-Block
+			-Scenery
+			-Animation
+				-MovingAnimation
+					-Swirl (temporary)
+					-BlueEnemy (temporary)
 		
 _______________________________________________________________________________________________________________
 
@@ -121,3 +120,13 @@ HELPFUL NOTES BY MICAH:
 		
 		viewX += 10;
 		viewY -= 5;
+		
+	3. The inheritance structure that was updated on April 23 means that essentially everything in the game is
+	a subclass of the Thing class, which extends Rectangle. This enables us to easily check for collisions between
+	objects. The Rectangles are even updated if an animated image is changing sizes. In the FruitFever class, we
+	currently have two ArrayLists holding our objects. Note that since Block is a subclass of Thing, there's nothing
+	stopping us from putting them all in the ArrayList of Things, but putting them in a separate list makes them
+	easier to access (you won't need to check to see what instanceOf you're dealing with). We may actually end up further diving the "ArrayList<Thing> things" into further ArrayLists (or HashMaps, etc.) for that very reason.
+	
+		public static Block[] blocks;
+		public static ArrayList<Thing> things = new ArrayList<Thing>();

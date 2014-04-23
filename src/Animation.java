@@ -90,8 +90,9 @@ public class Animation extends Thing {
 				counter = 0;
 			}
 			
-			// Switch the GImage to the correct index
+			// Switch the GImage to the correct index, and adjust the width and height of the Rectangle
 			image.setImage(images[counter].getImage());
+			setSize((int) image.getWidth(), (int) image.getHeight());
 		
 		}
 		

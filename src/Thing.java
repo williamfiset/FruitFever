@@ -8,24 +8,37 @@
 import acm.graphics.*;
 import java.awt.*;
 
-public class Thing {
+public class Thing extends Rectangle{
 
 	/** Public instance variables **/
 	public int x, y;
 	public GImage image;
 	
+	/** Constructors that define the image **/
+	
+	public Thing(int x, int y, int width, int height, GImage image){
+		this.x = x;
+		this.y = y;
+		this.image = image;
+	}
+	
 	public Thing(int x, int y, GImage image){
+		this(x, y, (int) image.getWidth(), (int) image.getHeight(), image);
+	}
+	
+	/** Constructors that do not define the image **/
+	
+	public Thing(int x, int y, int width, int height){
 		this.x = x;
 		this.y = y;
 		this.image = image;
 	}
 	
 	public Thing(int x, int y){
-		this.x = x;
-		this.y = y;
+		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE);	
 	}
 	
-	// Update position
+	/** Update position **/
 	public void animate(){
 	
 		image.setLocation(x - FruitFever.viewX, y  - FruitFever.viewY);

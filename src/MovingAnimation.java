@@ -22,8 +22,14 @@ public class MovingAnimation extends Animation{
 	
 	// Overrides Animation.animate()
 	@Override public void animate(){
+	
+		// Move the image
 		moveIt(xSpeed, ySpeed);
 		super.animate();
+		
+		// Move the uderlying Rectangle
+		setLocation(x, y);
+		
 	}
 
 	public void moveIt(int xChange, int yChange){

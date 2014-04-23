@@ -10,28 +10,26 @@
 import acm.graphics.*;
 import java.awt.*;
 
-public class Block extends GRectangle {
-	
-	public static int SIZE = 25;
+public class Block extends Thing {
 
-	public int x, y, type;
-	public GImage image;
+	public int type;
 
 	/**
-	* @Param type - type defines what type of block it is, whether it is a 
-	* brown block, snow block, or a black block we will be able to identify them with integer
-	* values, for example a standard brown block is type 0, check the reference file to check
-	* which type of block is which
+	* @param type - defines what type of block it is (the reference file contains a list of these values
+	*				and associated types)
 	**/
 
-	public Block(int x, int y, int type, GImage image){
+	public Block(int x, int y, int width, int height, int type, GImage image){
 
-		super(x, y, SIZE, SIZE);
+		super(x, y, width, height, image);
 		
-		this.x = x;
-		this.y = y;
 		this.type = type;
-		this.image = image;
 
+	}
+	
+	public Block(int x, int y, int type, GImage image){
+	
+		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, type, image);
+	
 	}
 }
