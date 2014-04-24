@@ -15,26 +15,27 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	protected final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
-	public static ArrayList<Block> blocks = new ArrayList<Block>();
-	public static ArrayList<Thing> things = new ArrayList<Thing>();
-	public static ArrayList<Button> buttons = new ArrayList<Button>();
-	public static Button clickedOnButton = null;
+
+	static ArrayList<Block> blocks = new ArrayList<Block>();
+	static ArrayList<Thing> things = new ArrayList<Thing>();
+	static ArrayList<Button> buttons = new ArrayList<Button>();
+	static Button clickedOnButton = null;
 	
 	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
-	public static int currentScreen = 1;
+	static int currentScreen = 1;
 	
-	public static int viewX = 0, viewY = 0;
-	public static int currentLevel = 0;
+	static int viewX = 0, viewY = 0;
+	static int currentLevel = 0;
 
-	public static int lives = 3, maxLives = 3;
-	public static GImage[] livesImages = new GImage[maxLives]; 
+	static int lives = 3, maxLives = 3;
+	static GImage[] livesImages = new GImage[maxLives]; 
 	
 	@Override public void init() {
 		
 		// Set size
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		
-		// Renders Images in the Data class
+		// Renders Images in the Data class, and fills the object Arrays^
 		Data.loadImages();
 		
 		// Adds main menu buttons to the ArrayList
@@ -191,10 +192,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		things.add(new BlueEnemy(175, 50, 0, 0));
 		/** **/
 		
-		for(Thing obj : things){
-			obj.image.setLocation(obj.x, obj.y);
-			add(obj.image);
-		}
+		// for(Thing obj : things){
+		// 	obj.image.setLocation(obj.x, obj.y);
+		// 	add(obj.image);
+		// }
 		
 		for(int i = 0; i < maxLives; i++){
 			livesImages[i] = new GImage(Data.heartImage.getImage());
