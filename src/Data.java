@@ -24,7 +24,8 @@ public abstract class Data{
 						   swirlAnimation = new GImage[6],
 						   berryAnimation = new GImage[5],
 						   blueEnemyAnimation = new GImage[4],
-						   menuImages = new GImage[12];
+						   menuImages = new GImage[12],
+						   playerTemp = new GImage[1];
 	    
 /** Loads all the images from the sprite sheet **/
 	public static void loadImages(){
@@ -73,6 +74,8 @@ public abstract class Data{
 		for(int i = 0; i < 4; i++)
 			blueEnemyAnimation[i] = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
 			
+		// Player Temporary Image
+		playerTemp[0] = makeImage(spriteSheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
 			
 		/** Import and set location of menu images **/
 		try { menuSheet = ImageIO.read(new File("../img/menu0.png"));	}
