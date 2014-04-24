@@ -17,6 +17,9 @@ public class Thing extends Rectangle{
 	/** Constructors that define the image **/
 	
 	public Thing(int x, int y, int width, int height, GImage image){
+		
+		super(x, y, width, height);
+		
 		this.x = x;
 		this.y = y;
 		this.image = image;
@@ -29,6 +32,9 @@ public class Thing extends Rectangle{
 	/** Constructors that do not define the image **/
 	
 	public Thing(int x, int y, int width, int height){
+	
+		super(x, y, width, height);
+		
 		this.x = x;
 		this.y = y;
 		this.image = image;

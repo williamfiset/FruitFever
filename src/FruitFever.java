@@ -94,12 +94,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	@Override public void mouseDragged(MouseEvent mouse) {
 	
 		/** Check to see if the mouse is on the selected button or not and sets the image accordingly **/			
-		if(clickedOnButton.checkOverlap(mouse.getX(), mouse.getY()))
-			clickedOnButton.setClick();
-		else
-			clickedOnButton.setDefault();
-						
-	
+		if(clickedOnButton != null){
+			if(clickedOnButton.checkOverlap(mouse.getX(), mouse.getY()))
+				clickedOnButton.setClick();
+			else
+				clickedOnButton.setDefault();
+		}
 	}
 	
 	@Override public void mousePressed(MouseEvent mouse) {
