@@ -2,7 +2,7 @@
 
 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
 
-The game is currently set to begin at the Main Menu (our final game will likely have a cool loading screen though)
+The game is currently set to begin at the Main Menu (our final game will likely have a cool splashscreen though)
 
 	public static int currentScreen = 1;
 
@@ -51,23 +51,23 @@ ________________________________________________________________________________
 		NOTE: Will, I gave these (poor) names, can you give them better names, since you know exactly what they are?
 
 		-TOP ROW:
-		Wide Plant (V-Shaped) (0) --> a
-		Weeds (1) --> b
-		Yellow Flower (2) --> c
-		Pink Flower (3) --> d
-		Plant (4) --> e
-		Tree (No Blossoms) (5)--> f
-		Tree (Blossoms) (6)--> g
+		Wide Plant (V-Shaped) 	(0)  --> a
+		Weeds 					(1)  --> b
+		Yellow Flower 		  	(2)  --> c
+		Pink Flower 		  	(3)  --> d
+		Plant 				  	(4)  --> e
+		Tree (No Blossoms) 	  	(5)  --> f
+		Tree (Blossoms) 	  	(6)  --> g
 		
 		-BOTTOM ROW:
-		Tree Trunk (7 )--> h
-		Grass (8) --> i
-		Plant2 (9) --> j
-		Marijuana Plant (10) --> k
-		Plant3 (11) --> l
-		Mushroom (Small) (12) --> m
-		Mushroom (Medium) (13) --> n
-		Mushroom (Large) (14) --> o
+		Tree Trunk				(7)  --> h
+		Grass 				  	(8)  --> i
+		Plant2 				  	(9)  --> j
+		Marijuana Plant 	  	(10) --> k
+		Plant3 					(11) --> l
+		Mushroom (Small) 		(12) --> m
+		Mushroom (Medium) 		(13) --> n
+		Mushroom (Large) 		(14) --> o
 		
 	ENEMIES:
 
@@ -121,7 +121,7 @@ ________________________________________________________________________________
 
 HELPFUL NOTES BY MICAH:
 
-	1. Since we have many different classes in our ArrayList<Thing>, we need some way of checking to see what type of object we are dealing with. Here's an easy way to do that:
+	1. Since we have many different classes in our ArrayList<Thing>, we need some way of checking to see what type of object we are dealing with. Here's an example of an easy way to do that:
 
 		for(Thing obj : things)
 			if(obj instanceof MovingAnimation)
@@ -133,11 +133,16 @@ HELPFUL NOTES BY MICAH:
 		viewY -= 5;
 		
 	3. The inheritance structure that was updated on April 23 means that essentially everything in the game is
-	a subclass of the Thing class, which extends Rectangle. This enables us to easily check for collisions between
-	objects. The Rectangles are even updated if an animated image is changing sizes. In the FruitFever class, we
-	currently have two ArrayLists holding our objects. Note that since Block is a subclass of Thing, there's nothing
-	stopping us from putting them all in the ArrayList of Things, but putting them in a separate list makes them
-	easier to access (you won't need to check to see what instanceOf you're dealing with). We may actually end up further diving the "ArrayList<Thing> things" into further ArrayLists (or HashMaps, etc.) for that very reason.
+	a subclass of the Thing class, which extends Rectangle (not GRectangle, since we don't need Double precision).
+	This enables us to easily check for collisions between objects. The Rectangles are even updated if an animated
+	image is changing sizes. In the FruitFever class, we currently have three ArrayLists holding our objects. Note
+	that since both Block and Button is a subclass of Thing, there's nothing stopping us from putting them all in
+	the ArrayList of Things, but putting them in a separate list makes them easier to access (you won't need to
+	check to see what instanceOf you're dealing with). We will most likely end up further dividing the
+	"ArrayList<Thing> things" into further ArrayLists (or HashMaps, etc.) for that very reason. However, being able
+	to combine these different classes into the same array adds a lot of flexibility into our program, and can
+	greatly reduce the complexity and length of our code (since we are easily able to generalize).
 	
 		public static Block[] blocks;
 		public static ArrayList<Thing> things = new ArrayList<Thing>();
+		public static ArrayList<Button> buttons = new ArrayList<Button>();
