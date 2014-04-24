@@ -100,7 +100,8 @@ ________________________________________________________________________________
 
 -CLASS HIERARCHY:
 	
-	-FruitFever
+	-GraphicsProgram (part of acm.program.*)
+		-FruitFever (implements MouseMotionListener so that mouseDragged and mouseMoved methods can be used)
 	
 	-GameStarter
 	
@@ -109,6 +110,7 @@ ________________________________________________________________________________
 	-Rectangle (part of java.awt.*)
 		-Thing
 			-Block
+			-Button
 			-Scenery
 			-Animation
 				-MovingAnimation

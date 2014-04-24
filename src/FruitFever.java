@@ -16,9 +16,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	protected final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
 	public static ArrayList<Block> blocks = new ArrayList<Block>();
+	public static ArrayList<Thing> things = new ArrayList<Thing>();
 	public static ArrayList<Button> buttons = new ArrayList<Button>();
 	public static Button clickedOnButton = null;
-	public static ArrayList<Thing> things = new ArrayList<Thing>();
 	
 	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
 	public static int currentScreen = 1;
