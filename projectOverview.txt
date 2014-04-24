@@ -16,7 +16,11 @@
 	Will:
 		- Sprite Design
 		- World/Sprite Layout 
+			- Block interaction and infrastructure 
 		- Main Character Implementation
+			- Movement
+			- Collision Detection
+			- Actions
 		- Sound Effects
 
 	Both:
