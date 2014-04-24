@@ -8,7 +8,7 @@
 **/
 
 import acm.graphics.*;
-import java.awt.*;
+import java.util.*;
 
 public class Block extends Thing {
 
@@ -18,6 +18,7 @@ public class Block extends Thing {
 	* @param type - defines what type of block it is (the reference file contains a list of these values
 	*				and associated types)
 	**/
+
 
 	public Block(int x, int y, int width, int height, int type, GImage image){
 
@@ -32,4 +33,50 @@ public class Block extends Thing {
 		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, type, image);
 	
 	}
+
+
+	/**
+	 * Returns the block bounded in the region 
+	 *(xPos, yPos) & (xPos + blockWidth, yPos + blockHeight)
+	 * @param xPos - The X position of a region within the block
+	 * @param yPos - the Y position of a region within the block
+	 *
+	 **/
+
+	public static Block getBlock(int xPos, int yPos){
+
+		for (Block block : FruitFever.blocks)
+			if (xPos >= block.x && xPos < block.x + block.width)
+				if (yPos >= block.y && yPos < block.y + block.height)
+					return block;
+
+		// Block coordinates were not found, typically due to air space or out of bounds
+		return null;
+	}
+
+	
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
