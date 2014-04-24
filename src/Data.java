@@ -119,7 +119,14 @@ public abstract class Data{
 					// Skip if it's a blank
 					if(line.charAt(i) == '-')
 						continue;
-
+						
+					// Set the player's start position
+					if(line.charAt(i) == '@'){
+						FruitFever.playerStartX = i*TILE_SIZE;
+						FruitFever.playerStartY = lineNumber*TILE_SIZE;
+						continue;
+					}
+					
 					GImage image;
 					int type;
 
