@@ -24,7 +24,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	public static int currentScreen = 1;
 	
 	public static int viewX = 0, viewY = 0;
-	public static int currentLevel = 1, lives = 3, maxLives = 3;
+	public static int currentLevel = 0;
+
+	public static int lives = 3, maxLives = 3;
 	public static GImage[] livesImages = new GImage[maxLives]; 
 	
 	@Override public void init() {
@@ -139,9 +141,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					// Load level
 					loadLevel();
 					currentScreen = 3;
-				
 				}
-				
 			}
 			else clickedOnButton.setDefault();
 		}
@@ -186,7 +186,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		things.add(new Animation(50, 50, Data.berryAnimation, true, 3, true));
 		things.add(new Animation(150, 75, Data.berryAnimation, true, 2, false));
 		things.add(new Animation(250, 50, Data.swirlAnimation, false, 1, true));
-		things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
+		// things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
 		things.add(new Swirl(250, 50, 10, 5));
 		things.add(new BlueEnemy(175, 50, 0, 0));
 		/** **/
