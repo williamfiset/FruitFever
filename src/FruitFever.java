@@ -82,10 +82,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		int keyCode = key.getKeyCode();
 
 		switch (keyCode) {
-			case KeyEvent.VK_A: player.dx = -Player.horizontalVelocity; break;
-			case KeyEvent.VK_D: player.dx =  Player.horizontalVelocity; break;
-			case KeyEvent.VK_W: player.dy = -Player.verticalVelocity; break;
-			case KeyEvent.VK_S: player.dy =  Player.verticalVelocity; break;
+			case KeyEvent.VK_A: case KeyEvent.VK_LEFT: player.dx = -Player.horizontalVelocity; break;
+			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT: player.dx =  Player.horizontalVelocity; break;
+			case KeyEvent.VK_W: case KeyEvent.VK_UP: player.dy = -Player.verticalVelocity; break;
+			case KeyEvent.VK_S: case KeyEvent.VK_DOWN: player.dy =  Player.verticalVelocity; break;
 		}
 			
 
