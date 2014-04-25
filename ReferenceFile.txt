@@ -1,10 +1,34 @@
+
+BOUNDING BOXES IN THING CLASS:
+
+	By default, the bounding box is identical to the location and the size of the image. But you can adjust the position of this bounding box. Ex: "boundaryLeft = -5;" would extend the left side of the bounding box over 5 pixels. The other 3 variables are logically called boundaryRight, boundaryTop, and boundaryBottom.
+	
+	Example of when this functionality will need to be used?
+		-The player's various animations will need to adjust the bounding boxes (tongue sticking out is a lot wider than when the player is just standing still).
+		-Circular enemies.. By bringing in the bounding box on each side by a bit, the collision checking would be a great deal more precise.
+	
+	Here's how to access the variables of the image and the bounding box (the underlying Rectangle, used to detect collisions):
+	
+		Image:
+			The x position  --> imageX
+			The y position	--> imageY
+			The width		--> image.getWidth()	(NOTE: Returns a double value, so you may need to cast to int)
+			The height:		--> image.getHeight()	(NOTE: Returns a double value, so you may need to cast to int)
+			
+		BoundingBox (Rectangle):
+			The x position  --> x
+			The y position	--> y
+			The width		--> width
+			The height:		--> width
+_____________________________________________________________________________________________________________
+
 -CURRENT SCREEN VARIABLE:
 
-0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
+	0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
 
-The game is currently set to begin at the Main Menu (our final game will likely have a cool splashscreen though)
+	The game is currently set to begin at the Main Menu (our final game will likely have a cool splashscreen though)
 
-	public static int currentScreen = 1;
+		public static int currentScreen = 1;
 
 _____________________________________________________________________________________________________________
 
