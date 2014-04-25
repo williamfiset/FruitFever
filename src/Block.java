@@ -46,15 +46,18 @@ public class Block extends Thing {
 	public static Block getBlock(int xPos, int yPos){
 
 		for (Block block : FruitFever.blocks)
-			if (xPos >= block.x && xPos < block.x + block.width)
-				if (yPos >= block.y && yPos < block.y + block.height)
-					return block;
-
+			if (block.contains(xPos, yPos)) // From java.awt.Rectangle.contains(x,y) 
+				return block;
+			
 		// Block coordinates were not found, typically due to air space or out of bounds
 		return null;
 	}
 
-	
+	// Not sure if it is worth implementing, at least for now
+	public static Block getAdjacentBlock(Block block){
+		return null;
+	}
+
 
 
 }
