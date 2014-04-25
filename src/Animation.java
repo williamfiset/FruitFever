@@ -1,5 +1,5 @@
 /**
- *	Animation - This nifty class takes in an array of GImages and animates a GImage through it.
+ *	Animation - This class takes in an array of GImages and animates a GImage through it.
  *
  * @Author Micah Stairs
  *
@@ -16,8 +16,9 @@ public class Animation extends Thing {
 	/** Private instance variables **/
 	private GImage[] images;
 	private int counter = 0, delayCounter = 0, delay;
-	private boolean reverse, counterGoingUp = true, repeat;
+	private boolean counterGoingUp = true;
 	
+	protected boolean reverse, repeat; // Player will need to access these
 	
 	/**
 	 * @param x : default x-position
@@ -37,11 +38,11 @@ public class Animation extends Thing {
 		super(x, y);
 		
 		// Make copy of images
-		this.images = new GImage[originalImages.length];
-		for(int i = 0; i < images.length; i++)
-			this.images[i] = new GImage(originalImages[i].getImage());
-			
-		image = new GImage(images[counter].getImage());
+		this.images = copyAnimation(originalImages);
+		
+		// Set these instance variables, now that we know the umage
+		super.image = new GImage(images[counter].getImage());
+		super.setSize((int) image.getWidth(), (int) image.getHeight());
 		
 		this.reverse = reverse;
 		this.delay = delay;
@@ -96,9 +97,20 @@ public class Animation extends Thing {
 		
 		}
 		
-		// Update position
-		image.setLocation(x - FruitFever.viewX, y  - FruitFever.viewY);
+		// Calls Thing.animate()
+		super.animate();
 	
+	}
+
+	/** Creates and return a copy of an animation (a GImage[]) **/
+	public static GImage[] copyAnimation(GImage[] originalImages){
+		GImage[] newImages = new GImage[originalImages.length];
+		
+		for(int i = 0; i < newImages.length; i++)
+			newImages[i] = new GImage(originalImages[i].getImage());
+			
+		return newImages;
+		
 	}
 
 }
