@@ -20,6 +20,10 @@ public class MovingAnimation extends Animation{
 		this.ySpeed = ySpeed;
 	}
 	
+	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat){
+		super(x, y, originalImages, reverse, delay, repeat);
+	}
+	
 	// Overrides Animation.animate()
 	@Override public void animate(){
 	

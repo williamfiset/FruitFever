@@ -21,9 +21,15 @@ class Player extends MovingAnimation {
 	boolean reachedBaseLine = true;
 	int baseLine, maxJump;
 
-	public Player(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int xSpeed, int ySpeed){
+	// The constructor will eventually look something like:
+	// public Player(int x, int y, GImage[] stillAnimation, GImage[] swirlAnimation, GImage[] tongueAnimation)
+	public Player(int x, int y, GImage[] temporaryImage){
+		super(x, y, temporaryImage, false, 1, true);
 		
-		super( x, y, originalImages, reverse, delay, repeat, xSpeed, ySpeed );
+		/** Will: This is how you would set the boundaries of the image (the image would remain in the same location)
+		boundaryLeft = -5; boundaryRight = 12; boundaryTop = 18; boundaryBottom = -3;
+		**/
+		
 		baseLine = y;
 	}
 
@@ -35,7 +41,7 @@ class Player extends MovingAnimation {
 		if (isJumping) {
 			// move up
 
-			if (y - dy <= baseLine) {
+			if (imageY - dy <= baseLine) {
 				reachedBaseLine = true;
 			}
 
@@ -45,8 +51,8 @@ class Player extends MovingAnimation {
 			}
 		}
 
-		x += dx;
-		y += dy;
+		imageX += dx;
+		imageY += dy;
 
 	}
 
@@ -59,30 +65,30 @@ class Player extends MovingAnimation {
 		HashSet<Block> surroundingBlocks = new HashSet<Block>();
 
 		// Gets all the blocks that are surrounding the Player
-		surroundingBlocks.add( Block.getBlock(x - width/3, y - width/3 ) ); // NorthWest 
-		surroundingBlocks.add( Block.getBlock(x + width/3, y - width/3 ) ); // North 
-		surroundingBlocks.add( Block.getBlock(x + width + width/3, y - width/3 ) ); // NorthEast 
+		surroundingBlocks.add( Block.getBlock(imageX  - width/3, imageY - width/3 ) ); // NorthWest 
+		surroundingBlocks.add( Block.getBlock(imageX  + width/3, imageY - width/3 ) ); // North 
+		surroundingBlocks.add( Block.getBlock(imageX  + width + width/3, imageY - width/3 ) ); // NorthEast 
 
-		surroundingBlocks.add(Block.getBlock(x + width + width/3, y + height/2)); // East
-		surroundingBlocks.add(Block.getBlock(x - width/3, y + height/3)); // West
+		surroundingBlocks.add(Block.getBlock(imageX  + width + width/3, imageY + height/2)); // East
+		surroundingBlocks.add(Block.getBlock(imageX  - width/3, imageY + height/3)); // West
 
-		surroundingBlocks.add(Block.getBlock( x - width/3, y + height + height/3 )); // SouthWest
-		surroundingBlocks.add(Block.getBlock( x + width/3 , y + height + height/3 )); // South
-		surroundingBlocks.add(Block.getBlock( x + width + width/3, y + height + height/3)); // SouthEast
+		surroundingBlocks.add(Block.getBlock( imageX - width/3, imageY + height + height/3 )); // SouthWest
+		surroundingBlocks.add(Block.getBlock( imageX + width/3 , imageY + height + height/3 )); // South
+		surroundingBlocks.add(Block.getBlock( imageX + width + width/3, imageY + height + height/3)); // SouthEast
 
 
 		// remove the singular null reference (due to air blocks)
 		surroundingBlocks.remove(null); 
 
-		System.out.println(surroundingBlocks.size());
+		// System.out.println(surroundingBlocks.size());
 
 		// Verify the surrounding blocks for a collision
 		for (Block block : surroundingBlocks) {
 			if (block.intersects(this)) {
 				
-				if (block.y < y || block.y > y + height)
+				if (block.imageX < imageY || block.imageY > imageY + height)
 					dy = 0;
-				else if (block.x < x || block.x > x + width)
+				else if (block.imageX < imageY || block.imageX > imageX + width)
 					dx = 0;
 
 			}
@@ -111,7 +117,7 @@ class Player extends MovingAnimation {
 	}
 
 	@Override public String toString(){
-		return "Player: " + x +", " + y; 
+		return "Player: (Image: " + imageX + ", " + imageY + "   W: " + image.getWidth() + ", H: " + image.getHeight() + ") (Bounding Box: " + x + ", " + y + "   W: " + width + ", H: " + height + ")"; 
 	}
 
 }

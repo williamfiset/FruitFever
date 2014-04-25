@@ -34,6 +34,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	
 	@Override public void init() {
 		
+		// Set up keyboard and mouse
+		addMouseListeners();
+		addKeyListeners();
+		
 		// Set size
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		
@@ -43,10 +47,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		// Adds main menu buttons to the ArrayList
 		for(int i = 0; i < 4; i++)
 			buttons.add(new Button((int) (FruitFever.SCREEN_WIDTH/2 - Data.menuImages[i/3].getWidth()/2), 100 + 75*i, i, Data.menuImages[3*i], Data.menuImages[3*i + 1], Data.menuImages[3*i + 2]));
-
-		// Set up keyboard and mouse
-		addMouseListeners();
-		addKeyListeners();
 		
 		drawMainMenu();
 
@@ -66,7 +66,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				/** Blocks **/
 				for(Block obj : blocks)
-					obj.image.setLocation(obj.x - viewX, obj.y - viewY);
+					obj.image.setLocation(obj.getX() - viewX, obj.getY() - viewY);
 					
 				player.motion();
 
@@ -194,20 +194,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 		// Displays all blocks on-screen
 		for(Block obj : blocks){
-			obj.image.setLocation(obj.x, obj.y);
+			obj.image.setLocation(obj.getX(), obj.getY());
 			add(obj.image);
 		}
 		
 		// Creates the Player class
-		player = new Player(playerStartX, playerStartY, Data.playerTemp, false, 0, false, 0, 0 ) ;
-
-
+		player = new Player(playerStartX, playerStartY, Data.playerTemp) ;
 		
 		/** TESTING PURPOSES ONLY **/
 		things.add(new Animation(50, 50, Data.berryAnimation, true, 3, true));
 		things.add(new Animation(150, 75, Data.berryAnimation, true, 2, false));
 		things.add(new Animation(250, 50, Data.swirlAnimation, false, 1, true));
-		// things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
+		things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
 		things.add(new Swirl(250, 50, 10, 5));
 		things.add(new BlueEnemy(175, 50, 0, 0));
 		things.add(player);
@@ -216,7 +214,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 		// Draws initial objects on the screen
 		for(Thing obj : things){
-			obj.image.setLocation(obj.x, obj.y);
+			obj.image.setLocation(obj.getX(), obj.getY());
 			add(obj.image);
 		}
 		

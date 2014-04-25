@@ -12,14 +12,20 @@ public class Thing extends Rectangle{
 
 	/** Public instance variables **/
 	public GImage image;
+	int imageX, imageY;
+	
+	// These are no yet fully implemented, but they will be used to alter the underlyingRectangle's boundaries,
+	// without adjusting the size of the image's position (this will add a lot of flexibility to our game and 
+	// will be extremely useful, esepcially for the Player class).
+	public int boundaryLeft, boundaryRight, boundaryTop, boundaryBottom;
 	
 	/** Constructors that define the image **/
 	
 	public Thing(int x, int y, int width, int height, GImage image){
-		
 		super(x, y, width, height);
-		
 		this.image = image;
+		this.imageX = x;
+		this.imageY = y;
 	}
 	
 	public Thing(int x, int y, GImage image){
@@ -29,10 +35,10 @@ public class Thing extends Rectangle{
 	/** Constructors that do not define the image **/
 	
 	public Thing(int x, int y, int width, int height){
-	
 		super(x, y, width, height);
-		
 		this.image = image;
+		this.imageX = x;
+		this.imageY = y;
 	}
 	
 	public Thing(int x, int y){
@@ -41,9 +47,12 @@ public class Thing extends Rectangle{
 
 	/** Update position **/
 	public void animate(){
-	
-		image.setLocation(x - FruitFever.viewX, y  - FruitFever.viewY);
-	
+
+		image.setLocation(imageX - FruitFever.viewX, imageY  - FruitFever.viewY);		
+		
+		setLocation(imageX + boundaryLeft - FruitFever.viewX, imageY + boundaryTop - FruitFever.viewY);
+		setSize((int)image.getWidth() - boundaryLeft + boundaryRight, (int)image.getHeight() - boundaryTop + boundaryBottom);
+		
 	}
 
 }
