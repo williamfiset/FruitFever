@@ -12,14 +12,16 @@ BOUNDING BOXES IN THING CLASS:
 		Image:
 			The x position  --> imageX
 			The y position	--> imageY
-			The width		--> image.getWidth()	(NOTE: Returns a double value, so you may need to cast to int)
-			The height:		--> image.getHeight()	(NOTE: Returns a double value, so you may need to cast to int)
+			The width		--> image.getWidth()*
+			The height:		--> image.getHeight()*
 			
 		BoundingBox (Rectangle):
-			The x position  --> x
-			The y position	--> y
-			The width		--> width
-			The height:		--> width
+			The x position  --> x or getX()*
+			The y position	--> y or getY()*
+			The width		--> width or getWidth()*
+			The height:		--> height or getHeight()*
+			
+		*NOTE: The getters return a double value, so you may need to cast to int.
 _____________________________________________________________________________________________________________
 
 -CURRENT SCREEN VARIABLE:
