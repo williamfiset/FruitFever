@@ -2,7 +2,6 @@
   * GameStarter - Starts the application by putting the Applet into a JFrame.
   * 
   * @Author William Fiset
-  * @Version 0
   * 
   * April 21, 2014
   */
@@ -25,8 +24,6 @@ public class GameStarter{
 		int screenStartX = screenDimension.width/2 - appletFrame.getSize().width/2;
 		int screenStartY = screenDimension.height/2 - appletFrame.getSize().height/2;
 		appletFrame.setLocation(screenStartX - FruitFever.SCREEN_WIDTH/2, screenStartY - FruitFever.SCREEN_HEIGHT/2);
-
-		// appletFrame.setLayout(new GridLayout(1,0));
 
 		// Set default program values
 		appletFrame.setResizable(false);
