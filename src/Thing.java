@@ -54,5 +54,10 @@ public class Thing extends Rectangle{
 		setSize((int)image.getWidth() - boundaryLeft + boundaryRight, (int)image.getHeight() - boundaryTop + boundaryBottom);
 		
 	}
+	
+	/** Change image **/
+	public void changeImage(GImage img){
+		image.setImage(img.getImage());
+	}
 
 }
