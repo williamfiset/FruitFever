@@ -76,6 +76,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		}
 		
 	}
+
+	/** TESTING PURPOSES ONLY **/
+	public static void draw(Thing thing){add(thing.image);}
+	public static void draw(GImage img){add(img);}
+	public static void draw(GRect rect){add(rect);}
 	
 	@Override public void keyPressed(KeyEvent key){
 
