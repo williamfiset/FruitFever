@@ -15,7 +15,7 @@ import java.awt.*;
 public class Button extends Thing {
 
 	public GImage defaultImage, hoverImage, clickImage;
-	public int type;
+	public int type, level; // level is only used for button type 5
 
 	public Button(int x, int y, int type, GImage defaultImg, GImage hoverImg, GImage clickImg){
 	
@@ -29,6 +29,12 @@ public class Button extends Thing {
 		this.hoverImage = new GImage(hoverImg.getImage());
 		this.clickImage = new GImage(clickImg.getImage());
 	
+	}
+	
+	/** Used for button type 5 **/
+	public Button(int x, int y, int type, GImage defaultImg, GImage hoverImg, GImage clickImg, int level){
+		this(x, y, type, defaultImg, hoverImg, clickImg);
+		this.level = level;
 	}
 
 /** Checks to see if the given coordinates are on the button **/

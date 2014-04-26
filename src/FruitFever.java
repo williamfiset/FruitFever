@@ -15,11 +15,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
-
 	static ArrayList<Block> blocks = new ArrayList<Block>();
 	static ArrayList<Thing> things = new ArrayList<Thing>();
-	static ArrayList<Button> buttons = new ArrayList<Button>();
 	static Player player;
+	
+	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
+	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
+	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other arraylists)
 	static Button clickedOnButton = null;
 	
 	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
@@ -43,10 +45,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		// Renders Images in the Data class, and fills the object Arrays^
 		Data.loadImages();
-
-		// Adds main menu buttons to the ArrayList
-		for(int i = 0; i < 4; i++)
-			buttons.add(new Button((int) (FruitFever.SCREEN_WIDTH/2 - Data.menuImages[i/3].getWidth()/2), 100 + 75*i, i, Data.menuImages[3*i], Data.menuImages[3*i + 1], Data.menuImages[3*i + 2]));
 		
 		drawMainMenu();
 
@@ -76,11 +74,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		}
 		
 	}
-
-	/** TESTING PURPOSES ONLY **/
-	public static void draw(Thing thing){add(thing.image);}
-	public static void draw(GImage img){add(img);}
-	public static void draw(GRect rect){add(rect);}
 	
 	@Override public void keyPressed(KeyEvent key){
 
@@ -93,7 +86,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			case KeyEvent.VK_S: case KeyEvent.VK_DOWN: player.dy =  Player.verticalVelocity; break;
 		}
 			
-
 	}
 	
 	@Override public void keyReleased(KeyEvent key){}
@@ -158,11 +150,22 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				// Play button
 				if(clickedOnButton.type == 0){
-				
-					// Load level
-					loadLevel();
+					
+					currentScreen = 2;
+					drawLevelSelection();
+					
+					/** TEMPORARY UNTIL THE LEVEL BUTTONS ARE ALL IN **/
 					currentScreen = 3;
+					loadLevel();
 				}
+				
+				// Level button
+				if(clickedOnButton.type == 5){
+					currentScreen = 3;
+					currentLevel = 1; //clickedOnButton.level;
+					loadLevel();
+				}				
+				
 			}
 			else clickedOnButton.setDefault();
 		}
@@ -172,13 +175,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	}
 		
 	private void drawMainMenu(){
-		
-		// Clear the screen
 		removeAll();
-		
-		for(Button obj : buttons)
-			add(obj.image);
-		
+		addToScreen(mainMenuButtons);
+	}
+	
+	private void drawLevelSelection(){
+		removeAll();
+		addToScreen(levelSelectionButtons);
 	}
 
 /** Loads and Displays all initial graphics of a level on the screen  **/
@@ -232,4 +235,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 			
 	}
+	
+	// Uneccesary because of removeAll()?
+	public void removeFromScreen(ArrayList<Button> arr){
+		for(int i = 0; i < arr.size(); i++)
+			remove(arr.get(i).image);
+	}
+	
+	public void addToScreen(ArrayList<Button> arr){
+		for(int i = 0; i < arr.size(); i++)
+			add(arr.get(i).image);
+	}
+	
 }

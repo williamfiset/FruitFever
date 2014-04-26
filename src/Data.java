@@ -16,74 +16,93 @@ public abstract class Data{
 
 	public static int TILE_SIZE = 25;
 
-	public static BufferedImage spriteSheet = null, menuSheet = null;
-	public static GImage heartImage;
+	public static BufferedImage sheet = null;
+	public static GImage heartImage, levelButton;
 	public static GImage[] blockImages = new GImage[15],
 						   blockGrassImages = new GImage[15],
 						   sceneryImages = new GImage[15],
 						   swirlAnimation = new GImage[6],
 						   berryAnimation = new GImage[5],
 						   blueEnemyAnimation = new GImage[4],
-						   menuImages = new GImage[12],
-						   playerTemp = new GImage[1];
+						   playerTemp = new GImage[1],
+						   menuButtons = new GImage[12],
+						   leftArrowButton = new GImage[3],
+						   rightArrowButton = new GImage[3];
 	    
 /** Loads all the images from the sprite sheet **/
 	public static void loadImages(){
 			
 		/** Import sprite-sheet **/
-		try { spriteSheet = ImageIO.read(new File("../img/spriteSheet.png"));	}
+		try { sheet = ImageIO.read(new File("../img/spriteSheet.png"));	}
 		catch (IOException e) {	e.printStackTrace(); }
 	
 		// Blocks
 		for(int i = 0; i < 15; i++){
-			blockImages[i] = makeImage(spriteSheet, 0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
-			blockGrassImages[i] = makeImage(spriteSheet, TILE_SIZE, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
+			blockImages[i] = makeImage(sheet, 0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
+			blockGrassImages[i] = makeImage(sheet, TILE_SIZE, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 		}
 
-		// Scenery (Top Row in spriteSheet)
-		sceneryImages[0] = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*11, TILE_SIZE*2, TILE_SIZE);
-		sceneryImages[1] = makeImage(spriteSheet, TILE_SIZE*7, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[2] = makeImage(spriteSheet, TILE_SIZE*8, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[3] = makeImage(spriteSheet, TILE_SIZE*9, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[4] = makeImage(spriteSheet, TILE_SIZE*10, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[5] = makeImage(spriteSheet, TILE_SIZE*11, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[6] = makeImage(spriteSheet, TILE_SIZE*12, TILE_SIZE*11 - 2, TILE_SIZE + 5, TILE_SIZE + 2);
+		// Scenery (Top Row in sheet)
+		sceneryImages[0] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*11, TILE_SIZE*2, TILE_SIZE);
+		sceneryImages[1] = makeImage(sheet, TILE_SIZE*7, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
+		sceneryImages[2] = makeImage(sheet, TILE_SIZE*8, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
+		sceneryImages[3] = makeImage(sheet, TILE_SIZE*9, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
+		sceneryImages[4] = makeImage(sheet, TILE_SIZE*10, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
+		sceneryImages[5] = makeImage(sheet, TILE_SIZE*11, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
+		sceneryImages[6] = makeImage(sheet, TILE_SIZE*12, TILE_SIZE*11 - 2, TILE_SIZE + 5, TILE_SIZE + 2);
 
-		// Scenery (Bottom Row in spriteSheet)
-		sceneryImages[7] = makeImage(spriteSheet, TILE_SIZE*6, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[8] = makeImage(spriteSheet, TILE_SIZE*7, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[9] = makeImage(spriteSheet, TILE_SIZE*8, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[10] = makeImage(spriteSheet, TILE_SIZE*9, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[11] = makeImage(spriteSheet, TILE_SIZE*10, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[12] = makeImage(spriteSheet, TILE_SIZE*11, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[13] = makeImage(spriteSheet, TILE_SIZE*12, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[14] = makeImage(spriteSheet, TILE_SIZE*13, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		// Scenery (Bottom Row in sheet)
+		sceneryImages[7] = makeImage(sheet, TILE_SIZE*6, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[8] = makeImage(sheet, TILE_SIZE*7, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[9] = makeImage(sheet, TILE_SIZE*8, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[10] = makeImage(sheet, TILE_SIZE*9, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[11] = makeImage(sheet, TILE_SIZE*10, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[12] = makeImage(sheet, TILE_SIZE*11, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[13] = makeImage(sheet, TILE_SIZE*12, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[14] = makeImage(sheet, TILE_SIZE*13, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
 		
 		// Swirl Animation Images
 		for(int i = 0; i < 6; i++)
-			swirlAnimation[i] = makeImage(spriteSheet, TILE_SIZE*(i + 5), 0, TILE_SIZE, TILE_SIZE);
+			swirlAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 5), 0, TILE_SIZE, TILE_SIZE);
 			
 		// Berry Animation Images
 		for(int i = 0; i < 5; i++)
-			berryAnimation[i] = makeImage(spriteSheet, TILE_SIZE*(i + 7), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+			berryAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 7), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
 		// Heart Image
-		heartImage = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		heartImage = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
 		// Blue Enemy Animation Images
 		for(int i = 0; i < 4; i++)
-			blueEnemyAnimation[i] = makeImage(spriteSheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
+			blueEnemyAnimation[i] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
 			
 		// Player Temporary Image
-		playerTemp[0] = makeImage(spriteSheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
+		playerTemp[0] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
 			
-		/** Import and set location of menu images **/
-		try { menuSheet = ImageIO.read(new File("../img/menu0.png"));	}
+		/** Import menu images **/
+		try { sheet = ImageIO.read(new File("../img/menu0.png"));	}
 		catch (IOException e) {	e.printStackTrace(); }
 		
 		// Menu Button Images
 		for(int i = 0; i < 12; i++)
-			menuImages[i] = makeImage(menuSheet, 0, i*69, 266, 69);
+			menuButtons[i] = makeImage(sheet, 0, i*69, 266, 69);
+		
+		/** Import level selection arrow images **/
+		try { sheet = ImageIO.read(new File("../img/LevelSelection/arrows/blueArrows.png"));	}
+		catch (IOException e) {	e.printStackTrace(); }
+		
+		for(int i = 0; i < 3; i++){
+			leftArrowButton[i] = makeImage(sheet, 0, i*33, 36, 31);
+			rightArrowButton[i] = makeImage(sheet, 36, i*33, 36, 31);
+		}
+		
+		/** Import level selection background/level button images **/
+		// try { sheet = ImageIO.read(new File("../img/LevelSelection/arrows/blueArrows.png"));	}
+		// catch (IOException e) {	e.printStackTrace(); }
+
+		
+		/** Add buttons and set locations **/
+		addButtonsToArrayList();
 
 	}
 		
@@ -191,5 +210,27 @@ public abstract class Data{
 		}
 
 	}
+	
+	public static void addButtonsToArrayList(){
+	
+		Button tempButton;
+		
+		// Adds main menu buttons to the ArrayList
+		for(int i = 0; i < 4; i++){
+			tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[i/3].getWidth()/2), 100 + 75*i, i, menuButtons[3*i], menuButtons[3*i + 1], menuButtons[3*i + 2]);
+			FruitFever.buttons.add(tempButton);
+			FruitFever.mainMenuButtons.add(tempButton);
+			
+		}
+		
+		// Adds arrow buttons to the ArrayList
+		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 50), 50, 4, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]);
+		FruitFever.buttons.add(tempButton);
+		FruitFever.levelSelectionButtons.add(tempButton);
+		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 + 50), 50, 4, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]);
+		FruitFever.buttons.add(tempButton);
+		FruitFever.levelSelectionButtons.add(tempButton);
 
+	}
+	
 }
