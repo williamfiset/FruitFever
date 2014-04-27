@@ -32,7 +32,7 @@ public class GameStarter{
 		appletFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
    		appletFrame.setTitle("Fruit Fever - Micah & Will");		
 
-
+			
 		gameApplet.init();
 
 		// Add Applet to Frame and start
