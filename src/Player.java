@@ -70,7 +70,7 @@ class Player extends MovingAnimation {
 		// IMPORTANT: MAKE COLLISION DETECTIONS EASY WITH: Rectangle methods, contains() and , intersects()
 
 		/** Grabs the block(s) in the direction of motion of the character and checks
-		 * if there is a collision between the player and the selected block (if any) **/
+		 * if there is a collision between the player and the selected block(s) (if any) **/
 		
 		// EAST
 		if (FruitFever.dx == 1) {
@@ -84,10 +84,8 @@ class Player extends MovingAnimation {
 			else
 				dx = 0;
 			
-			
 		// WEST
 		} else if (FruitFever.dx == -1) {
-			
 			Block northWest = Block.getBlock(x - FruitFever.dx, y + pixelBuffer);
 			Block southWest = Block.getBlock(x - FruitFever.dx, y + height - pixelBuffer);
 
@@ -96,12 +94,11 @@ class Player extends MovingAnimation {
 				dx = -Player.HORIZONTAL_VELOCITY;
 			else
 				dx = 0;
-			
 		}
 
 		// SOUTH
 		if (FruitFever.dy == 1) {
-			
+
 			Block southWest = Block.getBlock(x + pixelBuffer, y + height + pixelBuffer);
 			Block southEast = Block.getBlock(x + width - pixelBuffer, y + height + pixelBuffer);
 
@@ -109,10 +106,10 @@ class Player extends MovingAnimation {
 				dy = Player.VERTICAL_VELOCITY;
 			else 
 				dy = 0;
-		
-		// NORTH
-		} else if (FruitFever.dy == -1){
 
+		// NORTH
+		}else if (FruitFever.dy == -1) {
+			
 			Block northWest = Block.getBlock(x + pixelBuffer, y - pixelBuffer);
 			Block northEast = Block.getBlock(x + width - pixelBuffer, y - pixelBuffer);
 
@@ -121,7 +118,6 @@ class Player extends MovingAnimation {
 			else
 				dy = 0;
 		}
-
 	}
 
 	public void toungueAttack(){}
