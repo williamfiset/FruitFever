@@ -15,7 +15,7 @@ import java.awt.*;
 public class Button extends Thing {
 
 	public GImage defaultImage, hoverImage, clickImage;
-	public int type, level; // level is only used for button type 5
+	public int type, level; // level is only used for button type 6
 
 	public Button(int x, int y, int type, GImage defaultImg, GImage hoverImg, GImage clickImg){
 	

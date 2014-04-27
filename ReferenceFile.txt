@@ -1,3 +1,15 @@
+BUTTON TYPES:
+
+	0 - Play
+	1 -
+	2 -
+	3 -
+	
+	4 - Left Arrow
+	5 - Right Arrow
+	6 - Level boxes
+	
+_____________________________________________________________________________________________________________
 
 BOUNDING BOXES IN THING CLASS:
 

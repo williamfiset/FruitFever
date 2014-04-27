@@ -32,6 +32,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	static int playerStartX = 100, playerStartY= 100;
 	static int dx = 0, dy = 0;
+	
+	static Thing levelBackDrop;
 
 	static GImage[] livesImages = new GImage[player.maxLives];
 	
@@ -60,7 +62,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// Playing
 			if(currentScreen == 3){
 
-				
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
 				for(Thing obj : things)
 					obj.animate();
@@ -137,22 +138,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 		clickedOnButton = null;
 	
-		for(Button obj : buttons){
-			
-			/** Main Menu buttons **/
-			if(currentScreen == 1){
-				
-				// Check to see if the mouse is on the button
-				if(obj.checkOverlap(mouse.getX(), mouse.getY())){
-					
-					// Make the image appear to be clicked on
-					obj.setClick();
-					clickedOnButton = obj;
-					
-				}
-			}
-		
-		}		
+		if(currentScreen == 1)
+			checkAndSetClick(mainMenuButtons, mouse);
+		else if(currentScreen == 2)
+			checkAndSetClick(levelSelectionButtons, mouse);
 		
 	}
 	
@@ -171,16 +160,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					drawLevelSelection();
 					
 					/** TEMPORARY UNTIL THE LEVEL BUTTONS ARE ALL IN **/
-					loadLevel();
-					currentScreen = 3;
+					// loadLevel();
+					// currentScreen = 3;
 					
 				}
 				
 				// Level button
-				if(clickedOnButton.type == 5){
-					currentScreen = 3;
-					currentLevel = 1; //clickedOnButton.level;
+				else if(clickedOnButton.type == 6){
+
+					currentLevel = clickedOnButton.level;
 					loadLevel();
+					currentScreen = 3;
+					
 				}				
 				
 			}
@@ -198,6 +189,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 	private void drawLevelSelection(){
 		removeAll();
+		add(levelBackDrop.image);
 		addToScreen(levelSelectionButtons);
 	}
 
@@ -254,14 +246,24 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 	
 	// Uneccesary because of removeAll()?
-	public void removeFromScreen(ArrayList<Button> arr){
-		for(int i = 0; i < arr.size(); i++)
-			remove(arr.get(i).image);
-	}
+	// public void removeFromScreen(ArrayList<Button> arr){
+		// for(int i = 0; i < arr.size(); i++)
+			// remove(arr.get(i).image);
+	// }
 	
 	public void addToScreen(ArrayList<Button> arr){
 		for(int i = 0; i < arr.size(); i++)
 			add(arr.get(i).image);
 	}
 	
+	
+	public void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse){
+		for(Button obj : arr)
+			// Check to see if the mouse is on the button
+			if(obj.checkOverlap(mouse.getX(), mouse.getY())){
+				// Make the image appear to be clicked on
+				obj.setClick();
+				clickedOnButton = obj;
+			}
+	}
 }

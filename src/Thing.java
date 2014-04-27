@@ -26,6 +26,9 @@ public class Thing extends Rectangle{
 		this.image = image;
 		this.imageX = x;
 		this.imageY = y;
+		
+		// This call is important for images that do not move (such as the levelBackDrop)
+		this.animate();
 	}
 	
 	public Thing(int x, int y, GImage image){
