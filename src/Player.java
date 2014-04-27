@@ -15,21 +15,33 @@ class Player extends MovingAnimation {
 	
 	static int lives = 3, maxLives = 3;	
 
+
+// Movement Variables
 	static final int VERTICAL_VELOCITY = 4, HORIZONTAL_VELOCITY = 3;
 	int dy = 0, dx = 0;
 
-	final int fallingSpeed = 1;
+// Variables concerning Gravity
+
+	final double STARTING_FALLING_VELOCITY = 0;
+	final double STARTING_FALLING_ACCELERATION = 0;
+
+	double fallingVelocity = STARTING_FALLING_VELOCITY;
 	static boolean onPlatform = false;
 	static boolean gravity = true;
+	double fallingAcceleration = STARTING_FALLING_ACCELERATION;
+	final double changeInAcceleration = 0.01;
 
-	// Variables concerning jumping
+
+// Variables concerning jumping
 	boolean isJumping = false;
 	boolean reachedBaseLine = true;
 	int maxJump;
 
-	// The distance from a corner of the image used in collision detection
-	final int verticalPxBuffer = 2;
-	final int horizontalPxBuffer = 3;
+
+// The distance from a corner of the image used in collision detection
+	final int VERTICAL_PX_BUFFER = 2;
+	final int HORIZONTAL_PX_BUFFER = 3;
+
 
 	// The constructor will eventually look something like:
 	// public Player(int x, int y, GImage[] stillAnimation, GImage[] swirlAnimation, GImage[] tongueAnimation)
@@ -66,10 +78,21 @@ class Player extends MovingAnimation {
 
 		// System.out.println(onPlatform);
 
-		// Make character accelerate as he falls
+		// Gravity Effect triggered here
 		if (!isJumping && gravity && !onPlatform) {
-			imageY += fallingSpeed;
-		}	
+
+			imageY += fallingVelocity;
+
+			// Acceleration effect
+			fallingVelocity += fallingAcceleration;
+			fallingAcceleration += changeInAcceleration;
+
+		// Not falling/not allowed to fall
+		}else{
+			// reset falling speed
+			fallingVelocity = STARTING_FALLING_VELOCITY;
+			fallingAcceleration = STARTING_FALLING_ACCELERATION;
+		}
 
 	}
 
@@ -84,8 +107,8 @@ class Player extends MovingAnimation {
 		// EAST
 		if (FruitFever.dx == 1) {
 
-			Block northEast = Block.getBlock(x + width + horizontalPxBuffer, y + verticalPxBuffer);
-			Block southEast = Block.getBlock(x + width + horizontalPxBuffer, y + height - verticalPxBuffer);
+			Block northEast = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
+			Block southEast = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
 			// No block in front of player
 			if (southEast == null && northEast == null){
@@ -96,8 +119,8 @@ class Player extends MovingAnimation {
 			
 		// WEST
 		} else if (FruitFever.dx == -1) {
-			Block northWest = Block.getBlock(x - horizontalPxBuffer, y + verticalPxBuffer);
-			Block southWest = Block.getBlock(x - horizontalPxBuffer, y + height - verticalPxBuffer);
+			Block northWest = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
+			Block southWest = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
 			// No block in back of player
 			if (northWest == null && southWest == null)	dx = -HORIZONTAL_VELOCITY;
@@ -109,8 +132,8 @@ class Player extends MovingAnimation {
 		// SOUTH
 		if (FruitFever.dy == 1) {
 
-			Block southWest = Block.getBlock(x + horizontalPxBuffer, y + height + verticalPxBuffer);
-			Block southEast = Block.getBlock(x + width - horizontalPxBuffer, y + height + verticalPxBuffer);
+			Block southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
+			Block southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
 
 			if (southWest == null && southEast == null){
 				dy = VERTICAL_VELOCITY;
@@ -123,8 +146,8 @@ class Player extends MovingAnimation {
 		// NORTH
 		}else if (FruitFever.dy == -1) {
 			
-			Block northWest = Block.getBlock(x + horizontalPxBuffer, y - verticalPxBuffer);
-			Block northEast = Block.getBlock(x + width - horizontalPxBuffer, y - verticalPxBuffer);
+			Block northWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
+			Block northEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
 
 			if (northWest == null && northEast == null){
 				dy = -VERTICAL_VELOCITY;
@@ -137,8 +160,8 @@ class Player extends MovingAnimation {
 		}else if (FruitFever.dy == 0) {
 			
 			// checks if player is still on platform
-			Block southWest = Block.getBlock(x + horizontalPxBuffer, y + height + verticalPxBuffer);
-			Block southEast = Block.getBlock(x + width - horizontalPxBuffer, y + height + verticalPxBuffer);
+			Block southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
+			Block southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
 
 			if (southEast == null && southWest == null){
 				onPlatform = false;	
@@ -146,8 +169,8 @@ class Player extends MovingAnimation {
 		}
 
 		// checks if player is in free fall
-		Block southWest = Block.getBlock(x + horizontalPxBuffer, y + height + verticalPxBuffer);
-		Block southEast = Block.getBlock(x + width - horizontalPxBuffer, y + height + verticalPxBuffer);
+		Block southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
+		Block southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
 
 		if (southEast != null || southWest != null){
 			onPlatform = true;	
