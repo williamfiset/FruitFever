@@ -16,17 +16,15 @@ class Player extends MovingAnimation {
 	static int lives = 3, maxLives = 3;	
 
 	static final int VERTICAL_VELOCITY = 2, HORIZONTAL_VELOCITY = 2;
-	static int verticalVelocity = VERTICAL_VELOCITY, horizontalVelocity = HORIZONTAL_VELOCITY;
 	int dy = 0, dx = 0;
-	int yLine, xLine;
 
 	// Variables concerning jumping
 	boolean isJumping = false;
 	boolean reachedBaseLine = true;
-	int baseLine, maxJump;
+	int maxJump;
 
 	// The distance from a corner of the image used in collision detection
-	final int pixelBuffer = 2;
+	final int pixelBuffer = 1;
 
 	// The constructor will eventually look something like:
 	// public Player(int x, int y, GImage[] stillAnimation, GImage[] swirlAnimation, GImage[] tongueAnimation)
@@ -36,8 +34,7 @@ class Player extends MovingAnimation {
 		/** Will: This is how you would set the boundaries of the image (the image would remain in the same location)
 		boundaryLeft = -5; boundaryRight = 12; boundaryTop = 18; boundaryBottom = -3;
 		**/
-		
-		baseLine = y;
+
 	}
 
 	// Has not been implemented yet, just the skeleton 
@@ -47,17 +44,17 @@ class Player extends MovingAnimation {
 		checkCollisionDetection();
 
 
-		if (isJumping) {
-			// move up
-			if (imageY - dy <= baseLine) {
-				reachedBaseLine = true;
-			}
+		// if (isJumping) {
+		// 	// move up
+		// 	if (imageY - dy <= baseLine) {
+		// 		reachedBaseLine = true;
+		// 	}
 
-		}else{
-			if (!reachedBaseLine) {
-				// move down
-			}
-		}
+		// }else{
+		// 	if (!reachedBaseLine) {
+		// 		// move down
+		// 	}
+		// }
 
 		imageX += dx;
 		imageY += dy;	
@@ -75,26 +72,24 @@ class Player extends MovingAnimation {
 		// EAST
 		if (FruitFever.dx == 1) {
 
-			Block southEast = Block.getBlock(x + width + FruitFever.dx, y + height - pixelBuffer);
-			Block northEast = Block.getBlock(x + width + FruitFever.dx, y + pixelBuffer);
+			Block northEast = Block.getBlock(x + width + pixelBuffer, y + pixelBuffer);
+			Block southEast = Block.getBlock(x + width + pixelBuffer, y + height - pixelBuffer);
 
 			// No block in front of player
-			if (southEast == null && northEast == null)
-				dx = Player.HORIZONTAL_VELOCITY;
-			else
-				dx = 0;
+			if (southEast == null && northEast == null)	dx = HORIZONTAL_VELOCITY;
+			else dx = 0;
 			
 		// WEST
 		} else if (FruitFever.dx == -1) {
-			Block northWest = Block.getBlock(x - FruitFever.dx, y + pixelBuffer);
-			Block southWest = Block.getBlock(x - FruitFever.dx, y + height - pixelBuffer);
+			Block northWest = Block.getBlock(x - pixelBuffer, y + pixelBuffer);
+			Block southWest = Block.getBlock(x - pixelBuffer, y + height - pixelBuffer);
 
 			// No block in back of player
-			if (northWest == null && southWest == null)
-				dx = -Player.HORIZONTAL_VELOCITY;
-			else
-				dx = 0;
+			if (northWest == null && southWest == null)	dx = -HORIZONTAL_VELOCITY;
+			else dx = 0;
+
 		}
+
 
 		// SOUTH
 		if (FruitFever.dy == 1) {
@@ -102,10 +97,8 @@ class Player extends MovingAnimation {
 			Block southWest = Block.getBlock(x + pixelBuffer, y + height + pixelBuffer);
 			Block southEast = Block.getBlock(x + width - pixelBuffer, y + height + pixelBuffer);
 
-			if (southWest == null && southEast == null)
-				dy = Player.VERTICAL_VELOCITY;
-			else 
-				dy = 0;
+			if (southWest == null && southEast == null)	dy = VERTICAL_VELOCITY;
+			else dy = 0;
 
 		// NORTH
 		}else if (FruitFever.dy == -1) {
@@ -113,11 +106,10 @@ class Player extends MovingAnimation {
 			Block northWest = Block.getBlock(x + pixelBuffer, y - pixelBuffer);
 			Block northEast = Block.getBlock(x + width - pixelBuffer, y - pixelBuffer);
 
-			if (northWest == null && northEast == null)
-				dy = -Player.VERTICAL_VELOCITY;
-			else
-				dy = 0;
+			if (northWest == null && northEast == null)	dy = -VERTICAL_VELOCITY;
+			else dy = 0;
 		}
+
 	}
 
 	public void toungueAttack(){}
