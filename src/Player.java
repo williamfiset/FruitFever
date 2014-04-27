@@ -8,13 +8,17 @@
 import acm.graphics.*;
 import acm.program.*;
 import java.util.*;
+import java.awt.Color.*;
+import java.awt.*;
 
 class Player extends MovingAnimation {
 	
 	static int lives = 3, maxLives = 3;	
 
-	static int verticalVelocity = 1, horizontalVelocity = 1;
+	static final int VERTICAL_VELOCITY = 1, HORIZONTAL_VELOCITY = 1;
+	static int verticalVelocity = VERTICAL_VELOCITY, horizontalVelocity = HORIZONTAL_VELOCITY;
 	int dy = 0, dx = 0;
+	int yLine, xLine;
 
 	// Variables concerning jumping
 	boolean isJumping = false;
@@ -36,7 +40,9 @@ class Player extends MovingAnimation {
 	// Has not been implemented yet, just the skeleton 
 	public void motion(){
 
-		checkCollisionDetection();
+		// The intersects overlaps by 1px
+		// checkCollisionDetection();
+
 
 		if (isJumping) {
 			// move up
@@ -52,7 +58,7 @@ class Player extends MovingAnimation {
 		}
 
 		imageX += dx;
-		imageY += dy;
+		imageY += dy;	
 
 	}
 
@@ -61,65 +67,7 @@ class Player extends MovingAnimation {
 
 		// IMPORTANT: MAKE COLLISION DETECTIONS EASY WITH: Rectangle methods, contains() and , intersects()
 
-
-
-
-
-		for (Block block : FruitFever.blocks) {
-			if (block.intersects(this)) {
-				
-				GRect rect = new GRect(block.x)
-
-				FruitFever.draw(new GRect(block.x, block.y) )
-
-			}
-		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// // Contains all the surrounding blocks in a list, without doubly accounted blocks
-		// HashSet<Block> surroundingBlocks = new HashSet<Block>();
-
-		// // Gets all the blocks that are surrounding the Player
-		// surroundingBlocks.add( Block.getBlock(imageX  - width/3, imageY - width/3 ) ); // NorthWest 
-		// surroundingBlocks.add( Block.getBlock(imageX  + width/3, imageY - width/3 ) ); // North 
-		// surroundingBlocks.add( Block.getBlock(imageX  + width + width/3, imageY - width/3 ) ); // NorthEast 
-
-		// surroundingBlocks.add(Block.getBlock(imageX  + width + width/3, imageY + height/2)); // East
-		// surroundingBlocks.add(Block.getBlock(imageX  - width/3, imageY + height/3)); // West
-
-		// surroundingBlocks.add(Block.getBlock( imageX - width/3, imageY + height + height/3 )); // SouthWest
-		// surroundingBlocks.add(Block.getBlock( imageX + width/3 , imageY + height + height/3 )); // South
-		// surroundingBlocks.add(Block.getBlock( imageX + width + width/3, imageY + height + height/3)); // SouthEast
-
-
-		// // remove the singular null reference (due to air blocks)
-		// surroundingBlocks.remove(null); 
-
-		// // System.out.println(surroundingBlocks.size());
-
-		// // Verify the surrounding blocks for a collision
-		// for (Block block : surroundingBlocks) {
-		// 	if (block.intersects(this)) {
-				
-		// 		if (block.imageX < imageY || block.imageY > imageY + height)
-		// 			dy = 0;
-		// 		else if (block.imageX < imageY || block.imageX > imageX + width)
-		// 			dx = 0;
-
-		// 	}
-		// }
+		// if dx >= 1 check if block in front
 
 	}
 
