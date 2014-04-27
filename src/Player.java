@@ -15,7 +15,7 @@ class Player extends MovingAnimation {
 	
 	static int lives = 3, maxLives = 3;	
 
-	static final int VERTICAL_VELOCITY = 2, HORIZONTAL_VELOCITY = 2;
+	static final int VERTICAL_VELOCITY = 3, HORIZONTAL_VELOCITY = 3;
 	int dy = 0, dx = 0;
 
 	// Variables concerning jumping
@@ -24,7 +24,8 @@ class Player extends MovingAnimation {
 	int maxJump;
 
 	// The distance from a corner of the image used in collision detection
-	final int pixelBuffer = 1;
+	final int verticalPxBuffer = 2;
+	final int horizontalPxBuffer = 3;
 
 	// The constructor will eventually look something like:
 	// public Player(int x, int y, GImage[] stillAnimation, GImage[] swirlAnimation, GImage[] tongueAnimation)
@@ -72,8 +73,8 @@ class Player extends MovingAnimation {
 		// EAST
 		if (FruitFever.dx == 1) {
 
-			Block northEast = Block.getBlock(x + width + pixelBuffer, y + pixelBuffer);
-			Block southEast = Block.getBlock(x + width + pixelBuffer, y + height - pixelBuffer);
+			Block northEast = Block.getBlock(x + width + horizontalPxBuffer, y + verticalPxBuffer);
+			Block southEast = Block.getBlock(x + width + horizontalPxBuffer, y + height - verticalPxBuffer);
 
 			// No block in front of player
 			if (southEast == null && northEast == null)	dx = HORIZONTAL_VELOCITY;
@@ -81,8 +82,8 @@ class Player extends MovingAnimation {
 			
 		// WEST
 		} else if (FruitFever.dx == -1) {
-			Block northWest = Block.getBlock(x - pixelBuffer, y + pixelBuffer);
-			Block southWest = Block.getBlock(x - pixelBuffer, y + height - pixelBuffer);
+			Block northWest = Block.getBlock(x - horizontalPxBuffer, y + verticalPxBuffer);
+			Block southWest = Block.getBlock(x - horizontalPxBuffer, y + height - verticalPxBuffer);
 
 			// No block in back of player
 			if (northWest == null && southWest == null)	dx = -HORIZONTAL_VELOCITY;
@@ -94,8 +95,8 @@ class Player extends MovingAnimation {
 		// SOUTH
 		if (FruitFever.dy == 1) {
 
-			Block southWest = Block.getBlock(x + pixelBuffer, y + height + pixelBuffer);
-			Block southEast = Block.getBlock(x + width - pixelBuffer, y + height + pixelBuffer);
+			Block southWest = Block.getBlock(x + horizontalPxBuffer, y + height + verticalPxBuffer);
+			Block southEast = Block.getBlock(x + width - horizontalPxBuffer, y + height + verticalPxBuffer);
 
 			if (southWest == null && southEast == null)	dy = VERTICAL_VELOCITY;
 			else dy = 0;
@@ -103,8 +104,8 @@ class Player extends MovingAnimation {
 		// NORTH
 		}else if (FruitFever.dy == -1) {
 			
-			Block northWest = Block.getBlock(x + pixelBuffer, y - pixelBuffer);
-			Block northEast = Block.getBlock(x + width - pixelBuffer, y - pixelBuffer);
+			Block northWest = Block.getBlock(x + horizontalPxBuffer, y - verticalPxBuffer);
+			Block northEast = Block.getBlock(x + width - horizontalPxBuffer, y - verticalPxBuffer);
 
 			if (northWest == null && northEast == null)	dy = -VERTICAL_VELOCITY;
 			else dy = 0;
