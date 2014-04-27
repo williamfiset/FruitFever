@@ -17,7 +17,7 @@ public abstract class Data{
 	public static int TILE_SIZE = 25;
 
 	public static BufferedImage sheet = null;
-	public static GImage heartImage, levelButton;
+	public static GImage heartImage, levelBackDropImage;
 	public static GImage[] blockImages = new GImage[15],
 						   blockGrassImages = new GImage[15],
 						   sceneryImages = new GImage[15],
@@ -27,7 +27,8 @@ public abstract class Data{
 						   playerTemp = new GImage[1],
 						   menuButtons = new GImage[12],
 						   leftArrowButton = new GImage[3],
-						   rightArrowButton = new GImage[3];
+						   rightArrowButton = new GImage[3],
+						   levelButton = new GImage[2];
 	    
 /** Loads all the images from the sprite sheet **/
 	public static void loadImages(){
@@ -80,7 +81,7 @@ public abstract class Data{
 		playerTemp[0] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
 			
 		/** Import menu images **/
-		try { sheet = ImageIO.read(new File("../img/menu0.png"));	}
+		try { sheet = ImageIO.read(new File("../img/Menu/Menu_Red.png"));	}
 		catch (IOException e) {	e.printStackTrace(); }
 		
 		// Menu Button Images
@@ -97,10 +98,14 @@ public abstract class Data{
 		}
 		
 		/** Import level selection background/level button images **/
-		// try { sheet = ImageIO.read(new File("../img/LevelSelection/arrows/blueArrows.png"));	}
-		// catch (IOException e) {	e.printStackTrace(); }
-
+		try { sheet = ImageIO.read(new File("../img/LevelSelection/backDrop/blueLevel.png"));	}
+		catch (IOException e) {	e.printStackTrace(); }
 		
+		levelButton[0] = makeImage(sheet, 0, 139, 51, 45);
+		levelButton[1] = makeImage(sheet, 0, 93, 50, 44);
+		levelBackDropImage = makeImage(sheet, 70, 0, 260, 333);
+		FruitFever.levelBackDrop = new Thing((int) (FruitFever.SCREEN_WIDTH/2 - levelBackDropImage.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelBackDropImage.getHeight()/2), levelBackDropImage);
+
 		/** Add buttons and set locations **/
 		addButtonsToArrayList();
 
@@ -215,7 +220,7 @@ public abstract class Data{
 	
 		Button tempButton;
 		
-		// Adds main menu buttons to the ArrayList
+		// Adds main menu buttons to the ArrayLists
 		for(int i = 0; i < 4; i++){
 			tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[i/3].getWidth()/2), 100 + 75*i, i, menuButtons[3*i], menuButtons[3*i + 1], menuButtons[3*i + 2]);
 			FruitFever.buttons.add(tempButton);
@@ -223,14 +228,21 @@ public abstract class Data{
 			
 		}
 		
-		// Adds arrow buttons to the ArrayList
-		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 50), 50, 4, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]);
+		// Adds arrow buttons to the ArrayLists
+		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, 4, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]);
 		FruitFever.buttons.add(tempButton);
 		FruitFever.levelSelectionButtons.add(tempButton);
-		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 + 50), 50, 4, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]);
+		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, 5, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]);
 		FruitFever.buttons.add(tempButton);
 		FruitFever.levelSelectionButtons.add(tempButton);
-
+		
+		// Level buttons
+		for(int i = 0; i < 20; i++){
+			tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, 6, levelButton[0], levelButton[1], levelButton[1], i);
+			FruitFever.buttons.add(tempButton);
+			FruitFever.levelSelectionButtons.add(tempButton);
+		}
+		
 	}
 	
 }
