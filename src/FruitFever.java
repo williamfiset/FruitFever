@@ -11,7 +11,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 
-public class FruitFever extends GraphicsProgram implements MouseMotionListener {
+public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
@@ -31,6 +31,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static int currentLevel = 0;
 
 	static int playerStartX = 100, playerStartY= 100;
+	static int dx = 0, dy = 0;
 
 	static GImage[] livesImages = new GImage[player.maxLives];
 	
@@ -45,28 +46,31 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		// Renders Images in the Data class, and fills the object Arrays^
 		Data.loadImages();
-		
+	
 		drawMainMenu();
-
+		
 	}
 	
 /** Contains the main game loop **/
 	@Override public void run(){
-		
+	
+
 		while(true){
 			
 			// Playing
 			if(currentScreen == 3){
-			
+
+				
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
 				for(Thing obj : things)
 					obj.animate();
-				
+
 				/** Blocks **/
 				for(Block obj : blocks)
 					obj.image.setLocation(obj.getX() - viewX, obj.getY() - viewY);
-					
+				
 				player.motion();
+				
 
 			}
 			
@@ -80,15 +84,63 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		int keyCode = key.getKeyCode();
 
 		switch (keyCode) {
-			case KeyEvent.VK_A: case KeyEvent.VK_LEFT: player.dx = -Player.horizontalVelocity; break;
-			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT: player.dx =  Player.horizontalVelocity; break;
-			case KeyEvent.VK_W: case KeyEvent.VK_UP: player.dy = -Player.verticalVelocity; break;
-			case KeyEvent.VK_S: case KeyEvent.VK_DOWN: player.dy =  Player.verticalVelocity; break;
+			case KeyEvent.VK_A: case KeyEvent.VK_LEFT: dx = -1; break;
+			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT: dx = 1; break;
+			case KeyEvent.VK_W: case KeyEvent.VK_UP: dy = -1; break;
+			case KeyEvent.VK_S: case KeyEvent.VK_DOWN: dy = 1; break;
 		}
+
+		/** Grabs the block(s) in the direction of motion of the character and checks
+		 * if there is a collision between the player and the selected block (if any) **/
+		
+		if (dx == 1) {
+
+			Block block = Block.getBlock(player.x + player.width + 5, player.y);
+
+			// No block in front of player
+			if (block == null)
+				player.dx = Player.HORIZONTAL_VELOCITY;
+		
+		}else if (dx == -1) {
 			
+			Block block = Block.getBlock(player.x - dx, player.y);
+
+			// No block in back of player
+			if (block == null)
+				player.dx = -Player.HORIZONTAL_VELOCITY;
+
+		}
+
+		if (dy == 1) {
+			
+			// Upper block
+			Block block = Block.getBlock(player.x , player.y - dy);
+
+			// No block on top of player
+			if (block == null)
+				player.dy = Player.VERTICAL_VELOCITY;
+		
+		}else if (dy == -1){
+
+			// Upper block
+			Block block = Block.getBlock(player.x , player.y + player.height + dy);
+
+			// No block on top of player
+			if (block == null)
+				player.dy = -Player.VERTICAL_VELOCITY;
+		}
 	}
 	
-	@Override public void keyReleased(KeyEvent key){}
+	@Override public void keyTyped(KeyEvent key){}
+
+	@Override public void keyReleased(KeyEvent key){
+
+		dx = 0;
+		dy = 0;
+		player.dx = 0;
+		player.dy = 0;
+
+	}
 	
 	@Override public void mouseMoved(MouseEvent mouse) {
 	
@@ -103,9 +155,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			else
 				obj.setDefault();
 				
-		}		
-	
+		}
 	}
+
 	@Override public void mouseDragged(MouseEvent mouse) {
 	
 		/** Check to see if the mouse is on the selected button or not and sets the image accordingly **/			
@@ -155,8 +207,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					drawLevelSelection();
 					
 					/** TEMPORARY UNTIL THE LEVEL BUTTONS ARE ALL IN **/
-					currentScreen = 3;
 					loadLevel();
+					currentScreen = 3;
+					
 				}
 				
 				// Level button
