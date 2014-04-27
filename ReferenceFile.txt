@@ -1,4 +1,3 @@
-
 BOUNDING BOXES IN THING CLASS:
 
 	By default, the bounding box is identical to the location and the size of the image. But you can adjust the position of this bounding box. Ex: "boundaryLeft = -5;" would extend the left side of the bounding box over 5 pixels. The other 3 variables are logically called boundaryRight, boundaryTop, and boundaryBottom.
@@ -142,6 +141,7 @@ ________________________________________________________________________________
 				-MovingAnimation
 					-Swirl (temporary)
 					-BlueEnemy (temporary)
+					-Player
 		
 _______________________________________________________________________________________________________________
 
