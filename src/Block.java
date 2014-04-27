@@ -35,7 +35,7 @@ public class Block extends Thing {
 	}
 
 
-	/**
+	/** 
 	 * Returns the block bounded in the region 
 	 *(xPos, yPos) & (xPos + blockWidth, yPos + blockHeight)
 	 * @param xPos - The X position of a region within the block
