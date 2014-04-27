@@ -95,11 +95,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		if (dx == 1) {
 
-			Block block = Block.getBlock(player.x + player.width + 5, player.y);
+			Block block = Block.getBlock(player.x + player.width + dx, player.y);
 
 			// No block in front of player
 			if (block == null)
 				player.dx = Player.HORIZONTAL_VELOCITY;
+			else
+				player.dx = 0;
+			
+				
 		
 		}else if (dx == -1) {
 			
@@ -108,7 +112,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// No block in back of player
 			if (block == null)
 				player.dx = -Player.HORIZONTAL_VELOCITY;
-
+			else
+				player.dx = 0;
 		}
 
 		if (dy == 1) {
@@ -119,6 +124,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// No block on top of player
 			if (block == null)
 				player.dy = Player.VERTICAL_VELOCITY;
+			else
+				player.dy = 0;
 		
 		}else if (dy == -1){
 
@@ -128,6 +135,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// No block on top of player
 			if (block == null)
 				player.dy = -Player.VERTICAL_VELOCITY;
+			else 
+				player.dy = 0;
 		}
 	}
 	
