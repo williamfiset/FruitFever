@@ -69,6 +69,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				for(Block obj : blocks)
 					obj.image.setLocation(obj.getX() - viewX, obj.getY() - viewY);
 				
+
+
+
 				player.motion();
 				
 
@@ -88,55 +91,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT: dx = 1; break;
 			case KeyEvent.VK_W: case KeyEvent.VK_UP: dy = -1; break;
 			case KeyEvent.VK_S: case KeyEvent.VK_DOWN: dy = 1; break;
-		}
-
-		/** Grabs the block(s) in the direction of motion of the character and checks
-		 * if there is a collision between the player and the selected block (if any) **/
-		
-		if (dx == 1) {
-
-			Block block = Block.getBlock(player.x + player.width + dx, player.y);
-
-			// No block in front of player
-			if (block == null)
-				player.dx = Player.HORIZONTAL_VELOCITY;
-			else
-				player.dx = 0;
-			
-				
-		
-		}else if (dx == -1) {
-			
-			Block block = Block.getBlock(player.x - dx, player.y);
-
-			// No block in back of player
-			if (block == null)
-				player.dx = -Player.HORIZONTAL_VELOCITY;
-			else
-				player.dx = 0;
-		}
-
-		if (dy == 1) {
-			
-			// Upper block
-			Block block = Block.getBlock(player.x , player.y - dy);
-
-			// No block on top of player
-			if (block == null)
-				player.dy = Player.VERTICAL_VELOCITY;
-			else
-				player.dy = 0;
-		
-		}else if (dy == -1){
-
-			// Upper block
-			Block block = Block.getBlock(player.x , player.y + player.height + dy);
-
-			// No block on top of player
-			if (block == null)
-				player.dy = -Player.VERTICAL_VELOCITY;
-			else 
-				player.dy = 0;
 		}
 	}
 	
