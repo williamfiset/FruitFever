@@ -28,7 +28,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static int currentScreen = 1;
 	
 	static int viewX = 0, viewY = 0;
-	static int currentLevel = 0;
+	static int currentLevel = 1;
 
 	static int playerStartX = 100, playerStartY= 100;
 	static int dx = 0, dy = 0;
