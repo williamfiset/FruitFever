@@ -22,14 +22,14 @@ class Player extends MovingAnimation {
 
 // Variables concerning Gravity
 
-	final double STARTING_FALLING_VELOCITY = 0;
+	final double STARTING_FALLING_VELOCITY = 0.5;
 	final double STARTING_FALLING_ACCELERATION = 0;
 
 	double fallingVelocity = STARTING_FALLING_VELOCITY;
 	static boolean onPlatform = false;
 	static boolean gravity = true;
 	double fallingAcceleration = STARTING_FALLING_ACCELERATION;
-	final double changeInAcceleration = 0.01;
+	final double changeInAcceleration = 0.02;
 
 
 // Variables concerning jumping
