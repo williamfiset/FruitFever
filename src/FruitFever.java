@@ -159,10 +159,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					currentScreen = 2;
 					drawLevelSelection();
 					
-					/** TEMPORARY UNTIL THE LEVEL BUTTONS ARE ALL IN **/
-					// loadLevel();
-					// currentScreen = 3;
-					
 				}
 				
 				// Level button
