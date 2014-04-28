@@ -75,6 +75,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				player.motion();
 
+				System.out.println(player.width + " " + player.height + " " );
+
 			}
 			
 			pause(MAIN_LOOP_SPEED);
@@ -83,8 +85,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 	
 	@Override public void keyPressed(KeyEvent key){
-	
-		System.out.println("KEY PRESSED");
 
 		int keyCode = key.getKeyCode();
 
@@ -95,9 +95,21 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			case KeyEvent.VK_D: dx = 1; break;
 		}
 
+		// JUMP
 		if (keyCode == KeyEvent.VK_W) {
 			player.setIsJumping(true);
+
+		// Tougue Attack
+		}else if (keyCode == KeyEvent.VK_S) {
+
+			// Add animation
+
+		// Shoot Swirl
+		} else if (keyCode == KeyEvent.VK_SPACE) {
+			addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));				
+			player.shootSwirl();
 		}
+
 	}
 	
 	/**
@@ -116,10 +128,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	@Override public void keyReleased(KeyEvent key){
 		
-		System.out.println("KEY RELEASED");
-		
 		int keyCode = key.getKeyCode();
-		
 
 		// Doing this makes sure your not cutting the movement flow of the player
 		// if you press another irrelevant key
@@ -166,7 +175,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			checkAndSetClick(mainMenuButtons, mouse);
 		else if(currentScreen == 2)
 			checkAndSetClick(levelSelectionButtons, mouse);
-		
 	}
 	
 	@Override public void mouseReleased(MouseEvent mouse) {
@@ -219,7 +227,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 		
 		clickedOnButton = null;
-		
 	}
 		
 	private void drawMainMenu(){
