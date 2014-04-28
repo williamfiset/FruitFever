@@ -23,7 +23,8 @@ public abstract class Data{
 						   sceneryImages = new GImage[15],
 						   swirlAnimation = new GImage[6],
 						   vortexAnimation = new GImage[5],
-						   berryAnimation = new GImage[5],
+						   blueBerryAnimation = new GImage[5],
+						   redBerryAnimation = new GImage[6],
 						   blueEnemyAnimation = new GImage[4],
 						   playerTemp = new GImage[1],
 						   menuButtons = new GImage[12],
@@ -73,7 +74,9 @@ public abstract class Data{
 		
 		// Berry Animation Images
 		for(int i = 0; i < 5; i++)
-			berryAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 7), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+			blueBerryAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 7), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		for(int i = 0; i < 6; i++)
+			redBerryAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE*16, TILE_SIZE, TILE_SIZE);
 		
 		// Heart Image
 		heartImage = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
