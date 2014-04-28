@@ -221,15 +221,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		player = new Player(playerStartX, playerStartY, Data.playerStill) ;
 		
 		/** TESTING PURPOSES ONLY **/
-		things.add(new Animation(50, 50, Data.redBerryAnimation, true, 3, true));
-		things.add(new Animation(150, 75, Data.blueBerryAnimation, true, 2, false));
-		things.add(new Animation(280, 50, Data.vortexAnimation, false, 2, true));
-		things.add(new Animation(280, 100, Data.fuzzyDiskAnimation, true, 2, true));
-		things.add(new Animation(380, 100, Data.playerShoot, true, 0, true));
-		things.add(new Animation(380, 150, Data.playerTongue, true, 0, true));
-		things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
-		things.add(new Swirl(250, 50, 10, 5));
-		things.add(new BlueEnemy(175, 50, 0, 0));
+		things.add(new Animation(0, 50, Data.redBerryAnimation, true, 3, true));
+		things.add(new Animation(0, 75, Data.blueBerryAnimation, true, 2, false));
+		things.add(new Animation(0, 100, Data.vortexAnimation, false, 2, true));
+		things.add(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true));
+		things.add(new Animation(0, 150, Data.playerShoot, true, 0, true));
+		things.add(new Animation(0, 175, Data.playerTongue, true, 0, true));
+		things.add(new MovingAnimation(0, 200, Data.swirlAnimation, false, 1, false, 10, 5));
+		things.add(new Swirl(0, 225, 10, 5));
+		things.add(new BlueEnemy(0, 250, 0, 0));
 		things.add(player);
 		/** **/
 
