@@ -42,9 +42,9 @@ class Player extends MovingAnimation {
 	private int baseLine;
 
 	// Jumping motion Varibles
-	final double STARTING_JUMPING_VELOCITY = 6.25; // 6.25
+	final double STARTING_JUMPING_VELOCITY = 6.25; 
 	final double STARTING_JUMPING_DECCELERATION = 0;
-	final double changeInDecceleration = 0.05; // 0.0255
+	final double changeInDecceleration = 0.043; 
 
 	double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 	double jumpingVelocity = STARTING_JUMPING_VELOCITY;
@@ -68,16 +68,40 @@ class Player extends MovingAnimation {
 
 		checkCollisionDetection();
 
-		// Takes care of the Jumping motion
+		jumpingEffect();
+
+		// Resets players ability to jump
+		if (onPlatform) 
+			setBaseLine = false;
+
+		gravityEffect();
+
+		imageX += dx;
+
+	}
+
+	/** Responds accordingly to collision detection **/
+	private void checkCollisionDetection(){
+
+		sidewaysCollision();
+		downwardsCollision();
+		upwardsCollision();
+
+	}
+
+	/** Handles Jumping triggered by the Player **/
+	private void jumpingEffect(){
+
+		// Jumping event was Triggered
 		if (isJumping) {
 
-			// Reset baseLine when onPlatform
+			// Sets baseLine (where the player started before jumping)
 			if (!setBaseLine){
 				baseLine = y;
 				setBaseLine = true;	
 			}
 			
-			// move up
+			// Player has not yet hit the maximum jump limit
 			if (imageY - jumpingVelocity > baseLine - maxJumpHeight && jumpingVelocity > 0) {
 
 				imageY -= jumpingVelocity;
@@ -85,21 +109,20 @@ class Player extends MovingAnimation {
 				jumpingVelocity -= jumpingDecceleration;
 				jumpingDecceleration += changeInDecceleration;
 
+			// Player has reached maxHeight, gravity now kicks in
 			}else{
 				
 				jumpingVelocity = STARTING_JUMPING_VELOCITY;
 				jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 
 				isJumping = false;
-
-
 			}
 		}
 
-		// Resets your ability to jump
-		if (onPlatform) 
-			setBaseLine = false;
-		
+	}
+
+	/** Takes care of making the player fall when not jumping and not on a platform **/
+	private void gravityEffect(){
 
 		// Gravity Effect triggered here
 		if(!isJumping && gravity && !onPlatform){
@@ -112,21 +135,17 @@ class Player extends MovingAnimation {
 			
 
 		// Executes when not falling or not allowed to fall
-		}
-		else{
+		}else{
+
 			// Reset falling speed
 			fallingVelocity = STARTING_FALLING_VELOCITY;
 			fallingAcceleration = STARTING_FALLING_ACCELERATION;
 		}
 
-		imageX += dx;
-
 	}
 
-	/** Responds accordingly to collision detection **/
-	private void checkCollisionDetection(){
-
-		/** Sideways Collisions **/
+	/** Sideways Collisions **/
+	private void sidewaysCollision(){
 
 		// EAST
 		if(FruitFever.dx == 1){
@@ -134,27 +153,34 @@ class Player extends MovingAnimation {
 			Block eastNorth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
 			Block eastSouth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
+			// No block right of player
 			if(eastSouth == null && eastNorth == null)
 				dx = HORIZONTAL_VELOCITY;
 			else
 				dx = 0;
 			
 		// WEST
-		}
-		else if(FruitFever.dx == -1) {
+		} else if(FruitFever.dx == -1) {
 
 			Block westNorth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
 			Block westSouth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
-			// No block in back of player
+			// No block left of player
 			if(westNorth == null && westSouth == null)
 				dx = -HORIZONTAL_VELOCITY;
 			else
 				dx = 0; 
 		}
 
+	}
 
-		/** Test if player is going to hit a platform while falling **/
+	private void upwardsCollision(){
+
+	}
+
+	/** Test if player is going to hit a platform while falling **/
+	private void downwardsCollision(){
+
 
 		// SOUTH
 		Block southWest, southEast;
@@ -169,6 +195,11 @@ class Player extends MovingAnimation {
 			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
 		}
 
+		checkForFreeFall(southEast, southWest);
+
+	}
+
+	private void checkForFreeFall(Block southEast, Block southWest){
 
 		// Checks if player is in free fall
 		if(southEast != null || southWest != null){
@@ -185,6 +216,23 @@ class Player extends MovingAnimation {
 
 	}
 
+
+	/** Places the player on top of the block he is currently on **/
+	private void placePlayerOnBlock(Block block){
+		if(onPlatform)
+			imageY = block.y - block.width;
+	}
+
+	/** It was a good idea to have a setter for IsJumping.  
+	 * For example you don't always want to set isJumping to true if the
+	 * character is in free fall. **/
+	public void setIsJumping(boolean value){
+
+		if (!setBaseLine)
+			isJumping = true;
+	}
+
+
 	public void toungueAttack(){}
 	
 	public void shootSwirl(){
@@ -194,12 +242,6 @@ class Player extends MovingAnimation {
 		images = shootAnim;
 		repeat = false;
 		
-	}
-
-	/** Places the player on top of the block he is currently on **/
-	private void placePlayerOnBlock(Block block){
-		if(onPlatform)
-			imageY = block.y - block.width;
 	}
 
 	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly **/	
@@ -222,15 +264,6 @@ class Player extends MovingAnimation {
 		}
 			
 		super.animate();
-	}
-
-	/** It was a good idea to have a setter for IsJumping.  
-	 * For example you don't always want to set isJumping to true if the
-	 * character is in free fall. **/
-	public void setIsJumping(boolean value){
-
-		if (!setBaseLine)
-			isJumping = true;
 	}
 
 	@Override public String toString(){
