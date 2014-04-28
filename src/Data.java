@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.util.*;
+import java.awt.*;
 
 public abstract class Data{
 
@@ -124,6 +125,13 @@ public abstract class Data{
 		levelButton[1] = makeImage(sheet, 0, 93, 50, 44);
 		levelBackDropImage = makeImage(sheet, 70, 0, 260, 333);
 		FruitFever.levelBackDrop = new Thing((int) (FruitFever.SCREEN_WIDTH/2 - levelBackDropImage.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelBackDropImage.getHeight()/2), levelBackDropImage);
+		
+		// Create numbers to display in the level boxes
+		for(int i = 0; i < 20; i++){
+			FruitFever.levelNumbers[i] = new GLabel(String.valueOf(i));
+			FruitFever.levelNumbers[i].setFont(new Font("Helvetica", Font.BOLD, 30));
+			FruitFever.levelNumbers[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - FruitFever.levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 130 + (i/4)*55);
+		}
 
 		/** Add buttons and set locations **/
 		addButtonsToArrayList();

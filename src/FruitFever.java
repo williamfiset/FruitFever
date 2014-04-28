@@ -24,6 +24,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other arraylists)
 	static Button clickedOnButton = null;
 	
+	static GLabel[] levelNumbers = new GLabel[20];
+	
 	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
 	static int currentScreen = 1;
 	
@@ -187,6 +189,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		removeAll();
 		add(levelBackDrop.image);
 		addToScreen(levelSelectionButtons);
+		
+		for(int i = 0; i < levelNumbers.length; i++)
+			add(levelNumbers[i]);
+		
 	}
 
 /** Loads and Displays all initial graphics of a level on the screen  **/
@@ -215,15 +221,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		player = new Player(playerStartX, playerStartY, Data.playerStill) ;
 		
 		/** TESTING PURPOSES ONLY **/
-		// things.add(new Animation(50, 50, Data.redBerryAnimation, true, 3, true));
-		// things.add(new Animation(150, 75, Data.blueBerryAnimation, true, 2, false));
-		// things.add(new Animation(280, 50, Data.vortexAnimation, false, 2, true));
-		// things.add(new Animation(280, 100, Data.fuzzyDiskAnimation, true, 2, true));
-		// things.add(new Animation(380, 100, Data.playerShoot, true, 2, true));
-		// things.add(new Animation(380, 150, Data.playerTongue, true, 2, true));
-		// things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
-		// things.add(new Swirl(250, 50, 10, 5));
-		// things.add(new BlueEnemy(175, 50, 0, 0));
+		things.add(new Animation(50, 50, Data.redBerryAnimation, true, 3, true));
+		things.add(new Animation(150, 75, Data.blueBerryAnimation, true, 2, false));
+		things.add(new Animation(280, 50, Data.vortexAnimation, false, 2, true));
+		things.add(new Animation(280, 100, Data.fuzzyDiskAnimation, true, 2, true));
+		things.add(new Animation(380, 100, Data.playerShoot, true, 0, true));
+		things.add(new Animation(380, 150, Data.playerTongue, true, 0, true));
+		things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
+		things.add(new Swirl(250, 50, 10, 5));
+		things.add(new BlueEnemy(175, 50, 0, 0));
 		things.add(player);
 		/** **/
 
