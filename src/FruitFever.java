@@ -83,14 +83,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 	
 	@Override public void keyPressed(KeyEvent key){
+	
+		System.out.println("KEY PRESSED");
 
 		int keyCode = key.getKeyCode();
 
 		// Horizontal Movement
 		switch(keyCode){
 		
-			case KeyEvent.VK_A: case KeyEvent.VK_LEFT: dx = -1; break;
-			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT: dx = 1; break;
+			case KeyEvent.VK_A: dx = -1; break;
+			case KeyEvent.VK_D: dx = 1; break;
 		}
 
 		if (keyCode == KeyEvent.VK_W) {
@@ -100,6 +102,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 	}
 	
+	/**
 	@Override public void keyTyped(KeyEvent key){
 
 		char character = key.getKeyChar();
@@ -110,12 +113,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// 		player.shootSwirl();
 		// }
 
-	}
+	}**/
 
 	@Override public void keyReleased(KeyEvent key){
 		
+		System.out.println("KEY RELEASED");
+		
 		int keyCode = key.getKeyCode();
-
+		
 
 		// Doing this makes sure your not cutting the movement flow of the player
 		// if you press another irrelevant key
@@ -264,10 +269,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addToThings(new Animation(0, 75, Data.blueBerryAnimation, true, 2, false));
 		addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true));
 		addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true));
-		addToThings(new Animation(0, 135, Data.fuzzyDiskAnimation, true, 2, true));
-		addToThings(new Animation(0, 150, Data.playerShoot, true, 0, true));
-		addToThings(new Animation(0, 175, Data.playerTongue, true, 0, true));
-		addToThings(new MovingAnimation(0, 175, Data.swirlAnimation, false, 0, true, 10, 0, 1));
 		/** **/
 		addToThings(player);
 		
