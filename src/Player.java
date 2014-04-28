@@ -17,19 +17,19 @@ class Player extends MovingAnimation {
 
 
 // Movement Variables
-	static final int VERTICAL_VELOCITY = 4, HORIZONTAL_VELOCITY = 3;
+	static final int VERTICAL_VELOCITY = 5, HORIZONTAL_VELOCITY = 3;
 	int dy = 0, dx = 0;
 
 // Variables concerning Gravity
 
-	final double STARTING_FALLING_VELOCITY = 0.5;
-	final double STARTING_FALLING_ACCELERATION = 0;
+	final double STARTING_FALLING_VELOCITY = 3;
+	final double STARTING_FALLING_ACCELERATION = 0.5;
 
 	double fallingVelocity = STARTING_FALLING_VELOCITY;
 	static boolean onPlatform = false;
 	static boolean gravity = true;
 	double fallingAcceleration = STARTING_FALLING_ACCELERATION;
-	final double changeInAcceleration = 0.02;
+	final double changeInAcceleration = 0.015;
 
 
 // Variables concerning jumping
@@ -76,7 +76,7 @@ class Player extends MovingAnimation {
 		imageX += dx;
 		imageY += dy;
 
-		// System.out.println(onPlatform);
+		System.out.println(onPlatform + " " + fallingVelocity);
 
 		// Gravity Effect triggered here
 		if (!isJumping && gravity && !onPlatform) {
@@ -85,7 +85,8 @@ class Player extends MovingAnimation {
 
 			// Acceleration effect
 			fallingVelocity += fallingAcceleration;
-			fallingAcceleration += changeInAcceleration;
+			fallingAcceleration += changeInAcceleration;				
+			
 
 		// Not falling/not allowed to fall
 		}else{
@@ -96,84 +97,55 @@ class Player extends MovingAnimation {
 
 	}
 
+
+
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
 
-		// IMPORTANT: MAKE COLLISION DETECTIONS EASY WITH: Rectangle methods, contains() and , intersects()
+		// EAST
+		Block eastNorth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
+		Block eastSouth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
+		
+		// WEST
+		Block westNorth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
+		Block westSouth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
-		/** Grabs the block(s) in the direction of motion of the character and checks
-		 * if there is a collision between the player and the selected block(s) (if any) **/
+		// SOUTH
+		Block southWest, southEast;
+
+		// Need to do this because starting starting falling velocity is never 0
+		if (gravity) {
+			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);			
+			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);
+		}else{
+			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);			
+			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
+		}
 
 		// EAST
 		if (FruitFever.dx == 1) {
 
-			Block northEast = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
-			Block southEast = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
-
-			// No block in front of player
-			if (southEast == null && northEast == null){
-				dx = HORIZONTAL_VELOCITY;
-			}else{
-				dx = 0;
-			}
+			if (eastSouth == null && eastNorth == null)	dx = HORIZONTAL_VELOCITY;
+			else dx = 0;
 			
 		// WEST
 		} else if (FruitFever.dx == -1) {
-			Block northWest = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
-			Block southWest = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
 			// No block in back of player
-			if (northWest == null && southWest == null)	dx = -HORIZONTAL_VELOCITY;
-			else dx = 0;
-
+			if (westNorth == null && westSouth == null)	dx = -HORIZONTAL_VELOCITY;
+			else dx = 0; 
 		}
 
-
-		// SOUTH
-		if (FruitFever.dy == 1) {
-
-			Block southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
-			Block southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
-
-			if (southWest == null && southEast == null){
-				dy = VERTICAL_VELOCITY;
-				onPlatform = false;
-			}else{
-				onPlatform = true;
-				dy = 0;
-			} 
-
-		// NORTH
-		}else if (FruitFever.dy == -1) {
-			
-			Block northWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
-			Block northEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
-
-			if (northWest == null && northEast == null){
-				dy = -VERTICAL_VELOCITY;
-				onPlatform = false;
-			}
-			// Just hit the bottom of block
-			else dy = 0;
-		
-		// No vertical movement
-		}else if (FruitFever.dy == 0) {
-			
-			// checks if player is still on platform
-			Block southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
-			Block southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
-
-			if (southEast == null && southWest == null){
-				onPlatform = false;	
-			}
-		}
-
-		// checks if player is in free fall
-		Block southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
-		Block southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
-
+		// // checks if player is in free fall
 		if (southEast != null || southWest != null){
+			
 			onPlatform = true;	
+
+			if (southEast != null) placePlayerOnBlock(southEast);
+			else placePlayerOnBlock(southWest);
+
+		}else{
+			onPlatform = false;
 		}
 
 	}
@@ -182,6 +154,11 @@ class Player extends MovingAnimation {
 
 	public void shootSwirl(){}
 
+	/** Places the player on top of the block he is currently on **/
+	private void placePlayerOnBlock(Block block){
+		if (onPlatform)
+			imageY = block.y - block.width;
+	}
 
 	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly **/	
 	public static void adjustLives(int changeInLives){
