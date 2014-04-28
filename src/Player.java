@@ -42,6 +42,7 @@ class Player extends MovingAnimation {
 	final int VERTICAL_PX_BUFFER = 2;
 	final int HORIZONTAL_PX_BUFFER = 3;
 	
+	
 	GImage[] stillAnim, shootAnim, tongueAnim;
 	
 	public Player(int x, int y, GImage[] stillAnim, GImage[] shootAnim, GImage[] tongueAnim){
