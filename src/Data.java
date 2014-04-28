@@ -24,9 +24,12 @@ public abstract class Data{
 						   swirlAnimation = new GImage[6],
 						   vortexAnimation = new GImage[5],
 						   blueBerryAnimation = new GImage[5],
-						   redBerryAnimation = new GImage[6],
+						   redBerryAnimation = new GImage[7],
+						   fuzzyDiskAnimation = new GImage[8],
 						   blueEnemyAnimation = new GImage[4],
-						   playerTemp = new GImage[1],
+						   playerStill = new GImage[1],
+						   playerTongue = new GImage[9],
+						   playerShoot = new GImage[6],
 						   menuButtons = new GImage[12],
 						   leftArrowButton = new GImage[3],
 						   rightArrowButton = new GImage[3],
@@ -75,8 +78,12 @@ public abstract class Data{
 		// Berry Animation Images
 		for(int i = 0; i < 5; i++)
 			blueBerryAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 7), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < 7; i++)
 			redBerryAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE*16, TILE_SIZE, TILE_SIZE);
+		
+		// Fuzzy Disk Images
+		for(int i = 0; i < 8; i++)
+			fuzzyDiskAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE*17, TILE_SIZE, TILE_SIZE);
 		
 		// Heart Image
 		heartImage = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
@@ -85,8 +92,12 @@ public abstract class Data{
 		for(int i = 0; i < 4; i++)
 			blueEnemyAnimation[i] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
 			
-		// Player Temporary Image
-		playerTemp[0] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
+		// Player Images
+		playerStill[0] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		for(int i = 0; i < 9; i++)
+			playerTongue[i] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE*(i + 1), TILE_SIZE*2, TILE_SIZE);
+		for(int i = 0; i < 6; i++)
+			playerShoot[i] = makeImage(sheet, TILE_SIZE*16, TILE_SIZE*(i + 1), TILE_SIZE*2, TILE_SIZE);	
 			
 		/** Import menu images **/
 		try { sheet = ImageIO.read(new File("../img/Menu/Menu_Red.png"));	}
