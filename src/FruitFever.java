@@ -74,7 +74,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					obj.image.setLocation(obj.getX() - viewX, obj.getY() - viewY);
 
 				player.motion();
-				System.out.println(player);
 
 			}
 			
@@ -94,13 +93,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT: dx = 1; break;
 		}
 
-		// Vertical Movement 
-		switch(keyCode){
-		
-			case KeyEvent.VK_W: case KeyEvent.VK_UP: dy = -1; break;
-			case KeyEvent.VK_S: case KeyEvent.VK_DOWN: dy = 1; break;
-		}
+		if (keyCode == KeyEvent.VK_W) {
 
+			player.setIsJumping(true);
+
+		}
 	}
 	
 	@Override public void keyTyped(KeyEvent key){
@@ -108,10 +105,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		char character = key.getKeyChar();
 		
 		// Massive Bug originates from shooting a swirl...		
-		if (character == ' ') {
-				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));				
-				player.shootSwirl();
-		}
+		// if (character == ' ') {
+		// 		addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));				
+		// 		player.shootSwirl();
+		// }
 
 	}
 
@@ -126,9 +123,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
 			dx = 0;
 			player.dx = 0;
-		}else if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_S) {
-			dy = 0;
-			player.dy = 0;			
 		}
 
 	}
