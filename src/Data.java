@@ -94,7 +94,7 @@ public abstract class Data{
 			blueEnemyAnimation[i] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
 			
 		// Player Images
-		playerStill[0] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		playerStill[0] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
 		for(int i = 0; i < 9; i++)
 			playerTongue[i] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE*(i + 1), TILE_SIZE*2, TILE_SIZE);
 		for(int i = 0; i < 6; i++)
