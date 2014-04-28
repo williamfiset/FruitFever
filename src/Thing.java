@@ -23,7 +23,7 @@ public class Thing extends Rectangle{
 	
 	public Thing(int x, int y, int width, int height, GImage image){
 		super(x, y, width, height);
-		this.image = image;
+		this.image = new GImage(image.getImage());
 		this.imageX = x;
 		this.imageY = y;
 		
@@ -60,6 +60,7 @@ public class Thing extends Rectangle{
 	
 	/** Change image **/
 	public void changeImage(GImage img){
+		img = new GImage(img.getImage());
 		image.setImage(img.getImage());
 	}
 

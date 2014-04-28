@@ -184,7 +184,8 @@ public abstract class Data{
 					// Normal Blocks
 					if(line.charAt(i) - 'a' >= 0){
 						type = line.charAt(i) - 'a';
-						image = new GImage(Data.blockImages[type].getImage());
+						image = Data.blockImages[type];
+						//image = new GImage(Data.blockImages[type].getImage());
 					}
 					// Grass Blocks
 					else{

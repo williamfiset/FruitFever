@@ -1,14 +1,20 @@
 BUTTON TYPES:
 
 	0 - Play
-	1 - 
-	2 -
-	3 -
+	1 - Controls
+	2 - Options
+	3 - Multiplayer
 	
 	4 - Left Arrow
 	5 - Right Arrow
 	6 - Level boxes
-	
+_____________________________________________________________________________________________
+
+MOVINGANIMATION TYPES:
+
+	0 - Player
+	1 - Swirl
+
 _____________________________________________________________________________________________________________
 
 BOUNDING BOXES IN THING CLASS:

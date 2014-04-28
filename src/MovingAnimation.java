@@ -11,17 +11,19 @@ import java.awt.*;
 
 public class MovingAnimation extends Animation{
 
-	/** Private instance variables **/
-	public int xSpeed, ySpeed;
+	/** Public instance variables **/
+	public int xSpeed, ySpeed, type;
 
-	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int xSpeed, int ySpeed){
+	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int xSpeed, int ySpeed, int type){
 		super(x, y, originalImages, reverse, delay, repeat);
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
+		this.type = type;
 	}
 	
-	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat){
+	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type){
 		super(x, y, originalImages, reverse, delay, repeat);
+		this.type = type;
 	}
 	
 	// Overrides Animation.animate()
@@ -37,8 +39,8 @@ public class MovingAnimation extends Animation{
 	}
 
 	public void moveIt(int xChange, int yChange){
-		x += xChange;
-		y += yChange;
+		imageX += xChange;
+		imageY += yChange;
 	}
 
 }

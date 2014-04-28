@@ -15,7 +15,7 @@ public class Animation extends Thing {
 	
 	/** Private instance variables **/
 	protected GImage[] images;
-	private int counter = 0, delayCounter = 0, delay;
+	public int counter = 0, delayCounter = 0, delay;
 	private boolean counterGoingUp = true;
 	
 	protected boolean reverse, repeat; // Player will need to access these
@@ -38,7 +38,7 @@ public class Animation extends Thing {
 		super(x, y);
 		
 		// Make copy of images
-		this.images = copyAnimation(originalImages);
+		this.images = originalImages;
 		
 		// Set these instance variables, now that we know the umage
 		super.image = new GImage(images[counter].getImage());
@@ -92,7 +92,7 @@ public class Animation extends Thing {
 			}
 			
 			// Switch the GImage to the correct index, and adjust the width and height of the Rectangle
-			image.setImage(images[counter].getImage());
+			changeImage(images[counter]);
 			setSize((int) image.getWidth(), (int) image.getHeight());
 		
 		}
@@ -101,16 +101,4 @@ public class Animation extends Thing {
 		super.animate();
 	
 	}
-
-	/** Creates and return a copy of an animation (a GImage[]) **/
-	public static GImage[] copyAnimation(GImage[] originalImages){
-		GImage[] newImages = new GImage[originalImages.length];
-		
-		for(int i = 0; i < newImages.length; i++)
-			newImages[i] = new GImage(originalImages[i].getImage());
-			
-		return newImages;
-		
-	}
-
 }

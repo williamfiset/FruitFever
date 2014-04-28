@@ -45,7 +45,7 @@ class Player extends MovingAnimation {
 	GImage[] stillAnim, shootAnim, tongueAnim;
 	
 	public Player(int x, int y, GImage[] stillAnim, GImage[] shootAnim, GImage[] tongueAnim){
-		super(x, y, stillAnim, false, 1, true);
+		super(x, y, stillAnim, false, 1, true, 0);
 		this.stillAnim = stillAnim;
 		this.shootAnim = shootAnim;
 		this.tongueAnim = tongueAnim;
@@ -156,8 +156,15 @@ class Player extends MovingAnimation {
 	}
 
 	public void toungueAttack(){}
-
-	public void shootSwirl(){}
+	
+	public void shootSwirl(){
+	
+		doneAnimating = false;
+		counter = -1;
+		images = shootAnim;
+		repeat = false;
+		
+	}
 
 	/** Places the player on top of the block he is currently on **/
 	private void placePlayerOnBlock(Block block){
@@ -173,6 +180,18 @@ class Player extends MovingAnimation {
 		for(int i = 0; i < maxLives; i++)
 			FruitFever.livesImages[i].setVisible(i < lives);
 
+	}
+	
+	// Overrides MovingAnimation.animate()
+	@Override public void animate(){
+		
+		if(doneAnimating){
+			counter = -1;
+			images = stillAnim;
+			repeat = true;
+		}
+			
+		super.animate();
 	}
 
 	@Override public String toString(){

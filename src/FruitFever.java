@@ -66,8 +66,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			if(currentScreen == 3){
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
-				for(Thing obj : things)
-					obj.animate();
+				for(int i = 0; i < things.size(); i++)
+					things.get(i).animate();
 
 				/** Blocks **/
 				for(Block obj : blocks)
@@ -107,6 +107,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		switch(keyCode){
 		
+			// Shoot Swirl
+			case KeyEvent.VK_SPACE: player.shootSwirl();
+				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));	
+				break;
+			
+			// Movement
 			case KeyEvent.VK_A: case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_W: case KeyEvent.VK_UP:
@@ -117,8 +123,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			player.dy = 0;
 			
 		}
-
-		
 
 	}
 	
@@ -255,24 +259,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerShoot, Data.playerTongue);
 		
 		/** TESTING PURPOSES ONLY **/
-		things.add(new Animation(0, 50, Data.redBerryAnimation, true, 3, true));
-		things.add(new Animation(0, 75, Data.blueBerryAnimation, true, 2, false));
-		things.add(new Animation(0, 100, Data.vortexAnimation, false, 2, true));
-		things.add(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true));
-		things.add(new Animation(0, 150, Data.playerShoot, true, 0, true));
-		things.add(new Animation(0, 175, Data.playerTongue, true, 0, true));
-		things.add(new MovingAnimation(0, 200, Data.swirlAnimation, false, 1, false, 10, 5));
-		things.add(new Swirl(0, 225, 10, 5));
-		things.add(new BlueEnemy(0, 250, 0, 0));
-		things.add(player);
+		addToThings(new Animation(0, 50, Data.redBerryAnimation, true, 3, true));
+		addToThings(new Animation(0, 75, Data.blueBerryAnimation, true, 2, false));
+		addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true));
+		addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true));
+		addToThings(new Animation(0, 135, Data.fuzzyDiskAnimation, true, 2, true));
+		addToThings(new Animation(0, 150, Data.playerShoot, true, 0, true));
+		addToThings(new Animation(0, 175, Data.playerTongue, true, 0, true));
+		addToThings(new MovingAnimation(0, 175, Data.swirlAnimation, false, 0, true, 10, 0, 1));
 		/** **/
-
-
-		// Draws initial objects on the screen
-		for(Thing obj : things){
-			obj.image.setLocation(obj.getX(), obj.getY());
-			add(obj.image);
-		}
+		addToThings(player);
 		
 		// Loads the Hearts
 		for(int i = 0; i < player.maxLives; i++){
@@ -280,8 +276,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
 			add(livesImages[i]);
 		}
-
-			
+	
 	}
 	
 	// Uneccesary because of removeAll()?
@@ -314,4 +309,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 			
 	}
+	
+	public void addToThings(Thing obj){
+	
+		things.add(obj);
+		obj.image.setLocation(obj.x, obj.y);
+		add(obj.image);
+		
+	}
+	
 }
