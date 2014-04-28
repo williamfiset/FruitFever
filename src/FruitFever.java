@@ -217,7 +217,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		/** TESTING PURPOSES ONLY **/
 		things.add(new Animation(50, 50, Data.berryAnimation, true, 3, true));
 		things.add(new Animation(150, 75, Data.berryAnimation, true, 2, false));
-		things.add(new Animation(250, 50, Data.swirlAnimation, false, 1, true));
+		things.add(new Animation(280, 50, Data.vortexAnimation, false, 1, true));
 		things.add(new MovingAnimation(350, 50, Data.swirlAnimation, false, 1, false, 10, 5));
 		things.add(new Swirl(250, 50, 10, 5));
 		things.add(new BlueEnemy(175, 50, 0, 0));

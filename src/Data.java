@@ -22,6 +22,7 @@ public abstract class Data{
 						   blockGrassImages = new GImage[15],
 						   sceneryImages = new GImage[15],
 						   swirlAnimation = new GImage[6],
+						   vortexAnimation = new GImage[5],
 						   berryAnimation = new GImage[5],
 						   blueEnemyAnimation = new GImage[4],
 						   playerTemp = new GImage[1],
@@ -66,6 +67,10 @@ public abstract class Data{
 		for(int i = 0; i < 6; i++)
 			swirlAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 5), 0, TILE_SIZE, TILE_SIZE);
 			
+		// Vortex Animation Images
+		for(int i = 0; i < 5; i++)
+			vortexAnimation[i] = makeImage(sheet, TILE_SIZE*11, TILE_SIZE*(i + 3), TILE_SIZE*2, TILE_SIZE);
+		
 		// Berry Animation Images
 		for(int i = 0; i < 5; i++)
 			berryAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 7), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
