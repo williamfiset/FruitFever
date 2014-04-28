@@ -15,11 +15,11 @@ class Player extends MovingAnimation {
 	
 	static int lives = 3, maxLives = 3;
 
-	// Movement Variables
-	static final int VERTICAL_VELOCITY = 5, HORIZONTAL_VELOCITY = 3;
-	int dy = 0, dx = 0;
+// Movement Variables
+	static final int HORIZONTAL_VELOCITY = 3;
+	int dx = 0;
 
-	// Variables concerning Gravity
+// Variables concerning Gravity
 
 	final double STARTING_FALLING_VELOCITY = 2.5;
 	final double STARTING_FALLING_ACCELERATION = 0.5;
@@ -28,21 +28,32 @@ class Player extends MovingAnimation {
 	double fallingVelocity = STARTING_FALLING_VELOCITY;
 	double fallingAcceleration = STARTING_FALLING_ACCELERATION;
 
-	static boolean onPlatform = false;
-	static boolean gravity = true;
+	private static boolean onPlatform = false;
+	private static boolean gravity = true;
 
 
-	// Variables concerning jumping
-	boolean isJumping = false;
-	boolean reachedBaseLine = true;
-	int maxJump;
+// Variables concerning jumping
+	
+	// setBaseLine is true because we don't know where the player starts
+	private boolean setBaseLine = true;
+	private boolean isJumping = false;
 
+	int maxJumpHeight = (3*25 + 25/2); // 3.5 tiles
+	private int baseLine;
 
-	// The distance from a corner of the image used in collision detection
+	// Jumping motion Varibles
+	final double STARTING_JUMPING_VELOCITY = 6.25;
+	final double STARTING_JUMPING_DECCELERATION = 0;
+	final double changeInDecceleration = 0.0255;
+
+	double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
+	double jumpingVelocity = STARTING_JUMPING_VELOCITY;
+
+// The distance from a corner of the image used in collision detection
 	final int VERTICAL_PX_BUFFER = 2;
 	final int HORIZONTAL_PX_BUFFER = 3;
 	
-	
+
 	GImage[] stillAnim, shootAnim, tongueAnim;
 	
 	public Player(int x, int y, GImage[] stillAnim, GImage[] shootAnim, GImage[] tongueAnim){
@@ -55,23 +66,44 @@ class Player extends MovingAnimation {
 	// Has not been implemented yet, just the skeleton 
 	public void motion(){
 
-		// The intersects overlaps by 1px
 		checkCollisionDetection();
 
-		// if (isJumping) {
-		// 	// move up
-		// 	if (imageY - dy <= baseLine) {
-		// 		reachedBaseLine = true;
-		// 	}
+		// Takes care of the Jumping motion
+		if (isJumping) {
 
-		// }else{
-		// 	if (!reachedBaseLine) {
-		// 		// move down
-		// 	}
-		// }
+			// Reset baseLine when onPlatform
+			if (!setBaseLine){
+				baseLine = y;
+				setBaseLine = true;	
+			}
+			
+			// move up
+			if (imageY - jumpingVelocity > baseLine - maxJumpHeight) {
 
-		imageX += dx;
-		imageY += dy;
+				imageY -= jumpingVelocity;
+
+				jumpingVelocity -= jumpingDecceleration;
+				jumpingDecceleration += changeInDecceleration;
+
+
+			}else{
+				
+
+				System.out.println(jumpingVelocity + " " + jumpingDecceleration);
+
+				jumpingVelocity = STARTING_JUMPING_VELOCITY;
+				jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
+
+				isJumping = false;
+
+
+			}
+		}
+
+		// Resets your ability to jump
+		if (onPlatform) 
+			setBaseLine = false;
+		
 
 		// Gravity Effect triggered here
 		if(!isJumping && gravity && !onPlatform){
@@ -90,6 +122,8 @@ class Player extends MovingAnimation {
 			fallingVelocity = STARTING_FALLING_VELOCITY;
 			fallingAcceleration = STARTING_FALLING_ACCELERATION;
 		}
+
+		imageX += dx;
 
 	}
 
@@ -149,7 +183,6 @@ class Player extends MovingAnimation {
 				placePlayerOnBlock(southEast);
 			else
 				placePlayerOnBlock(southWest);
-
 		}
 		else
 			onPlatform = false;
@@ -195,8 +228,37 @@ class Player extends MovingAnimation {
 		super.animate();
 	}
 
+	/** It was a good idea to have a setter for IsJumping.  
+	 * For example you don't always want to set isJumping to true if the
+	 * character is in free fall. **/
+	public void setIsJumping(boolean value){
+
+		if (!setBaseLine)
+			isJumping = true;
+	}
+
 	@Override public String toString(){
 		return "Player: (Image: " + imageX + ", " + imageY + "   W: " + image.getWidth() + ", H: " + image.getHeight() + ") (Bounding Box: " + x + ", " + y + "   W: " + width + ", H: " + height + ")"; 
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
