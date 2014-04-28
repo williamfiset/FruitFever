@@ -74,6 +74,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					obj.image.setLocation(obj.getX() - viewX, obj.getY() - viewY);
 
 				player.motion();
+				System.out.println(player);
 
 			}
 			
@@ -86,42 +87,48 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		int keyCode = key.getKeyCode();
 
+		// Horizontal Movement
 		switch(keyCode){
 		
-			// Horizontal Movement
 			case KeyEvent.VK_A: case KeyEvent.VK_LEFT: dx = -1; break;
 			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT: dx = 1; break;
-			
-			// Vertical Movement 
+		}
+
+		// Vertical Movement 
+		switch(keyCode){
+		
 			case KeyEvent.VK_W: case KeyEvent.VK_UP: dy = -1; break;
 			case KeyEvent.VK_S: case KeyEvent.VK_DOWN: dy = 1; break;
-			
 		}
+
 	}
 	
-	@Override public void keyTyped(KeyEvent key){}
+	@Override public void keyTyped(KeyEvent key){
+
+		char character = key.getKeyChar();
+		
+		// Massive Bug originates from shooting a swirl...		
+		if (character == ' ') {
+				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));				
+				player.shootSwirl();
+		}
+
+	}
 
 	@Override public void keyReleased(KeyEvent key){
 		
 		int keyCode = key.getKeyCode();
 
-		switch(keyCode){
-		
-			// Shoot Swirl
-			case KeyEvent.VK_SPACE: player.shootSwirl();
-				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));	
-				break;
-			
-			// Movement
-			case KeyEvent.VK_A: case KeyEvent.VK_LEFT:
-			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT:
-			case KeyEvent.VK_W: case KeyEvent.VK_UP:
-			case KeyEvent.VK_S: case KeyEvent.VK_DOWN:
+
+		// Doing this makes sure your not cutting the movement flow of the player
+		// if you press another irrelevant key
+
+		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
 			dx = 0;
-			dy = 0;
 			player.dx = 0;
-			player.dy = 0;
-			
+		}else if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_S) {
+			dy = 0;
+			player.dy = 0;			
 		}
 
 	}
