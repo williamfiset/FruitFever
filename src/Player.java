@@ -38,7 +38,7 @@ class Player extends MovingAnimation {
 	private boolean setBaseLine = true;
 	private boolean isJumping = false;
 
-	int maxJumpHeight = (3*25 + 25/2); // 3.5 tiles
+	int maxJumpHeight = (3*25 + 25/2); // 3.5 tile jump limit
 	private int baseLine;
 
 	// Jumping motion Varibles
@@ -111,11 +111,7 @@ class Player extends MovingAnimation {
 
 			// Player has reached maxHeight, gravity now kicks in
 			}else{
-				
-				jumpingVelocity = STARTING_JUMPING_VELOCITY;
-				jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
-
-				isJumping = false;
+				resetJump();				
 			}
 		}
 
@@ -176,6 +172,14 @@ class Player extends MovingAnimation {
 
 	private void upwardsCollision(){
 
+		Block northWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
+		Block northEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
+
+		// Collision on block above this one ahs happened
+		if (northWest != null || northEast != null) {
+			resetJump();
+		}
+
 	}
 
 	/** Test if player is going to hit a platform while falling **/
@@ -232,6 +236,13 @@ class Player extends MovingAnimation {
 			isJumping = true;
 	}
 
+	private void resetJump(){
+		
+		jumpingVelocity = STARTING_JUMPING_VELOCITY;
+		jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
+
+		isJumping = false;
+	}
 
 	public void toungueAttack(){}
 	
