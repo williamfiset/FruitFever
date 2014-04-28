@@ -22,14 +22,15 @@ class Player extends MovingAnimation {
 
 // Variables concerning Gravity
 
-	final double STARTING_FALLING_VELOCITY = 3;
+	final double STARTING_FALLING_VELOCITY = 2.5;
 	final double STARTING_FALLING_ACCELERATION = 0.5;
+	final double changeInAcceleration = 0.015;
 
 	double fallingVelocity = STARTING_FALLING_VELOCITY;
+	double fallingAcceleration = STARTING_FALLING_ACCELERATION;
+
 	static boolean onPlatform = false;
 	static boolean gravity = true;
-	double fallingAcceleration = STARTING_FALLING_ACCELERATION;
-	final double changeInAcceleration = 0.015;
 
 
 // Variables concerning jumping
@@ -86,8 +87,9 @@ class Player extends MovingAnimation {
 			fallingAcceleration += changeInAcceleration;				
 			
 
-		// Not falling/not allowed to fall
+		// Executes when not falling or not allowed to fall
 		}else{
+
 			// reset falling speed
 			fallingVelocity = STARTING_FALLING_VELOCITY;
 			fallingAcceleration = STARTING_FALLING_ACCELERATION;
@@ -99,6 +101,8 @@ class Player extends MovingAnimation {
 
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
+
+		/** Sideways Collisions **/
 
 		// EAST
 		if (FruitFever.dx == 1) {
