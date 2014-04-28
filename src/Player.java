@@ -67,16 +67,21 @@ class Player extends MovingAnimation {
 	public void motion(){
 
 		checkCollisionDetection();
-
 		jumpingEffect();
 
 		// Resets players ability to jump
-		if (onPlatform) 
-			setBaseLine = false;
+		if (onPlatform) setBaseLine = false;
 
 		gravityEffect();
+		relativisticScreenMovement();
 
 		imageX += dx;
+
+	}
+
+	private void relativisticScreenMovement(){
+
+		// FruitFever.viewX += 1;
 
 	}
 
@@ -114,7 +119,6 @@ class Player extends MovingAnimation {
 				resetJump();				
 			}
 		}
-
 	}
 
 	/** Takes care of making the player fall when not jumping and not on a platform **/
@@ -237,7 +241,7 @@ class Player extends MovingAnimation {
 	}
 
 	private void resetJump(){
-		
+
 		jumpingVelocity = STARTING_JUMPING_VELOCITY;
 		jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 
@@ -268,13 +272,18 @@ class Player extends MovingAnimation {
 	// Overrides MovingAnimation.animate()
 	@Override public void animate(){
 		
+		super.animate();
+		
 		if(doneAnimating){
 			counter = -1;
 			images = stillAnim;
 			repeat = true;
+
+			width = (int) stillAnim[0].getWidth();
+			height = (int) stillAnim[0].getHeight();
+
 		}
 			
-		super.animate();
 	}
 
 	@Override public String toString(){
