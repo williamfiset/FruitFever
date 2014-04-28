@@ -76,8 +76,6 @@ class Player extends MovingAnimation {
 		imageX += dx;
 		imageY += dy;
 
-		System.out.println(onPlatform + " " + fallingVelocity);
-
 		// Gravity Effect triggered here
 		if (!isJumping && gravity && !onPlatform) {
 
@@ -103,12 +101,27 @@ class Player extends MovingAnimation {
 	private void checkCollisionDetection(){
 
 		// EAST
-		Block eastNorth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
-		Block eastSouth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
-		
+		if (FruitFever.dx == 1) {
+
+			Block eastNorth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
+			Block eastSouth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
+
+			if (eastSouth == null && eastNorth == null)	dx = HORIZONTAL_VELOCITY;
+			else dx = 0;
+			
 		// WEST
-		Block westNorth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
-		Block westSouth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
+		} else if (FruitFever.dx == -1) {
+
+			Block westNorth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
+			Block westSouth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
+
+			// No block in back of player
+			if (westNorth == null && westSouth == null)	dx = -HORIZONTAL_VELOCITY;
+			else dx = 0; 
+		}
+
+
+		/** Test if player is going to hit a platform while falling **/
 
 		// SOUTH
 		Block southWest, southEast;
@@ -122,21 +135,8 @@ class Player extends MovingAnimation {
 			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
 		}
 
-		// EAST
-		if (FruitFever.dx == 1) {
 
-			if (eastSouth == null && eastNorth == null)	dx = HORIZONTAL_VELOCITY;
-			else dx = 0;
-			
-		// WEST
-		} else if (FruitFever.dx == -1) {
-
-			// No block in back of player
-			if (westNorth == null && westSouth == null)	dx = -HORIZONTAL_VELOCITY;
-			else dx = 0; 
-		}
-
-		// // checks if player is in free fall
+		// Checks if player is in free fall
 		if (southEast != null || southWest != null){
 			
 			onPlatform = true;	
