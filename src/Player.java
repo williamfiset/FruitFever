@@ -42,9 +42,9 @@ class Player extends MovingAnimation {
 	private int baseLine;
 
 	// Jumping motion Varibles
-	final double STARTING_JUMPING_VELOCITY = 6.25;
+	final double STARTING_JUMPING_VELOCITY = 6.25; // 6.25
 	final double STARTING_JUMPING_DECCELERATION = 0;
-	final double changeInDecceleration = 0.0255;
+	final double changeInDecceleration = 0.05; // 0.0255
 
 	double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 	double jumpingVelocity = STARTING_JUMPING_VELOCITY;
@@ -78,19 +78,15 @@ class Player extends MovingAnimation {
 			}
 			
 			// move up
-			if (imageY - jumpingVelocity > baseLine - maxJumpHeight) {
+			if (imageY - jumpingVelocity > baseLine - maxJumpHeight && jumpingVelocity > 0) {
 
 				imageY -= jumpingVelocity;
 
 				jumpingVelocity -= jumpingDecceleration;
 				jumpingDecceleration += changeInDecceleration;
 
-
 			}else{
 				
-
-				System.out.println(jumpingVelocity + " " + jumpingDecceleration);
-
 				jumpingVelocity = STARTING_JUMPING_VELOCITY;
 				jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 
