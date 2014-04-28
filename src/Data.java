@@ -130,7 +130,7 @@ public abstract class Data{
 		for(int i = 0; i < 20; i++){
 			FruitFever.levelNumbers[i] = new GLabel(String.valueOf(i));
 			FruitFever.levelNumbers[i].setFont(new Font("Helvetica", Font.BOLD, 30));
-			FruitFever.levelNumbers[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - FruitFever.levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 130 + (i/4)*55);
+			FruitFever.levelNumbers[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - FruitFever.levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
 		}
 
 		/** Add buttons and set locations **/
@@ -140,7 +140,7 @@ public abstract class Data{
 		
 /** Used to help get the sub-images from the sprite-sheet **/
 	private static GImage makeImage(BufferedImage i, int x, int y, int width, int height){
-		return new GImage(i.getSubimage(x, y, width, height));
+		return new GImage(i.getSubimage(x, y, width, height).getScaledInstance(-50, -50, 0));
 	}
 
 /** Loads objects from the file **/
@@ -238,7 +238,7 @@ public abstract class Data{
 		}
 		catch(IOException e){}
 		catch(NoSuchElementException e){
-			System.out.println("Level was not found.\n");
+			System.out.println("Level " + FruitFever.currentLevel + " was not found.\n");
 		}
 
 	}

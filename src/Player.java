@@ -13,14 +13,13 @@ import java.awt.*;
 
 class Player extends MovingAnimation {
 	
-	static int lives = 3, maxLives = 3;	
+	static int lives = 3, maxLives = 3;
 
-
-// Movement Variables
+	// Movement Variables
 	static final int VERTICAL_VELOCITY = 5, HORIZONTAL_VELOCITY = 3;
 	int dy = 0, dx = 0;
 
-// Variables concerning Gravity
+	// Variables concerning Gravity
 
 	final double STARTING_FALLING_VELOCITY = 2.5;
 	final double STARTING_FALLING_ACCELERATION = 0.5;
@@ -33,26 +32,23 @@ class Player extends MovingAnimation {
 	static boolean gravity = true;
 
 
-// Variables concerning jumping
+	// Variables concerning jumping
 	boolean isJumping = false;
 	boolean reachedBaseLine = true;
 	int maxJump;
 
 
-// The distance from a corner of the image used in collision detection
+	// The distance from a corner of the image used in collision detection
 	final int VERTICAL_PX_BUFFER = 2;
 	final int HORIZONTAL_PX_BUFFER = 3;
-
-
-	// The constructor will eventually look something like:
-	// public Player(int x, int y, GImage[] stillAnimation, GImage[] swirlAnimation, GImage[] tongueAnimation)
-	public Player(int x, int y, GImage[] temporaryImage){
-		super(x, y, temporaryImage, false, 1, true);
-		
-		/** Will: This is how you would set the boundaries of the image (the image would remain in the same location)
-		boundaryLeft = -5; boundaryRight = 12; boundaryTop = 18; boundaryBottom = -3;
-		**/
-
+	
+	GImage[] stillAnim, shootAnim, tongueAnim;
+	
+	public Player(int x, int y, GImage[] stillAnim, GImage[] shootAnim, GImage[] tongueAnim){
+		super(x, y, stillAnim, false, 1, true);
+		this.stillAnim = stillAnim;
+		this.shootAnim = shootAnim;
+		this.tongueAnim = tongueAnim;
 	}
 
 	// Has not been implemented yet, just the skeleton 
@@ -60,7 +56,6 @@ class Player extends MovingAnimation {
 
 		// The intersects overlaps by 1px
 		checkCollisionDetection();
-
 
 		// if (isJumping) {
 		// 	// move up
@@ -78,7 +73,7 @@ class Player extends MovingAnimation {
 		imageY += dy;
 
 		// Gravity Effect triggered here
-		if (!isJumping && gravity && !onPlatform) {
+		if(!isJumping && gravity && !onPlatform){
 
 			imageY += fallingVelocity;
 
@@ -88,16 +83,14 @@ class Player extends MovingAnimation {
 			
 
 		// Executes when not falling or not allowed to fall
-		}else{
-
-			// reset falling speed
+		}
+		else{
+			// Reset falling speed
 			fallingVelocity = STARTING_FALLING_VELOCITY;
 			fallingAcceleration = STARTING_FALLING_ACCELERATION;
 		}
 
 	}
-
-
 
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
@@ -105,23 +98,28 @@ class Player extends MovingAnimation {
 		/** Sideways Collisions **/
 
 		// EAST
-		if (FruitFever.dx == 1) {
+		if(FruitFever.dx == 1){
 
 			Block eastNorth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
 			Block eastSouth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
-			if (eastSouth == null && eastNorth == null)	dx = HORIZONTAL_VELOCITY;
-			else dx = 0;
+			if(eastSouth == null && eastNorth == null)
+				dx = HORIZONTAL_VELOCITY;
+			else
+				dx = 0;
 			
 		// WEST
-		} else if (FruitFever.dx == -1) {
+		}
+		else if(FruitFever.dx == -1) {
 
 			Block westNorth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
 			Block westSouth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
 			// No block in back of player
-			if (westNorth == null && westSouth == null)	dx = -HORIZONTAL_VELOCITY;
-			else dx = 0; 
+			if(westNorth == null && westSouth == null)
+				dx = -HORIZONTAL_VELOCITY;
+			else
+				dx = 0; 
 		}
 
 
@@ -131,26 +129,29 @@ class Player extends MovingAnimation {
 		Block southWest, southEast;
 
 		// Need to do this because starting starting falling velocity is never 0
-		if (gravity) {
+		if(gravity) {
 			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);			
 			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);
-		}else{
+		}
+		else{
 			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);			
 			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
 		}
 
 
 		// Checks if player is in free fall
-		if (southEast != null || southWest != null){
+		if(southEast != null || southWest != null){
 			
 			onPlatform = true;	
 
-			if (southEast != null) placePlayerOnBlock(southEast);
-			else placePlayerOnBlock(southWest);
+			if (southEast != null)
+				placePlayerOnBlock(southEast);
+			else
+				placePlayerOnBlock(southWest);
 
-		}else{
-			onPlatform = false;
 		}
+		else
+			onPlatform = false;
 
 	}
 
@@ -160,7 +161,7 @@ class Player extends MovingAnimation {
 
 	/** Places the player on top of the block he is currently on **/
 	private void placePlayerOnBlock(Block block){
-		if (onPlatform)
+		if(onPlatform)
 			imageY = block.y - block.width;
 	}
 
@@ -169,13 +170,8 @@ class Player extends MovingAnimation {
 	
 		lives += changeInLives;
 		
-		for(int i = 0; i < maxLives; i++){
-			if(i < lives)
-				FruitFever.livesImages[i].setVisible(true);
-			else
-				FruitFever.livesImages[i].setVisible(false);
-		}
-	
+		for(int i = 0; i < maxLives; i++)
+			FruitFever.livesImages[i].setVisible(i < lives);
 
 	}
 
@@ -184,24 +180,3 @@ class Player extends MovingAnimation {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

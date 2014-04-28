@@ -31,6 +31,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 	static int viewX = 0, viewY = 0;
 	static int currentLevel = 1;
+	static int levelSelectionPage = 0; // 0-based, just like the levels
 
 	static int playerStartX = 100, playerStartY= 100;
 	static int dx = 0, dy = 0;
@@ -85,27 +86,39 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		int keyCode = key.getKeyCode();
 
-		// Horizontal Movement
-		switch (keyCode) {
+		switch(keyCode){
+		
+			// Horizontal Movement
 			case KeyEvent.VK_A: case KeyEvent.VK_LEFT: dx = -1; break;
 			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT: dx = 1; break;
-		}
-
-		// Vertical Movement 
-		switch (keyCode) {
+			
+			// Vertical Movement 
 			case KeyEvent.VK_W: case KeyEvent.VK_UP: dy = -1; break;
 			case KeyEvent.VK_S: case KeyEvent.VK_DOWN: dy = 1; break;
+			
 		}
 	}
 	
 	@Override public void keyTyped(KeyEvent key){}
 
 	@Override public void keyReleased(KeyEvent key){
+		
+		int keyCode = key.getKeyCode();
 
-		dx = 0;
-		dy = 0;
-		player.dx = 0;
-		player.dy = 0;
+		switch(keyCode){
+		
+			case KeyEvent.VK_A: case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_W: case KeyEvent.VK_UP:
+			case KeyEvent.VK_S: case KeyEvent.VK_DOWN:
+			dx = 0;
+			dy = 0;
+			player.dx = 0;
+			player.dy = 0;
+			
+		}
+
+		
 
 	}
 	
@@ -163,10 +176,30 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					
 				}
 				
+				// Level left arrow button
+				else if(clickedOnButton.type == 4){
+					
+					if(levelSelectionPage > 0){
+						levelSelectionPage--;
+						shiftLevelLabel(-20);
+					}
+					
+				}
+				
+				// Level right arrow button
+				else if(clickedOnButton.type == 5){
+					
+					if(levelSelectionPage < 4){
+						levelSelectionPage++;
+						shiftLevelLabel(20);
+					}
+					
+				}
+				
 				// Level button
 				else if(clickedOnButton.type == 6){
 
-					currentLevel = clickedOnButton.level;
+					currentLevel = clickedOnButton.level + levelSelectionPage*20;
 					loadLevel();
 					currentScreen = 3;
 					
@@ -183,6 +216,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	private void drawMainMenu(){
 		removeAll();
 		addToScreen(mainMenuButtons);
+		levelSelectionPage = 0;
 	}
 	
 	private void drawLevelSelection(){
@@ -218,7 +252,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 		
 		// Creates the Player class
-		player = new Player(playerStartX, playerStartY, Data.playerStill) ;
+		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerShoot, Data.playerTongue);
 		
 		/** TESTING PURPOSES ONLY **/
 		things.add(new Animation(0, 50, Data.redBerryAnimation, true, 3, true));
@@ -270,5 +304,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				obj.setClick();
 				clickedOnButton = obj;
 			}
+	}
+	
+	public void shiftLevelLabel(int shift){
+	
+		for(int i = 0; i < 20; i++){
+			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
+			levelNumbers[i].setLocation((int) (SCREEN_WIDTH/2 - levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
+		}
+			
 	}
 }
