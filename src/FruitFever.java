@@ -96,9 +96,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 
 		if (keyCode == KeyEvent.VK_W) {
-
 			player.setIsJumping(true);
-
 		}
 	}
 	
@@ -113,7 +111,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// 		player.shootSwirl();
 		// }
 
-	}**/
+	}
+	**/
 
 	@Override public void keyReleased(KeyEvent key){
 		
