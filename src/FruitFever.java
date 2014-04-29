@@ -41,6 +41,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static GImage[] livesImages = new GImage[player.maxLives];
 	
 	static int vx;
+	final static int LEFT_BOUNDARY = (int) (SCREEN_WIDTH * 0.25);
+	final static int RIGHT_BOUNDARY = (int) (SCREEN_WIDTH * 0.75);
+
 
 	// Uneccessary now that the code is moved into the run method? What exactly is this overriding?
 	@Override public void init() {}
@@ -50,6 +53,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		postInit();
 		
+		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 5, SCREEN_HEIGHT);
+		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 5, SCREEN_HEIGHT);
+
+		leftRect.setFillColor(Color.RED);
+		rightRect.setFillColor(Color.RED);
+
+		leftRect.setFilled(true);
+		rightRect.setFilled(true);
+
 		while(true){
 			
 			// Playing
@@ -66,7 +78,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				player.motion();
 				player.animate();
 
-				// System.out.println(viewX);
+				System.out.println(player.x + " " + Player.playerHasEnteredScreenZone);
+
+				add(leftRect);
+				add(rightRect);
 
 			}
 			
@@ -97,11 +112,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				addToThings(new MovingAnimation(player.x - 15 + viewX, player.y + 5 + viewY, Data.swirlAnimation, false, 0, true, -10, 0, 1));
 			player.shootSwirl();
 		
+
 		// Movement LEFT
 		}else if (keyCode == KeyEvent.VK_A) {
 
 			// HARDCODED VALUES WILL disappear 
-			if (player.x > 100 && player.x < 500){
+			if (player.x > LEFT_BOUNDARY && player.x < RIGHT_BOUNDARY){
 				vx = -player.HORIZONTAL_VELOCITY;
 			} else{
 				vx = 0;
@@ -110,6 +126,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			player.facingRight = false; 
 			dx = -1;
 		
+
 		// Movement RIGHT
 		}else if (keyCode == KeyEvent.VK_D) {
 			
@@ -117,7 +134,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			player.facingRight = true;
 
 			// HARDCODED VALUES WILL disappear 
-			if (player.x > 100 && player.x < 500 ){
+			if (player.x > LEFT_BOUNDARY && player.x < RIGHT_BOUNDARY ){
 				vx = player.HORIZONTAL_VELOCITY;
 			}else{
 				vx = 0;
@@ -147,8 +164,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	@Override public void mouseMoved(MouseEvent mouse) {
 	
 		/** Check to see if the mouse is hovering over any images and sets them accordingly **/
-		for(Button obj : buttons){
 		
+		for (int i = 0; i < buttons.size(); i++ ) {
+			
+			Button obj = buttons.get(i);
+
 			if(obj.equals(clickedOnButton))
 				continue;
 				
@@ -156,8 +176,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				obj.setHover();
 			else
 				obj.setDefault();
-				
+
 		}
+
 	}
 
 	@Override public void mouseDragged(MouseEvent mouse) {
