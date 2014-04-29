@@ -109,7 +109,7 @@ public abstract class Data{
 			playerTongueH[i] = ImageTransformer.horizontalFlip(playerTongue[i]);
 		}
 		for(int i = 0; i < 6; i++){
-			playerShoot[i] = makeImage(sheet, TILE_SIZE*15, TILE_SIZE*(i + 1), TILE_SIZE*3, TILE_SIZE);	
+			playerShoot[i] = makeImage(sheet, TILE_SIZE*16, TILE_SIZE*(i + 1), TILE_SIZE*3, TILE_SIZE); 
 			playerShootH[i] = ImageTransformer.horizontalFlip(playerShoot[i]);	
 		}
 		
