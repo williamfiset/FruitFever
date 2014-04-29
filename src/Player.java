@@ -30,6 +30,8 @@ class Player extends MovingAnimation {
 
 	private static boolean onPlatform = false;
 	private static boolean gravity = true;
+	
+	public static boolean facingRight = true;
 
 
 // Variables concerning jumping
@@ -54,13 +56,16 @@ class Player extends MovingAnimation {
 	final int HORIZONTAL_PX_BUFFER = 3;
 	
 
-	GImage[] stillAnim, shootAnim, tongueAnim;
+	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	
-	public Player(int x, int y, GImage[] stillAnim, GImage[] shootAnim, GImage[] tongueAnim){
+	public Player(int x, int y, GImage[] stillAnim, GImage[] stillAnimH, GImage[] shootAnim, GImage[] shootAnimH, GImage[] tongueAnim, GImage[] tongueAnimH){
 		super(x, y, stillAnim, false, 1, true, 0);
 		this.stillAnim = stillAnim;
+		this.stillAnimH = stillAnimH;
 		this.shootAnim = shootAnim;
+		this.shootAnimH = shootAnimH;
 		this.tongueAnim = tongueAnim;
+		this.tongueAnimH = tongueAnimH;
 	}
 
 	// Has not been implemented yet, just the skeleton 
@@ -248,13 +253,16 @@ class Player extends MovingAnimation {
 		isJumping = false;
 	}
 
-	public void toungueAttack(){}
+	public void tongueAttack(){}
 	
 	public void shootSwirl(){
 	
 		doneAnimating = false;
 		counter = -1;
-		images = shootAnim;
+		if(facingRight)
+			images = shootAnim;
+		else
+			images = shootAnimH;
 		repeat = false;
 		
 	}
@@ -271,12 +279,36 @@ class Player extends MovingAnimation {
 	
 	// Overrides MovingAnimation.animate()
 	@Override public void animate(){
+		System.out.println("Before: " + images + " " + facingRight);
+		
+		if(facingRight){
+			if(images.equals(stillAnimH))
+				images = stillAnim;
+			else if(images.equals(shootAnimH))
+				images = shootAnim;
+			else if(images.equals(tongueAnimH))
+				images = tongueAnim;
+		}
+		else{
+			if(images.equals(stillAnim))
+				images = stillAnimH;
+			else if(images.equals(shootAnim))
+				images = shootAnimH;
+			else if(images.equals(tongueAnim))
+				images = tongueAnimH;
+		}
+		System.out.println("After: " + images + " " + facingRight);
 		
 		super.animate();
 		
 		if(doneAnimating){
 			counter = -1;
-			images = stillAnim;
+			
+			if(facingRight)
+				images = stillAnim;
+			else
+				images = stillAnimH;
+				
 			repeat = true;
 
 			width = (int) stillAnim[0].getWidth();
