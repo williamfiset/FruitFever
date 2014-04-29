@@ -75,8 +75,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				player.motion();
 
-				System.out.println(player.width + " " + player.height + " " );
-
 			}
 			
 			pause(MAIN_LOOP_SPEED);
@@ -267,6 +265,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			add(obj.image);
 		}
 		
+		for (Thing thing : things ) {
+			thing.image.setLocation(thing.getX(), thing.getY());
+			add(thing.image);
+		}
+		
 		// Creates the Player class
 		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerShoot, Data.playerTongue);
 		
@@ -284,6 +287,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
 			add(livesImages[i]);
 		}
+
+
 	
 	}
 	
