@@ -13,54 +13,76 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
-	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
+	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 80;
+	static int LEVEL_WIDTH = 0, LEVEL_HEIGTH = 0;
+
+	static Player player;
+
+// Game Object Lists
 	static ArrayList<Block> blocks = new ArrayList<Block>();
 	static ArrayList<Thing> things = new ArrayList<Thing>();
-	static Player player;
 	
+// Menu/Level selection variables	
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
-	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other arraylists)
+	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other array lists)
 	static Button clickedOnButton = null;
-	
+
 	static GLabel[] levelNumbers = new GLabel[20];
+	static GImage[] livesImages = new GImage[player.maxLives];
+
 	
-	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
+	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
 	static int currentScreen = 1;
-	
-	static int viewX = 0, viewY = 0;
 	static int currentLevel = 1;
 	static int levelSelectionPage = 0; // 0-based, just like the levels
 
-	static int playerStartX = 100, playerStartY= 100;
-	static int dx = 0, dy = 0;
-	
 	static Thing levelBackDrop;
 
-	static GImage[] livesImages = new GImage[player.maxLives];
-	
-	static int vx;
+// Player Variables
+
+	static int playerStartX = 100, playerStartY= 100;
+	static int dx = 0, dy = 0;
+
+
+// Screen View Variables
+
 	final static int LEFT_BOUNDARY = (int) (SCREEN_WIDTH * 0.25);
 	final static int RIGHT_BOUNDARY = (int) (SCREEN_WIDTH * 0.75);
+	final static int UP_BOUNDARY = (int) (SCREEN_HEIGHT * 0.25);
+	final static int DOWN_BOUNDARY = (int) (SCREEN_HEIGHT * 0.75);
+		
+	static int viewX = 0, viewY = 0;
+	static int vx, vy; // Δ in viewX & viewY
 
 
-	// Uneccessary now that the code is moved into the run method? What exactly is this overriding?
+
+	// Unnecessary now that the code is moved into the run method? What exactly is this overriding?
 	@Override public void init() {}
 	
+
 /** Contains the main game loop **/
 	@Override public void run(){
 		
 		postInit();
 		
-		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 5, SCREEN_HEIGHT);
-		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 5, SCREEN_HEIGHT);
+		/** TEMPORARY **/
+		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
+		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3);
 
 		leftRect.setFillColor(Color.RED);
 		rightRect.setFillColor(Color.RED);
+		upRect.setFillColor(Color.RED);
+		downRect.setFillColor(Color.RED);
 
 		leftRect.setFilled(true);
 		rightRect.setFilled(true);
+		downRect.setFilled(true);
+		upRect.setFilled(true);
+		/** TEMPORARY **/
 
 		while(true){
 			
@@ -78,10 +100,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				player.motion();
 				player.animate();
 
-				System.out.println(player.x + " " + Player.playerHasEnteredScreenZone);
-
 				add(leftRect);
 				add(rightRect);
+				add(upRect);
+				add(downRect);
+
+				System.out.printf("x: %d y: %d \n", player.x , player.y);
 
 			}
 			
@@ -116,49 +140,28 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Movement LEFT
 		}else if (keyCode == KeyEvent.VK_A) {
 
-			// HARDCODED VALUES WILL disappear 
-			if (player.x > LEFT_BOUNDARY && player.x < RIGHT_BOUNDARY){
-				vx = -player.HORIZONTAL_VELOCITY;
-			} else{
-				vx = 0;
-			}
-
 			player.facingRight = false; 
 			dx = -1;
 		
-
 		// Movement RIGHT
 		}else if (keyCode == KeyEvent.VK_D) {
 			
 			dx = 1;
 			player.facingRight = true;
-
-			// HARDCODED VALUES WILL disappear 
-			if (player.x > LEFT_BOUNDARY && player.x < RIGHT_BOUNDARY ){
-				vx = player.HORIZONTAL_VELOCITY;
-			}else{
-				vx = 0;
-			}
 			
 		}
-
 	}
 	
 	@Override public void keyReleased(KeyEvent key){
 		
 		int keyCode = key.getKeyCode();
 
-		// Doing this makes sure your not cutting the movement flow of the player
-		// if you press another irrelevant key
-
 		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
 			dx = 0;
 			player.dx = 0;
 			vx = 0;
+			vy = 0;
 		}
-
-
-
 	}
 	
 	@Override public void mouseMoved(MouseEvent mouse) {
@@ -176,9 +179,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				obj.setHover();
 			else
 				obj.setDefault();
-
 		}
-
 	}
 
 	@Override public void mouseDragged(MouseEvent mouse) {
@@ -285,6 +286,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Loads all Blocks and Things
 		Data.loadObjects("../levels/levels.txt", currentLevel);
 
+		// Get Level Width and Height
+		for (Block block : blocks ) {
+			
+			if (block.x > LEVEL_WIDTH)
+				LEVEL_WIDTH = block.x;
+
+			if (block.y > LEVEL_HEIGTH)
+				LEVEL_HEIGTH = block.y;
+		}
 
 		// Displays all blocks on-screen
 		for(Block obj : blocks){
@@ -357,7 +367,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 	}
 	
-	public void postInit(){
+	private void postInit(){
 	
 		// Loading screen
 		GLabel loadingText = new GLabel("Loading...");
@@ -373,9 +383,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		// Renders Images in the Data class, and fills the object Arrays^
 		Data.loadImages();
-	
+
 		drawMainMenu();
 	
 	}
 	
 }
+
+
+
+
+
+
+
+
+
