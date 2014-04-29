@@ -10,7 +10,7 @@ BUTTON TYPES:
 	6 - Level boxes
 _____________________________________________________________________________________________
 
-MOVINGANIMATION TYPES:
+MOVING ANIMATION TYPES:
 
 	0 - Player
 	1 - Swirl
@@ -92,26 +92,24 @@ ________________________________________________________________________________
 
 	SCENERY (each Scenery object also has an associated type/integer value, but this is not used for building the levels):
 	
-		NOTE: Will, I gave these (poor) names, can you give them better names, since you know exactly what they are?
-
 		-TOP ROW:
-		Wide Plant (V-Shaped) 	(0)  --> a
+		Wide Plant (V-Shaped)	(0)  --> a
 		Weeds 					(1)  --> b
-		Yellow Flower 		  	(2)  --> c
-		Pink Flower 		  	(3)  --> d
-		Plant 				  	(4)  --> e
-		Tree (No Blossoms) 	  	(5)  --> f
-		Tree (Blossoms) 	  	(6)  --> g
+		Yellow Flower			(2)  --> c
+		Pink Flower				(3)  --> d
+		Plant 					(4)  --> e
+		Tree (No Blossoms)		(5)  --> f
+		Tree (Blossoms)			(6)  --> g
 		
 		-BOTTOM ROW:
 		Tree Trunk				(7)  --> h
-		Grass 				  	(8)  --> i
-		Plant2 				  	(9)  --> j
-		Marijuana Plant 	  	(10) --> k
+		Grass					(8)  --> i
+		Plant2					(9)  --> j
+		Marijuana Plant			(10) --> k
 		Plant3 					(11) --> l
-		Mushroom (Small) 		(12) --> m
-		Mushroom (Medium) 		(13) --> n
-		Mushroom (Large) 		(14) --> o
+		Mushroom (Small)		(12) --> m
+		Mushroom (Medium)		(13) --> n
+		Mushroom (Large)		(14) --> o
 		
 	ENEMIES:
 
@@ -150,6 +148,8 @@ ________________________________________________________________________________
 	-GameStarter
 	
 	-Data
+	
+	-ImageTransformer
 	
 	-Rectangle (part of java.awt.*)
 		-Thing
