@@ -186,7 +186,7 @@ public abstract class Data{
 						
 					// Lava
 					if(line.charAt(i) == '~'){
-						FruitFever.things.add(new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, lavaImage));
+						FruitFever.things.add(new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, lavaImage));
 						continue;
 					}
 					
