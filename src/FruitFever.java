@@ -40,6 +40,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	static GImage[] livesImages = new GImage[player.maxLives];
 	
+	static int vx;
+
 	@Override public void init() {
 		
 		// Set up keyboard and mouse
@@ -74,6 +76,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					obj.image.setLocation(obj.getX() - viewX, obj.getY() - viewY);
 
 				player.motion();
+				viewX += vx;
 
 			}
 			
@@ -94,8 +97,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 
 		// JUMP
-		if(keyCode == KeyEvent.VK_W)
+		if(keyCode == KeyEvent.VK_W){
 			player.setIsJumping(true);
+			vx = 1;
+		}
 
 		// Tougue Attack
 		else if (keyCode == KeyEvent.VK_S)
@@ -136,7 +141,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
 			dx = 0;
 			player.dx = 0;
+			vx = 0;
 		}
+
+
 
 	}
 	

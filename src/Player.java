@@ -279,7 +279,7 @@ class Player extends MovingAnimation {
 	
 	// Overrides MovingAnimation.animate()
 	@Override public void animate(){
-		System.out.println("Before: " + images + " " + facingRight);
+		
 		
 		if(facingRight){
 			if(images.equals(stillAnimH))
@@ -297,7 +297,7 @@ class Player extends MovingAnimation {
 			else if(images.equals(tongueAnim))
 				images = tongueAnimH;
 		}
-		System.out.println("After: " + images + " " + facingRight);
+		
 		
 		super.animate();
 		
