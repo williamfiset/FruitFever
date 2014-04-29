@@ -89,22 +89,24 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Horizontal Movement
 		switch(keyCode){
 		
-			case KeyEvent.VK_A: dx = -1; break;
-			case KeyEvent.VK_D: dx = 1; break;
+			case KeyEvent.VK_A: dx = -1; player.facingRight = false; break;
+			case KeyEvent.VK_D: dx = 1; player.facingRight = true; break;
 		}
 
 		// JUMP
-		if (keyCode == KeyEvent.VK_W) {
+		if(keyCode == KeyEvent.VK_W)
 			player.setIsJumping(true);
 
 		// Tougue Attack
-		}else if (keyCode == KeyEvent.VK_S) {
-
-			// Add animation
+		else if (keyCode == KeyEvent.VK_S)
+			player.tongueAttack();
 
 		// Shoot Swirl
-		} else if (keyCode == KeyEvent.VK_SPACE) {
-			addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));				
+		else if (keyCode == KeyEvent.VK_SPACE){
+			if(player.facingRight)
+				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));
+			else
+				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, -10, 0, 1));
 			player.shootSwirl();
 		}
 
@@ -271,7 +273,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 		
 		// Creates the Player class
-		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerShoot, Data.playerTongue);
+		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
 		
 		/** TESTING PURPOSES ONLY **/
 		addToThings(new Animation(0, 50, Data.redBerryAnimation, true, 3, true));
