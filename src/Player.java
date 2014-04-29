@@ -16,7 +16,7 @@ class Player extends MovingAnimation {
 	static int lives = 3, maxLives = 3;
 
 // Movement Variables
-	static final int HORIZONTAL_VELOCITY = 3;
+	static final int HORIZONTAL_VELOCITY = 5;
 	int dx = 0;
 
 // Variables concerning Gravity
@@ -30,20 +30,18 @@ class Player extends MovingAnimation {
 
 	private static boolean onPlatform = false;
 	private static boolean gravity = true;
-	
-	public static boolean facingRight = true;
 
 
 // Variables concerning jumping
 	
 	// setBaseLine is true because we don't know where the player starts
 	private boolean setBaseLine = true;
-	private boolean isJumping = false;
+	public boolean isJumping = false;
 
 	int maxJumpHeight = (3*25 + 25/2); // 3.5 tile jump limit
 	private int baseLine;
 
-	// Jumping motion Varibles
+// Jumping motion Variables
 	final double STARTING_JUMPING_VELOCITY = 6.25; 
 	final double STARTING_JUMPING_DECCELERATION = 0;
 	final double changeInDecceleration = 0.043; 
@@ -55,11 +53,11 @@ class Player extends MovingAnimation {
 	final int VERTICAL_PX_BUFFER = 2;
 	final int HORIZONTAL_PX_BUFFER = 3;
 	
-// For Screen movement
-	static boolean playerHasEnteredScreenZone = false;
 
+// Animation things
 	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
-	
+	public static boolean facingRight = true;
+
 
 	public Player(int x, int y, GImage[] stillAnim, GImage[] stillAnimH, GImage[] shootAnim, GImage[] shootAnimH, GImage[] tongueAnim, GImage[] tongueAnimH){
 		super(x, y, stillAnim, false, 1, true, 0);
@@ -73,57 +71,57 @@ class Player extends MovingAnimation {
 		boundaryRight = -Data.TILE_SIZE;
 	}
 
-	// Has not been implemented yet, just the skeleton 
+	/** Calls all the players actions **/
 	public void motion(){
 
 		checkCollisionDetection();
+
 		jumpingEffect();
 
-		// Resets players ability to jump
-		if(onPlatform) setBaseLine = false;
-		// if(!onPlatform && !isJumping) isJumping = false;
+		enableJumping();
 
 		gravityEffect();
+
 		relativisticScreenMovement();
 
-		imageX += dx;
-
+		imageX += dx;	
+		
 	}
 
+	/** Resets players ability to jump if applicable **/
+	private void enableJumping(){
+		if(onPlatform)
+			setBaseLine = false;
+	}
 
-	// HARDCODED VALUES WILL DISAPPEAR!
+	//** Moves the view with respect to the character **/
 	private void relativisticScreenMovement(){
 
-		// Player is on the edge of screen
-		if (!playerHasEnteredScreenZone){
-
-			// Player has entered the relativisticScreenZone
-			if (x > FruitFever.LEFT_BOUNDARY && x < FruitFever.RIGHT_BOUNDARY)
-				playerHasEnteredScreenZone = true;
+		// Horizontal screen movement
+		if (x > FruitFever.RIGHT_BOUNDARY && dx > 0) {
+			
+			// Makes sure view never passes maximum level width 
+			if (FruitFever.viewX >= FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
+				FruitFever.vx = 0;
+			else
+				FruitFever.vx = dx;	
 		
-		// Player is somewhere in the middle of the screen
-		}else {
-	
+		}else if (x < FruitFever.LEFT_BOUNDARY && dx < 0) {
 
-			if (x < FruitFever.LEFT_BOUNDARY) {
-
-				System.out.println("LEFT");
-
-				// Means the player can 'push' screen left
-				if (FruitFever.viewX <= 0)
-					FruitFever.viewX += FruitFever.vx;
-
-			}else if (x > FruitFever.RIGHT_BOUNDARY) {
-				
-				System.out.println("RIGHT");				
-				FruitFever.viewX += FruitFever.vx;	
-			}
-
-			if (x < FruitFever.LEFT_BOUNDARY && FruitFever.viewX > 0) {
-				playerHasEnteredScreenZone = false;
-			}
-
+			// Makes sure view never shows blank left of screen
+			if (FruitFever.viewX <= 0)
+				FruitFever.vx = 0;
+			else
+				FruitFever.vx = dx;	
 		}
+
+		if (y > FruitFever.DOWN_BOUNDARY) {
+			FruitFever.vy = (int) fallingVelocity;
+		}
+
+		FruitFever.viewX += FruitFever.vx;
+		FruitFever.viewY += FruitFever.vy;
+
 	}
 
 	/** Responds accordingly to collision detection **/
@@ -271,12 +269,15 @@ class Player extends MovingAnimation {
 			imageY = block.y - block.width;
 	}
 
-	/** It was a good idea to have a setter for IsJumping.  
+	/** 
+	 * It was a good idea to have a setter for IsJumping.  
 	 * For example you don't always want to set isJumping to true if the
-	 * character is in free fall. **/
+	 * character is in free fall. 
+	 **/
 	public void setIsJumping(boolean value){
 
-		if (!setBaseLine)
+		// If you are not jumping and are on a platform
+		if (!setBaseLine && onPlatform)
 			isJumping = true;
 	}
 
