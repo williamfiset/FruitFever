@@ -212,7 +212,7 @@ public abstract class Data{
 				for(int i = 0; i < line.length(); i++){
 
 					// Skip if it's a blank
-					if(line.charAt(i) == '-')
+					if(line.charAt(i) == '-' || line.charAt(i) == '#')
 						continue;
 
 					int type = line.charAt(i) - 'a';
