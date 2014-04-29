@@ -199,3 +199,77 @@ HELPFUL NOTES BY MICAH:
 		public static Block[] blocks;
 		public static ArrayList<Thing> things = new ArrayList<Thing>();
 		public static ArrayList<Button> buttons = new ArrayList<Button>();
+
+
+________________________________________________________________________________________________________
+
+HELPFUL NOTES BY WILL
+
+
+1. How makeSceneryTemplate.py works and what it is used for:
+   
+   Say you just made a huge level in levels.txt and now you want to place some scenery on it.
+   Instead of guessing the positions of the blocks in the block layer you can use the mkTemp.py to generate a template for you. This works by interpreting any sprite in the block layer as a '#' (which I added to be a transprent block like '-') besides the '-'. 
+
+   How to make it work:
+
+   Paste the block layer in the file called 'sceneryTemplateFile.txt' and then run the python script in the terminal with $ python mkTemp.py then open the 'sceneryTemplateFile.txt' to see the template made. Example:
+
+   In levels.txt      sceneryTemplateFile.txt       sceneryTemplateFile.txt        
+
+   ---d---                ---d---                          ---#---                          
+   ---a-a-                ---a-a-   $ python mkTemp.py     ---#-#-                           
+   --abba-  ----->        --abba-            ------>       --####-                       
+   -acc---                -acc---                          -###---
+   +                                                                                    
+   -------                                                                             
+   -------                                                                             
+   -------                                                                      
+   -------                                                                      
+
+   Now you have a file with an outline of the blocks in the block layer 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
