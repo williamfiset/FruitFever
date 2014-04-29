@@ -48,22 +48,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 /** Contains the main game loop **/
 	@Override public void run(){
 		
-		// Loading screen
-		GLabel loadingText = new GLabel("Loading...");
-		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth(), SCREEN_HEIGHT/2);
-		add(loadingText);
-		
-		// Set up keyboard and mouse
-		addMouseListeners();
-		addKeyListeners();
-		
-		// Set size
-		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-		
-		// Renders Images in the Data class, and fills the object Arrays^
-		Data.loadImages();
-	
-		drawMainMenu();
+		postInit();
 		
 		while(true){
 			
@@ -79,8 +64,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					obj.animate();
 
 				player.motion();
+				player.animate();
 
-				System.out.println(viewX);
+				// System.out.println(viewX);
 
 			}
 			
@@ -108,7 +94,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			if(player.facingRight)
 				addToThings(new MovingAnimation(player.x + 15 + viewX, player.y + 5 + viewY, Data.swirlAnimation, false, 0, true, 10, 0, 1));
 			else
-				addToThings(new MovingAnimation(player.x + 15 + viewX, player.y + 5 + viewY, Data.swirlAnimation, false, 0, true, -10, 0, 1));
+				addToThings(new MovingAnimation(player.x - 15 + viewX, player.y + 5 + viewY, Data.swirlAnimation, false, 0, true, -10, 0, 1));
 			player.shootSwirl();
 		
 		// Movement LEFT
@@ -299,7 +285,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true));
 		addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true));
 		/** **/
-		addToThings(player);
+		
+		add(player.image);
 		
 		// Loads the Hearts
 		for(int i = 0; i < player.maxLives; i++){
@@ -308,8 +295,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			add(livesImages[i]);
 		}
 
-
-	
 	}
 	
 	// Uneccesary because of removeAll()?
@@ -349,6 +334,27 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		obj.image.setLocation(obj.x, obj.y);
 		add(obj.image);
 		
+	}
+	
+	public void postInit(){
+	
+		// Loading screen
+		GLabel loadingText = new GLabel("Loading...");
+		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth(), SCREEN_HEIGHT/2);
+		add(loadingText);
+		
+		// Set up keyboard and mouse
+		addMouseListeners();
+		addKeyListeners();
+		
+		// Set size
+		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+		
+		// Renders Images in the Data class, and fills the object Arrays^
+		Data.loadImages();
+	
+		drawMainMenu();
+	
 	}
 	
 }

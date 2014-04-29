@@ -101,15 +101,15 @@ public abstract class Data{
 			
 		/** Player Images **/
 		
-		playerStill[0] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		playerStill[0] = makeImage(sheet, TILE_SIZE*13, TILE_SIZE, TILE_SIZE*3, TILE_SIZE);
 		playerStillH[0] = ImageTransformer.horizontalFlip(playerStill[0]);
 		
 		for(int i = 0; i < 9; i++){
-			playerTongue[i] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE*(i + 1), TILE_SIZE*2, TILE_SIZE);
+			playerTongue[i] = makeImage(sheet, TILE_SIZE*13, TILE_SIZE*(i + 1), TILE_SIZE*3, TILE_SIZE);
 			playerTongueH[i] = ImageTransformer.horizontalFlip(playerTongue[i]);
 		}
 		for(int i = 0; i < 6; i++){
-			playerShoot[i] = makeImage(sheet, TILE_SIZE*16, TILE_SIZE*(i + 1), TILE_SIZE*2, TILE_SIZE);	
+			playerShoot[i] = makeImage(sheet, TILE_SIZE*15, TILE_SIZE*(i + 1), TILE_SIZE*3, TILE_SIZE);	
 			playerShootH[i] = ImageTransformer.horizontalFlip(playerShoot[i]);	
 		}
 		

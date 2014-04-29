@@ -66,6 +66,8 @@ class Player extends MovingAnimation {
 		this.shootAnimH = shootAnimH;
 		this.tongueAnim = tongueAnim;
 		this.tongueAnimH = tongueAnimH;
+		boundaryLeft = Data.TILE_SIZE;
+		boundaryRight = -Data.TILE_SIZE;
 	}
 
 	// Has not been implemented yet, just the skeleton 
@@ -75,7 +77,7 @@ class Player extends MovingAnimation {
 		jumpingEffect();
 
 		// Resets players ability to jump
-		if (onPlatform) setBaseLine = false;
+		if(onPlatform) setBaseLine = false;
 
 		gravityEffect();
 		relativisticScreenMovement();
@@ -88,13 +90,11 @@ class Player extends MovingAnimation {
 	// HARDCODED VALUES WILL DISAPPEAR!
 	private void relativisticScreenMovement(){
 
-		if (x <= 100) {
+		if(x <= 100)
 			FruitFever.viewX = 0;
-		}
 
-		if (FruitFever.viewX >= 0 && x > 100 && x < 500) {
+		if(FruitFever.viewX >= 0 && x > 100 && x < 500)
 			FruitFever.viewX += FruitFever.vx;	
-		}
 
 	}
 
@@ -111,16 +111,16 @@ class Player extends MovingAnimation {
 	private void jumpingEffect(){
 
 		// Jumping event was Triggered
-		if (isJumping) {
+		if(isJumping) {
 
 			// Sets baseLine (where the player started before jumping)
-			if (!setBaseLine){
+			if(!setBaseLine){
 				baseLine = y;
 				setBaseLine = true;	
 			}
 			
 			// Player has not yet hit the maximum jump limit
-			if (imageY - jumpingVelocity > baseLine - maxJumpHeight && jumpingVelocity > 0) {
+			if(imageY - jumpingVelocity > baseLine - maxJumpHeight && jumpingVelocity > 0) {
 
 				imageY -= jumpingVelocity;
 
@@ -128,9 +128,9 @@ class Player extends MovingAnimation {
 				jumpingDecceleration += changeInDecceleration;
 
 			// Player has reached maxHeight, gravity now kicks in
-			}else{
-				resetJump();				
 			}
+			else
+				resetJump();				
 		}
 	}
 
@@ -192,10 +192,9 @@ class Player extends MovingAnimation {
 		Block northWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
 		Block northEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
 
-		// Collision on block above this one ahs happened
-		if (northWest != null || northEast != null) {
+		// Collision on block above this one has happened
+		if (northWest != null || northEast != null)
 			resetJump();
-		}
 
 	}
 
@@ -207,11 +206,11 @@ class Player extends MovingAnimation {
 		Block southWest, southEast;
 
 		// Need to do this because starting starting falling velocity is never 0
-		if(gravity) {
+		if (gravity) {
 			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);			
 			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);
 		}
-		else{
+		else {
 			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);			
 			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
 		}
@@ -223,7 +222,7 @@ class Player extends MovingAnimation {
 	private void checkForFreeFall(Block southEast, Block southWest){
 
 		// Checks if player is in free fall
-		if(southEast != null || southWest != null){
+		if (southEast != null || southWest != null) {
 			
 			onPlatform = true;	
 
@@ -239,8 +238,8 @@ class Player extends MovingAnimation {
 
 
 	/** Places the player on top of the block he is currently on **/
-	private void placePlayerOnBlock(Block block){
-		if(onPlatform)
+	private void placePlayerOnBlock(Block block) {
+		if (onPlatform)
 			imageY = block.y - block.width;
 	}
 
@@ -261,17 +260,33 @@ class Player extends MovingAnimation {
 		isJumping = false;
 	}
 
-	public void tongueAttack(){}
+	public void tongueAttack(){
+	
+		// Adjust Animation variables
+		doneAnimating = false;
+		counter = -1;
+		repeat = false;
+		
+		// Switch animation images
+		if(facingRight)
+			images = tongueAnim;
+		else
+			images = tongueAnimH;
+		
+	}
 	
 	public void shootSwirl(){
 	
+		// Adjust Animation variables
 		doneAnimating = false;
 		counter = -1;
+		repeat = false;
+		
+		// Switch animation images
 		if(facingRight)
 			images = shootAnim;
 		else
 			images = shootAnimH;
-		repeat = false;
 		
 	}
 
@@ -287,7 +302,6 @@ class Player extends MovingAnimation {
 	
 	// Overrides MovingAnimation.animate()
 	@Override public void animate(){
-		
 		
 		if(facingRight){
 			if(images.equals(stillAnimH))
@@ -306,23 +320,24 @@ class Player extends MovingAnimation {
 				images = tongueAnimH;
 		}
 		
-		
-		super.animate();
-		
 		if(doneAnimating){
+		
+			// Adjust Animation variables
+			repeat = true;
 			counter = -1;
+			doneAnimating = false;
 			
+			// Switch animation images
 			if(facingRight)
 				images = stillAnim;
 			else
 				images = stillAnimH;
-				
-			repeat = true;
-
-			width = (int) stillAnim[0].getWidth();
-			height = (int) stillAnim[0].getHeight();
 
 		}
+		
+		System.out.println(images.toString());
+		
+		super.animate();
 			
 	}
 
