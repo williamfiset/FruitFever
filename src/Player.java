@@ -55,9 +55,12 @@ class Player extends MovingAnimation {
 	final int VERTICAL_PX_BUFFER = 2;
 	final int HORIZONTAL_PX_BUFFER = 3;
 	
+// For Screen movement
+	static boolean playerHasEnteredScreenZone = false;
 
 	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	
+
 	public Player(int x, int y, GImage[] stillAnim, GImage[] stillAnimH, GImage[] shootAnim, GImage[] shootAnimH, GImage[] tongueAnim, GImage[] tongueAnimH){
 		super(x, y, stillAnim, false, 1, true, 0);
 		this.stillAnim = stillAnim;
@@ -78,6 +81,7 @@ class Player extends MovingAnimation {
 
 		// Resets players ability to jump
 		if(onPlatform) setBaseLine = false;
+		// if(!onPlatform && !isJumping) isJumping = false;
 
 		gravityEffect();
 		relativisticScreenMovement();
@@ -90,12 +94,36 @@ class Player extends MovingAnimation {
 	// HARDCODED VALUES WILL DISAPPEAR!
 	private void relativisticScreenMovement(){
 
-		if(x <= 100)
-			FruitFever.viewX = 0;
+		// Player is on the edge of screen
+		if (!playerHasEnteredScreenZone){
 
-		if(FruitFever.viewX >= 0 && x > 100 && x < 500)
-			FruitFever.viewX += FruitFever.vx;	
+			// Player has entered the relativisticScreenZone
+			if (x > FruitFever.LEFT_BOUNDARY && x < FruitFever.RIGHT_BOUNDARY)
+				playerHasEnteredScreenZone = true;
+		
+		// Player is somewhere in the middle of the screen
+		}else {
+	
 
+			if (x < FruitFever.LEFT_BOUNDARY) {
+
+				System.out.println("LEFT");
+
+				// Means the player can 'push' screen left
+				if (FruitFever.viewX <= 0)
+					FruitFever.viewX += FruitFever.vx;
+
+			}else if (x > FruitFever.RIGHT_BOUNDARY) {
+				
+				System.out.println("RIGHT");				
+				FruitFever.viewX += FruitFever.vx;	
+			}
+
+			if (x < FruitFever.LEFT_BOUNDARY && FruitFever.viewX > 0) {
+				playerHasEnteredScreenZone = false;
+			}
+
+		}
 	}
 
 	/** Responds accordingly to collision detection **/
@@ -334,8 +362,6 @@ class Player extends MovingAnimation {
 				images = stillAnimH;
 
 		}
-		
-		System.out.println(images.toString());
 		
 		super.animate();
 			
