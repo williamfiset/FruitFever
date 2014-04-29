@@ -84,9 +84,17 @@ class Player extends MovingAnimation {
 
 	}
 
+
+	// HARDCODED VALUES WILL DISAPPEAR!
 	private void relativisticScreenMovement(){
 
-		// FruitFever.viewX += 1;
+		if (x <= 100) {
+			FruitFever.viewX = 0;
+		}
+
+		if (FruitFever.viewX >= 0 && x > 100 && x < 500) {
+			FruitFever.viewX += FruitFever.vx;	
+		}
 
 	}
 

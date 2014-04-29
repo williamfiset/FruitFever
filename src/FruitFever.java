@@ -73,10 +73,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				/** Blocks **/
 				for(Block obj : blocks)
-					obj.image.setLocation(obj.getX() - viewX, obj.getY() - viewY);
+					obj.animate();
 
 				player.motion();
-				viewX += vx;
+
+				System.out.println(viewX);
 
 			}
 			
@@ -89,48 +90,54 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		int keyCode = key.getKeyCode();
 
-		// Horizontal Movement
-		switch(keyCode){
-		
-			case KeyEvent.VK_A: dx = -1; player.facingRight = false; break;
-			case KeyEvent.VK_D: dx = 1; player.facingRight = true; break;
-		}
-
 		// JUMP
 		if(keyCode == KeyEvent.VK_W){
 			player.setIsJumping(true);
-			vx = 1;
 		}
 
-		// Tougue Attack
+		// Tongue Attack
 		else if (keyCode == KeyEvent.VK_S)
 			player.tongueAttack();
 
 		// Shoot Swirl
 		else if (keyCode == KeyEvent.VK_SPACE){
+
 			if(player.facingRight)
 				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));
 			else
 				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, -10, 0, 1));
 			player.shootSwirl();
+		
+		// Movement LEFT
+		}else if (keyCode == KeyEvent.VK_A) {
+
+			// HARDCODED VALUES WILL disappear 
+			if (player.x > 100 && player.x < 500){
+				vx = -player.HORIZONTAL_VELOCITY;
+			} else{
+				vx = 0;
+			}
+
+			player.facingRight = false; 
+			dx = -1;
+		
+		// Movement RIGHT
+		}else if (keyCode == KeyEvent.VK_D) {
+			
+			dx = 1;
+			player.facingRight = true;
+
+			// HARDCODED VALUES WILL disappear 
+			if (player.x > 100 && player.x < 500 ){
+				vx = player.HORIZONTAL_VELOCITY;
+			}else{
+				vx = 0;
+			}
+			
 		}
 
 	}
 	
-	/**
-	@Override public void keyTyped(KeyEvent key){
-
-		char character = key.getKeyChar();
-		
-		// Massive Bug originates from shooting a swirl...		
-		// if (character == ' ') {
-		// 		addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));				
-		// 		player.shootSwirl();
-		// }
-
-	}
-	**/
-
 	@Override public void keyReleased(KeyEvent key){
 		
 		int keyCode = key.getKeyCode();
