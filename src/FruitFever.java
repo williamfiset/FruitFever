@@ -42,7 +42,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 	static int vx;
 
-	@Override public void init() {
+	// Uneccessary now that the code is moved into the run method? What exactly is this overriding?
+	@Override public void init() {}
+	
+/** Contains the main game loop **/
+	@Override public void run(){
+		
+		// Loading screen
+		GLabel loadingText = new GLabel("Loading...");
+		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth(), SCREEN_HEIGHT/2);
+		add(loadingText);
 		
 		// Set up keyboard and mouse
 		addMouseListeners();
@@ -56,12 +65,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 		drawMainMenu();
 		
-	}
-	
-/** Contains the main game loop **/
-	@Override public void run(){
-	
-
 		while(true){
 			
 			// Playing
