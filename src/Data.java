@@ -29,8 +29,11 @@ public abstract class Data{
 						   fuzzyDiskAnimation = new GImage[8],
 						   blueEnemyAnimation = new GImage[4],
 						   playerStill = new GImage[1],
+						   playerStillH = new GImage[1],
 						   playerTongue = new GImage[9],
+						   playerTongueH = new GImage[9],
 						   playerShoot = new GImage[6],
+						   playerShootH = new GImage[6],
 						   menuButtons = new GImage[12],
 						   leftArrowButton = new GImage[3],
 						   rightArrowButton = new GImage[3],
@@ -93,13 +96,20 @@ public abstract class Data{
 		for(int i = 0; i < 4; i++)
 			blueEnemyAnimation[i] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
 			
-		// Player Images
+		/** Player Images **/
+		
 		playerStill[0] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		for(int i = 0; i < 9; i++)
+		playerStillH[0] = ImageTransformer.horizontalFlip(playerStill[0]);
+		
+		for(int i = 0; i < 9; i++){
 			playerTongue[i] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE*(i + 1), TILE_SIZE*2, TILE_SIZE);
-		for(int i = 0; i < 6; i++)
+			playerTongueH[i] = ImageTransformer.horizontalFlip(playerTongue[i]);
+		}
+		for(int i = 0; i < 6; i++){
 			playerShoot[i] = makeImage(sheet, TILE_SIZE*16, TILE_SIZE*(i + 1), TILE_SIZE*2, TILE_SIZE);	
-			
+			playerShootH[i] = ImageTransformer.horizontalFlip(playerShoot[i]);	
+		}
+		
 		/** Import menu images **/
 		try { sheet = ImageIO.read(new File("../img/Menu/Menu_Red.png"));	}
 		catch (IOException e) {	e.printStackTrace(); }
