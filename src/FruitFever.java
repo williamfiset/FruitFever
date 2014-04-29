@@ -103,9 +103,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		else if (keyCode == KeyEvent.VK_SPACE){
 
 			if(player.facingRight)
-				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, 10, 0, 1));
+				addToThings(new MovingAnimation(player.x + 15 + viewX, player.y + 5 + viewY, Data.swirlAnimation, false, 0, true, 10, 0, 1));
 			else
-				addToThings(new MovingAnimation(player.x + 15, player.y + 5, Data.swirlAnimation, false, 0, true, -10, 0, 1));
+				addToThings(new MovingAnimation(player.x + 15 + viewX, player.y + 5 + viewY, Data.swirlAnimation, false, 0, true, -10, 0, 1));
 			player.shootSwirl();
 		
 		// Movement LEFT
