@@ -18,7 +18,7 @@ public abstract class Data{
 	public static int TILE_SIZE = 25;
 
 	public static BufferedImage sheet = null;
-	public static GImage heartImage, levelBackDropImage;
+	public static GImage heartImage, levelBackDropImage, lavaImage;
 	public static GImage[] blockImages = new GImage[15],
 						   blockGrassImages = new GImage[15],
 						   sceneryImages = new GImage[15],
@@ -95,6 +95,9 @@ public abstract class Data{
 		// Blue Enemy Animation Images
 		for(int i = 0; i < 4; i++)
 			blueEnemyAnimation[i] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
+			
+		// Lava Image
+		lavaImage = makeImage(sheet, TILE_SIZE*9, TILE_SIZE*7, TILE_SIZE, TILE_SIZE);
 			
 		/** Player Images **/
 		
@@ -181,6 +184,12 @@ public abstract class Data{
 					if(line.charAt(i) == '-')
 						continue;
 						
+					// Lava
+					if(line.charAt(i) == '~'){
+						FruitFever.things.add(new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, lavaImage));
+						continue;
+					}
+					
 					// Set the player's start position
 					if(line.charAt(i) == '@'){
 						FruitFever.playerStartX = i*TILE_SIZE;
