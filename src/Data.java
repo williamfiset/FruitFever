@@ -176,7 +176,7 @@ public abstract class Data{
 			int lineNumber = 0;
 			String line = "";
 
-			/** BLOCKS **/
+			/** BLOCKS (as well as Player, Lava, and Fruits) **/
 
 			while(sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")){
 
@@ -197,6 +197,22 @@ public abstract class Data{
 					if(line.charAt(i) == '@'){
 						FruitFever.playerStartX = i*TILE_SIZE;
 						FruitFever.playerStartY = lineNumber*TILE_SIZE;
+						continue;
+					}
+					
+					// Set the player's start position
+					if(line.charAt(i) == '@'){
+						FruitFever.playerStartX = i*TILE_SIZE;
+						FruitFever.playerStartY = lineNumber*TILE_SIZE;
+						continue;
+					}
+					
+					// Reads in a fruit
+					if(Character.isDigit(line.charAt(i))){
+						if(line.charAt(i) == '0')
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.blueBerryAnimation, true, 2, true, 2));
+						if(line.charAt(i) == '1')
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.redBerryAnimation, true, 2, true, 2));
 						continue;
 					}
 					

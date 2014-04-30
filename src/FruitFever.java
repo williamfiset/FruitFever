@@ -23,6 +23,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 // Game Object Lists
 	static ArrayList<Block> blocks = new ArrayList<Block>();
 	static ArrayList<Thing> things = new ArrayList<Thing>();
+	static ArrayList<Animation> fruits = new ArrayList<Animation>();
 	
 // Menu/Level selection variables	
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
@@ -90,6 +91,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
 				for(int i = 0; i < things.size(); i++)
 					things.get(i).animate();
+					
+				/** Animate all fruit **/
+				for(int i = 0; i < fruits.size(); i++)
+					fruits.get(i).animate();
 
 				/** Blocks **/
 				for(Block obj : blocks)
@@ -292,7 +297,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				LEVEL_HEIGHT = block.y;
 		}
 
-		// Displays all blocks on-screen
+		/** Adds all blocks, things and fruits to the screen **/
+		
 		for(Block obj : blocks){
 			obj.image.setLocation(obj.getX(), obj.getY());
 			add(obj.image);
@@ -303,6 +309,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			add(thing.image);
 		}
 		
+		for (Thing fruit : fruits ) {
+			fruit.image.setLocation(fruit.getX(), fruit.getY());
+			add(fruit.image);
+		}
+		
 		// Creates the Player class
 		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
 		
@@ -311,10 +322,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// viewY = playerStartY;
 
 		/** TESTING PURPOSES ONLY **/
-		addToThings(new Animation(0, 50, Data.redBerryAnimation, true, 3, true, 2));
-		addToThings(new Animation(0, 75, Data.blueBerryAnimation, true, 2, false, 2));
-		addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
-		addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
+		// addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
+		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
 		add(player.image);
