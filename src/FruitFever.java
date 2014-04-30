@@ -68,18 +68,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		postInit();
 		
 		/** TEMPORARY **/
-		// GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		// GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		// GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
-		// GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3);
-		// leftRect.setFillColor(Color.RED);
-		// rightRect.setFillColor(Color.RED);
-		// upRect.setFillColor(Color.RED);
-		// downRect.setFillColor(Color.RED);
-		// leftRect.setFilled(true);
-		// rightRect.setFilled(true);
-		// downRect.setFilled(true);
-		// upRect.setFilled(true);
+		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
+		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3);
+		leftRect.setFillColor(Color.RED);
+		rightRect.setFillColor(Color.RED);
+		upRect.setFillColor(Color.RED);
+		downRect.setFillColor(Color.RED);
+		leftRect.setFilled(true);
+		rightRect.setFilled(true);
+		downRect.setFilled(true);
+		upRect.setFilled(true);
 		/** TEMPORARY **/
 
 		while(true){
@@ -98,10 +98,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				player.motion();
 				player.animate();
 
-				// add(leftRect);
-				// add(rightRect);
-				// add(upRect);
-				// add(downRect);
+				add(leftRect);
+				add(rightRect);
+				add(upRect);
+				add(downRect);
 
 			}
 			
