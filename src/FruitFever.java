@@ -15,7 +15,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
-	static int LEVEL_WIDTH = 0, LEVEL_HEIGTH = 0;
+	static int LEVEL_WIDTH = 0, LEVEL_HEIGHT = 0;
 
 	static Player player;
 
@@ -56,8 +56,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static int viewX = 0, viewY = 0;
 	static int vx; // Δ in viewX & viewY
 	static double vy; 
-
-
 
 	// Unnecessary now that the code is moved into the run method? What exactly is this overriding?
 	@Override public void init() {}
@@ -291,8 +289,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			if (block.x > LEVEL_WIDTH)
 				LEVEL_WIDTH = block.x;
 
-			if (block.y > LEVEL_HEIGTH)
-				LEVEL_HEIGTH = block.y;
+			if (block.y > LEVEL_HEIGHT)
+				LEVEL_HEIGHT = block.y;
 		}
 
 		// Displays all blocks on-screen
