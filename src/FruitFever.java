@@ -13,7 +13,6 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
-
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 	static int LEVEL_WIDTH = 0, LEVEL_HEIGHT = 0;
 	static String LEVEL_NAME = "";
@@ -49,7 +48,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 // Screen View Variables
 
-	// THese values seem to be optimal since 	
+	// This value seems to be optimal for screen view 	
 	final static double viewBoxSpacing = 0.29;
 	final static int LEFT_BOUNDARY = (int) (SCREEN_WIDTH * viewBoxSpacing);
 	final static int RIGHT_BOUNDARY = (int) (SCREEN_WIDTH * (1.0 - viewBoxSpacing));
@@ -326,20 +325,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Creates the Player class
 		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
 		
-		// We need to know where the block gets placed the the level, not just its screen poistion
-		
-		// System.out.println(playerStartX + " " + playerStartY + " " + player.imageX + " " + player.imageY);
-
-		viewX = playerStartX - SCREEN_WIDTH/2;
-		viewY = playerStartY - SCREEN_HEIGHT/2;
-	
-
-		// WTF ? I DON'T GET WHY THIS WORKS !		
-		player.imageX -= Data.TILE_SIZE;
-		player.y -= Data.TILE_SIZE;
-		player.imageY -= Data.TILE_SIZE;
-		player.x -= Data.TILE_SIZE;
-
 
 		/** TESTING PURPOSES ONLY **/
 		// addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
@@ -354,6 +339,19 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
 			add(livesImages[i]);
 		}
+
+		System.out.println(playerStartX + " " + playerStartY + " " + player.imageX + " " + player.imageY);
+
+		// WTF ? I DON'T GET WHY THIS WORKS !		
+		// player.imageX -= Data.TILE_SIZE;
+		// player.y -= Data.TILE_SIZE;
+		// player.imageY -= Data.TILE_SIZE;
+		// player.x -= Data.TILE_SIZE;
+
+		// viewX = playerStartX - SCREEN_WIDTH/2;
+		// viewY = playerStartY - SCREEN_HEIGHT/2;
+
+
 
 	}
 	
