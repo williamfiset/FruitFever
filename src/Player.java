@@ -21,6 +21,7 @@ class Player extends MovingAnimation {
 
 // Variables concerning Gravity
 
+	final double TERMINAL_VELOCITY = Data.TILE_SIZE - 1;
 	final double STARTING_FALLING_VELOCITY = 2.5;
 	final double STARTING_FALLING_ACCELERATION = 0.5;
 	final double changeInAcceleration = 0.015;
@@ -117,18 +118,21 @@ class Player extends MovingAnimation {
 
 		// Vertical View Movement
 		if (y + height > FruitFever.DOWN_BOUNDARY)
-			FruitFever.vy = fallingVelocity - STARTING_FALLING_VELOCITY;
+			// FruitFever.vy = 5; // This is where there should be a terminal velocity varible
+			FruitFever.vy = fallingVelocity;
 
 		// Glitch occurs here!
 		else if (y < FruitFever.UP_BOUNDARY) {
-			FruitFever.vy = jumpingVelocity - STARTING_JUMPING_VELOCITY;	
+			FruitFever.vy = -jumpingVelocity;		
 
-		}else{
+		}else if (!isJumping && onPlatform) {
 			FruitFever.vy = 0;
 		}
 
 		FruitFever.viewX += FruitFever.vx;
 		FruitFever.viewY += FruitFever.vy;
+
+		System.out.printf("%f \n ", FruitFever.vy);
 
 	}
 
@@ -176,9 +180,14 @@ class Player extends MovingAnimation {
 
 			imageY += fallingVelocity;
 
-			// Acceleration effect
-			fallingVelocity += fallingAcceleration;
-			fallingAcceleration += changeInAcceleration;				
+			if (fallingVelocity < TERMINAL_VELOCITY) {
+
+				// Acceleration effect
+				fallingVelocity += fallingAcceleration;
+				fallingAcceleration += changeInAcceleration;
+			}
+			else
+				fallingVelocity = TERMINAL_VELOCITY;
 			
 
 		// Executes when not falling or not allowed to fall

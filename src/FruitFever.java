@@ -104,6 +104,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				add(upRect);
 				add(downRect);
 
+
+
 			}
 			
 			pause(MAIN_LOOP_SPEED);
@@ -307,6 +309,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Creates the Player class
 		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
 		
+		// We need to know where the block gets placed the the level, not just its screen poistion
+		// viewX = playerStartX;
+		// viewY = playerStartY;
+
 		/** TESTING PURPOSES ONLY **/
 		addToThings(new Animation(0, 50, Data.redBerryAnimation, true, 3, true));
 		addToThings(new Animation(0, 75, Data.blueBerryAnimation, true, 2, false));
