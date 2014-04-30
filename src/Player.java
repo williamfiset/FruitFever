@@ -94,7 +94,7 @@ class Player extends MovingAnimation {
 			setBaseLine = false;
 	}
 
-	//** Moves the view with respect to the character **/
+	//** Moves the view of the screen relative to the character **/
 	private void relativisticScreenMovement(){
 
 		// Horizontal screen movement
@@ -115,18 +115,17 @@ class Player extends MovingAnimation {
 				FruitFever.vx = dx;	
 		}
 
-		// // Vertical Movement
-		if (y > FruitFever.DOWN_BOUNDARY)
+		// Vertical View Movement
+		if (y + height > FruitFever.DOWN_BOUNDARY)
 			FruitFever.vy = fallingVelocity - STARTING_FALLING_VELOCITY;
-		
-		// if (y < FruitFever.UP_BOUNDARY && isJumping) {
-		// 	System.out.println("-jumpingVelocity");
-		// 	FruitFever.vy = - jumpingVelocity;	
-		// }else{
-		// 	System.out.println("Zero!");
-		// 	FruitFever.vy = 0;
-		// 	isJumping = false;
-		// }
+
+		// Glitch occurs here!
+		else if (y < FruitFever.UP_BOUNDARY) {
+			FruitFever.vy = jumpingVelocity - STARTING_JUMPING_VELOCITY;	
+
+		}else{
+			FruitFever.vy = 0;
+		}
 
 		FruitFever.viewX += FruitFever.vx;
 		FruitFever.viewY += FruitFever.vy;
@@ -261,13 +260,11 @@ class Player extends MovingAnimation {
 			
 			onPlatform = true;	
 
-			if (southEast != null){
-				System.out.printf("imageY: %d y: %d playerY: %d\n", southEast.imageY, southEast.y +FruitFever.viewY, y );
+			if (southEast != null)
 				placePlayerOnBlock(southEast);
-			}else{
-				System.out.printf("imageY: %d y: %d playerY: %d\n", southWest.imageY, southWest.y+FruitFever.viewY, y );
+			else
 				placePlayerOnBlock(southWest);
-			}
+			
 		}
 		else
 			onPlatform = false;
