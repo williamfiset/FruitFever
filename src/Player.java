@@ -16,7 +16,7 @@ class Player extends MovingAnimation {
 	static int lives = 3, maxLives = 3;
 
 // Movement Variables
-	static final int HORIZONTAL_VELOCITY = 5;
+	static final int HORIZONTAL_VELOCITY = 3;
 	int dx = 0;
 
 // Variables concerning Gravity
@@ -39,7 +39,7 @@ class Player extends MovingAnimation {
 	public boolean isJumping = false;
 
 	int maxJumpHeight = (3*25 + 25/2); // 3.5 tile jump limit
-	private int baseLine;
+	public int baseLine;
 
 // Jumping motion Variables
 	final double STARTING_JUMPING_VELOCITY = 6.25; 
@@ -115,9 +115,18 @@ class Player extends MovingAnimation {
 				FruitFever.vx = dx;	
 		}
 
-		if (y > FruitFever.DOWN_BOUNDARY) {
+		// // Vertical Movement
+		if (y > FruitFever.DOWN_BOUNDARY)
 			FruitFever.vy = fallingVelocity - STARTING_FALLING_VELOCITY;
-		}
+		
+		// if (y < FruitFever.UP_BOUNDARY && isJumping) {
+		// 	System.out.println("-jumpingVelocity");
+		// 	FruitFever.vy = - jumpingVelocity;	
+		// }else{
+		// 	System.out.println("Zero!");
+		// 	FruitFever.vy = 0;
+		// 	isJumping = false;
+		// }
 
 		FruitFever.viewX += FruitFever.vx;
 		FruitFever.viewY += FruitFever.vy;
@@ -252,10 +261,13 @@ class Player extends MovingAnimation {
 			
 			onPlatform = true;	
 
-			if (southEast != null)
+			if (southEast != null){
+				System.out.printf("imageY: %d y: %d playerY: %d\n", southEast.imageY, southEast.y +FruitFever.viewY, y );
 				placePlayerOnBlock(southEast);
-			else
+			}else{
+				System.out.printf("imageY: %d y: %d playerY: %d\n", southWest.imageY, southWest.y+FruitFever.viewY, y );
 				placePlayerOnBlock(southWest);
+			}
 		}
 		else
 			onPlatform = false;
@@ -266,7 +278,7 @@ class Player extends MovingAnimation {
 	/** Places the player on top of the block he is currently on **/
 	private void placePlayerOnBlock(Block block) {
 		if (onPlatform)
-			imageY = block.y - block.width;
+			imageY = block.imageY - block.width;
 	}
 
 	/** 
