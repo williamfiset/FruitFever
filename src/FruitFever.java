@@ -36,7 +36,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	
 	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
-	static int currentScreen = 1;
+	static int currentScreen = 0;
 	static int currentLevel = 1;
 	static int levelSelectionPage = 0; // 0-based, just like the levels
 
@@ -207,6 +207,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 	@Override public void mouseReleased(MouseEvent mouse) {
 	
+		/** Temporary code to jump to the main menu **/
+		if(mouse.getX() < 25 && mouse.getY() < 25){
+			drawMainMenu();
+			return;
+		}
+			
+	
 		if(clickedOnButton != null){
 		
 			/** Unclick the button image and preform action (if applicable) **/
@@ -258,6 +265,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 		
 	private void drawMainMenu(){
+		currentScreen = 1;
 		removeAll();
 		addToScreen(mainMenuButtons);
 		levelSelectionPage = 0;
@@ -383,7 +391,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	public void addToThings(Thing obj){
 	
 		things.add(obj);
-		obj.image.setLocation(obj.x, obj.y);
+		obj.image.setLocation(obj.x - viewX, obj.y - viewY);
 		add(obj.image);
 		
 	}
