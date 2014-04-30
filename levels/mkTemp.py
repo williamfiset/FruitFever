@@ -10,11 +10,13 @@ NOTE: HashTags are read in by the Data file as empty sprites (Added by Will).
 
 """
 
-def changeAllCharacters(fileName, letter, *exclusions):
+import sys
+
+def changeAllCharacters(fileName, letter, exclusions):
 	
 	_file = None
 	lines = []
-	
+
 	try:
 
 		_file = open(fileName, 'r+')
@@ -22,8 +24,15 @@ def changeAllCharacters(fileName, letter, *exclusions):
 		# Stores lines in an array
 		currentLine = ""
 
+		lineNumber = 0
+		totalLines = len(_file.readlines())
+
 		# Loops through all the lines in the file
 		for line in _file.readlines():
+
+			if lineNumber == totalLines:
+				print "lastLine"
+				line += " "
 
 			# Assumes that the last line always has a \n
 			line = line[:-1]
@@ -31,11 +40,26 @@ def changeAllCharacters(fileName, letter, *exclusions):
 			# Replaces a Character with 'letter' variable if it is not 
 			# one of the exclusions
 			for char in line:
-				if char not in exclusions: currentLine += letter
-				else: currentLine += char
+				
+				if exclusions[0] == '!':
+				
+					if char == letter:
+						currentLine += letter
+					else:
+						currentLine += char
+
+				else:
+
+					if char not in exclusions:
+						currentLine += letter
+					else:
+						currentLine += char
+
 
 			lines.append(currentLine)
 			currentLine = ""
+
+			lineNumber += 1
 
 		_file.close()
 
@@ -57,7 +81,23 @@ def changeAllCharacters(fileName, letter, *exclusions):
 		_file.close()
 
 
-changeAllCharacters("tempFile.txt", '#', '-')
+if __name__ == '__main__':
+
+	commandLineArgs = sys.argv
+	args = []
+
+
+	for argument in commandLineArgs:
+		if len(argument) == 1:
+			args.append(argument)
+
+
+	if len(commandLineArgs) == 0:
+		changeAllCharacters("tempFile.txt", '#', '-')		
+	elif len(commandLineArgs) == 1:
+		print "Please provide an extra argument"
+	else:
+		changeAllCharacters("tempFile.txt", args[0], args[1:])
 
 
 
