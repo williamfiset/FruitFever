@@ -116,23 +116,30 @@ class Player extends MovingAnimation {
 				FruitFever.vx = dx;	
 		}
 
-		// Vertical View Movement
-		if (y + height > FruitFever.DOWN_BOUNDARY)
+		// DOWN bound 
+		if (y + height > FruitFever.DOWN_BOUNDARY && FruitFever.viewY <= FruitFever.LEVEL_HEIGHT + FruitFever.SCREEN_HEIGHT)
 			// FruitFever.vy = 5; // This is where there should be a terminal velocity varible
 			FruitFever.vy = fallingVelocity;
 
-		// Glitch occurs here!
-		else if (y < FruitFever.UP_BOUNDARY && jumpingVelocity != STARTING_JUMPING_VELOCITY && FruitFever.viewY >= 0) {
-			FruitFever.vy = -jumpingVelocity;		
+		// UPPER bound
+		else if (y < FruitFever.UP_BOUNDARY && FruitFever.viewY >= 0) {
+			
+			// When jump gets and starts falling jumpingVelocity = STARTING_JUMPING_VELOCITY
+			if (jumpingVelocity != STARTING_JUMPING_VELOCITY)
+				FruitFever.vy = -jumpingVelocity;		
 
-		}else if (!isJumping && onPlatform) {
+		// Make sure screen doesn't move when player is not jumping or on platform
+		}else if (!isJumping && onPlatform ) 
 			FruitFever.vy = 0;
-		}
+		
 
 		FruitFever.viewX += FruitFever.vx;
-		FruitFever.viewY += FruitFever.vy;
 
-		System.out.printf("%f \n ", FruitFever.vy);
+		if (FruitFever.viewY + FruitFever.vy >= 0) {
+			FruitFever.viewY += FruitFever.vy;	
+		}
+
+		System.out.printf("%d\n",FruitFever.viewY);
 
 	}
 

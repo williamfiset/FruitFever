@@ -145,7 +145,7 @@ aa--a--a--a----------------a
 a------------aa----e--aa---a
 a-A------a-----------------a
 aA-----------a----B---a----a
-aEEEEEEEEEEEEEEEEEEEEEEEEEEa
+aEEEEEEEEEEE-EEEEEEEEEEEEEEa
 a------h-h-h~h-h---h-------a
 a------h-h-h---h---h-------a
 a------hhh-h~h-h---h-------a
