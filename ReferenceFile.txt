@@ -39,13 +39,13 @@ BOUNDING BOXES IN THING CLASS:
 	
 	Here's how to access the variables of the image and the bounding box (the underlying Rectangle, used to detect collisions):
 	
-		Image:
+		Image (these x and y values refer to the position in the world):
 			The x position  --> imageX
 			The y position	--> imageY
 			The width		--> image.getWidth()*
 			The height:		--> image.getHeight()*
 			
-		BoundingBox (Rectangle):
+		Bounding Box - Rectangle (these x and y values refer to the position on-screen):
 			The x position  --> x or getX()*
 			The y position	--> y or getY()*
 			The width		--> width or getWidth()*
