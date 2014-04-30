@@ -47,7 +47,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static int playerStartX = 100, playerStartY= 100;
 	static int dx = 0, dy = 0;
 
-
 // Screen View Variables
 
 	// THese values seem to be optimal since 	
@@ -320,8 +319,19 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
 		
 		// We need to know where the block gets placed the the level, not just its screen poistion
-		// viewX = playerStartX;
-		// viewY = playerStartY;
+		
+		// System.out.println(playerStartX + " " + playerStartY + " " + player.imageX + " " + player.imageY);
+
+		viewX = playerStartX - SCREEN_WIDTH/2;
+		viewY = playerStartY - SCREEN_HEIGHT/2;
+	
+
+		// WTF ? I DON'T GET WHY THIS WORKS !		
+		player.imageX -= Data.TILE_SIZE;
+		player.y -= Data.TILE_SIZE;
+		player.imageY -= Data.TILE_SIZE;
+		player.x -= Data.TILE_SIZE;
+
 
 		/** TESTING PURPOSES ONLY **/
 		// addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
