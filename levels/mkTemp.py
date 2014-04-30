@@ -57,7 +57,7 @@ def changeAllCharacters(fileName, letter, *exclusions):
 		_file.close()
 
 
-changeAllCharacters("sceneryTemplateFile.txt", '#', '-')
+changeAllCharacters("tempFile.txt", '#', '-')
 
 
 

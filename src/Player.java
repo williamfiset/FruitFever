@@ -122,7 +122,7 @@ class Player extends MovingAnimation {
 			FruitFever.vy = fallingVelocity;
 
 		// Glitch occurs here!
-		else if (y < FruitFever.UP_BOUNDARY && jumpingVelocity != STARTING_JUMPING_VELOCITY) {
+		else if (y < FruitFever.UP_BOUNDARY && jumpingVelocity != STARTING_JUMPING_VELOCITY && FruitFever.viewY >= 0) {
 			FruitFever.vy = -jumpingVelocity;		
 
 		}else if (!isJumping && onPlatform) {
