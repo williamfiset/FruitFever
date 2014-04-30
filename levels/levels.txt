@@ -148,10 +148,10 @@ aa--a--a--a----------------a
 a------------aa----e--aa---a
 a-A------a-----------------a
 aA-----------a----B---a----a
-aEEEEEEEEEEE-EEEEEEEEEEEEEEa
-a------h-h-h~h-h---h-------a
-a------h-h-h---h---h-------a
-a------hhh-h~h-h---h-------a
+aEEEEEEE-----EEEEEEEEEEEEEEa
+a------h----~h-h---h-------a
+a------h-h-----h---h-------a
+a------hhh--~h-h---h-------a
 a------h-h-h---h---h-------a
 a------h-h-h-h-hhh-hhh-----a
 aAAAAAAAAAAAAAAAAAAAAAAAAAAa
