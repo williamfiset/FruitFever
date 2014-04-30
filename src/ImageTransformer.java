@@ -1,7 +1,7 @@
 /**
+ *	ImageTransformer - Can flip a GImage horizontally or vertically, as well as rotating it.
  *
- * @author William Fiset and http://javaingrab.blogspot.ca/2013/06/reflect-or-flip-image.html
- * 
+ * @author Micah Stairs
  * 
  **/
 
@@ -15,53 +15,57 @@ import java.awt.image.BufferedImage;
 
 abstract class ImageTransformer {
 
+	/** Rotates a GImage vertically **/
+	public static GImage verticalFlip(GImage img){
+	
+		int[][] arr = img.getPixelArray();
+		int[][] arr2 = new int[arr.length][arr[0].length];
 
-	/** Flips image Horizontally **/
-	public static GImage horizontalFlip(GImage img){
-     	
-		BufferedImage src = toBufferedImage(img.getImage());
-
-    	AffineTransform affineTransform = AffineTransform.getScaleInstance(-1.0, 1.0);  //scaling
-    	affineTransform.translate(-src.getWidth(),0);  //translating
-    	AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, null);  //transforming
+		for(int i = 0; i < arr.length; i++)
+			for(int j = 0; j < arr[i].length; j++)
+				arr2[i][j] = arr[arr.length - i - 1][j];
      
-     	return new GImage(affineTransformOp.filter(src, null));  //filtering
+     	return new GImage(arr2);
 
     }
+	
+	/** Rotates a GImage horizontally **/
+	public static GImage horizontalFlip(GImage img){
+	
+		int[][] arr = img.getPixelArray();
+		int[][] arr2 = new int[arr.length][arr[0].length];
 
-    /** Flips image vertically (doesn't always work) **/
-    
-	// public static GImage verticalFlip(GImage img){
-     	
-	// 	BufferedImage src = toBufferedImage(img.getImage());
+		for(int i = 0; i < arr.length; i++)
+			for(int j = 0; j < arr[i].length; j++)
+				arr2[i][j] = arr[i][arr[0].length - j - 1];
+     
+     	return new GImage(arr2);
 
-	//  	AffineTransform affineTransform = AffineTransform.getScaleInstance(1.0, -1.0);  //scaling
-	//  	affineTransform.translate(-src.getWidth(),0);  //translating
-	//  	AffineTransformOp affineTransformOp = new AffineTransformOp(affineTransform, null);  //transforming
-	     
-	//  	return new GImage(affineTransformOp.filter(src, null));  //filtering
-
-	//  }
-
-    // ** Transforms an Image to BufferedImage **/
-    private static BufferedImage toBufferedImage(Image img){
-
-        if (img instanceof BufferedImage)
-            return (BufferedImage) img;
-        
-        // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
-        // Draw the image on to the buffered image
-        Graphics2D bGr = bimage.createGraphics();
-
-        bGr.drawImage(img, 0, 0, null);
-        bGr.dispose();
-
-        // Return the buffered image
-        return bimage;
     }
+	
+	/** Rotates a GImage counter-clockwise **/
+	public static GImage rotateCounterClockwise(GImage img){
+		
+		int[][] arr = img.getPixelArray();
+		int[][] arr2 = new int[arr[0].length][arr.length];
 
+		for(int i = 0; i < arr.length; i++)
+			for(int j = 0; j < arr[i].length; j++)
+				arr2[j][i] = arr[i][arr[i].length - j - 1];
+     
+     	return new GImage(arr2);
+		
+    }
+	
+	/** Rotates a GImage clockwise **/
+	public static GImage rotateClockwise(GImage img){
+     	return rotateCounterClockwise(rotateCounterClockwise(rotateCounterClockwise(img)));
+    }
+	
+	/** Rotates a GImage 180 degrees **/
+	public static GImage rotate180(GImage img){
+     	return rotateCounterClockwise(rotateCounterClockwise(img));
+    }
 	
 }
 
