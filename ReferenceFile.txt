@@ -25,7 +25,7 @@ ANIMATION TYPES:
 	-1	-> N/A
 	0	-> Player
 	1	-> Swirl
-	2	-> Berry
+	2	-> Fruit
 
 _____________________________________________________________________________________________
 
@@ -101,6 +101,15 @@ ________________________________________________________________________________
 		GrassWhiteBlock1 (12) --> M
 		GrassWhiteBlock2 (13) --> N
 		GrassBlackBlock  (14) --> O
+		
+		FRUIT are also put into this section:
+		
+			BlueBerry		--> 0
+			RedBerry		--> 1
+			
+		The player's startng position is also put into this section:
+		
+			Player			--> @
 
 	SCENERY (each Scenery object also has an associated type/integer value, but this is not used for building the levels):
 	
