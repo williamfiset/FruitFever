@@ -110,6 +110,10 @@ ________________________________________________________________________________
 		The player's startng position is also put into this section:
 		
 			Player			--> @
+			
+		Lava is also put into this section:
+			
+			Lava tile		--> ~
 
 	SCENERY (each Scenery object also has an associated type/integer value, but this is not used for building the levels):
 	
