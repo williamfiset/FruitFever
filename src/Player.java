@@ -116,7 +116,7 @@ class Player extends MovingAnimation {
 		}
 
 		if (y > FruitFever.DOWN_BOUNDARY) {
-			FruitFever.vy = (int) fallingVelocity;
+			FruitFever.vy = fallingVelocity - STARTING_FALLING_VELOCITY;
 		}
 
 		FruitFever.viewX += FruitFever.vx;

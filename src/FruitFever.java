@@ -14,7 +14,7 @@ import java.util.*;
 public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 
-	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 80;
+	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 60;
 	static int LEVEL_WIDTH = 0, LEVEL_HEIGTH = 0;
 
 	static Player player;
@@ -54,7 +54,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	final static int DOWN_BOUNDARY = (int) (SCREEN_HEIGHT * 0.75);
 		
 	static int viewX = 0, viewY = 0;
-	static int vx, vy; // Δ in viewX & viewY
+	static int vx; // Δ in viewX & viewY
+	static double vy; 
 
 
 
@@ -105,7 +106,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				add(upRect);
 				add(downRect);
 
-				System.out.printf("x: %d y: %d \n", player.x , player.y);
+				// System.out.printf("v: %f , v': %d \n", player.fallingVelocity, (int) (player.fallingVelocity - player.STARTING_FALLING_VELOCITY) );
 
 			}
 			
