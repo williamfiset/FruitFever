@@ -12,18 +12,16 @@ import java.awt.*;
 public class MovingAnimation extends Animation{
 
 	/** Public instance variables **/
-	public int xSpeed, ySpeed, type;
+	public int xSpeed, ySpeed;
 
 	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int xSpeed, int ySpeed, int type){
-		super(x, y, originalImages, reverse, delay, repeat);
+		super(x, y, originalImages, reverse, delay, repeat, type);
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
-		this.type = type;
 	}
 	
 	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type){
-		super(x, y, originalImages, reverse, delay, repeat);
-		this.type = type;
+		super(x, y, originalImages, reverse, delay, repeat, type);
 	}
 	
 	// Overrides Animation.animate()

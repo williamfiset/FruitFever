@@ -10,12 +10,10 @@ import java.awt.*;
 
 public class Animation extends Thing {
 
-	/** Public instance variables **/
+	/** Instance variables **/
 	public boolean doneAnimating = false;
-	
-	/** Private instance variables **/
 	protected GImage[] images;
-	public int counter = 0, delayCounter = 0, delay;
+	public int type, counter = 0, delayCounter = 0, delay;
 	private boolean counterGoingUp = true;
 	
 	protected boolean reverse, repeat; // Player will need to access these
@@ -33,7 +31,7 @@ public class Animation extends Thing {
 	 *	-If false, the animation is played once
 	 **/
 	 
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat){
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type){
 		
 		super(x, y);
 		
@@ -47,11 +45,13 @@ public class Animation extends Thing {
 		this.reverse = reverse;
 		this.delay = delay;
 		this.repeat = repeat;
+		
+		this.type = type;
 	
 	}
 	
 	public Animation(int x, int y, GImage[] originalImages){
-		this(x, y, originalImages, false, 1, true);
+		this(x, y, originalImages, false, 1, true, -1);
 	}
 	
 	public void animate(){

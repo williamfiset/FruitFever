@@ -16,6 +16,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 	static int LEVEL_WIDTH = 0, LEVEL_HEIGHT = 0;
+	static String LEVEL_NAME = "";
 
 	static Player player;
 
@@ -67,20 +68,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		postInit();
 		
 		/** TEMPORARY **/
-		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
-		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3);
-
-		leftRect.setFillColor(Color.RED);
-		rightRect.setFillColor(Color.RED);
-		upRect.setFillColor(Color.RED);
-		downRect.setFillColor(Color.RED);
-
-		leftRect.setFilled(true);
-		rightRect.setFilled(true);
-		downRect.setFilled(true);
-		upRect.setFilled(true);
+		// GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		// GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		// GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
+		// GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3);
+		// leftRect.setFillColor(Color.RED);
+		// rightRect.setFillColor(Color.RED);
+		// upRect.setFillColor(Color.RED);
+		// downRect.setFillColor(Color.RED);
+		// leftRect.setFilled(true);
+		// rightRect.setFilled(true);
+		// downRect.setFilled(true);
+		// upRect.setFilled(true);
 		/** TEMPORARY **/
 
 		while(true){
@@ -99,12 +98,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				player.motion();
 				player.animate();
 
-				add(leftRect);
-				add(rightRect);
-				add(upRect);
-				add(downRect);
-
-
+				// add(leftRect);
+				// add(rightRect);
+				// add(upRect);
+				// add(downRect);
 
 			}
 			
@@ -314,10 +311,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// viewY = playerStartY;
 
 		/** TESTING PURPOSES ONLY **/
-		addToThings(new Animation(0, 50, Data.redBerryAnimation, true, 3, true));
-		addToThings(new Animation(0, 75, Data.blueBerryAnimation, true, 2, false));
-		addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true));
-		addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true));
+		addToThings(new Animation(0, 50, Data.redBerryAnimation, true, 3, true, 2));
+		addToThings(new Animation(0, 75, Data.blueBerryAnimation, true, 2, false, 2));
+		addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
+		addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
 		add(player.image);
@@ -374,7 +371,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 		// Loading screen
 		GLabel loadingText = new GLabel("Loading...");
-		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth(), SCREEN_HEIGHT/2);
+		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth()/2, SCREEN_HEIGHT/2);
 		add(loadingText);
 		
 		// Set up keyboard and mouse
