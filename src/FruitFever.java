@@ -50,10 +50,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 // Screen View Variables
 
-	final static int LEFT_BOUNDARY = (int) (SCREEN_WIDTH * 0.25);
-	final static int RIGHT_BOUNDARY = (int) (SCREEN_WIDTH * 0.75);
-	final static int UP_BOUNDARY = (int) (SCREEN_HEIGHT * 0.25);
-	final static int DOWN_BOUNDARY = (int) (SCREEN_HEIGHT * 0.75);
+	// THese values seem to be optimal since 	
+	final static double viewBoxSpacing = 0.29;
+	final static int LEFT_BOUNDARY = (int) (SCREEN_WIDTH * viewBoxSpacing);
+	final static int RIGHT_BOUNDARY = (int) (SCREEN_WIDTH * (1.0 - viewBoxSpacing));
+	final static int UP_BOUNDARY = (int) (SCREEN_HEIGHT * viewBoxSpacing);
+	final static int DOWN_BOUNDARY = (int) (SCREEN_HEIGHT * (1.0 - viewBoxSpacing));
 		
 	static int viewX = 0, viewY = 0;
 	static int vx; // Δ in viewX & viewY

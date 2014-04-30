@@ -99,7 +99,7 @@ class Player extends MovingAnimation {
 	private void relativisticScreenMovement(){
 
 		// Horizontal screen movement
-		if (x > FruitFever.RIGHT_BOUNDARY && dx > 0) {
+		if (x + width > FruitFever.RIGHT_BOUNDARY && dx > 0) {
 			
 			// Makes sure view never passes maximum level width 
 			if (FruitFever.viewX >= FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
@@ -136,7 +136,11 @@ class Player extends MovingAnimation {
 			FruitFever.vy = 0;
 
 		FruitFever.viewX += FruitFever.vx;
-		FruitFever.viewY += FruitFever.vy;	
+		
+		// Fixes the glitch with half jumping height
+		if (FruitFever.viewY + FruitFever.vy >= 0)
+ 			FruitFever.viewY += FruitFever.vy;	
+ 		
 
 	}
 
