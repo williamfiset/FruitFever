@@ -117,7 +117,7 @@ class Player extends MovingAnimation {
 		}
 
 		// DOWN bound 
-		if (y + height > FruitFever.DOWN_BOUNDARY && FruitFever.viewY <= FruitFever.LEVEL_HEIGHT + FruitFever.SCREEN_HEIGHT)
+		if (y + height > FruitFever.DOWN_BOUNDARY && FruitFever.viewY <= FruitFever.LEVEL_HEIGHT - y)
 			// FruitFever.vy = 5; // This is where there should be a terminal velocity varible
 			FruitFever.vy = fallingVelocity;
 
@@ -139,7 +139,7 @@ class Player extends MovingAnimation {
 			FruitFever.viewY += FruitFever.vy;	
 		}
 
-		System.out.printf("%d\n",FruitFever.viewY);
+		// System.out.printf("%d %d %d %d now: %d\n", FruitFever.viewY, FruitFever.LEVEL_HEIGHT, FruitFever.SCREEN_HEIGHT, y, FruitFever.LEVEL_HEIGHT-y);
 
 	}
 
@@ -315,12 +315,15 @@ class Player extends MovingAnimation {
 	}
 
 	public void tongueAttack(){
-	
-		// Adjust Animation variables
-		doneAnimating = false;
-		counter = -1;
-		repeat = false;
 		
+		// Makes sure you finish a cycle of images before starting a new one
+		if(!images.equals(tongueAnim) && !images.equals(tongueAnimH))
+			counter = -1;
+
+		// Adjust Animation variables		
+		repeat = false;
+		doneAnimating = false;
+
 		// Switch animation images
 		if(facingRight)
 			images = tongueAnim;
@@ -331,9 +334,12 @@ class Player extends MovingAnimation {
 	
 	public void shootSwirl(){
 	
+		// Makes sure you finish a cycle of images before starting a new one
+		if(!images.equals(shootAnim) && !images.equals(shootAnimH))
+			counter = -1;
+
 		// Adjust Animation variables
 		doneAnimating = false;
-		counter = -1;
 		repeat = false;
 		
 		// Switch animation images
@@ -386,9 +392,7 @@ class Player extends MovingAnimation {
 				images = stillAnim;
 			else
 				images = stillAnimH;
-
 		}
-		
 		super.animate();
 			
 	}
