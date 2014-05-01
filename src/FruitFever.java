@@ -108,8 +108,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				add(upRect);
 				add(downRect);
 
-				System.out.println(player.dx);
-
 			}
 			
 			pause(MAIN_LOOP_SPEED);
