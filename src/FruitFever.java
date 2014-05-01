@@ -83,9 +83,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		upRect.setFilled(true);
 		/** TEMPORARY **/
 		
-
-		// System.out.printf("%d %d %d %d\n", player.x, player.y , player.imageX, player.imageY);
-		
 		while(true){
 			
 			// Playing
@@ -111,19 +108,202 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				add(upRect);
 				add(downRect);
 
-				// if (viewY > SCREEN_HEIGHT) {
-				// 	System.out.println("THis");	
-				// }else{
-				// 	System.out.println("nope");	
-				// }
-				
-				System.out.println(viewY + " " + (LEVEL_HEIGHT - SCREEN_HEIGHT));
+				System.out.println(player.dx);
+
 			}
 			
 			pause(MAIN_LOOP_SPEED);
 		}
 		
 	}
+
+	private void drawMainMenu(){
+		currentScreen = 1;
+		removeAll();
+		addToScreen(mainMenuButtons);
+		levelSelectionPage = 0;
+	}
+	
+	private void drawLevelSelection(){
+		removeAll();
+		add(levelBackDrop.image);
+		addToScreen(levelSelectionButtons);
+		
+		for(int i = 0; i < levelNumbers.length; i++)
+			add(levelNumbers[i]);
+		
+	}
+
+/** Loads and Displays all initial graphics of a level on the screen  **/
+	private void loadLevel(){
+		
+		// Clear the screen
+		removeAll();
+
+		addBackground();
+
+		// Loads all Blocks and Things
+		Data.loadObjects("../levels/levels.txt", currentLevel);
+
+		findScreenDimensions();
+
+		addImagesToScreen();
+
+		
+		// Loads the Hearts
+		for(int i = 0; i < player.maxLives; i++){
+			livesImages[i] = new GImage(Data.heartImage.getImage());
+			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
+			add(livesImages[i]);
+		}
+	}
+
+	private void addBackground(){
+
+		// Creates a black background on the screen
+		GRect background = new GRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		background.setFillColor(Color.BLACK);
+		background.setFilled(true);
+		add(background);
+
+	}
+
+	/** 
+	  * Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks
+	  * found horizontally and vertically
+	  **/
+	private void findScreenDimensions(){
+
+		// Get Level Width and Height
+		for (Block block : blocks ) {
+			
+			if (block.x > LEVEL_WIDTH)
+				LEVEL_WIDTH = block.x;
+
+			if (block.y > LEVEL_HEIGHT)
+				LEVEL_HEIGHT = block.y;
+		}
+	}
+
+	private void addImagesToScreen(){
+
+
+		/** Adds all blocks, things and fruits to the screen **/
+		
+		for(Block obj : blocks){
+			obj.image.setLocation(obj.getX(), obj.getY());
+			add(obj.image);
+		}
+		
+		for (Thing thing : things ) {
+			thing.image.setLocation(thing.getX(), thing.getY());
+			add(thing.image);
+		}
+		
+		for (Thing fruit : fruits ) {
+			fruit.image.setLocation(fruit.getX(), fruit.getY());
+			add(fruit.image);
+		}
+
+		placePlayerOnScreen();
+
+		/** TESTING PURPOSES ONLY **/
+		// addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
+		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
+		/** **/
+		
+
+	}
+
+	// ** Creates and correctly places player on screen **/
+	private void placePlayerOnScreen(){
+		
+		// Creates the Player class
+		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
+
+		add(player.image);
+
+
+		// Place player somewhat in the middle of the screen
+		viewX = playerStartX - SCREEN_WIDTH/2;
+		viewY = playerStartY - SCREEN_HEIGHT/2;
+
+		// adjusts 
+		player.imageX -= Data.TILE_SIZE;
+
+		// Adjust screen so that player cannot see outside view box
+		if (viewY < 0) viewY = 0;
+		if (viewX < 0) viewX = 0;
+		
+		if (viewY > LEVEL_HEIGHT - SCREEN_HEIGHT + Data.TILE_SIZE)
+			viewY = LEVEL_HEIGHT - SCREEN_HEIGHT + Data.TILE_SIZE;
+		
+		if (viewX > LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE) 
+			viewX = LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE;
+
+	}
+
+	// Unnecessary because of removeAll()?
+	// public void removeFromScreen(ArrayList<Button> arr){
+		// for(int i = 0; i < arr.size(); i++)
+			// remove(arr.get(i).image);
+	// }
+	
+	public void addToScreen(ArrayList<Button> arr){
+		for(int i = 0; i < arr.size(); i++)
+			add(arr.get(i).image);
+	}
+	
+	
+	public void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse){
+		for(Button obj : arr)
+			// Check to see if the mouse is on the button
+			if(obj.checkOverlap(mouse.getX(), mouse.getY())){
+				// Make the image appear to be clicked on
+				obj.setClick();
+				clickedOnButton = obj;
+			}
+	}
+	
+	public void shiftLevelLabel(int shift){
+	
+		for(int i = 0; i < 20; i++){
+			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
+			levelNumbers[i].setLocation((int) (SCREEN_WIDTH/2 - levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
+		}
+			
+	}
+	
+	public void addToThings(Thing obj){
+	
+		things.add(obj);
+		obj.image.setLocation(obj.x - viewX, obj.y - viewY);
+		add(obj.image);
+		
+	}
+	
+	private void postInit(){
+	
+		// Loading screen
+		GLabel loadingText = new GLabel("Loading...");
+		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth()/2, SCREEN_HEIGHT/2);
+		add(loadingText);
+		
+		// Set up keyboard and mouse
+		addMouseListeners();
+		addKeyListeners();
+		
+		// Set size
+		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+		
+		// Renders Images in the Data class, and fills the object Arrays^
+		Data.loadImages();
+
+		drawMainMenu();
+	
+	}
+	
+
 	
 	@Override public void keyPressed(KeyEvent key){
 
@@ -265,203 +445,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					currentScreen = 3;
 					
 				}				
-				
+
 			}
 			else clickedOnButton.setDefault();
 		}
-		
 		clickedOnButton = null;
 	}
-		
-	private void drawMainMenu(){
-		currentScreen = 1;
-		removeAll();
-		addToScreen(mainMenuButtons);
-		levelSelectionPage = 0;
-	}
-	
-	private void drawLevelSelection(){
-		removeAll();
-		add(levelBackDrop.image);
-		addToScreen(levelSelectionButtons);
-		
-		for(int i = 0; i < levelNumbers.length; i++)
-			add(levelNumbers[i]);
-		
-	}
 
-/** Loads and Displays all initial graphics of a level on the screen  **/
-	private void loadLevel(){
-		
-		// Clear the screen
-		removeAll();
-
-		addBackground();
-
-		// Loads all Blocks and Things
-		Data.loadObjects("../levels/levels.txt", currentLevel);
-
-		findScreenDimensions();
-
-		addImagesToScreen();
-
-		
-		// Loads the Hearts
-		for(int i = 0; i < player.maxLives; i++){
-			livesImages[i] = new GImage(Data.heartImage.getImage());
-			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
-			add(livesImages[i]);
-		}
-	}
-
-	private void addBackground(){
-
-		// Creates a black background on the screen
-		GRect background = new GRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		background.setFillColor(Color.BLACK);
-		background.setFilled(true);
-		add(background);
-
-	}
-
-	/** 
-	  * Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks
-	  * found horizontally and vertically
-	  **/
-	private void findScreenDimensions(){
-
-		// Get Level Width and Height
-		for (Block block : blocks ) {
-			
-			if (block.x > LEVEL_WIDTH)
-				LEVEL_WIDTH = block.x;
-
-			if (block.y > LEVEL_HEIGHT)
-				LEVEL_HEIGHT = block.y;
-		}
-	}
-
-	private void addImagesToScreen(){
-
-
-		/** Adds all blocks, things and fruits to the screen **/
-		
-		for(Block obj : blocks){
-			obj.image.setLocation(obj.getX(), obj.getY());
-			add(obj.image);
-		}
-		
-		for (Thing thing : things ) {
-			thing.image.setLocation(thing.getX(), thing.getY());
-			add(thing.image);
-		}
-		
-		for (Thing fruit : fruits ) {
-			fruit.image.setLocation(fruit.getX(), fruit.getY());
-			add(fruit.image);
-		}
-
-		placePlayerOnScreen();
-
-		/** TESTING PURPOSES ONLY **/
-		// addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
-		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
-		/** **/
-		
-
-	}
-
-	// ** Creates and correctly places player on screen **/
-	private void placePlayerOnScreen(){
-		
-		// Creates the Player class
-		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
-
-		add(player.image);
-
-
-		// Place player somewhat in the middle of the screen
-		viewX = playerStartX - SCREEN_WIDTH/2;
-		viewY = playerStartY - SCREEN_HEIGHT/2;
-
-		// adjusts 
-		player.imageX -= Data.TILE_SIZE;
-
-		// Adjust screen so that player cannot see outside view box
-		if (viewY < 0) viewY = 0;
-		if (viewX < 0) viewX = 0;
-		
-		if (viewY > LEVEL_HEIGHT - SCREEN_HEIGHT + Data.TILE_SIZE)
-			viewY = LEVEL_HEIGHT - SCREEN_HEIGHT + Data.TILE_SIZE;
-		
-		if (viewX > LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE) 
-			viewX = LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE;
-		
-
-		System.out.printf("%d %d", SCREEN_HEIGHT, viewY);
-
-	}
-
-	// Unnecessary because of removeAll()?
-	// public void removeFromScreen(ArrayList<Button> arr){
-		// for(int i = 0; i < arr.size(); i++)
-			// remove(arr.get(i).image);
-	// }
-	
-	public void addToScreen(ArrayList<Button> arr){
-		for(int i = 0; i < arr.size(); i++)
-			add(arr.get(i).image);
-	}
-	
-	
-	public void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse){
-		for(Button obj : arr)
-			// Check to see if the mouse is on the button
-			if(obj.checkOverlap(mouse.getX(), mouse.getY())){
-				// Make the image appear to be clicked on
-				obj.setClick();
-				clickedOnButton = obj;
-			}
-	}
-	
-	public void shiftLevelLabel(int shift){
-	
-		for(int i = 0; i < 20; i++){
-			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
-			levelNumbers[i].setLocation((int) (SCREEN_WIDTH/2 - levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
-		}
-			
-	}
-	
-	public void addToThings(Thing obj){
-	
-		things.add(obj);
-		obj.image.setLocation(obj.x - viewX, obj.y - viewY);
-		add(obj.image);
-		
-	}
-	
-	private void postInit(){
-	
-		// Loading screen
-		GLabel loadingText = new GLabel("Loading...");
-		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth()/2, SCREEN_HEIGHT/2);
-		add(loadingText);
-		
-		// Set up keyboard and mouse
-		addMouseListeners();
-		addKeyListeners();
-		
-		// Set size
-		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-		
-		// Renders Images in the Data class, and fills the object Arrays^
-		Data.loadImages();
-
-		drawMainMenu();
-	
-	}
-	
 }
 
 

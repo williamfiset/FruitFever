@@ -71,7 +71,7 @@ class Player extends MovingAnimation {
 		this.tongueAnimH = tongueAnimH;
 		boundaryLeft = Data.TILE_SIZE;
 		boundaryRight = -Data.TILE_SIZE;
-		
+
 	}
 
 	/** Calls all the players actions **/
@@ -220,10 +220,13 @@ class Player extends MovingAnimation {
 			Block eastSouth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
 			// No block right of player
-			if(eastSouth == null && eastNorth == null)
+			if(eastSouth == null && eastNorth == null){
 				dx = HORIZONTAL_VELOCITY;
-			else
-				dx = 0;
+			}else{
+				// Stop viewX from moving as well as player
+				dx = 0; 
+				FruitFever.vx = 0;
+			}
 			
 		// WEST
 		} else if(FruitFever.dx == -1) {
@@ -232,10 +235,15 @@ class Player extends MovingAnimation {
 			Block westSouth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
 
 			// No block left of player
-			if(westNorth == null && westSouth == null)
+			if(westNorth == null && westSouth == null){
 				dx = -HORIZONTAL_VELOCITY;
-			else
+			}
+			else{
+				
+				// Stop viewX from moving as well as player
 				dx = 0; 
+				FruitFever.vx = 0;
+			}
 		}
 
 	}
