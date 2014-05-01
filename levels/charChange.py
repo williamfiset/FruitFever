@@ -1,6 +1,5 @@
 
 
-
 """
 @Author William Fiset
 
@@ -11,7 +10,7 @@ ex:
 
 	This will change every character to a W expect E, S and T
 
-    ####      WWWW
+        ####      WWWW
 	PPPP      WWWW
 	WWWW      WWWW
 	EEEE  --> EEEE
