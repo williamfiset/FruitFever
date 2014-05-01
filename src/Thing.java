@@ -22,6 +22,7 @@ public class Thing extends Rectangle{
 	/** Constructors that define the image **/
 	
 	public Thing(int x, int y, int width, int height, GImage image){
+		
 		super(x, y, width, height);
 		this.image = new GImage(image.getImage());
 		this.imageX = x;
