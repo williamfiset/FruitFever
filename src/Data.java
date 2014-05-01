@@ -183,35 +183,30 @@ public abstract class Data{
 				// Iterate through each character in the line, instantiating the specified block (if it exists)
 				for(int i = 0; i < line.length(); i++){
 
+					char character = line.charAt(i);
+
 					// Skip if it's a blank
-					if(line.charAt(i) == '-')
+					if(character == '-' || character == ' ')
 						continue;
 						
 					// Lava
-					if(line.charAt(i) == '~'){
+					if(character == '~'){
 						FruitFever.things.add(new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, lavaImage));
 						continue;
 					}
 					
 					// Set the player's start position
-					if(line.charAt(i) == '@'){
-						FruitFever.playerStartX = i*TILE_SIZE;
-						FruitFever.playerStartY = lineNumber*TILE_SIZE;
-						continue;
-					}
-					
-					// Set the player's start position
-					if(line.charAt(i) == '@'){
+					if(character == '@'){
 						FruitFever.playerStartX = i*TILE_SIZE;
 						FruitFever.playerStartY = lineNumber*TILE_SIZE;
 						continue;
 					}
 					
 					// Reads in a fruit
-					if(Character.isDigit(line.charAt(i))){
-						if(line.charAt(i) == '0')
+					if(Character.isDigit(character)){
+						if(character == '0')
 							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.blueBerryAnimation, true, 2, true, 2));
-						if(line.charAt(i) == '1')
+						if(character == '1')
 							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.redBerryAnimation, true, 2, true, 2));
 						continue;
 					}
@@ -220,14 +215,14 @@ public abstract class Data{
 					int type;
 
 					// Normal Blocks
-					if(line.charAt(i) - 'a' >= 0){
-						type = line.charAt(i) - 'a';
+					if(character - 'a' >= 0){
+						type = character - 'a';
 						image = Data.blockImages[type];
 						//image = new GImage(Data.blockImages[type].getImage());
 					}
 					// Grass Blocks
 					else{
-						type = line.charAt(i) - 'A';
+						type = character - 'A';
 						image = new GImage(Data.blockGrassImages[type].getImage());
 					}
 
@@ -249,11 +244,13 @@ public abstract class Data{
 				// Iterate through each character in the line, instantiating the specified block (if it exists)
 				for(int i = 0; i < line.length(); i++){
 
+					char character = line.charAt(i);
+
 					// Skip if it's a blank
-					if(line.charAt(i) == '-' || line.charAt(i) == '#')
+					if(character == '-' || character == '#' || character == ' ')
 						continue;
 
-					int type = line.charAt(i) - 'a';
+					int type = character - 'a';
 					GImage image = new GImage(Data.sceneryImages[type].getImage());
 					int xOffset = 0, yOffset = 0;
 
@@ -275,10 +272,22 @@ public abstract class Data{
 			sc.close();
 		
 		}
-		catch(IOException e){}
+		catch(ArrayIndexOutOfBoundsException e){ 
+			System.out.println("\n Level contains invalid character \n");
+			e.printStackTrace();
+			System.exit(0);
+		}
 		catch(NoSuchElementException e){
 			System.out.println("Level " + FruitFever.currentLevel + " was not found.\n");
+			e.printStackTrace();
+			System.exit(0);
 		}
+		catch(IOException e){
+			System.out.println("\n IOException \n");
+			e.printStackTrace();
+			System.exit(0);
+		}
+		
 
 	}
 	
