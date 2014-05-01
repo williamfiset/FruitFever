@@ -82,7 +82,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		downRect.setFilled(true);
 		upRect.setFilled(true);
 		/** TEMPORARY **/
+		
 
+		// System.out.printf("%d %d %d %d\n", player.x, player.y , player.imageX, player.imageY);
+		
 		while(true){
 			
 			// Playing
@@ -108,6 +111,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				add(upRect);
 				add(downRect);
 
+				// if (viewY > SCREEN_HEIGHT) {
+				// 	System.out.println("THis");	
+				// }else{
+				// 	System.out.println("nope");	
+				// }
+				
+				System.out.println(viewY + " " + (LEVEL_HEIGHT - SCREEN_HEIGHT));
 			}
 			
 			pause(MAIN_LOOP_SPEED);
@@ -321,17 +331,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			fruit.image.setLocation(fruit.getX(), fruit.getY());
 			add(fruit.image);
 		}
-		
-		// Creates the Player class
-		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
-		
+
+		placePlayerOnScreen();
 
 		/** TESTING PURPOSES ONLY **/
 		// addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
 		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
-		add(player.image);
+
 		
 		// Loads the Hearts
 		for(int i = 0; i < player.maxLives; i++){
@@ -340,22 +348,41 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			add(livesImages[i]);
 		}
 
-		System.out.println(playerStartX + " " + playerStartY + " " + player.imageX + " " + player.imageY);
-
-		// WTF ? I DON'T GET WHY THIS WORKS !		
-		// player.imageX -= Data.TILE_SIZE;
-		// player.y -= Data.TILE_SIZE;
-		// player.imageY -= Data.TILE_SIZE;
-		// player.x -= Data.TILE_SIZE;
-
-		// viewX = playerStartX - SCREEN_WIDTH/2;
-		// viewY = playerStartY - SCREEN_HEIGHT/2;
-
-
 
 	}
-	
-	// Uneccesary because of removeAll()?
+
+	// ** Creates and correctly places player on screen **/
+	private void placePlayerOnScreen(){
+		
+		// Creates the Player class
+		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
+
+		add(player.image);
+
+
+		// Place player somewhat in the middle of the screen
+		viewX = playerStartX - SCREEN_WIDTH/2;
+		viewY = playerStartY - SCREEN_HEIGHT/2;
+
+		// adjusts 
+		player.imageX -= Data.TILE_SIZE;
+
+		// Adjust screen so that player cannot see outside view box
+		if (viewY < 0) viewY = 0;
+		if (viewX < 0) viewX = 0;
+		
+		if (viewY > LEVEL_HEIGHT - SCREEN_HEIGHT + Data.TILE_SIZE)
+			viewY = LEVEL_HEIGHT - SCREEN_HEIGHT + Data.TILE_SIZE;
+		
+		if (viewX > LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE) 
+			viewX = LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE;
+		
+
+		System.out.printf("%d %d", SCREEN_HEIGHT, viewY);
+
+	}
+
+	// Unnecessary because of removeAll()?
 	// public void removeFromScreen(ArrayList<Button> arr){
 		// for(int i = 0; i < arr.size(); i++)
 			// remove(arr.get(i).image);

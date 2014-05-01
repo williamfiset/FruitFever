@@ -61,6 +61,7 @@ class Player extends MovingAnimation {
 
 
 	public Player(int x, int y, GImage[] stillAnim, GImage[] stillAnimH, GImage[] shootAnim, GImage[] shootAnimH, GImage[] tongueAnim, GImage[] tongueAnimH){
+		
 		super(x, y, stillAnim, false, 1, true, 0);
 		this.stillAnim = stillAnim;
 		this.stillAnimH = stillAnimH;
@@ -70,6 +71,7 @@ class Player extends MovingAnimation {
 		this.tongueAnimH = tongueAnimH;
 		boundaryLeft = Data.TILE_SIZE;
 		boundaryRight = -Data.TILE_SIZE;
+		
 	}
 
 	/** Calls all the players actions **/
