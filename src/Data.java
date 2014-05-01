@@ -211,24 +211,32 @@ public abstract class Data{
 						continue;
 					}
 					
-					GImage image;
-					int type;
 
-					// Normal Blocks
-					if(character - 'a' >= 0){
-						type = character - 'a';
-						image = Data.blockImages[type];
-						//image = new GImage(Data.blockImages[type].getImage());
+					try{
+
+						GImage image;
+						int type;
+
+						// Normal Blocks
+						if(character - 'a' >= 0){
+							type = character - 'a';
+							image = Data.blockImages[type];
+							//image = new GImage(Data.blockImages[type].getImage());
+						}
+						// Grass Blocks
+						else{
+							type = character - 'A';
+							image = new GImage(Data.blockGrassImages[type].getImage());
+						}
+
+
+						// Add Block to the ArrayList
+						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, type, image));
+
+					} catch(ArrayIndexOutOfBoundsException e){ 
+						System.out.printf("\n Block Layer contains invalid character: '%c' \n", character);
+						System.exit(0);
 					}
-					// Grass Blocks
-					else{
-						type = character - 'A';
-						image = new GImage(Data.blockGrassImages[type].getImage());
-					}
-
-					// Add Block to the ArrayList
-					FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, type, image));
-
 				}
 
 				lineNumber++;
@@ -250,32 +258,31 @@ public abstract class Data{
 					if(character == '-' || character == '#' || character == ' ')
 						continue;
 
-					int type = character - 'a';
-					GImage image = new GImage(Data.sceneryImages[type].getImage());
-					int xOffset = 0, yOffset = 0;
+					try{
 
-					// Hard-Coded Exceptions
-					if(type == 0)
-						xOffset = -TILE_SIZE/2;
-					else if(type == 6)
-						xOffset = -3;
+						int type = character - 'a';
+						GImage image = new GImage(Data.sceneryImages[type].getImage());
+						int xOffset = 0, yOffset = 0;
 
-					// Add Scenery to the ArrayList
-					FruitFever.things.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
+						// Hard-Coded Exceptions
+						if(type == 0)
+							xOffset = -TILE_SIZE/2;
+						else if(type == 6)
+							xOffset = -3;
 
+						// Add Scenery to the ArrayList
+						FruitFever.things.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
+
+					} catch(ArrayIndexOutOfBoundsException e){ 
+						System.out.printf("\n Scenery Layer contains invalid character: '%c' \n", character);
+						System.exit(0);
+					}	
 				}
-
 				lineNumber++;
-
 			}
 
 			sc.close();
 		
-		}
-		catch(ArrayIndexOutOfBoundsException e){ 
-			System.out.println("\n Level contains invalid character \n");
-			e.printStackTrace();
-			System.exit(0);
 		}
 		catch(NoSuchElementException e){
 			System.out.println("Level " + FruitFever.currentLevel + " was not found.\n");
