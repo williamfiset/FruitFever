@@ -296,14 +296,39 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Clear the screen
 		removeAll();
 
+		addBackground();
+
+		// Loads all Blocks and Things
+		Data.loadObjects("../levels/levels.txt", currentLevel);
+
+		findScreenDimensions();
+
+		addImagesToScreen();
+
+		
+		// Loads the Hearts
+		for(int i = 0; i < player.maxLives; i++){
+			livesImages[i] = new GImage(Data.heartImage.getImage());
+			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
+			add(livesImages[i]);
+		}
+	}
+
+	private void addBackground(){
+
 		// Creates a black background on the screen
 		GRect background = new GRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		background.setFillColor(Color.BLACK);
 		background.setFilled(true);
 		add(background);
 
-		// Loads all Blocks and Things
-		Data.loadObjects("../levels/levels.txt", currentLevel);
+	}
+
+	/** 
+	  * Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks
+	  * found horizontally and vertically
+	  **/
+	private void findScreenDimensions(){
 
 		// Get Level Width and Height
 		for (Block block : blocks ) {
@@ -314,6 +339,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			if (block.y > LEVEL_HEIGHT)
 				LEVEL_HEIGHT = block.y;
 		}
+	}
+
+	private void addImagesToScreen(){
+
 
 		/** Adds all blocks, things and fruits to the screen **/
 		
@@ -339,15 +368,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
-
-		
-		// Loads the Hearts
-		for(int i = 0; i < player.maxLives; i++){
-			livesImages[i] = new GImage(Data.heartImage.getImage());
-			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
-			add(livesImages[i]);
-		}
-
 
 	}
 
