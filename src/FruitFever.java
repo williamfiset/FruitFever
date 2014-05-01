@@ -228,6 +228,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// adjusts 
 		player.imageX -= Data.TILE_SIZE;
+		// player.imageY -= Data.TILE_SIZE;
+		// player.y -= 4*Data.TILE_SIZE;
 
 		// Adjust screen so that player cannot see outside view box
 		if (viewY < 0) viewY = 0;
