@@ -102,7 +102,7 @@ public abstract class Data{
 			
 		/** Player Images **/
 		
-		playerStill[0] = makeImage(sheet, TILE_SIZE*13, TILE_SIZE, TILE_SIZE*3, TILE_SIZE);
+		playerStill[0] = makeImage(sheet, TILE_SIZE*13, 0, TILE_SIZE*3, TILE_SIZE);
 		playerStillH[0] = ImageTransformer.horizontalFlip(playerStill[0]);
 		
 		for(int i = 0; i < 9; i++){
