@@ -1,0 +1,29 @@
+DELETED:
+
+	1. Triangle enemies
+	2. Triangle Projectile Parts
+	3. Flying Circle with wings sprites
+	4. Front and sideViews of the red Block (That cluster of seven sprites)
+	5. Veritcal Vortex
+
+
+ADDITIONS:
+	
+	1. New Plant in the first spot on the second row
+	2. New fruit "banana"
+	3. HairDiskShooter Enemy (NOTE: height is 29 pixels, not 25!)
+	4. Slime enemy
+
+SPRITE SHIFTS:
+
+	NOTE: By units I mean 25 pixels or one TILE_SIZE
+	
+	1. Shifted the RedBlocks attak up 25 pixels
+	2. Projectiles (Swirl, Fire/Frost bolts)  were shifted left 75 pixels
+	3. Heart got shifted 75 Pixels Left
+	4. Water tiles were shifted 7 units up and 4 units left
+	5. Lava was shifted 5 units up and 3 units left
+	6. Plants got shifted 4 units up and 3 units left
+	7. Blue Berry's With Wings got shifted 5 units right and 11 units down
+	8. Moved red fruits over 2 units right and one unit up
+	9. moved hairy disk to (500, 100).
