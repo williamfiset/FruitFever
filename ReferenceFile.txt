@@ -18,6 +18,8 @@ BUTTON TYPES:
 	4 - Left Arrow
 	5 - Right Arrow
 	6 - Level boxes
+	
+	7 - Gear (in-game options)
 _____________________________________________________________________________________________
 
 ANIMATION TYPES:
@@ -104,8 +106,9 @@ ________________________________________________________________________________
 		
 		FRUIT are also put into this section:
 		
-			BlueBerry		--> 0
-			RedBerry		--> 1
+			Blue		--> 0
+			Yellow		--> 1
+			Red			--> 2
 			
 		The player's startng position is also put into this section:
 		
@@ -127,14 +130,15 @@ ________________________________________________________________________________
 		Tree (Blossoms)			(6)  --> g
 		
 		-BOTTOM ROW:
-		Tree Trunk				(7)  --> h
-		Grass					(8)  --> i
-		Plant2					(9)  --> j
-		Marijuana Plant			(10) --> k
-		Plant3 					(11) --> l
-		Mushroom (Small)		(12) --> m
-		Mushroom (Medium)		(13) --> n
-		Mushroom (Large)		(14) --> o
+		Yelow Flower 2			(7)	 --> h
+		Tree Trunk				(8)  --> i
+		Grass					(9)  --> j
+		Plant2					(10) --> k
+		Marijuana Plant			(11) --> l
+		Plant3 					(12) --> m
+		Mushroom (Small)		(13) --> n
+		Mushroom (Medium)		(14) --> o
+		Mushroom (Large)		(15) --> p
 		
 	ENEMIES:
 
