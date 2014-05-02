@@ -89,17 +89,17 @@ public abstract class Data{
 			
 		for(int i = 0; i < 7; i++)
 			redFruitAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 2), TILE_SIZE*15, TILE_SIZE, TILE_SIZE);
-		
+
 		// Fuzzy Disk Images
 		for(int i = 0; i < 8; i++)
 			fuzzyDiskAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE*17, TILE_SIZE, TILE_SIZE);
-		
+
 		// Heart Image
 		heartImage = makeImage(sheet, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 
 		// Lava Image
 		lavaImage = makeImage(sheet, TILE_SIZE*6, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-			
+
 		/** Player Images **/
 		
 		playerStill[0] = makeImage(sheet, TILE_SIZE*13, 0, TILE_SIZE*3, TILE_SIZE);
@@ -134,12 +134,12 @@ public abstract class Data{
 		/** Import level selection background/level button images **/
 		try { sheet = ImageIO.read(new File("../img/LevelSelection/backDrop/blueLevel.png"));	}
 		catch (IOException e) {	e.printStackTrace(); }
-		
+
 		levelButton[0] = makeImage(sheet, 0, 139, 51, 45);
 		levelButton[1] = makeImage(sheet, 0, 93, 50, 44);
 		levelBackDropImage = makeImage(sheet, 70, 0, 260, 333);
 		FruitFever.levelBackDrop = new Thing((int) (FruitFever.SCREEN_WIDTH/2 - levelBackDropImage.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelBackDropImage.getHeight()/2), levelBackDropImage);
-		
+
 		// Create numbers to display in the level boxes
 		for(int i = 0; i < 20; i++){
 			FruitFever.levelNumbers[i] = new GLabel(String.valueOf(i));
