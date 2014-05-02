@@ -82,6 +82,7 @@ public abstract class Data{
 		// Berry Animation Images
 		for(int i = 0; i < 5; i++)
 			blueBerryAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 7), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+
 		for(int i = 0; i < 7; i++)
 			redBerryAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE*16, TILE_SIZE, TILE_SIZE);
 		
@@ -95,7 +96,8 @@ public abstract class Data{
 		// Blue Enemy Animation Images
 		for(int i = 0; i < 4; i++)
 			blueEnemyAnimation[i] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
-			
+				
+
 		// Lava Image
 		lavaImage = makeImage(sheet, TILE_SIZE*9, TILE_SIZE*7, TILE_SIZE, TILE_SIZE);
 			
