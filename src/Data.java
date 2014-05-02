@@ -21,11 +21,12 @@ public abstract class Data{
 	public static GImage heartImage, levelBackDropImage, lavaImage;
 	public static GImage[] blockImages = new GImage[15],
 						   blockGrassImages = new GImage[15],
-						   sceneryImages = new GImage[15],
+						   sceneryImages = new GImage[16],
 						   swirlAnimation = new GImage[6],
 						   vortexAnimation = new GImage[5],
-						   blueBerryAnimation = new GImage[5],
-						   redBerryAnimation = new GImage[7],
+						   blueFruitAnimation = new GImage[5],
+						   yellowFruitAnimation = new GImage[6],
+						   redFruitAnimation = new GImage[7],
 						   fuzzyDiskAnimation = new GImage[8],
 						   playerStill = new GImage[1],
 						   playerStillH = new GImage[1],
@@ -52,23 +53,24 @@ public abstract class Data{
 		}
 
 		// Scenery (Top Row in sheet)
-		sceneryImages[0] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*11, TILE_SIZE*2, TILE_SIZE);
-		sceneryImages[1] = makeImage(sheet, TILE_SIZE*7, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[2] = makeImage(sheet, TILE_SIZE*8, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[3] = makeImage(sheet, TILE_SIZE*9, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[4] = makeImage(sheet, TILE_SIZE*10, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[5] = makeImage(sheet, TILE_SIZE*11, TILE_SIZE*11, TILE_SIZE, TILE_SIZE);
-		sceneryImages[6] = makeImage(sheet, TILE_SIZE*12, TILE_SIZE*11 - 2, TILE_SIZE + 5, TILE_SIZE + 2);
+		sceneryImages[0] = makeImage(sheet, TILE_SIZE*2, TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE);
+		sceneryImages[1] = makeImage(sheet, TILE_SIZE*4, TILE_SIZE*7, TILE_SIZE, TILE_SIZE);
+		sceneryImages[2] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*7, TILE_SIZE, TILE_SIZE);
+		sceneryImages[3] = makeImage(sheet, TILE_SIZE*6, TILE_SIZE*7, TILE_SIZE, TILE_SIZE);
+		sceneryImages[4] = makeImage(sheet, TILE_SIZE*7, TILE_SIZE*7, TILE_SIZE, TILE_SIZE);
+		sceneryImages[5] = makeImage(sheet, TILE_SIZE*8, TILE_SIZE*7, TILE_SIZE, TILE_SIZE);
+		sceneryImages[6] = makeImage(sheet, TILE_SIZE*9, TILE_SIZE*7 - 2, TILE_SIZE + 5, TILE_SIZE + 2);
 
 		// Scenery (Bottom Row in sheet)
-		sceneryImages[7] = makeImage(sheet, TILE_SIZE*6, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[8] = makeImage(sheet, TILE_SIZE*7, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[9] = makeImage(sheet, TILE_SIZE*8, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[10] = makeImage(sheet, TILE_SIZE*9, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[11] = makeImage(sheet, TILE_SIZE*10, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[12] = makeImage(sheet, TILE_SIZE*11, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[13] = makeImage(sheet, TILE_SIZE*12, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
-		sceneryImages[14] = makeImage(sheet, TILE_SIZE*13, TILE_SIZE*12, TILE_SIZE, TILE_SIZE);
+		sceneryImages[7] = makeImage(sheet, TILE_SIZE*2, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+		sceneryImages[8] = makeImage(sheet, TILE_SIZE*3, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+		sceneryImages[9] = makeImage(sheet, TILE_SIZE*4, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+		sceneryImages[10] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+		sceneryImages[11] = makeImage(sheet, TILE_SIZE*6, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+		sceneryImages[12] = makeImage(sheet, TILE_SIZE*7, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+		sceneryImages[13] = makeImage(sheet, TILE_SIZE*8, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+		sceneryImages[14] = makeImage(sheet, TILE_SIZE*9, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+		sceneryImages[15] = makeImage(sheet, TILE_SIZE*10, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
 		
 		// Swirl Animation Images
 		for(int i = 0; i < 6; i++)
@@ -80,10 +82,13 @@ public abstract class Data{
 		
 		// Berry Animation Images
 		for(int i = 0; i < 5; i++)
-			blueBerryAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 7), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+			blueFruitAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 2), TILE_SIZE*13, TILE_SIZE, TILE_SIZE);
 
+		for(int i = 0; i < 6; i++)
+			yellowFruitAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 2), TILE_SIZE*14, TILE_SIZE, TILE_SIZE);	
+			
 		for(int i = 0; i < 7; i++)
-			redBerryAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE*16, TILE_SIZE, TILE_SIZE);
+			redFruitAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 2), TILE_SIZE*15, TILE_SIZE, TILE_SIZE);
 		
 		// Fuzzy Disk Images
 		for(int i = 0; i < 8; i++)
@@ -201,9 +206,11 @@ public abstract class Data{
 					// Reads in a fruit
 					if(Character.isDigit(character)){
 						if(character == '0')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.blueBerryAnimation, true, 2, true, 2));
-						if(character == '1')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.redBerryAnimation, true, 2, true, 2));
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.blueFruitAnimation, true, 2, true, 2));
+						else if(character == '1')
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.yellowFruitAnimation, true, 2, true, 2));
+						else if(character == '2')
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.redFruitAnimation, true, 2, true, 2));
 						continue;
 					}
 					
@@ -217,12 +224,11 @@ public abstract class Data{
 						if(character - 'a' >= 0){
 							type = character - 'a';
 							image = Data.blockImages[type];
-							//image = new GImage(Data.blockImages[type].getImage());
 						}
 						// Grass Blocks
 						else{
 							type = character - 'A';
-							image = new GImage(Data.blockGrassImages[type].getImage());
+							image = Data.blockGrassImages[type];
 						}
 
 
