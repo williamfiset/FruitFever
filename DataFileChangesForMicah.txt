@@ -13,6 +13,7 @@ ADDITIONS:
 	2. New fruit "banana"
 	3. HairDiskShooter Enemy (NOTE: height is 29 pixels, not 25!)
 	4. Slime enemy
+	5. Options Gear for top right side of screen
 
 SPRITE SHIFTS:
 
