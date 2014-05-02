@@ -27,7 +27,6 @@ public abstract class Data{
 						   blueBerryAnimation = new GImage[5],
 						   redBerryAnimation = new GImage[7],
 						   fuzzyDiskAnimation = new GImage[8],
-						   blueEnemyAnimation = new GImage[4],
 						   playerStill = new GImage[1],
 						   playerStillH = new GImage[1],
 						   playerTongue = new GImage[9],
@@ -73,7 +72,7 @@ public abstract class Data{
 		
 		// Swirl Animation Images
 		for(int i = 0; i < 6; i++)
-			swirlAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 5), 0, TILE_SIZE, TILE_SIZE);
+			swirlAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 2), 0, TILE_SIZE, TILE_SIZE);
 			
 		// Vortex Animation Images
 		for(int i = 0; i < 5; i++)
@@ -91,15 +90,10 @@ public abstract class Data{
 			fuzzyDiskAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE*17, TILE_SIZE, TILE_SIZE);
 		
 		// Heart Image
-		heartImage = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		
-		// Blue Enemy Animation Images
-		for(int i = 0; i < 4; i++)
-			blueEnemyAnimation[i] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*(i + 6), TILE_SIZE*2, TILE_SIZE);
-				
+		heartImage = makeImage(sheet, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 
 		// Lava Image
-		lavaImage = makeImage(sheet, TILE_SIZE*9, TILE_SIZE*7, TILE_SIZE, TILE_SIZE);
+		lavaImage = makeImage(sheet, TILE_SIZE*6, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 			
 		/** Player Images **/
 		
@@ -107,11 +101,11 @@ public abstract class Data{
 		playerStillH[0] = ImageTransformer.horizontalFlip(playerStill[0]);
 		
 		for(int i = 0; i < 9; i++){
-			playerTongue[i] = makeImage(sheet, TILE_SIZE*13, TILE_SIZE*(i + 1), TILE_SIZE*3, TILE_SIZE);
+			playerTongue[i] = makeImage(sheet, TILE_SIZE*13, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE);
 			playerTongueH[i] = ImageTransformer.horizontalFlip(playerTongue[i]);
 		}
 		for(int i = 0; i < 6; i++){
-			playerShoot[i] = makeImage(sheet, TILE_SIZE*16, TILE_SIZE*(i + 1), TILE_SIZE*3, TILE_SIZE); 
+			playerShoot[i] = makeImage(sheet, TILE_SIZE*16, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE); 
 			playerShootH[i] = ImageTransformer.horizontalFlip(playerShoot[i]);	
 		}
 		
