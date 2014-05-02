@@ -15,6 +15,7 @@ ADDITIONS:
 	3. HairDiskShooter Enemy (NOTE: height is ≈29 pixels, not 25!)
 	4. Slime enemy
 	5. Options Gear for top right side of screen
+	6. Temporary LoadingScreen (unless you REALLY like it but I can make it better)
 
 SPRITE SHIFTS:
 
