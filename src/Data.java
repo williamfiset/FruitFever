@@ -92,7 +92,7 @@ public abstract class Data{
 
 		// Fuzzy Disk Images
 		for(int i = 0; i < 8; i++)
-			fuzzyDiskAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE*17, TILE_SIZE, TILE_SIZE);
+			fuzzyDiskAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 20), TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 
 		// Heart Image
 		heartImage = makeImage(sheet, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
@@ -206,11 +206,11 @@ public abstract class Data{
 					// Reads in a fruit
 					if(Character.isDigit(character)){
 						if(character == '0')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.blueFruitAnimation, true, 2, true, 2));
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.blueFruitAnimation, true, 3, true, 2));
 						else if(character == '1')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.yellowFruitAnimation, true, 2, true, 2));
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.yellowFruitAnimation, true, 3, true, 2));
 						else if(character == '2')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.redFruitAnimation, true, 2, true, 2));
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.redFruitAnimation, true, 3, true, 2));
 						continue;
 					}
 					
