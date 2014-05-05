@@ -398,6 +398,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 		/** Temporary code to jump to the main menu **/
 		if(mouse.getX() < 25 && mouse.getY() < 25){
+			LEVEL_WIDTH = 0;
+			LEVEL_HEIGHT = 0;
 			drawMainMenu();
 			return;
 		}
