@@ -18,7 +18,8 @@ public abstract class Data{
 	public static int TILE_SIZE = 25;
 
 	public static BufferedImage sheet = null;
-	public static GImage heartImage, levelBackDropImage, lavaImage;
+	public static GImage heartImage, levelBackDropImage, lavaImage,
+						 purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig;
 	public static GImage[] blockImages = new GImage[15],
 						   blockGrassImages = new GImage[15],
 						   sceneryImages = new GImage[16],
@@ -27,13 +28,20 @@ public abstract class Data{
 						   blueFruitAnimation = new GImage[5],
 						   yellowFruitAnimation = new GImage[6],
 						   redFruitAnimation = new GImage[7],
-						   fuzzyDiskAnimation = new GImage[8],
+						   gearButton = new GImage[3],
 						   playerStill = new GImage[1],
 						   playerStillH = new GImage[1],
 						   playerTongue = new GImage[9],
 						   playerTongueH = new GImage[9],
 						   playerShoot = new GImage[6],
 						   playerShootH = new GImage[6],
+						   fuzzyEnemyAttack = new GImage[4],
+						   fuzzyEnemyAttackH = new GImage[4],
+						   fuzzyEnemyMoving = new GImage[3],
+						   fuzzyEnemyMovingH = new GImage[3],
+						   fuzzyShot = new GImage[8],
+						   wormEnemyMoving = new GImage[4],
+						   wormEnemyMovingH = new GImage[4],
 						   menuButtons = new GImage[12],
 						   leftArrowButton = new GImage[3],
 						   rightArrowButton = new GImage[3],
@@ -80,6 +88,10 @@ public abstract class Data{
 		for(int i = 0; i < 5; i++)
 			vortexAnimation[i] = makeImage(sheet, TILE_SIZE*11, TILE_SIZE*(i + 3), TILE_SIZE*2, TILE_SIZE);
 		
+		// Gear Button Images
+		for(int i = 0; i < 3; i++)
+			gearButton[i] = makeImage(sheet, TILE_SIZE*(i + 2), TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
+		
 		// Berry Animation Images
 		for(int i = 0; i < 5; i++)
 			blueFruitAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 2), TILE_SIZE*13, TILE_SIZE, TILE_SIZE);
@@ -90,12 +102,18 @@ public abstract class Data{
 		for(int i = 0; i < 7; i++)
 			redFruitAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 2), TILE_SIZE*15, TILE_SIZE, TILE_SIZE);
 
-		// Fuzzy Disk Images
+		// Fuzzy Projectile Images
 		for(int i = 0; i < 8; i++)
-			fuzzyDiskAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 20), TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
+			fuzzyShot[i] = makeImage(sheet, TILE_SIZE*(i + 20), TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 
 		// Heart Image
 		heartImage = makeImage(sheet, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		
+		// Fireball and Purple Ball Images
+		purpleBallSmall = makeImage(sheet, TILE_SIZE*2, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
+		purpleBallBig = makeImage(sheet, TILE_SIZE*4, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		fireBallSmall = makeImage(sheet, TILE_SIZE*5, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
+		fireBallBig = makeImage(sheet, TILE_SIZE*7, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
 		// Lava Image
 		lavaImage = makeImage(sheet, TILE_SIZE*6, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
@@ -113,6 +131,24 @@ public abstract class Data{
 			playerShoot[i] = makeImage(sheet, TILE_SIZE*16, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE); 
 			playerShootH[i] = ImageTransformer.horizontalFlip(playerShoot[i]);	
 		}
+		
+		/** Enemy Images **/
+		
+		for(int i = 0; i < 4; i++){
+			fuzzyEnemyAttack[i] = makeImage(sheet, TILE_SIZE*(2*i + 20), TILE_SIZE, TILE_SIZE*2, TILE_SIZE); 
+			fuzzyEnemyAttackH[i] = ImageTransformer.horizontalFlip(fuzzyEnemyAttack[i]);	
+		}
+		
+		for(int i = 0; i < 3; i++){
+			fuzzyEnemyMoving[i] = makeImage(sheet, TILE_SIZE*(2*i + 20), TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE); 
+			fuzzyEnemyMovingH[i] = ImageTransformer.horizontalFlip(fuzzyEnemyMoving[i]);	
+		}
+		
+		for(int i = 0; i < 4; i++){
+			wormEnemyMoving[i] = makeImage(sheet, TILE_SIZE*(2*i + 20), TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE); 
+			wormEnemyMovingH[i] = ImageTransformer.horizontalFlip(wormEnemyMoving[i]);	
+		}
+		
 		
 		/** Import menu images **/
 		try { sheet = ImageIO.read(new File("../img/Menu/Menu_Red.png"));	}
@@ -326,6 +362,11 @@ public abstract class Data{
 			FruitFever.buttons.add(tempButton);
 			FruitFever.levelSelectionButtons.add(tempButton);
 		}
+		
+		// Adds gear button to the ArrayLists
+		tempButton = new Button(0, 0, 4, gearButton[0], gearButton[1], gearButton[2]);
+		FruitFever.buttons.add(tempButton);
+		FruitFever.inGameButtons.add(tempButton);
 		
 	}
 	

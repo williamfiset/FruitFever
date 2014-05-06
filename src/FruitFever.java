@@ -20,19 +20,19 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static Player player;
 
 // Game Object Lists
-	static ArrayList<Block> blocks = new ArrayList<Block>();
-	static ArrayList<Thing> things = new ArrayList<Thing>();
-	static ArrayList<Animation> fruits = new ArrayList<Animation>();
+	static ArrayList<Block> blocks;
+	static ArrayList<Thing> things;
+	static ArrayList<Animation> fruits;
 	
 // Menu/Level selection variables	
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
+	static ArrayList<Button> inGameButtons = new ArrayList<Button>();
 	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other array lists)
 	static Button clickedOnButton = null;
 
 	static GLabel[] levelNumbers = new GLabel[20];
 	static GImage[] livesImages = new GImage[player.maxLives];
-
 	
 	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
 	static int currentScreen = 0;
@@ -62,7 +62,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	// Unnecessary now that the code is moved into the run method? What exactly is this overriding?
 	@Override public void init() {}
 	
-
 /** Contains the main game loop **/
 	@Override public void run(){
 		
@@ -129,7 +128,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		for(int i = 0; i < levelNumbers.length; i++)
 			add(levelNumbers[i]);
-		
+			
+		blocks = new ArrayList<Block>();
+		things = new ArrayList<Thing>();
+		fruits = new ArrayList<Animation>();
 	}
 
 /** Loads and Displays all initial graphics of a level on the screen  **/
@@ -151,9 +153,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Loads the Hearts
 		for(int i = 0; i < player.maxLives; i++){
 			livesImages[i] = new GImage(Data.heartImage.getImage());
-			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
+			livesImages[i].setLocation((i+2)*Data.TILE_SIZE, 0);
 			add(livesImages[i]);
 		}
+		
+		addToScreen(inGameButtons);
 	}
 
 	private void addBackground(){
@@ -221,7 +225,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		add(player.image);
 
-
 		// Place player somewhat in the middle of the screen
 		viewX = playerStartX - SCREEN_WIDTH/2;
 		viewY = playerStartY - SCREEN_HEIGHT/2;
@@ -242,12 +245,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			viewX = LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE;
 
 	}
-
-	// Unnecessary because of removeAll()?
-	// public void removeFromScreen(ArrayList<Button> arr){
-		// for(int i = 0; i < arr.size(); i++)
-			// remove(arr.get(i).image);
-	// }
 	
 	public void addToScreen(ArrayList<Button> arr){
 		for(int i = 0; i < arr.size(); i++)
@@ -303,16 +300,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 	}
 	
-
-	
 	@Override public void keyPressed(KeyEvent key){
 
 		int keyCode = key.getKeyCode();
 
 		// JUMP
-		if(keyCode == KeyEvent.VK_W){
+		if(keyCode == KeyEvent.VK_W)
 			player.setIsJumping(true);
-		}
 
 		// Tongue Attack
 		else if (keyCode == KeyEvent.VK_S)
@@ -392,6 +386,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			checkAndSetClick(mainMenuButtons, mouse);
 		else if(currentScreen == 2)
 			checkAndSetClick(levelSelectionButtons, mouse);
+		else if(currentScreen == 3)
+			checkAndSetClick(inGameButtons, mouse);
+			
 	}
 	
 	@Override public void mouseReleased(MouseEvent mouse) {
@@ -404,7 +401,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			return;
 		}
 			
-	
 		if(clickedOnButton != null){
 		
 			/** Unclick the button image and preform action (if applicable) **/
@@ -455,12 +451,3 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 
 }
-
-
-
-
-
-
-
-
-
