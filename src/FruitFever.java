@@ -55,7 +55,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	final static int UP_BOUNDARY = (int) (SCREEN_HEIGHT * viewBoxSpacing);
 	final static int DOWN_BOUNDARY = (int) (SCREEN_HEIGHT * (1.0 - viewBoxSpacing));
 		
-	static int viewX = 0, viewY = 0;
+	static int viewX, viewY;
 	static int vx; // Δ in viewX & viewY
 	static double vy; 
 
@@ -136,6 +136,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 /** Loads and Displays all initial graphics of a level on the screen  **/
 	private void loadLevel(){
+		
+		LEVEL_WIDTH = 0;
+		LEVEL_HEIGHT = 0;
+		viewX = 0;
+		viewY = 0;
 		
 		// Clear the screen
 		removeAll();
@@ -406,8 +411,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 		/** Temporary code to jump to the main menu **/
 		if(mouse.getX() < 25 && mouse.getY() < 25){
-			LEVEL_WIDTH = 0;
-			LEVEL_HEIGHT = 0;
 			drawMainMenu();
 			return;
 		}
