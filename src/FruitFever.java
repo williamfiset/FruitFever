@@ -153,7 +153,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Loads the Hearts
 		for(int i = 0; i < player.maxLives; i++){
 			livesImages[i] = new GImage(Data.heartImage.getImage());
-			livesImages[i].setLocation((i+2)*Data.TILE_SIZE, 0);
+			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
 			add(livesImages[i]);
 		}
 		
