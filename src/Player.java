@@ -93,8 +93,10 @@ class Player extends MovingAnimation {
 
 	/** Resets players ability to jump if applicable **/
 	private void enableJumping(){
+		
 		if(onPlatform)
 			setBaseLine = false;
+		
 	}
 
 	//** Moves the view of the screen relative to the character **/

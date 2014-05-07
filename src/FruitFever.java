@@ -229,11 +229,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		viewX = playerStartX - SCREEN_WIDTH/2;
 		viewY = playerStartY - SCREEN_HEIGHT/2;
 
-		// adjusts 
-		player.imageX -= Data.TILE_SIZE;
-		// player.imageY -= Data.TILE_SIZE;
-		// player.y -= 4*Data.TILE_SIZE;
-
 		// Adjust screen so that player cannot see outside view box
 		if (viewY < 0) viewY = 0;
 		if (viewX < 0) viewX = 0;
@@ -243,6 +238,28 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		if (viewX > LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE) 
 			viewX = LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE;
+
+		// adjusts Player position on screen accordingly
+		// Why must we do this? 
+		player.imageX -= Data.TILE_SIZE; 
+		player.x -= Data.TILE_SIZE;
+
+		// Why is is y and not imageY ?? 
+		// doesn't work on edge of screen
+
+		// player.y -= 4*Data.TILE_SIZE;
+
+		// if (viewY == 0){
+		// 	player.y -= Data.TILE_SIZE;			
+		// }
+		// else{
+		// 	player.y -= 4*Data.TILE_SIZE;  	
+		// }
+
+		System.out.printf("%d %d\n", player.x, player.y);
+		System.out.printf("%d %d\n", player.imageX, player.imageY);
+		System.out.printf("playerStartX: %d playerStartY: %d\n", playerStartX, playerStartY);
+
 
 	}
 	
