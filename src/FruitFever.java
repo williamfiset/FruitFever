@@ -290,9 +290,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addMouseListeners();
 		addKeyListeners();
 		
-		// Set size
-		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-		
 		// Renders Images in the Data class, and fills the object Arrays^
 		Data.loadImages();
 
