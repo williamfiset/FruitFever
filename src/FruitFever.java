@@ -251,6 +251,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Still bewildered by why this works...
 		player.imageX -= Data.TILE_SIZE; 
 		player.x -= Data.TILE_SIZE;
+		
+		add(player.swirl.image);
 
 	}
 	
@@ -318,17 +320,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			player.tongueAttack();
 
 		// Shoot Swirl
-		else if (keyCode == KeyEvent.VK_SPACE){
-
-			if(player.facingRight)
-				addToThings(new MovingAnimation(player.x + 15 + viewX, player.y + 5 + viewY, Data.swirlAnimation, false, 0, true, 10, 0, 1));
-			else
-				addToThings(new MovingAnimation(player.x - 15 + viewX, player.y + 5 + viewY, Data.swirlAnimation, false, 0, true, -10, 0, 1));
+		else if (keyCode == KeyEvent.VK_SPACE)
 			player.shootSwirl();
 	
-
 		// Movement LEFT
-		}else if (keyCode == KeyEvent.VK_A) {
+		else if (keyCode == KeyEvent.VK_A) {
 
 			player.facingRight = false; 
 			dx = -1;

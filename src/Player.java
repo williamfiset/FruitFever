@@ -11,8 +11,9 @@ import java.util.*;
 import java.awt.Color.*;
 import java.awt.*;
 
-class Player extends MovingAnimation {
+public class Player extends MovingAnimation {
 	
+	static Swirl swirl;
 	static int lives = 3, maxLives = 3;
 
 // Movement Variables
@@ -71,6 +72,8 @@ class Player extends MovingAnimation {
 		this.tongueAnimH = tongueAnimH;
 		boundaryLeft = Data.TILE_SIZE;
 		boundaryRight = -Data.TILE_SIZE;
+		
+		swirl = new Swirl();
 
 	}
 
@@ -111,7 +114,8 @@ class Player extends MovingAnimation {
 			else
 				FruitFever.vx = dx;	
 		
-		}else if (x < FruitFever.LEFT_BOUNDARY && dx < 0) {
+		}
+		else if (x < FruitFever.LEFT_BOUNDARY && dx < 0) {
 
 			// Makes sure view never shows blank left of screen
 			if (FruitFever.viewX <= 0)
@@ -347,19 +351,33 @@ class Player extends MovingAnimation {
 	
 	public void shootSwirl(){
 	
-		// Makes sure you finish a cycle of images before starting a new one
-		if(!images.equals(shootAnim) && !images.equals(shootAnimH))
-			counter = -1;
+		// If the swirl is not active
+		if(swirl.xSpeed == 0){
+			// Makes sure you finish a cycle of images before starting a new one
+			if(!images.equals(shootAnim) && !images.equals(shootAnimH))
+				counter = -1;
 
-		// Adjust Animation variables
-		doneAnimating = false;
-		repeat = false;
-		
-		// Switch animation images
-		if(facingRight)
-			images = shootAnim;
-		else
-			images = shootAnimH;
+			// Adjust Animation variables
+			doneAnimating = false;
+			repeat = false;
+			
+			// Switch animation images
+			if(facingRight)
+				images = shootAnim;
+			else
+				images = shootAnimH;
+				
+
+			swirl.imageX = FruitFever.player.facingRight ? FruitFever.player.x + 15 + FruitFever.viewX : FruitFever.player.x - 15 + FruitFever.viewX;
+			swirl.imageY = FruitFever.player.facingRight ? FruitFever.player.y + 5 + FruitFever.viewY : FruitFever.player.y + 5 + FruitFever.viewY;
+			swirl.xSpeed = FruitFever.player.facingRight ? 10 : -10;
+		}
+		// If the swirl is active
+		else{
+			imageX = swirl.imageX;
+			imageY = swirl.imageY;
+			swirl.resetState();
+		}
 		
 	}
 
@@ -407,6 +425,9 @@ class Player extends MovingAnimation {
 				images = stillAnimH;
 		}
 		super.animate();
+		
+		swirl.animate();
+		System.out.println(swirl.x + " " + swirl.y);
 			
 	}
 
@@ -416,6 +437,20 @@ class Player extends MovingAnimation {
 
 }
 
+class Swirl extends MovingAnimation{
+
+	public Swirl(){
+		super(-100, -100, Data.swirlAnimation, false, 0, true, 0, 0, 1);
+		resetState();
+	}
+	
+	public void resetState(){	
+		imageX = -100;
+		imageY = -100;
+		xSpeed = 0;
+	}
+	
+}
 
 
 
