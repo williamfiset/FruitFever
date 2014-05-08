@@ -19,11 +19,43 @@ public class Block extends Thing {
 	*				and associated types)
 	**/
 
+	private static HashMap <Integer, ArrayList <Block>> xBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
+	private static HashMap <Integer, ArrayList <Block>> yBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
 
 	public Block(int x, int y, int width, int height, int type, GImage image){
 
 		super(x, y, width, height, image);
+
+		// Search if row exists within hashmap
+		if (xBlockPositions.containsKey(x)) {
+			
+			// If it does, extract ArrayList, add element and push it back into hashmap
+			ArrayList <Block> xPos = xBlockPositions.get(x);
+			xPos.add(this);
+			xBlockPositions.put(x, xPos);
+
+		}else{
+			ArrayList <Block> xPos = new ArrayList <Block> ();
+			xPos.add(this);
+			xBlockPositions.put(x, xPos);
+		}
 		
+
+		// Search if row exists within hashmap
+		if (yBlockPositions.containsKey(y)) {
+			
+			// If it does, extract ArrayList, add element and push it back into hashmap
+			ArrayList <Block> yPos = yBlockPositions.get(y);
+			yPos.add(this);
+			yBlockPositions.put(y, yPos);
+
+		}else{
+			ArrayList <Block> yPos = new ArrayList <Block> ();
+			yPos.add(this);
+			yBlockPositions.put(y, yPos);
+		}
+		
+
 		this.type = type;
 
 	}
@@ -45,16 +77,33 @@ public class Block extends Thing {
 
 	public static Block getBlock(int xPos, int yPos){
 
-		for (Block block : FruitFever.blocks)
-			if (block.contains(xPos, yPos)) // From java.awt.Rectangle.contains(x,y) 
-				return block;
-			
-		// Block coordinates were not found, typically due to air space or out of bounds
-		return null;
-	}
+		// Gets both the center row and column containing the block were looking for
+		int rowNumber = ( (xPos + FruitFever.viewX) / 25) * 25;
+		int columnNumber = ( (yPos + FruitFever.viewY) / 25) * 25;
 
-	// Not sure if it is worth implementing, at least for now
-	public static Block getAdjacentBlock(Block block){
+		// Defines center row & Column
+		ArrayList <Block> row = xBlockPositions.get(rowNumber);
+		ArrayList <Block> column = yBlockPositions.get(columnNumber);
+
+		for (Block xBlock : row) 
+			for (Block yBlock : column) 
+				
+				// check if both blocks point to each other
+				if (xBlock == yBlock)
+
+					// Make sure point is actually within block
+					if (xBlock.contains(xPos, yPos))
+						return xBlock;
+			
+		/* This is the old Block finder method, I'm keeping it just in case we need to go back to it
+
+		for (Block block : FruitFever.blocks)
+			if (block.contains(xPos, yPos)){ // From java.awt.Rectangle.contains(x,y) 
+				return block;
+			}
+		*/
+
+		// Block coordinates were not found, typically due to air space or out of bounds
 		return null;
 	}
 
