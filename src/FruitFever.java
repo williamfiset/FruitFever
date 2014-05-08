@@ -99,8 +99,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				for(Block obj : blocks)
 					obj.animate();
 
-				player.motion();
 				player.animate();
+				player.motion();
+				
 
 				add(leftRect);
 				add(rightRect);
@@ -137,10 +138,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 /** Loads and Displays all initial graphics of a level on the screen  **/
 	private void loadLevel(){
 		
+		// Resets level
+
+		// Empties Block HashMaps used for collision detection (So that they don't have blocks from the previous level in them)
+		Block.resetBlockList();
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
 		viewX = 0;
 		viewY = 0;
+	
 		
 		// Clear the screen
 		removeAll();
@@ -244,24 +250,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		if (viewX > LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE) 
 			viewX = LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE;
 
-		// adjusts Player position on screen accordingly
-		// Why must we do this? 
+		// Still bewildered by why this works...
 		player.imageX -= Data.TILE_SIZE; 
 		player.x -= Data.TILE_SIZE;
-
-		// player.y -= 4*Data.TILE_SIZE;
-
-		// if (viewY == 0){
-		// 	player.y -= Data.TILE_SIZE;			
-		// }
-		// else{
-		// 	player.y -= 4*Data.TILE_SIZE;  	
-		// }
-
-		// System.out.printf("%d %d\n", player.x, player.y);
-		// System.out.printf("%d %d\n", player.imageX, player.imageY);
-		// System.out.printf("playerStartX: %d playerStartY: %d\n", playerStartX, playerStartY);
-
 
 	}
 	
