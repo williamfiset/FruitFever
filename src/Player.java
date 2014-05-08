@@ -375,7 +375,7 @@ public class Player extends MovingAnimation {
 		// If the swirl is active
 		else{
 			imageX = swirl.imageX;
-			imageY = swirl.imageY;
+			imageY = swirl.imageY - 5;
 			swirl.resetState();
 		}
 		
@@ -427,6 +427,10 @@ public class Player extends MovingAnimation {
 		super.animate();
 		
 		swirl.animate();
+		
+		if(swirl.imageX < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH)
+			swirl.resetState();
+			
 		System.out.println(swirl.x + " " + swirl.y);
 			
 	}
@@ -448,6 +452,7 @@ class Swirl extends MovingAnimation{
 		imageX = -100;
 		imageY = -100;
 		xSpeed = 0;
+		FruitFever.swirlAllowed = true;
 	}
 	
 }

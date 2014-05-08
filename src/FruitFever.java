@@ -43,7 +43,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 // Player Variables
 
-	static int playerStartX = 100, playerStartY= 100;
+	static int playerStartX = 100, playerStartY = 100;
+	static boolean swirlAllowed = true;
 	static int dx = 0, dy = 0;
 
 // Screen View Variables
@@ -320,11 +321,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			player.tongueAttack();
 
 		// Shoot Swirl
-		else if (keyCode == KeyEvent.VK_SPACE)
-			player.shootSwirl();
+		else if (keyCode == KeyEvent.VK_SPACE){
+			if(swirlAllowed){
+				player.shootSwirl();
+				swirlAllowed = false;
+			}
 	
 		// Movement LEFT
-		else if (keyCode == KeyEvent.VK_A) {
+		}else if (keyCode == KeyEvent.VK_A) {
 
 			player.facingRight = false; 
 			dx = -1;
@@ -348,6 +352,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			vx = 0;
 			vy = 0;
 		}
+		
+		else if(keyCode == KeyEvent.VK_SPACE)
+			swirlAllowed = true;
 	}
 	
 	@Override public void mouseMoved(MouseEvent mouse) {
