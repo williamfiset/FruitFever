@@ -19,8 +19,8 @@ public class Block extends Thing {
 	*				and associated types)
 	**/
 
-	static HashMap <Integer, ArrayList <Block>> xBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
-	static HashMap <Integer, ArrayList <Block>> yBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
+	private static HashMap <Integer, ArrayList <Block>> xBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
+	private static HashMap <Integer, ArrayList <Block>> yBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
 
 	public Block(int x, int y, int width, int height, int type, GImage image){
 
@@ -66,6 +66,41 @@ public class Block extends Thing {
 	
 	}
 
+
+	public static void drawBlocks(){
+
+		outerLoop:
+		for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += Data.TILE_SIZE) {
+			ArrayList <Block> rowBlocks = xBlockPositions.get(rowNumber);
+
+
+			if (rowBlocks == null) continue;
+			
+			row : for (Block block : rowBlocks ) {
+				
+				int x = block.imageX - FruitFever.viewX;
+				int y = block.imageY - FruitFever.viewY;
+
+				
+				if (x > FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
+
+					// Breaks Out of loop when you hit a block South East of the Screen
+					if (y > FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+						break outerLoop;
+					else
+						// Breaks row when the first block east goes off screen
+						break row;
+
+				// Skips drawing blocks Left and up off the screen
+				else if (x < -FruitFever.LEFT_BOUNDARY || y < -FruitFever.UP_BOUNDARY)
+					continue;
+
+				block.animate();
+			}
+		}
+	}
+
+
 	/** 
 	 * When changing levels you must empty the block list or else
 	 * you are left with the blocks from the previous level
@@ -81,7 +116,7 @@ public class Block extends Thing {
 
 	/** 
 	 * Returns the block bounded in the region 
-	 *(xPos, yPos) & (xPos + blockWidth, yPos + blockHeight)
+	 * (xPos, yPos) & (xPos + blockWidth, yPos + blockHeight)
 	 * @param xPos - The X position of a region within the block
 	 * @param yPos - the Y position of a region within the block
 	 *
@@ -93,14 +128,6 @@ public class Block extends Thing {
 		int rowNumber = ( (xPos + FruitFever.viewX) / 25) * 25;
 		int columnNumber = ( (yPos + FruitFever.viewY) / 25) * 25;
 
-		// Adjust this 
-
-		if (rowNumber < 0 || rowNumber> FruitFever.LEVEL_WIDTH)
-			return null;
-		
-		if (columnNumber < 0 || columnNumber > FruitFever.LEVEL_HEIGHT)
-			return null;	
-		
 		try{
 
 			// Defines center row & Column
@@ -118,7 +145,10 @@ public class Block extends Thing {
 				}
 			}
 
+		// I got too lazy to check the boundaries so I used a try block which is error proof			
 		}catch(NullPointerException e){
+
+			// Block coordinates were not found, typically due to air space or out of bounds
 			return null;
 		}
 
