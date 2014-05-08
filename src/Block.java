@@ -19,8 +19,8 @@ public class Block extends Thing {
 	*				and associated types)
 	**/
 
-	private static HashMap <Integer, ArrayList <Block>> xBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
-	private static HashMap <Integer, ArrayList <Block>> yBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
+	static HashMap <Integer, ArrayList <Block>> xBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
+	static HashMap <Integer, ArrayList <Block>> yBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
 
 	public Block(int x, int y, int width, int height, int type, GImage image){
 
@@ -94,23 +94,34 @@ public class Block extends Thing {
 		int columnNumber = ( (yPos + FruitFever.viewY) / 25) * 25;
 
 		// Adjust this 
-		if (rowNumber > FruitFever.LEVEL_WIDTH || columnNumber > FruitFever.LEVEL_HEIGHT)
+
+		if (rowNumber < 0 || rowNumber> FruitFever.LEVEL_WIDTH)
 			return null;
+		
+		if (columnNumber < 0 || columnNumber > FruitFever.LEVEL_HEIGHT)
+			return null;	
+		
+		try{
 
-		// Defines center row & Column
-		ArrayList <Block> row = xBlockPositions.get(rowNumber);
-		ArrayList <Block> column = yBlockPositions.get(columnNumber);
+			// Defines center row & Column
+			ArrayList <Block> row = xBlockPositions.get(rowNumber);
+			ArrayList <Block> column = yBlockPositions.get(columnNumber);
 
-		for (Block xBlock : row) {
-			for (Block yBlock : column) {
-				// check if both blocks point to each other
-				if (xBlock == yBlock)
+			for (Block xBlock : row) {
+				for (Block yBlock : column) {
+					// check if both blocks point to each other
+					if (xBlock == yBlock)
 
-					// Make sure point is actually within block
-					if (xBlock.contains(xPos, yPos))
-						return xBlock;
+						// Make sure point is actually within block
+						if (xBlock.contains(xPos, yPos))
+							return xBlock;
+				}
 			}
+
+		}catch(NullPointerException e){
+			return null;
 		}
+
 			
 		/* This is the old Block finder method, I'm keeping it just in case we need to go back to it
 

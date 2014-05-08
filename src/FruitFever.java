@@ -95,9 +95,22 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				for(int i = 0; i < fruits.size(); i++)
 					fruits.get(i).animate();
 
+				Timer_ t = new Timer_();
+
 				/** Blocks **/
-				for(Block obj : blocks)
-					obj.animate();
+				for(Block block : blocks){
+					
+					// skip drawing block if it is West or North off the screen
+					if (block.imageX - viewX < -LEFT_BOUNDARY || block.imageY - viewY < -UP_BOUNDARY)
+						continue;
+					
+					else if (block.imageX - viewX > SCREEN_WIDTH + Data.TILE_SIZE && block.imageY - viewY > SCREEN_HEIGHT + Data.TILE_SIZE)
+						break;
+
+					block.animate();
+				}
+
+				t.stop(true);
 
 				player.animate();
 				player.motion();
