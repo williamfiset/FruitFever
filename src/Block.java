@@ -85,14 +85,16 @@ public class Block extends Thing {
 				if (x > FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
 
 					// Breaks Out of loop when you hit a block South East of the Screen
-					if (y > FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+					if (y > FruitFever.SCREEN_HEIGHT){ 
 						break outerLoop;
-					else
+					}else{
+
 						// Breaks row when the first block east goes off screen
 						break row;
+					}
 
 				// Skips drawing blocks Left and up off the screen
-				else if (x < -FruitFever.LEFT_BOUNDARY || y < -FruitFever.UP_BOUNDARY)
+				else if (x < -FruitFever.SCREEN_WIDTH/2 || y < -FruitFever.UP_BOUNDARY) 
 					continue;
 
 				block.animate();
