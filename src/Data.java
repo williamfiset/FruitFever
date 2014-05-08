@@ -272,7 +272,7 @@ public abstract class Data{
 						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, type, image));
 
 					} catch(ArrayIndexOutOfBoundsException e){ 
-						System.out.printf("\n Block Layer contains invalid character: '%c' \n", character);
+						System.out.printf("\nBLOCK LAYER contains invalid character: '%c' \n", character);
 						System.exit(0);
 					}
 				}
@@ -312,7 +312,7 @@ public abstract class Data{
 						FruitFever.things.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
 
 					} catch(ArrayIndexOutOfBoundsException e){ 
-						System.out.printf("\n Scenery Layer contains invalid character: '%c' \n", character);
+						System.out.printf("\nSCENERY LAYER contains invalid character: '%c' \n", character);
 						System.exit(0);
 					}	
 				}
