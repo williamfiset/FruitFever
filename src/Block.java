@@ -41,7 +41,7 @@ public class Block extends Thing {
 		}
 		
 
-		// Search if row exists within hashmap
+		// Search if column exists within hashmap
 		if (yBlockPositions.containsKey(y)) {
 			
 			// If it does, extract ArrayList, add element and push it back into hashmap
@@ -66,6 +66,18 @@ public class Block extends Thing {
 	
 	}
 
+	/** 
+	 * When changing levels you must empty the block list or else
+	 * you are left with the blocks from the previous level
+	 */
+
+	public static void resetBlockList(){
+	
+		xBlockPositions.clear();
+		yBlockPositions.clear();			
+		
+	}
+
 
 	/** 
 	 * Returns the block bounded in the region 
@@ -81,26 +93,30 @@ public class Block extends Thing {
 		int rowNumber = ( (xPos + FruitFever.viewX) / 25) * 25;
 		int columnNumber = ( (yPos + FruitFever.viewY) / 25) * 25;
 
+		// Adjust this 
+		if (rowNumber > FruitFever.LEVEL_WIDTH || columnNumber > FruitFever.LEVEL_HEIGHT)
+			return null;
+
 		// Defines center row & Column
 		ArrayList <Block> row = xBlockPositions.get(rowNumber);
 		ArrayList <Block> column = yBlockPositions.get(columnNumber);
 
-		for (Block xBlock : row) 
-			for (Block yBlock : column) 
-				
+		for (Block xBlock : row) {
+			for (Block yBlock : column) {
 				// check if both blocks point to each other
 				if (xBlock == yBlock)
 
 					// Make sure point is actually within block
 					if (xBlock.contains(xPos, yPos))
 						return xBlock;
+			}
+		}
 			
 		/* This is the old Block finder method, I'm keeping it just in case we need to go back to it
 
 		for (Block block : FruitFever.blocks)
-			if (block.contains(xPos, yPos)){ // From java.awt.Rectangle.contains(x,y) 
+			if (block.contains(xPos, yPos)) // From java.awt.Rectangle.contains(x,y) 
 				return block;
-			}
 		*/
 
 		// Block coordinates were not found, typically due to air space or out of bounds
