@@ -370,7 +370,7 @@ public class Player extends MovingAnimation {
 
 			swirl.imageX = FruitFever.player.facingRight ? FruitFever.player.x + 15 + FruitFever.viewX : FruitFever.player.x - 15 + FruitFever.viewX;
 			swirl.imageY = FruitFever.player.facingRight ? FruitFever.player.y + 5 + FruitFever.viewY : FruitFever.player.y + 5 + FruitFever.viewY;
-			swirl.xSpeed = FruitFever.player.facingRight ? 10 : -10;
+			swirl.xSpeed = FruitFever.player.facingRight ? 7 : -7;
 		
 		// Teleports Player
 		}else{

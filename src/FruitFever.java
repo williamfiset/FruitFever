@@ -187,7 +187,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		addToScreen(inGameButtons);
 		
-		texts.add(new TextAnimator(SCREEN_WIDTH/2, 50, 1, 1, LEVEL_NAME, Color.white, 256, 5));
+		texts.add(new TextAnimator(SCREEN_WIDTH/2, 50, LEVEL_NAME, 30, Color.white, 256, 5, "center"));
 		add(texts.get(0).label);
 		
 	}
