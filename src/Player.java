@@ -426,12 +426,13 @@ public class Player extends MovingAnimation {
 		}
 		super.animate();
 		
+		
+		// Swirl
+		
 		swirl.animate();
 		
 		if(swirl.imageX < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH)
 			swirl.resetState();
-			
-		System.out.println(swirl.x + " " + swirl.y);
 			
 	}
 

@@ -24,6 +24,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<Thing> things;
 	static ArrayList<Animation> fruits;
 	
+	static ArrayList<TextAnimator> texts = new ArrayList<TextAnimator>();
+	
 // Menu/Level selection variables	
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
@@ -84,6 +86,22 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		/** TEMPORARY **/
 		
 		while(true){
+		
+			for(int i = 0; i < texts.size(); i++)
+				texts.get(i).animate();
+			
+			boolean elementWasRemoved = true;
+			
+			while(elementWasRemoved){
+				elementWasRemoved = false;
+				for(int i = 0; i < texts.size(); i++)
+					if(!texts.get(i).active){
+						remove(texts.get(i).label);
+						texts.remove(i);
+						elementWasRemoved = true;
+						break;
+					}
+			}
 			
 			// Playing
 			if(currentScreen == 3){
@@ -168,6 +186,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 		
 		addToScreen(inGameButtons);
+		
+		texts.add(new TextAnimator(SCREEN_WIDTH/2, 50, 1, 1, LEVEL_NAME, Color.white, 256, 5));
+		add(texts.get(0).label);
+		
 	}
 
 	private void addBackground(){
