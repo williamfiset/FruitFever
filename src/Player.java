@@ -351,7 +351,7 @@ public class Player extends MovingAnimation {
 	
 	public void shootSwirl(){
 	
-		// If the swirl is not active
+		// The swirl is at rest
 		if(swirl.xSpeed == 0){
 			// Makes sure you finish a cycle of images before starting a new one
 			if(!images.equals(shootAnim) && !images.equals(shootAnimH))
@@ -371,11 +371,27 @@ public class Player extends MovingAnimation {
 			swirl.imageX = FruitFever.player.facingRight ? FruitFever.player.x + 15 + FruitFever.viewX : FruitFever.player.x - 15 + FruitFever.viewX;
 			swirl.imageY = FruitFever.player.facingRight ? FruitFever.player.y + 5 + FruitFever.viewY : FruitFever.player.y + 5 + FruitFever.viewY;
 			swirl.xSpeed = FruitFever.player.facingRight ? 10 : -10;
-		}
-		// If the swirl is active
-		else{
+		
+		// Teleports Player
+		}else{
+
+			// Place player somewhat in the middle of the screen
+			FruitFever.viewX = swirl.imageX - FruitFever.SCREEN_WIDTH/2;
+			FruitFever.viewY = swirl.imageY - FruitFever.SCREEN_HEIGHT/2;
+
+			// Adjust screen so that player cannot see outside view box
+			if (FruitFever.viewY < 0) FruitFever.viewY = 0;
+			if (FruitFever.viewX < 0) FruitFever.viewX = 0;
+			
+			if (FruitFever.viewY > FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+				FruitFever.viewY = FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE;
+			
+			if (FruitFever.viewX > FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
+				FruitFever.viewX = FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE;
+
 			imageX = swirl.imageX;
 			imageY = swirl.imageY - 5;
+			
 			swirl.resetState();
 		}
 		
