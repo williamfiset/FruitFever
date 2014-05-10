@@ -17,7 +17,7 @@ public class Player extends MovingAnimation {
 	static int lives = 3, maxLives = 3;
 
 // Movement Variables
-	static final int HORIZONTAL_VELOCITY = 5; // For release make horizontal velocity 3
+	static final int HORIZONTAL_VELOCITY = 3; // For release make horizontal velocity 3
 	int dx = 0;
 
 // Variables concerning Gravity
@@ -350,7 +350,7 @@ public class Player extends MovingAnimation {
 	}
 	
 	public void shootSwirl(){
-	
+
 		// The swirl is at rest
 		if(swirl.xSpeed == 0){
 			// Makes sure you finish a cycle of images before starting a new one
@@ -403,7 +403,7 @@ public class Player extends MovingAnimation {
 			the blocks off screen when you teleport to a location where there are unmoved blocks off
 			screen they appear on the screen. To fix this issue I added a new method in Thing called 
 			'naturalAnimate' which is the old .animate method that moves all the Things (in this case 
-			blocks) in sync together. Thus when you teleport it also moves the blocks off screen as well**/
+			blocks) in sync together. Thus when you teleport it also moves the blocks off screen as well*/
 
 			for (Block block : FruitFever.blocks)
 				block.naturalAnimate();
@@ -413,7 +413,7 @@ public class Player extends MovingAnimation {
 		
 	}
 
-	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly **/	
+	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly */
 	public static void adjustLives(int changeInLives){
 	
 		lives += changeInLives;
@@ -459,13 +459,14 @@ public class Player extends MovingAnimation {
 		super.animate();
 		
 		
-		// Swirl
 		
-		swirl.animate();
-		
-		if(swirl.imageX < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH)
+		// If Swirl goes off screen or hits a block, destroy it
+		if(swirl.imageX < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock())
 			swirl.resetState();
+
+		swirl.animate();
 			
+		
 	}
 
 	@Override public String toString(){
@@ -480,19 +481,47 @@ class Swirl extends MovingAnimation{
 	static final int swirlVelocity = 7;
 
 	// This is the location of where the swirl is off screen when it is at rest
-	static final int swirlXRestPos = -100;
-	static final int swirlYRestPos = -100;
+	static final short SWIRL_X_REST_POS = -100;
+	static final short SWIRL_Y_REST_POS = -100;
+
+	// These values are the actual image dimensions not the Data.TILE_SIZE width and height
+	static final byte SWIRL_IMG_WIDTH = 14; 
+	static final byte SWIRL_IMG_HEIGHT = 14; 
+
+	// Since the swirl is a circle the collision buffer makes collision much more accurate 
+	static final byte AIR_SPACING = 6;
 
 	public Swirl(){
-		super(-swirlXRestPos, -swirlYRestPos, Data.swirlAnimation, false, 0, true, 0, 0, 1);
+		super(SWIRL_X_REST_POS, SWIRL_Y_REST_POS, Data.swirlAnimation, false, 0, true, 0, 0, 1);
 		resetState();
 	}
 	
 	public void resetState(){	
-		imageX = -swirlXRestPos;
-		imageY = -swirlYRestPos;
+		imageX = SWIRL_X_REST_POS;
+		imageY = SWIRL_Y_REST_POS;
 		xSpeed = 0;
 		FruitFever.swirlAllowed = true;
+	}
+
+	public boolean collidesWithBlock(){
+
+		/** Gets only the blocks horizontally adjacent to the swirl (since swirl moves only)
+		  * in the x direction **/
+
+		Block westNorth = Block.getBlock(x + AIR_SPACING, y + AIR_SPACING ) ;
+		if (westNorth != null) return true;
+
+		Block westSouth = Block.getBlock(x + AIR_SPACING , y + SWIRL_IMG_HEIGHT + AIR_SPACING - 4) ;
+		if (westSouth != null) return true;
+
+		Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING, y + AIR_SPACING) ;
+		if (eastNorth != null) return true;
+
+		Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING, y + SWIRL_IMG_HEIGHT + AIR_SPACING - 4);
+		if (eastSouth != null) return true;
+
+		return false;
+
 	}
 	
 }
