@@ -474,18 +474,23 @@ public class Player extends MovingAnimation {
 
 }
 
+/** A swirl is a projectile shot from the player as a teleportation method  **/
 class Swirl extends MovingAnimation{
 
 	static final int swirlVelocity = 7;
 
+	// This is the location of where the swirl is off screen when it is at rest
+	static final int swirlXRestPos = -100;
+	static final int swirlYRestPos = -100;
+
 	public Swirl(){
-		super(-100, -100, Data.swirlAnimation, false, 0, true, 0, 0, 1);
+		super(-swirlXRestPos, -swirlYRestPos, Data.swirlAnimation, false, 0, true, 0, 0, 1);
 		resetState();
 	}
 	
 	public void resetState(){	
-		imageX = -100;
-		imageY = -100;
+		imageX = -swirlXRestPos;
+		imageY = -swirlYRestPos;
 		xSpeed = 0;
 		FruitFever.swirlAllowed = true;
 	}
