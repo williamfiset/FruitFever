@@ -100,9 +100,6 @@ public class Block extends Thing {
 				block.animate();
 			}
 		}
-
-		// for (Block block : FruitFever.blocks)
-		// 	block.animate();
 	}
 
 
@@ -169,7 +166,7 @@ public class Block extends Thing {
 		return null;
 	}
 
-
+	
 
 }
 
