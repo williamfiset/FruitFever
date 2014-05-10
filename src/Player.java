@@ -382,7 +382,7 @@ public class Player extends MovingAnimation {
 			// Adjust screen so that player cannot see outside view box
 			if (FruitFever.viewY < 0) FruitFever.viewY = 0;
 			if (FruitFever.viewX < 0) FruitFever.viewX = 0;
-			
+			 
 			if (FruitFever.viewY > FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
 				FruitFever.viewY = FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE;
 			
@@ -392,6 +392,15 @@ public class Player extends MovingAnimation {
 			imageX = swirl.imageX;
 			imageY = swirl.imageY - 5;
 			
+
+			/** Fixes Issue #41. Since the optimized .animate() method in Things doesn't move
+			the blocks off screen when you teleport to a location where there are unmoved blocks off
+			screen they appear on the screen. To fix this issue I added a new method in Thing called 
+			'naturalAnimate' which is the old .animate method that moves all the Things (in this case 
+			blocks) in sync together. Thus when you teleport it also moves the blocks off screen aswell**/
+			for (Block block : FruitFever.blocks)
+				block.naturalAnimate();
+
 			swirl.resetState();
 		}
 		
