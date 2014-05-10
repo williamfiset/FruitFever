@@ -178,8 +178,6 @@ public class Block extends Thing {
 		return null;
 	}
 
-	
-
 }
 
 
