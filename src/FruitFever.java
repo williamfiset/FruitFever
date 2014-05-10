@@ -86,7 +86,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		/** TEMPORARY **/
 		
 		while(true){
-		
+			
+
+			// Micah can you comment this stuff & move it elsewhere haha ?
 			for(int i = 0; i < texts.size(); i++)
 				texts.get(i).animate();
 			
@@ -102,7 +104,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 						break;
 					}
 			}
-			
+
 			// Playing
 			if(currentScreen == 3){
 
@@ -119,7 +121,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				player.animate();
 				player.motion();
-				
 
 				add(leftRect);
 				add(rightRect);
