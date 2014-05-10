@@ -22,6 +22,9 @@ public class Block extends Thing {
 	private static HashMap <Integer, ArrayList <Block>> xBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
 	private static HashMap <Integer, ArrayList <Block>> yBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
 
+	/** To fix issue #41 the first itme you draw on the screen you must call naturalAnimate() **/
+	private static boolean performedNaturalAnimate = false;
+
 	public Block(int x, int y, int width, int height, int type, GImage image){
 
 		super(x, y, width, height, image);
@@ -69,35 +72,44 @@ public class Block extends Thing {
 
 	public static void drawBlocks(){
 
-		outerLoop:
-		for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += Data.TILE_SIZE) {
-			ArrayList <Block> rowBlocks = xBlockPositions.get(rowNumber);
-
-
-			if (rowBlocks == null) continue;
+		if (!performedNaturalAnimate) {
 			
-			row : for (Block block : rowBlocks ) {
+			for (Block block : FruitFever.blocks)
+				block.naturalAnimate();
+			performedNaturalAnimate = true;
+
+		}else{
+
+			outerLoop:
+			for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += Data.TILE_SIZE) {
+				ArrayList <Block> rowBlocks = xBlockPositions.get(rowNumber);
+
+
+				if (rowBlocks == null) continue;
 				
-				int x = block.imageX - FruitFever.viewX;
-				int y = block.imageY - FruitFever.viewY;
+				row : for (Block block : rowBlocks ) {
+					
+					int x = block.imageX - FruitFever.viewX;
+					int y = block.imageY - FruitFever.viewY;
 
-				
-				if (x > FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
+					
+					if (x > FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
 
-					// Breaks Out of loop when you hit a block South East of the Screen
-					if (y > FruitFever.SCREEN_HEIGHT){ 
-						break outerLoop;
-					}else{
+						// Breaks Out of loop when you hit a block South East of the Screen
+						if (y > FruitFever.SCREEN_HEIGHT){ 
+							break outerLoop;
+						}else{
 
-						// Breaks row when the first block east goes off screen
-						break row;
-					}
+							// Breaks row when the first block east goes off screen
+							break row;
+						}
 
-				// Skips drawing blocks Left and up off the screen
-				else if (x < -FruitFever.LEFT_BOUNDARY || y < -FruitFever.UP_BOUNDARY)
-					continue;
+					// Skips drawing blocks Left and up off the screen
+					else if (x < -FruitFever.LEFT_BOUNDARY || y < -FruitFever.UP_BOUNDARY)
+						continue;
 
-				block.animate();
+					block.animate();
+				}
 			}
 		}
 	}
