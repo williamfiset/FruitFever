@@ -13,8 +13,11 @@ import java.awt.*;
 
 public class Player extends MovingAnimation {
 	
-	static Swirl swirl;
 	static int lives = 3, maxLives = 3;
+
+// Swirl related Variables
+	static Swirl swirl;
+	private final static byte SWIRL_MOUTH_DISTANCE = 15; 
 
 // Movement Variables
 	static final int HORIZONTAL_VELOCITY = 3; // For release make horizontal velocity 3
@@ -38,10 +41,10 @@ public class Player extends MovingAnimation {
 	
 	// setBaseLine is true because we don't know where the player starts
 	private boolean setBaseLine = true;
-	public boolean isJumping = false;
+	private boolean isJumping = false;
 
 	int maxJumpHeight = (3*25 + 25/2); // 3.5 tile jump limit
-	public int baseLine;
+	private int baseLine;
 
 // Jumping motion Variables
 	final double STARTING_JUMPING_VELOCITY = 6.25; 
@@ -361,16 +364,53 @@ public class Player extends MovingAnimation {
 			doneAnimating = false;
 			repeat = false;
 			
-			// Switch animation images
-			if(facingRight)
-				images = shootAnim;
-			else
-				images = shootAnimH;
-				
 
-			swirl.imageX = FruitFever.player.facingRight ? FruitFever.player.x + 15 + FruitFever.viewX : FruitFever.player.x - 15 + FruitFever.viewX;
-			swirl.imageY = FruitFever.player.facingRight ? FruitFever.player.y + 5 + FruitFever.viewY : FruitFever.player.y + 5 + FruitFever.viewY;
-			swirl.xSpeed = FruitFever.player.facingRight ? Swirl.swirlVelocity : -Swirl.swirlVelocity;
+			// Check if there's a Block in front/in back of the player before he shoots
+			if (facingRight) {
+
+				Block westNorth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE / 4 );
+				Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
+
+				// If there is not Block in front of player
+				if (westNorth == null && westSouth == null) {
+
+					// Makes the swirl shoot out of the player from the left	
+					swirl.imageX = x + SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
+					swirl.imageY = y + FruitFever.viewY;
+					swirl.xSpeed = Swirl.swirlVelocity;
+
+					// Set Right shooting animation
+					images = shootAnim;
+
+				}else{
+
+					// If there is a block in front of the player, don't do swirl animation
+					images = stillAnim;
+				}
+
+			// Facing left
+			}else{
+
+				Block eastNorth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE / 4 );
+				Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
+
+				// If there is not Block in front of player
+				if (eastSouth == null && eastNorth == null) {
+
+					// Makes the swirl shoot out of the player from the left
+					swirl.imageX = x - SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
+					swirl.imageY = y + FruitFever.viewY;
+					swirl.xSpeed = -Swirl.swirlVelocity;
+
+					// Set Left shooting animation
+					images = shootAnimH;
+				}else{
+
+					// If there is a block in front of the player, don't do swirl animation
+					images = stillAnim;
+				}
+			}
+
 		
 		// Teleports Player
 		}else{
@@ -397,7 +437,7 @@ public class Player extends MovingAnimation {
 
 			// Remember that the player has a width of TileSize*3 so we must subtract a tile-size!
 			imageX = swirl.imageX - Data.TILE_SIZE;
-			imageY = swirl.imageY - 5;
+			imageY = swirl.imageY;
 			
 			/** Fixes Issue #41. Since the optimized .animate() method in Things doesn't move
 			the blocks off screen when you teleport to a location where there are unmoved blocks off
@@ -497,27 +537,27 @@ class Swirl extends MovingAnimation{
 	}
 	
 	public void resetState(){	
+
 		imageX = SWIRL_X_REST_POS;
 		imageY = SWIRL_Y_REST_POS;
 		xSpeed = 0;
 		FruitFever.swirlAllowed = true;
+
 	}
 
+	/** Returns true or false depending on if the swirl has collided with a block**/
 	public boolean collidesWithBlock(){
 
-		/** Gets only the blocks horizontally adjacent to the swirl (since swirl moves only)
-		  * in the x direction **/
-
-		Block westNorth = Block.getBlock(x + AIR_SPACING, y + AIR_SPACING ) ;
+		Block westNorth = Block.getBlock(x + AIR_SPACING + xSpeed, y + AIR_SPACING ) ;
 		if (westNorth != null) return true;
 
-		Block westSouth = Block.getBlock(x + AIR_SPACING , y + SWIRL_IMG_HEIGHT + AIR_SPACING - 4) ;
+		Block westSouth = Block.getBlock(x + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING ) ;
 		if (westSouth != null) return true;
 
-		Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING, y + AIR_SPACING) ;
+		Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + AIR_SPACING) ;
 		if (eastNorth != null) return true;
 
-		Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING, y + SWIRL_IMG_HEIGHT + AIR_SPACING - 4);
+		Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING );
 		if (eastSouth != null) return true;
 
 		return false;
