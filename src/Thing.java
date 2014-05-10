@@ -57,8 +57,11 @@ public class Thing extends Rectangle{
 		setLocation(imageX + boundaryLeft - FruitFever.viewX, imageY + boundaryTop - FruitFever.viewY);
 
 		// Moves image to be on screen only if it needs to be on the screen
-		if (x < FruitFever.SCREEN_WIDTH ) {
-			if (y < FruitFever.SCREEN_HEIGHT) {
+		if (x < FruitFever.SCREEN_WIDTH) { 
+		
+			// The '+ Data.TILE_SIZE' prevents the bug of the tiles accumulating
+			// at the bottom of the screen
+			if (y < FruitFever.SCREEN_HEIGHT  + Data.TILE_SIZE) { 
 
 				// places image at the correct position on the screen
 				image.setLocation(imageX - FruitFever.viewX, imageY  - FruitFever.viewY);		
@@ -69,6 +72,19 @@ public class Thing extends Rectangle{
 		// Changes the size of bounding box
 		setSize((int)image.getWidth() - boundaryLeft + boundaryRight, (int)image.getHeight() - boundaryTop + boundaryBottom);
 		
+	}
+
+	public void naturalAnimate(){
+
+		// Changes the position of the bounding box responsible for collision detection 
+		setLocation(imageX + boundaryLeft - FruitFever.viewX, imageY + boundaryTop - FruitFever.viewY);
+
+		// places image at the correct position on the screen
+		image.setLocation(imageX - FruitFever.viewX, imageY  - FruitFever.viewY);		
+
+		// Changes the size of bounding box
+		setSize((int)image.getWidth() - boundaryLeft + boundaryRight, (int)image.getHeight() - boundaryTop + boundaryBottom);
+
 	}
 	
 	/** Change image **/
