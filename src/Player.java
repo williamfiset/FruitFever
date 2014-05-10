@@ -518,7 +518,7 @@ public class Player extends MovingAnimation {
 /** A swirl is a projectile shot from the player as a teleportation method  **/
 class Swirl extends MovingAnimation{
 
-	static final int swirlVelocity = 7;
+	static final int swirlVelocity = 8;
 
 	// This is the location of where the swirl is off screen when it is at rest
 	static final short SWIRL_X_REST_POS = -100;
