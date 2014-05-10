@@ -17,7 +17,7 @@ public class Player extends MovingAnimation {
 	static int lives = 3, maxLives = 3;
 
 // Movement Variables
-	static final int HORIZONTAL_VELOCITY = 3;
+	static final int HORIZONTAL_VELOCITY = 5; // For release make horizontal velocity 3
 	int dx = 0;
 
 // Variables concerning Gravity
@@ -370,7 +370,7 @@ public class Player extends MovingAnimation {
 
 			swirl.imageX = FruitFever.player.facingRight ? FruitFever.player.x + 15 + FruitFever.viewX : FruitFever.player.x - 15 + FruitFever.viewX;
 			swirl.imageY = FruitFever.player.facingRight ? FruitFever.player.y + 5 + FruitFever.viewY : FruitFever.player.y + 5 + FruitFever.viewY;
-			swirl.xSpeed = FruitFever.player.facingRight ? 7 : -7;
+			swirl.xSpeed = FruitFever.player.facingRight ? Swirl.swirlVelocity : -Swirl.swirlVelocity;
 		
 		// Teleports Player
 		}else{
@@ -389,15 +389,22 @@ public class Player extends MovingAnimation {
 			if (FruitFever.viewX > FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
 				FruitFever.viewX = FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE;
 
-			imageX = swirl.imageX;
+
+			/** 
+			 * Teleport the Player to the location of the swirl. The -5 is a photoshop determined
+			 * value of how much you need to shift the player up to position is directly on top of the swirl
+			 **/
+
+			// Remember that the player has a width of TileSize*3 so we must subtract a tile-size!
+			imageX = swirl.imageX - Data.TILE_SIZE;
 			imageY = swirl.imageY - 5;
 			
-
 			/** Fixes Issue #41. Since the optimized .animate() method in Things doesn't move
 			the blocks off screen when you teleport to a location where there are unmoved blocks off
 			screen they appear on the screen. To fix this issue I added a new method in Thing called 
 			'naturalAnimate' which is the old .animate method that moves all the Things (in this case 
-			blocks) in sync together. Thus when you teleport it also moves the blocks off screen aswell**/
+			blocks) in sync together. Thus when you teleport it also moves the blocks off screen as well**/
+
 			for (Block block : FruitFever.blocks)
 				block.naturalAnimate();
 
@@ -468,6 +475,8 @@ public class Player extends MovingAnimation {
 }
 
 class Swirl extends MovingAnimation{
+
+	static final int swirlVelocity = 7;
 
 	public Swirl(){
 		super(-100, -100, Data.swirlAnimation, false, 0, true, 0, 0, 1);

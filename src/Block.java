@@ -69,40 +69,40 @@ public class Block extends Thing {
 
 	public static void drawBlocks(){
 
-		// outerLoop:
-		// for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += Data.TILE_SIZE) {
-		// 	ArrayList <Block> rowBlocks = xBlockPositions.get(rowNumber);
+		outerLoop:
+		for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += Data.TILE_SIZE) {
+			ArrayList <Block> rowBlocks = xBlockPositions.get(rowNumber);
 
 
-		// 	if (rowBlocks == null) continue;
+			if (rowBlocks == null) continue;
 			
-		// 	row : for (Block block : rowBlocks ) {
+			row : for (Block block : rowBlocks ) {
 				
-		// 		int x = block.imageX - FruitFever.viewX;
-		// 		int y = block.imageY - FruitFever.viewY;
+				int x = block.imageX - FruitFever.viewX;
+				int y = block.imageY - FruitFever.viewY;
 
 				
-		// 		if (x > FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
+				if (x > FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
 
-		// 			// Breaks Out of loop when you hit a block South East of the Screen
-		// 			if (y > FruitFever.SCREEN_HEIGHT){ 
-		// 				break outerLoop;
-		// 			}else{
+					// Breaks Out of loop when you hit a block South East of the Screen
+					if (y > FruitFever.SCREEN_HEIGHT){ 
+						break outerLoop;
+					}else{
 
-		// 				// Breaks row when the first block east goes off screen
-		// 				break row;
-		// 			}
+						// Breaks row when the first block east goes off screen
+						break row;
+					}
 
-		// 		// Skips drawing blocks Left and up off the screen
-		// 		else if (x < -FruitFever.SCREEN_WIDTH/2 || y < -FruitFever.UP_BOUNDARY) 
-		// 			continue;
+				// Skips drawing blocks Left and up off the screen
+				else if (x < -FruitFever.LEFT_BOUNDARY || y < -FruitFever.UP_BOUNDARY)
+					continue;
 
-		// 		block.animate();
-		// 	}
-		// }
+				block.animate();
+			}
+		}
 
-		for (Block block : FruitFever.blocks)
-			block.animate();
+		// for (Block block : FruitFever.blocks)
+		// 	block.animate();
 	}
 
 
