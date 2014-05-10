@@ -227,7 +227,8 @@ HELPFUL NOTES BY WILL
 
 1. How charChange.py works and what it is used for:
    
-	NOTE everything is enclosed in quotes '' because we use a lot of symbols and I don't want anything interpreted as a regular expressions.
+	NOTE everything is enclosed in quotes '' because we use a lot of symbols 
+	and I don't want anything interpreted as a regular expressions.
 
    charChange is best explained by example:
 
@@ -270,8 +271,12 @@ HELPFUL NOTES BY WILL
 
 
 	(Change everything to a '#' expect '-'')
+	NOTE: by Default the python script performs this operation
 
+	python charChange.py
+	or
 	python charChange.py '!' '#' '-'
+
 
     --aa--     --##--
 	-abc--     -###--
