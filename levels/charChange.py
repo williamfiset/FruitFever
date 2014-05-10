@@ -112,7 +112,7 @@ if __name__ == '__main__':
 	args = commandLineArguments
 
 	if len(args) == 0:
-		print "Please provide at least two more argument"
+		changeCharacters(True, "#", '-')
 
 	elif len(args) == 1:
 		print "Please provide at least one more argument"		
@@ -125,4 +125,16 @@ if __name__ == '__main__':
 			changeCharacters(True, args[1], args[2])
 		else:
 			changeCharacters(False, args[0], args[1])
+
+
+
+
+
+
+
+
+
+
+
+
 
