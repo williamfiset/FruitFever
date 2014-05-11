@@ -45,7 +45,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 // Player Variables
 
-	static int playerStartX = 100, playerStartY = 100;
+	static int playerStartX, playerStartY;
 	static boolean swirlAllowed = true;
 	static int dx = 0, dy = 0;
 
@@ -159,6 +159,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		// Resets level
 
+		Block.resetPerformedNaturalAnimate();
+
 		// Empties Block HashMaps used for collision detection (So that they don't have blocks from the previous level in them)
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
@@ -258,23 +260,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		add(player.image);
 
-		// Place player somewhat in the middle of the screen
-		viewX = playerStartX - SCREEN_WIDTH/2;
-		viewY = playerStartY - SCREEN_HEIGHT/2;
-
-		// Adjust screen so that player cannot see outside view box
-		if (viewY < 0) viewY = 0;
-		if (viewX < 0) viewX = 0;
-		
-		if (viewY > LEVEL_HEIGHT - SCREEN_HEIGHT + Data.TILE_SIZE)
-			viewY = LEVEL_HEIGHT - SCREEN_HEIGHT + Data.TILE_SIZE;
-		
-		if (viewX > LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE) 
-			viewX = LEVEL_WIDTH - SCREEN_WIDTH + Data.TILE_SIZE;
-
-		// Still bewildered by why this works...
-		player.imageX -= Data.TILE_SIZE; 
-		player.x -= Data.TILE_SIZE;
+		player.focusViewOnPlayer(playerStartX, playerStartY, true);
 		
 		add(player.swirl.image);
 

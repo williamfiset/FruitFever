@@ -13,7 +13,8 @@ import java.awt.*;
 
 public class Player extends MovingAnimation {
 	
-	static int lives = 3, maxLives = 3;
+	static byte lives = 3;
+	static final int maxLives = 3;
 
 // Swirl related Variables
 	static Swirl swirl;
@@ -35,7 +36,6 @@ public class Player extends MovingAnimation {
 
 	private static boolean onPlatform = false;
 	private static boolean gravity = true;
-
 
 // Variables concerning jumping
 	
@@ -93,10 +93,11 @@ public class Player extends MovingAnimation {
 
 		relativisticScreenMovement();
 
+		updateHealth();
+
 		imageX += dx;	
 		
 	}
-
 	/** Resets players ability to jump if applicable **/
 	private void enableJumping(){
 		
@@ -351,7 +352,73 @@ public class Player extends MovingAnimation {
 			images = tongueAnimH;
 		
 	}
+
+	/** Updates the players health  **/
+	private void updateHealth(){
+
+		// Checks if player is out of the level bounds
+		if (playerWithinLevelBounds()){
+			
+			lives--;
+
+			focusViewOnPlayer(FruitFever.playerStartX, FruitFever.playerStartY, true);
+			// x = FruitFever.playerStartX;
+			// y = FruitFever.playerStartY;
+			imageX = FruitFever.playerStartX;
+			imageY = FruitFever.playerStartY;
+
+			for (Block block : FruitFever.blocks) {
+				block.naturalAnimate();
+			}
+
+		}
+
+		adjustLives(lives);	
+
+	}
+
+	private boolean playerWithinLevelBounds(){
+
+		return (x + Data.TILE_SIZE < 0 || x > FruitFever.LEVEL_WIDTH || y + height < 0 || y - height > FruitFever.LEVEL_HEIGHT );
+
+	} 
 	
+	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly */
+	public static void adjustLives(int livesLeft){
+	
+		for (int i = 0; i < maxLives; i++)
+			FruitFever.livesImages[i].setVisible(livesLeft > i);
+
+	}
+
+	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos){
+
+		// Place player somewhat in the middle of the screen
+		FruitFever.viewX = newPlayerXPos - FruitFever.SCREEN_WIDTH/2;
+		FruitFever.viewY = newPlayerYPos - FruitFever.SCREEN_HEIGHT/2;
+
+		// Adjust screen so that player cannot see outside view box
+		if (FruitFever.viewY < 0) FruitFever.viewY = 0;
+		if (FruitFever.viewX < 0) FruitFever.viewX = 0;
+		 
+		if (FruitFever.viewY > FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+			FruitFever.viewY = FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE;
+		
+		if (FruitFever.viewX > FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
+			FruitFever.viewX = FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE;
+
+	}
+
+	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos, boolean levelRespawn){
+
+		focusViewOnPlayer(newPlayerXPos, newPlayerYPos);
+		if (levelRespawn) {
+			imageX -= Data.TILE_SIZE; 
+			x -= Data.TILE_SIZE;
+		}
+
+	}
+
 	public void shootSwirl(){
 
 		// The swirl is at rest
@@ -415,20 +482,8 @@ public class Player extends MovingAnimation {
 		// Teleports Player
 		}else{
 
-			// Place player somewhat in the middle of the screen
-			FruitFever.viewX = swirl.imageX - FruitFever.SCREEN_WIDTH/2;
-			FruitFever.viewY = swirl.imageY - FruitFever.SCREEN_HEIGHT/2;
-
-			// Adjust screen so that player cannot see outside view box
-			if (FruitFever.viewY < 0) FruitFever.viewY = 0;
-			if (FruitFever.viewX < 0) FruitFever.viewX = 0;
-			 
-			if (FruitFever.viewY > FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
-				FruitFever.viewY = FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE;
-			
-			if (FruitFever.viewX > FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
-				FruitFever.viewX = FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE;
-
+			// Focuses the view on the player placing the player in the center of the screen
+			focusViewOnPlayer(swirl.imageX, swirl.imageY);
 
 			/** 
 			 * Teleport the Player to the location of the swirl. The -5 is a photoshop determined
@@ -453,16 +508,6 @@ public class Player extends MovingAnimation {
 		
 	}
 
-	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly */
-	public static void adjustLives(int changeInLives){
-	
-		lives += changeInLives;
-		
-		for(int i = 0; i < maxLives; i++)
-			FruitFever.livesImages[i].setVisible(i < lives);
-
-	}
-	
 	// Overrides MovingAnimation.animate()
 	@Override public void animate(){
 		

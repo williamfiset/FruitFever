@@ -69,6 +69,11 @@ public class Block extends Thing {
 	
 	}
 
+	public static void resetPerformedNaturalAnimate(){
+
+		performedNaturalAnimate = false;
+
+	}
 
 	public static void drawBlocks(){
 
