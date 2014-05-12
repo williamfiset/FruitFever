@@ -464,7 +464,7 @@ public class Player extends MovingAnimation {
 					// Makes the swirl shoot out of the player from the left	
 					swirl.imageX = x + SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
 					swirl.imageY = y + FruitFever.viewY;
-					swirl.xSpeed = Swirl.swirlVelocity;
+					swirl.xSpeed = Swirl.dx;
 
 					// Set Right shooting animation
 					images = shootAnim;
@@ -487,7 +487,7 @@ public class Player extends MovingAnimation {
 					// Makes the swirl shoot out of the player from the left
 					swirl.imageX = x - SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
 					swirl.imageY = y + FruitFever.viewY;
-					swirl.xSpeed = -Swirl.swirlVelocity;
+					swirl.xSpeed = -Swirl.dx;
 
 					// Set Left shooting animation
 					images = shootAnimH;
@@ -606,7 +606,8 @@ public class Player extends MovingAnimation {
 /** A swirl is a projectile shot from the player as a teleportation method  **/
 class Swirl extends MovingAnimation{
 
-	static final int swirlVelocity = 7;
+	// Swirls velocity
+	static final int dx = 2;
 
 	// This is the location of where the swirl is off screen when it is at rest
 	static final short SWIRL_X_REST_POS = -100;
@@ -629,6 +630,7 @@ class Swirl extends MovingAnimation{
 		imageX = SWIRL_X_REST_POS;
 		imageY = SWIRL_Y_REST_POS;
 		xSpeed = 0;
+		ySpeed = 0;
 		FruitFever.swirlAllowed = true;
 
 	}
