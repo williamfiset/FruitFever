@@ -112,12 +112,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
-				for(int i = 0; i < things.size(); i++)
-					things.get(i).animate();
+				for (Thing thing : things) {
+					thing.animate();
+				}
 					
 				/** Animate all fruit **/
-				for(int i = 0; i < fruits.size(); i++)
-					fruits.get(i).animate();
+				for (Thing fruit : fruits)
+					fruit.animate();
 
 
 				// Takes an execution time of ≈ 1.8 x 10^-4 seconds

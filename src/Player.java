@@ -528,6 +528,10 @@ public class Player extends MovingAnimation {
 
 			for (Block block : FruitFever.blocks)
 				block.naturalAnimate();
+			
+			for (Thing thing : FruitFever.things)
+				thing.naturalAnimate();
+			
 
 			swirl.resetState();
 		}
