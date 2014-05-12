@@ -74,6 +74,8 @@ public class Thing extends Rectangle{
 		
 	}
 
+	/** This is the old .animate() method, we still need it to correctly position blocks and things
+	 * in some bug situations **/
 	public void naturalAnimate(){
 
 		// Changes the position of the bounding box responsible for collision detection 

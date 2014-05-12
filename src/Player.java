@@ -359,19 +359,14 @@ public class Player extends MovingAnimation {
 		// Checks if player is out of the level bounds
 		if (playerWithinLevelBounds()){
 			
-			lives--;
+			// Fixes Block animation problem
+			Block.resetPerformedNaturalAnimate();
+			
+			respawn();
 
-			focusViewOnPlayer(FruitFever.playerStartX, FruitFever.playerStartY, true);
-			// x = FruitFever.playerStartX;
-			// y = FruitFever.playerStartY;
-			imageX = FruitFever.playerStartX;
-			imageY = FruitFever.playerStartY;
-
-			for (Block block : FruitFever.blocks) {
-				block.naturalAnimate();
-			}
-
-		}
+			lives--;		
+ 
+		} 
 
 		adjustLives(lives);	
 
@@ -384,7 +379,7 @@ public class Player extends MovingAnimation {
 	} 
 	
 	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly */
-	public static void adjustLives(int livesLeft){
+	private void adjustLives(int livesLeft){
 	
 		for (int i = 0; i < maxLives; i++)
 			FruitFever.livesImages[i].setVisible(livesLeft > i);
@@ -394,8 +389,8 @@ public class Player extends MovingAnimation {
 	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos){
 
 		// Place player somewhat in the middle of the screen
-		FruitFever.viewX = newPlayerXPos - FruitFever.SCREEN_WIDTH/2;
-		FruitFever.viewY = newPlayerYPos - FruitFever.SCREEN_HEIGHT/2;
+		FruitFever.viewX = newPlayerXPos - FruitFever.SCREEN_WIDTH / 2;
+		FruitFever.viewY = newPlayerYPos - FruitFever.SCREEN_HEIGHT / 2;
 
 		// Adjust screen so that player cannot see outside view box
 		if (FruitFever.viewY < 0) FruitFever.viewY = 0;
@@ -412,10 +407,26 @@ public class Player extends MovingAnimation {
 	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos, boolean levelRespawn){
 
 		focusViewOnPlayer(newPlayerXPos, newPlayerYPos);
+
 		if (levelRespawn) {
 			imageX -= Data.TILE_SIZE; 
 			x -= Data.TILE_SIZE;
 		}
+
+	}
+
+	/** These are all the settings that need to be reset when the player respawns **/
+	private void respawn(){
+
+		fallingVelocity = STARTING_FALLING_VELOCITY;
+		fallingAcceleration = STARTING_FALLING_ACCELERATION;
+
+		/** In the future respawn should be start an detect where the players should spawn**/
+
+		imageX = FruitFever.playerStartX;
+		imageY = FruitFever.playerStartY;			
+
+		focusViewOnPlayer(FruitFever.playerStartX, FruitFever.playerStartY, true);
 
 	}
 
@@ -482,18 +493,30 @@ public class Player extends MovingAnimation {
 		// Teleports Player
 		}else{
 
-			// Focuses the view on the player placing the player in the center of the screen
-			focusViewOnPlayer(swirl.imageX, swirl.imageY);
-
-			/** 
-			 * Teleport the Player to the location of the swirl. The -5 is a photoshop determined
-			 * value of how much you need to shift the player up to position is directly on top of the swirl
-			 **/
-
 			// Remember that the player has a width of TileSize*3 so we must subtract a tile-size!
 			imageX = swirl.imageX - Data.TILE_SIZE;
 			imageY = swirl.imageY;
-			
+
+			Block upperRight = Block.getBlock(x, y);
+			Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y);
+			Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE);
+			Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE);
+
+			/** Fixes Issue #42 where player semi teleports into blocks **/
+			if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
+				imageX = (imageX / Data.TILE_SIZE) * Data.TILE_SIZE;	
+				
+				// Takes into account that the player's center is top left
+				if (!facingRight)
+					imageX += Data.TILE_SIZE;
+				
+			}
+
+
+			// Focuses the view on the player placing the player in the center of the screen
+			focusViewOnPlayer(swirl.imageX, swirl.imageY);
+
+
 			/** Fixes Issue #41. Since the optimized .animate() method in Things doesn't move
 			the blocks off screen when you teleport to a location where there are unmoved blocks off
 			screen they appear on the screen. To fix this issue I added a new method in Thing called 
@@ -554,6 +577,10 @@ public class Player extends MovingAnimation {
 		
 	}
 
+	public void posInfo(){
+		System.out.println("ImageX: " + imageX + "   ImageY: " + imageY + "   X: " + x + "   Y: " + y);
+	}
+
 	@Override public String toString(){
 		return "Player: (Image: " + imageX + ", " + imageY + "   W: " + image.getWidth() + ", H: " + image.getHeight() + ") (Bounding Box: " + x + ", " + y + "   W: " + width + ", H: " + height + ")"; 
 	}
@@ -563,7 +590,7 @@ public class Player extends MovingAnimation {
 /** A swirl is a projectile shot from the player as a teleportation method  **/
 class Swirl extends MovingAnimation{
 
-	static final int swirlVelocity = 8;
+	static final int swirlVelocity = 7;
 
 	// This is the location of where the swirl is off screen when it is at rest
 	static final short SWIRL_X_REST_POS = -100;

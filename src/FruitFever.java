@@ -85,6 +85,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		upRect.setFilled(true);
 		/** TEMPORARY **/
 		
+
+
 		while(true){
 			
 
@@ -108,6 +110,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// Playing
 			if(currentScreen == 3){
 
+
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
 				for(int i = 0; i < things.size(); i++)
 					things.get(i).animate();
@@ -117,21 +120,52 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					fruits.get(i).animate();
 
 
+				// Takes an execution time of ≈ 1.8 x 10^-4 seconds
 				Block.drawBlocks();
 
+				// Takes an execution time of ≈ 1.2 x 10^-4 seconds (seems like a lot...)
 				player.animate();
 				player.motion();
 
+				// Takes an execution time of ≈ 0.7 x 10^-4 seconds
 				add(leftRect);
 				add(rightRect);
 				add(upRect);
 				add(downRect);
 
 			}
-			
 			pause(MAIN_LOOP_SPEED);
 		}
 		
+	}
+
+
+/** Loads and Displays all initial graphics of a level on the screen  **/
+
+	private void loadLevel(){
+		
+		LEVEL_WIDTH = 0;
+		LEVEL_HEIGHT = 0;
+		viewX = 0;
+		viewY = 0;
+
+		// Loads all Blocks and Things
+		Data.loadObjects("../levels/levels.txt", currentLevel);
+
+		findScreenDimensions();
+
+		// Clear the screen
+		removeAll();
+
+
+		addBackground();
+		addImagesToScreen();
+		
+		texts.add(new TextAnimator(SCREEN_WIDTH/2, 50, LEVEL_NAME, 30, Color.WHITE, 800, 5, "center"));
+		add(texts.get(0).label);
+		
+		Block.resetPerformedNaturalAnimate();
+
 	}
 
 	private void drawMainMenu(){
@@ -154,45 +188,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		fruits = new ArrayList<Animation>();
 	}
 
-/** Loads and Displays all initial graphics of a level on the screen  **/
-	private void loadLevel(){
+	// Loads the Hearts
+	private void addHearts(){
 		
-		// Resets level
-
-		Block.resetPerformedNaturalAnimate();
-
-		// Empties Block HashMaps used for collision detection (So that they don't have blocks from the previous level in them)
-		LEVEL_WIDTH = 0;
-		LEVEL_HEIGHT = 0;
-		viewX = 0;
-		viewY = 0;
-	
 		
-		// Clear the screen
-		removeAll();
-
-		addBackground();
-
-		// Loads all Blocks and Things
-		Data.loadObjects("../levels/levels.txt", currentLevel);
-
-		findScreenDimensions();
-
-		addImagesToScreen();
-
-		
-		// Loads the Hearts
 		for(int i = 0; i < player.maxLives; i++){
 			livesImages[i] = new GImage(Data.heartImage.getImage());
 			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
 			add(livesImages[i]);
 		}
-		
-		addToScreen(inGameButtons);
-		
-		texts.add(new TextAnimator(SCREEN_WIDTH/2, 50, LEVEL_NAME, 30, Color.white, 256, 5, "center"));
-		add(texts.get(0).label);
-		
+
 	}
 
 	private void addBackground(){
@@ -242,7 +247,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			add(fruit.image);
 		}
 
+		
 		placePlayerOnScreen();
+
+		addHearts();
+
+		addToScreen(inGameButtons);
+
 
 		/** TESTING PURPOSES ONLY **/
 		// addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
