@@ -502,7 +502,9 @@ public class Player extends MovingAnimation {
 			Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE);
 			Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE);
 
+
 			/** Fixes Issue #42 where player semi teleports into blocks **/
+
 			if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
 				imageX = (imageX / Data.TILE_SIZE) * Data.TILE_SIZE;	
 				
@@ -535,14 +537,16 @@ public class Player extends MovingAnimation {
 	@Override public void animate(){
 		
 		if(facingRight){
+
 			if(images.equals(stillAnimH))
 				images = stillAnim;
 			else if(images.equals(shootAnimH))
 				images = shootAnim;
 			else if(images.equals(tongueAnimH))
 				images = tongueAnim;
-		}
-		else{
+
+		}else{
+
 			if(images.equals(stillAnim))
 				images = stillAnimH;
 			else if(images.equals(shootAnim))
@@ -564,17 +568,15 @@ public class Player extends MovingAnimation {
 			else
 				images = stillAnimH;
 		}
+
 		super.animate();
 		
-		
-		
 		// If Swirl goes off screen or hits a block, destroy it
-		if(swirl.imageX < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock())
+		if(swirl.imageX - Swirl.SWIRL_IMG_WIDTH < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock())
 			swirl.resetState();
 
 		swirl.animate();
-			
-		
+
 	}
 
 	public void posInfo(){
