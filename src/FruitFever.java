@@ -20,9 +20,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static Player player;
 
 // Game Object Lists
-	static ArrayList<Block> blocks;
-	static ArrayList<Thing> things;
-	static ArrayList<Animation> fruits;
+	static ArrayList<Block> blocks = new ArrayList<Block>();
+	static ArrayList<Thing> things = new ArrayList<Thing>();
+	static ArrayList<Animation> fruits = new ArrayList<Animation>();
 	
 	static ArrayList<TextAnimator> texts = new ArrayList<TextAnimator>();
 	
@@ -89,37 +89,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		upRect.setFilled(true);
 		centerRect.setFilled(true);
 		/** TEMPORARY **/
-		
-
 
 		while(true){
 			
-
-			// Micah can you comment this stuff & move it elsewhere haha ?
-			for(int i = 0; i < texts.size(); i++)
-				texts.get(i).animate();
+			animateText();
 			
-			boolean elementWasRemoved = true;
-			
-			while(elementWasRemoved){
-				elementWasRemoved = false;
-				for(int i = 0; i < texts.size(); i++)
-					if(!texts.get(i).active){
-						remove(texts.get(i).label);
-						texts.remove(i);
-						elementWasRemoved = true;
-						break;
-					}
-			}
-
 			// Playing
 			if(currentScreen == 3){
 
 
-				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..)**/
-				for (Thing thing : things) {
+				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
+				for (Thing thing : things)
 					thing.animate();
-				}
 					
 				/** Animate all fruit **/
 				for (Thing fruit : fruits)
@@ -164,7 +145,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Clear the screen
 		removeAll();
 
-
 		addBackground();
 		addImagesToScreen();
 		
@@ -183,21 +163,25 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 	
 	private void drawLevelSelection(){
+	
+		/** Remove all images from screen and add the level selection images **/
 		removeAll();
 		add(levelBackDrop.image);
 		addToScreen(levelSelectionButtons);
 		
 		for(int i = 0; i < levelNumbers.length; i++)
 			add(levelNumbers[i]);
-			
-		blocks = new ArrayList<Block>();
-		things = new ArrayList<Thing>();
-		fruits = new ArrayList<Animation>();
+		
+		/** Clear all lists pertaining to a specific level **/
+		blocks.clear();
+		things.clear();
+		fruits.clear();
+		texts.clear();
+		
 	}
 
 	// Loads the Hearts
 	private void addHearts(){
-		
 		
 		for(int i = 0; i < player.maxLives; i++){
 			livesImages[i] = new GImage(Data.heartImage.getImage());
@@ -217,13 +201,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	}
 
-	/** 
-	 * Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks
-	 * found horizontally and vertically
-	 **/
+	/** Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks found horizontally and vertically **/
 	private void findScreenDimensions(){
-
-		// Get Level Width and Height
+	
 		for (Block block : blocks ) {
 			
 			if (block.x > LEVEL_WIDTH)
@@ -232,6 +212,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			if (block.y > LEVEL_HEIGHT)
 				LEVEL_HEIGHT = block.y;
 		}
+		
 	}
 
 	private void addImagesToScreen(){
@@ -253,20 +234,17 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			add(fruit.image);
 		}
 
-		
 		placePlayerOnScreen();
 
 		addHearts();
 
 		addToScreen(inGameButtons);
 
-
 		/** TESTING PURPOSES ONLY **/
 		// addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
 		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
-
 	}
 
 	// ** Creates and correctly places player on screen **/
@@ -283,12 +261,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	}
 	
+	/** Adds a list of buttons to the screen **/
 	public void addToScreen(ArrayList<Button> arr){
 		for(int i = 0; i < arr.size(); i++)
 			add(arr.get(i).image);
 	}
 	
 	
+	/** Checks all buttons in a list, and changes the subimage if it has been clicked on **/
 	public void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse){
 		for(Button obj : arr)
 			// Check to see if the mouse is on the button
@@ -299,7 +279,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			}
 	}
 	
-	public void shiftLevelLabel(int shift){
+	/** Shifts the labels of the level selection button by a positive or negative integer value **/
+	private void shiftLevelLabels(int shift){
 	
 		for(int i = 0; i < 20; i++){
 			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
@@ -308,6 +289,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			
 	}
 	
+	// Add a Thing to the "things" arrayList, setting its position and adding it to the screen
 	public void addToThings(Thing obj){
 	
 		things.add(obj);
@@ -316,20 +298,21 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 	}
 	
+	/** This code is not in init() since it won't allow us to display anything on the screen during that method **/
 	private void postInit(){
 	
-		// Loading screen
+		/** Loading screen **/
 		GLabel loadingText = new GLabel("Loading...");
 		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth()/2, SCREEN_HEIGHT/2);
 		add(loadingText);
 		
-		// Set up keyboard and mouse
+		/** Set up keyboard and mouse **/
 		addMouseListeners();
 		addKeyListeners();
 		
-		// Renders Images in the Data class, and fills the object Arrays^
+		/** Renders Images in the Data class, and fills the object ArrayLists **/
 		Data.loadImages();
-
+	
 		drawMainMenu();
 	
 	}
@@ -452,7 +435,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					
 					if(levelSelectionPage > 0){
 						levelSelectionPage--;
-						shiftLevelLabel(-20);
+						shiftLevelLabels(-20);
 					}
 					
 				}
@@ -462,7 +445,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					
 					if(levelSelectionPage < 4){
 						levelSelectionPage++;
-						shiftLevelLabel(20);
+						shiftLevelLabels(20);
 					}
 					
 				}
@@ -480,6 +463,21 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			else clickedOnButton.setDefault();
 		}
 		clickedOnButton = null;
+	}
+	
+	/** Animates all text in the "texts" ArrayList, removing the inactive ones **/
+	private void animateText(){
+			
+		for(int i = 0; i < texts.size(); i++)
+			if(texts.get(i).active)
+				texts.get(i).animate();
+			else{
+				remove(texts.get(i).label);
+				texts.remove(i);
+				i -= 1;
+				continue;
+			}
+		
 	}
 
 }
