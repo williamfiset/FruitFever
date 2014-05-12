@@ -26,7 +26,7 @@ ANIMATION TYPES:
 
 	-1	-> N/A
 	0	-> Player
-	1	-> Swirl
+	1	-> Enemy
 	2	-> Fruit
 
 _____________________________________________________________________________________________
@@ -188,6 +188,8 @@ ________________________________________________________________________________
 			-Animation
 				-MovingAnimation
 					-Player
+					-Swirl
+					-AdvancedMovingAnimation
 		
 _____________________________________________________________________________________________
 
@@ -222,66 +224,64 @@ HELPFUL NOTES BY MICAH:
 
 ________________________________________________________________________________________________________
 
-HELPFUL NOTES BY WILL
+HELPFUL NOTES BY WILL:
 
 
-1. How charChange.py works and what it is used for:
-   
-	NOTE everything is enclosed in quotes '' because we use a lot of symbols 
-	and I don't want anything interpreted as a regular expressions.
+	1. How charChange.py works and what it is used for:
+	   
+		NOTE everything is enclosed in quotes '' because we use a lot of symbols 
+		and I don't want anything interpreted as a regular expressions.
 
-   charChange is best explained by example:
+	   charChange is best explained by example:
 
-    
+		
 
-    (Anywhere where there is a either 'E', 'S', 'T' change it to a 'W')
+		(Anywhere where there is a either 'E', 'S', 'T' change it to a 'W')
 
-   $python charChange.py 'W' 'EST'
+	   $python charChange.py 'W' 'EST'
 
-	This will replace every instance of the characters E, S and T with W in characterChangeFile.txt 
+		This will replace every instance of the characters E, S and T with W in characterChangeFile.txt 
 
-	####      ####
-	PPPP      PPPP
-	WWWW      WWWW
-	EEEE  --> WWWW
-	SSSS      WWWW
-	TTTT      WWWW
-	UUUU      UUUU
-	$$$$      $$$$ 
-
-
+		####      ####
+		PPPP      PPPP
+		WWWW      WWWW
+		EEEE  --> WWWW
+		SSSS      WWWW
+		TTTT      WWWW
+		UUUU      UUUU
+		$$$$      $$$$ 
 
 
-	(Change everything to a 'W' expect the character 'E', 'S', 'T')
+		(Change everything to a 'W' expect the character 'E', 'S', 'T')
 
-   $python charChange.py '!' 'W' 'EST'
-	   (NOTICE '!' MARK  ^)
+	   $python charChange.py '!' 'W' 'EST'
+		   (NOTICE '!' MARK  ^)
 
-	This will change every character in characterChangeFile.txt to a W expect E, S and T
+		This will change every character in characterChangeFile.txt to a W expect E, S and T
 
-    ####      WWWW
-	PPPP      WWWW
-	WWWW      WWWW
-	EEEE  --> EEEE
-	SSSS      SSSS
-	TTTT      TTTT
-	UUUU      WWWW
-	$$$$      WWWW
+		####      WWWW
+		PPPP      WWWW
+		WWWW      WWWW
+		EEEE  --> EEEE
+		SSSS      SSSS
+		TTTT      TTTT
+		UUUU      WWWW
+		$$$$      WWWW
 
 
 
-	(Change everything to a '#' expect '-'')
-	NOTE: by Default the python script performs this operation
+		(Change everything to a '#' expect '-'')
+		NOTE: by Default the python script performs this operation
 
-	python charChange.py
-	or
-	python charChange.py '!' '#' '-'
+		python charChange.py
+			or
+		python charChange.py '!' '#' '-'
 
 
-    --aa--     --##--
-	-abc--     -###--
-	abbcc- --> #####-
-	---FF-     ---##-
+		--aa--     --##--
+		-abc--     -###--
+		abbcc- --> #####-
+		---FF-     ---##-
 
 
 
