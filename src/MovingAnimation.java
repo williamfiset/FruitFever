@@ -31,7 +31,7 @@ public class MovingAnimation extends Animation{
 		moveIt(xSpeed, ySpeed);
 		super.animate();
 		
-		// Move the uderlying Rectangle
+		// Move the underlying Rectangle
 		setLocation(x, y);
 		
 	}

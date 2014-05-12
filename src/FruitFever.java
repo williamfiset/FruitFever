@@ -139,7 +139,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// Loads all Blocks and Things
 		Data.loadObjects("../levels/levels.txt", currentLevel);
-
+		
 		findScreenDimensions();
 
 		// Clear the screen
@@ -241,7 +241,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addToScreen(inGameButtons);
 
 		/** TESTING PURPOSES ONLY **/
-		// addToThings(new Animation(0, 100, Data.vortexAnimation, false, 2, true, -1));
+		addToThings(new MovingAnimation(0, 100, Data.wormEnemyMoving, true, 2, true, 2, 0, 1));
+		addToThings(new MovingAnimation(0, 100, Data.wormEnemyMoving, true, 2, true, 1, 0, 1));
+		addToThings(new Enemy(new int[]{0, 80}, new int[]{0, 0}, Data.wormEnemyMoving, true, 2, true, 2, 0));
 		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
