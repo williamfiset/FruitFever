@@ -59,8 +59,10 @@ public class Animation extends Thing {
 		if(!doneAnimating){
 			
 			// Break out of this method if it's not time to change the image yet
-			if(++delayCounter < delay)
+			if(++delayCounter < delay){
+				super.animate();
 				return;
+			}
 			else
 				delayCounter = 0;
 			
