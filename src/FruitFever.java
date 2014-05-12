@@ -75,14 +75,19 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
 		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
 		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3);
+		GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
+
 		leftRect.setFillColor(Color.RED);
 		rightRect.setFillColor(Color.RED);
 		upRect.setFillColor(Color.RED);
 		downRect.setFillColor(Color.RED);
+		centerRect.setFillColor(Color.RED);
+
 		leftRect.setFilled(true);
 		rightRect.setFilled(true);
 		downRect.setFilled(true);
 		upRect.setFilled(true);
+		centerRect.setFilled(true);
 		/** TEMPORARY **/
 		
 
@@ -133,6 +138,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				add(rightRect);
 				add(upRect);
 				add(downRect);
+				add(centerRect);
 
 			}
 			pause(MAIN_LOOP_SPEED);
@@ -212,9 +218,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 
 	/** 
-	  * Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks
-	  * found horizontally and vertically
-	  **/
+	 * Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks
+	 * found horizontally and vertically
+	 **/
 	private void findScreenDimensions(){
 
 		// Get Level Width and Height
@@ -229,7 +235,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 
 	private void addImagesToScreen(){
-
 
 		/** Adds all blocks, things and fruits to the screen **/
 		
@@ -368,13 +373,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		int keyCode = key.getKeyCode();
 
 		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
+		
 			dx = 0;
 			player.dx = 0;
 			vx = 0;
 			vy = 0;
-		}
 		
-		else if(keyCode == KeyEvent.VK_SPACE)
+		}else if(keyCode == KeyEvent.VK_SPACE)
 			swirlAllowed = true;
 	}
 	

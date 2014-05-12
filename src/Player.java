@@ -67,12 +67,14 @@ public class Player extends MovingAnimation {
 	public Player(int x, int y, GImage[] stillAnim, GImage[] stillAnimH, GImage[] shootAnim, GImage[] shootAnimH, GImage[] tongueAnim, GImage[] tongueAnimH){
 		
 		super(x, y, stillAnim, false, 1, true, 0);
+
 		this.stillAnim = stillAnim;
 		this.stillAnimH = stillAnimH;
 		this.shootAnim = shootAnim;
 		this.shootAnimH = shootAnimH;
 		this.tongueAnim = tongueAnim;
 		this.tongueAnimH = tongueAnimH;
+
 		boundaryLeft = Data.TILE_SIZE;
 		boundaryRight = -Data.TILE_SIZE;
 		
@@ -106,7 +108,10 @@ public class Player extends MovingAnimation {
 		
 	}
 
-	//** Moves the view of the screen relative to the character **/
+	/** 
+     * Moves the view of the screen relative to the character
+     * (This method could use serious refactoring, but I dare not!)
+	 **/
 	private void relativisticScreenMovement(){
 
 		// Horizontal screen movement
@@ -118,8 +123,7 @@ public class Player extends MovingAnimation {
 			else
 				FruitFever.vx = dx;	
 		
-		}
-		else if (x < FruitFever.LEFT_BOUNDARY && dx < 0) {
+		} else if (x < FruitFever.LEFT_BOUNDARY && dx < 0) {
 
 			// Makes sure view never shows blank left of screen
 			if (FruitFever.viewX <= 0)
@@ -226,6 +230,7 @@ public class Player extends MovingAnimation {
 		// EAST
 		if(FruitFever.dx == 1){
 
+			// +1 is hardcoded to precision, HORIZONTAL_PX_BUFFER did not suffice 
 			Block eastNorth = Block.getBlock(x + width + 1, y + VERTICAL_PX_BUFFER);
 			Block eastSouth = Block.getBlock(x + width + 1, y + height - VERTICAL_PX_BUFFER);
 
@@ -240,7 +245,8 @@ public class Player extends MovingAnimation {
 			
 		// WEST
 		} else if(FruitFever.dx == -1) {
-
+			
+			// -1 is hardcoded to precision, HORIZONTAL_PX_BUFFER did not suffice 
 			Block westNorth = Block.getBlock(x - 1, y + VERTICAL_PX_BUFFER);
 			Block westSouth = Block.getBlock(x - 1, y + height - VERTICAL_PX_BUFFER);
 
@@ -386,11 +392,12 @@ public class Player extends MovingAnimation {
 
 	}
 
+	/** Adjusts View to place the player in the middle of the screen **/
 	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos){
 
-		// Place player somewhat in the middle of the screen
-		FruitFever.viewX = newPlayerXPos - FruitFever.SCREEN_WIDTH / 2;
-		FruitFever.viewY = newPlayerYPos - FruitFever.SCREEN_HEIGHT / 2;
+		// Places the player exactly in the middle of the screen
+		FruitFever.viewX = newPlayerXPos - (FruitFever.SCREEN_WIDTH / 2) + (Data.TILE_SIZE/2);
+		FruitFever.viewY = newPlayerYPos - (FruitFever.SCREEN_HEIGHT / 2) + (Data.TILE_SIZE / 2);
 
 		// Adjust screen so that player cannot see outside view box
 		if (FruitFever.viewY < 0) FruitFever.viewY = 0;
@@ -408,6 +415,7 @@ public class Player extends MovingAnimation {
 
 		focusViewOnPlayer(newPlayerXPos, newPlayerYPos);
 
+		// Fixes the loading player position bug 
 		if (levelRespawn) {
 			imageX -= Data.TILE_SIZE; 
 			x -= Data.TILE_SIZE;
@@ -434,6 +442,7 @@ public class Player extends MovingAnimation {
 
 		// The swirl is at rest
 		if(swirl.xSpeed == 0){
+
 			// Makes sure you finish a cycle of images before starting a new one
 			if(!images.equals(shootAnim) && !images.equals(shootAnimH))
 				counter = -1;
@@ -443,7 +452,7 @@ public class Player extends MovingAnimation {
 			repeat = false;
 			
 
-			// Check if there's a Block in front/in back of the player before he shoots
+			/** Check if there's a Block in front/in back of the player before he shoots **/
 			if (facingRight) {
 
 				Block westNorth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE / 4 );
@@ -528,7 +537,7 @@ public class Player extends MovingAnimation {
 
 			for (Block block : FruitFever.blocks)
 				block.naturalAnimate();
-			
+
 			for (Thing thing : FruitFever.things)
 				thing.naturalAnimate();
 			
@@ -577,7 +586,7 @@ public class Player extends MovingAnimation {
 		super.animate();
 		
 		// If Swirl goes off screen or hits a block, destroy it
-		if(swirl.imageX - Swirl.SWIRL_IMG_WIDTH < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock())
+		if(swirl.imageX + Swirl.SWIRL_IMG_WIDTH < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock())
 			swirl.resetState();
 
 		swirl.animate();
