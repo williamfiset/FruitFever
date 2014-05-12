@@ -226,8 +226,8 @@ public class Player extends MovingAnimation {
 		// EAST
 		if(FruitFever.dx == 1){
 
-			Block eastNorth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
-			Block eastSouth = Block.getBlock(x + width + HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
+			Block eastNorth = Block.getBlock(x + width + 1, y + VERTICAL_PX_BUFFER);
+			Block eastSouth = Block.getBlock(x + width + 1, y + height - VERTICAL_PX_BUFFER);
 
 			// No block right of player
 			if(eastSouth == null && eastNorth == null){
@@ -241,8 +241,8 @@ public class Player extends MovingAnimation {
 		// WEST
 		} else if(FruitFever.dx == -1) {
 
-			Block westNorth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + VERTICAL_PX_BUFFER);
-			Block westSouth = Block.getBlock(x - HORIZONTAL_PX_BUFFER, y + height - VERTICAL_PX_BUFFER);
+			Block westNorth = Block.getBlock(x - 1, y + VERTICAL_PX_BUFFER);
+			Block westSouth = Block.getBlock(x - 1, y + height - VERTICAL_PX_BUFFER);
 
 			// No block left of player
 			if(westNorth == null && westSouth == null){
@@ -260,8 +260,8 @@ public class Player extends MovingAnimation {
 
 	private void upwardsCollision(){
 
-		Block northWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
-		Block northEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER);
+		Block northWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER );
+		Block northEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER );
 
 		// Collision on block above this one has happened
 		if (northWest != null || northEast != null)
@@ -497,10 +497,11 @@ public class Player extends MovingAnimation {
 			imageX = swirl.imageX - Data.TILE_SIZE;
 			imageY = swirl.imageY;
 
-			Block upperRight = Block.getBlock(x, y);
-			Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y);
-			Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE);
-			Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE);
+			// Hardcoded Values are to make precision more accurate
+			Block upperRight = Block.getBlock(x, y + 3);
+			Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
+			Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
+			Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
 
 
 			/** Fixes Issue #42 where player semi teleports into blocks **/
