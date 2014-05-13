@@ -49,7 +49,7 @@ public class Player extends MovingAnimation {
 // Jumping motion Variables
 	final double STARTING_JUMPING_VELOCITY = 6.25; 
 	final double STARTING_JUMPING_DECCELERATION = 0;
-	final double changeInDecceleration = 0.043; 
+	final double CHANGE_INDECLERATION = 0.043; 
 
 	double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 	double jumpingVelocity = STARTING_JUMPING_VELOCITY;
@@ -187,7 +187,7 @@ public class Player extends MovingAnimation {
 				imageY -= jumpingVelocity;
 
 				jumpingVelocity -= jumpingDecceleration;
-				jumpingDecceleration += changeInDecceleration;
+				jumpingDecceleration += CHANGE_INDECLERATION;
 
 			// Player has reached maxHeight, gravity now kicks in
 			}
@@ -583,13 +583,13 @@ public class Player extends MovingAnimation {
 				images = stillAnimH;
 		}
 
+		// Fixes Issue #45 when Animating the swirl before you check the collision
 		super.animate();
-		
+		swirl.animate();
+
 		// If Swirl goes off screen or hits a block, destroy it
 		if(swirl.imageX + Swirl.SWIRL_IMG_WIDTH < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock())
 			swirl.resetState();
-
-		swirl.animate();
 
 	}
 
@@ -607,7 +607,7 @@ public class Player extends MovingAnimation {
 class Swirl extends MovingAnimation{
 
 	// Swirls velocity
-	static final int dx = 2;
+	static final byte dx = 8;
 
 	// This is the location of where the swirl is off screen when it is at rest
 	static final short SWIRL_X_REST_POS = -100;
@@ -621,16 +621,23 @@ class Swirl extends MovingAnimation{
 	static final byte AIR_SPACING = 6;
 
 	public Swirl(){
-		super(SWIRL_X_REST_POS, SWIRL_Y_REST_POS, Data.swirlAnimation, false, 0, true, 0, 0, 1);
+
+		super(SWIRL_X_REST_POS, SWIRL_Y_REST_POS, Data.swirlAnimation, false, 0, true, 0, 0, -1);
 		resetState();
+
 	}
-	
+
 	public void resetState(){	
 
 		imageX = SWIRL_X_REST_POS;
 		imageY = SWIRL_Y_REST_POS;
+
+		x = SWIRL_X_REST_POS;
+		y = SWIRL_Y_REST_POS;
+
 		xSpeed = 0;
 		ySpeed = 0;
+
 		FruitFever.swirlAllowed = true;
 
 	}
@@ -641,17 +648,21 @@ class Swirl extends MovingAnimation{
 		Block westNorth = Block.getBlock(x + AIR_SPACING + xSpeed, y + AIR_SPACING ) ;
 		if (westNorth != null) return true;
 
-		Block westSouth = Block.getBlock(x + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING ) ;
-		if (westSouth != null) return true;
-
 		Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + AIR_SPACING) ;
 		if (eastNorth != null) return true;
+
+		Block westSouth = Block.getBlock(x + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING ) ;
+		if (westSouth != null) return true;
 
 		Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING );
 		if (eastSouth != null) return true;
 
 		return false;
 
+	}
+
+	@Override public String toString(){
+		return "Swirl   X: " + x + "  Y: " + y;
 	}
 	
 }
