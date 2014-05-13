@@ -62,6 +62,8 @@ public class Player extends MovingAnimation {
 // Animation things
 	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	public static boolean facingRight = true;
+	
+	final int TONGUE_WIDTH = 20;
 
 
 	public Player(int x, int y, GImage[] stillAnim, GImage[] stillAnimH, GImage[] shootAnim, GImage[] shootAnimH, GImage[] tongueAnim, GImage[] tongueAnimH){
