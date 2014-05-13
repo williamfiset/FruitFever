@@ -335,7 +335,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// Try to eat fruit (only eats one at a time because of the break statement)
 			for(int i = 0; i < fruits.size(); i++)
 				// Check tongue's intersection with the fruit and remove fruit if it collides
-				if(player.facingRight && fruits.get(i).contains(player.x + player.TONGUE_WIDTH, player.y) || !player.facingRight && fruits.get(i).contains(player.x - player.TONGUE_WIDTH, player.y)){
+				if(fruits.get(i).contains(player.getTonguePosition())){
 					remove(fruits.get(i).image);
 					fruits.remove(i);
 					i--;

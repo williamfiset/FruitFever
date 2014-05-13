@@ -1,8 +1,9 @@
 
 /**
- * @Author William Fiset 
- * This class controls all the actions and collisions of the main character
+ *	Player - This class controls all the actions and collisions of the main character.
  *
+ * @Author William Fiset, Micah Stairs
+ * 
  **/
 
 import acm.graphics.*;
@@ -43,7 +44,7 @@ public class Player extends MovingAnimation {
 	private boolean setBaseLine = true;
 	private boolean isJumping = false;
 
-	int maxJumpHeight = (3*25 + 25/2); // 3.5 tile jump limit
+	int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // 3.5 tile jump limit
 	private int baseLine;
 
 // Jumping motion Variables
@@ -64,7 +65,6 @@ public class Player extends MovingAnimation {
 	public static boolean facingRight = true;
 	
 	final int TONGUE_WIDTH = 20;
-
 
 	public Player(int x, int y, GImage[] stillAnim, GImage[] stillAnimH, GImage[] shootAnim, GImage[] shootAnimH, GImage[] tongueAnim, GImage[] tongueAnimH){
 		
@@ -102,6 +102,7 @@ public class Player extends MovingAnimation {
 		imageX += dx;	
 		
 	}
+	
 	/** Resets players ability to jump if applicable **/
 	private void enableJumping(){
 		
@@ -149,7 +150,7 @@ public class Player extends MovingAnimation {
 		} else if (!isJumping && onPlatform) 
 			FruitFever.vy = 0;
 		
-		// Stop moving the screen up if you passed the 
+		// Stop moving the screen up if you passed the (WILL: YOU DIDN'T FINISH YOUR SENTENCE HERE?)
 		if (FruitFever.viewY >= FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE && FruitFever.vy > 0 )
 			FruitFever.vy = 0;
 
@@ -217,7 +218,7 @@ public class Player extends MovingAnimation {
 			
 
 		// Executes when not falling or not allowed to fall
-		}else{
+		} else{
 
 			// Reset falling speed
 			fallingVelocity = STARTING_FALLING_VELOCITY;
@@ -237,9 +238,9 @@ public class Player extends MovingAnimation {
 			Block eastSouth = Block.getBlock(x + width + 1, y + height - VERTICAL_PX_BUFFER);
 
 			// No block right of player
-			if(eastSouth == null && eastNorth == null){
+			if (eastSouth == null && eastNorth == null)
 				dx = HORIZONTAL_VELOCITY;
-			}else{
+			else {
 				// Stop viewX from moving as well as player
 				dx = 0; 
 				FruitFever.vx = 0;
@@ -253,10 +254,9 @@ public class Player extends MovingAnimation {
 			Block westSouth = Block.getBlock(x - 1, y + height - VERTICAL_PX_BUFFER);
 
 			// No block left of player
-			if(westNorth == null && westSouth == null){
+			if (westNorth == null && westSouth == null)
 				dx = -HORIZONTAL_VELOCITY;
-			}
-			else{
+			else {
 				
 				// Stop viewX from moving as well as player
 				dx = 0; 
@@ -398,18 +398,15 @@ public class Player extends MovingAnimation {
 	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos){
 
 		// Places the player exactly in the middle of the screen
-		FruitFever.viewX = newPlayerXPos - (FruitFever.SCREEN_WIDTH / 2) + (Data.TILE_SIZE/2);
-		FruitFever.viewY = newPlayerYPos - (FruitFever.SCREEN_HEIGHT / 2) + (Data.TILE_SIZE / 2);
+		FruitFever.viewX = newPlayerXPos - (FruitFever.SCREEN_WIDTH/2) + (Data.TILE_SIZE/2);
+		FruitFever.viewY = newPlayerYPos - (FruitFever.SCREEN_HEIGHT/2) + (Data.TILE_SIZE/2);
 
 		// Adjust screen so that player cannot see outside view box
-		if (FruitFever.viewY < 0) FruitFever.viewY = 0;
-		if (FruitFever.viewX < 0) FruitFever.viewX = 0;
-		 
-		if (FruitFever.viewY > FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
-			FruitFever.viewY = FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE;
+		FruitFever.viewY = Math.max(FruitFever.viewY, 0);
+		FruitFever.viewX = Math.max(FruitFever.viewX, 0);
 		
-		if (FruitFever.viewX > FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
-			FruitFever.viewX = FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE;
+		FruitFever.viewY = Math.min(FruitFever.viewY, FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE);
+		FruitFever.viewX = Math.min(FruitFever.viewX, FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE);
 
 	}
 
@@ -431,7 +428,7 @@ public class Player extends MovingAnimation {
 		fallingVelocity = STARTING_FALLING_VELOCITY;
 		fallingAcceleration = STARTING_FALLING_ACCELERATION;
 
-		/** In the future respawn should be start an detect where the players should spawn**/
+		/** In the future respawn should be start an detect where the players should spawn **/
 
 		imageX = FruitFever.playerStartX;
 		imageY = FruitFever.playerStartY;			
@@ -453,11 +450,10 @@ public class Player extends MovingAnimation {
 			doneAnimating = false;
 			repeat = false;
 			
-
 			/** Check if there's a Block in front/in back of the player before he shoots **/
 			if (facingRight) {
 
-				Block westNorth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE / 4 );
+				Block westNorth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4 );
 				Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
 
 				// If there is not Block in front of player
@@ -470,17 +466,15 @@ public class Player extends MovingAnimation {
 
 					// Set Right shooting animation
 					images = shootAnim;
-
-				}else{
-
-					// If there is a block in front of the player, don't do swirl animation
+				
+				// If there is a block in front of the player, don't do swirl animation
+				} else
 					images = stillAnim;
-				}
 
 			// Facing left
-			}else{
+			} else {
 
-				Block eastNorth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE / 4 );
+				Block eastNorth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4);
 				Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
 
 				// If there is not Block in front of player
@@ -493,16 +487,15 @@ public class Player extends MovingAnimation {
 
 					// Set Left shooting animation
 					images = shootAnimH;
-				}else{
-
-					// If there is a block in front of the player, don't do swirl animation
+					
+				// If there is a block in front of the player, don't do swirl animation
+				} else
 					images = stillAnim;
-				}
 			}
 
 		
 		// Teleports Player
-		}else{
+		} else {
 
 			// Remember that the player has a width of TileSize*3 so we must subtract a tile-size!
 			imageX = swirl.imageX - Data.TILE_SIZE;
@@ -514,11 +507,10 @@ public class Player extends MovingAnimation {
 			Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
 			Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
 
-
 			/** Fixes Issue #42 where player semi teleports into blocks **/
 
 			if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
-				imageX = (imageX / Data.TILE_SIZE) * Data.TILE_SIZE;	
+				imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
 				
 				// Takes into account that the player's center is top left
 				if (!facingRight)
@@ -529,7 +521,6 @@ public class Player extends MovingAnimation {
 
 			// Focuses the view on the player placing the player in the center of the screen
 			focusViewOnPlayer(swirl.imageX, swirl.imageY);
-
 
 			/** Fixes Issue #41. Since the optimized .animate() method in Things doesn't move
 			the blocks off screen when you teleport to a location where there are unmoved blocks off
@@ -543,7 +534,6 @@ public class Player extends MovingAnimation {
 			for (Thing thing : FruitFever.things)
 				thing.naturalAnimate();
 			
-
 			swirl.resetState();
 		}
 		
@@ -561,7 +551,7 @@ public class Player extends MovingAnimation {
 			else if(images.equals(tongueAnimH))
 				images = tongueAnim;
 
-		}else{
+		} else {
 
 			if(images.equals(stillAnim))
 				images = stillAnimH;
@@ -593,6 +583,14 @@ public class Player extends MovingAnimation {
 		if(swirl.imageX + Swirl.SWIRL_IMG_WIDTH < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock())
 			swirl.resetState();
 
+	}
+	
+	/** Returns the location of the tip of the tongue (when fully extended) **/
+	public Point getTonguePosition(){
+		if(facingRight)
+			return new Point(x + Data.TILE_SIZE + TONGUE_WIDTH, y + (int) image.getHeight()/2);
+		else
+			return new Point(x - TONGUE_WIDTH, y + (int) image.getHeight()/2);
 	}
 
 	public void posInfo(){
@@ -668,22 +666,3 @@ class Swirl extends MovingAnimation{
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
