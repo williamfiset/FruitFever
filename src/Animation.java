@@ -59,11 +59,10 @@ public class Animation extends Thing {
 		if(!doneAnimating){
 			
 			// Break out of this method if it's not time to change the image yet
-			if(++delayCounter < delay){
+			if (++delayCounter < delay) {
 				super.animate();
 				return;
-			}
-			else
+			} else
 				delayCounter = 0;
 			
 			// Adjust the counter in the correct direction
@@ -73,22 +72,20 @@ public class Animation extends Thing {
 				counter--;
 			
 			/** Determine if the counter needs to switch directions **/
-			if(reverse){
-				if(counter == images.length - 1){
-					if(!repeat)
+			if (reverse) {
+				if (counter == images.length - 1) {
+					if (!repeat)
 						doneAnimating = true;
 					else
 						counterGoingUp = false;
-				}
-				else if(counter == 0){
-					if(!repeat)
+				} else if (counter == 0) {
+					if (!repeat)
 						doneAnimating = true;
 					else
 						counterGoingUp = true;
 				}
-			}
-			else if (counter == images.length){
-				if(!repeat)
+			} else if (counter == images.length)  {
+				if (!repeat)
 					doneAnimating = true;
 				counter = 0;
 			}

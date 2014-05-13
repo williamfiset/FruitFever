@@ -31,8 +31,8 @@ public abstract class Data{
 						   gearButton = new GImage[3],
 						   playerStill = new GImage[1],
 						   playerStillH = new GImage[1],
-						   playerTongue = new GImage[9],
-						   playerTongueH = new GImage[9],
+						   playerTongue = new GImage[5],
+						   playerTongueH = new GImage[5],
 						   playerShoot = new GImage[6],
 						   playerShootH = new GImage[6],
 						   fuzzyEnemyAttack = new GImage[4],
@@ -123,9 +123,9 @@ public abstract class Data{
 		playerStill[0] = makeImage(sheet, TILE_SIZE*13, 0, TILE_SIZE*3, TILE_SIZE);
 		playerStillH[0] = ImageTransformer.horizontalFlip(playerStill[0]);
 		
-		for(int i = 0; i < 9; i++){
-			playerTongue[i] = makeImage(sheet, TILE_SIZE*13, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE);
-			playerTongueH[i] = ImageTransformer.horizontalFlip(playerTongue[i]);
+		for(int i = 0; i < 9; i+=2){
+			playerTongue[i/2] = makeImage(sheet, TILE_SIZE*13, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE);
+			playerTongueH[i/2] = ImageTransformer.horizontalFlip(playerTongue[i/2]);
 		}
 		for(int i = 0; i < 6; i++){
 			playerShoot[i] = makeImage(sheet, TILE_SIZE*16, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE); 
