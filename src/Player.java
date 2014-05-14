@@ -362,27 +362,66 @@ public class Player extends MovingAnimation {
 	/** Updates the players health  **/
 	private void updateHealth(){
 
-		// Checks if player is out of the level bounds
-		if (playerWithinLevelBounds()){
+		// This statement kinda looks weird but it's clear and more efficient (I think!)
+		if(checkForPlayerOutOfBounds()){}
+		else if (checkForDangerousSpriteCollisions()) {}
+
+	}
+
+	/** checks if player touched any dangerous sprites (aka lava)**/
+	private boolean checkForDangerousSpriteCollisions(){
+
+		boolean collisionOccurred = false;
+
+		// instead of creating a new instance for every sprite, just reuse the same one right?
+		Rectangle lavaRect = new Rectangle(0, 0, Data.TILE_SIZE, Data.TILE_SIZE/2);
+
+		// loop through all dangerous sprites
+		for (Thing dangerousSprite : FruitFever.dangerousSprites) {
 			
+			/** As we start getting more and more dangerous sprites we will have to
+			  * distinguish between types either by using instanceof or giving each 
+			  * sprite a property **/
+			
+			lavaRect.x = dangerousSprite.x;
+			lavaRect.y = dangerousSprite.y + (Data.TILE_SIZE/3);
+
+			if (lavaRect.intersects(this)) {
+
+				respawn();
+				Block.resetPerformedNaturalAnimate();
+				lives--;		
+				adjustLives(lives);	
+				collisionOccurred = true;
+				break;
+			}
+		}
+
+		if (collisionOccurred)
+			for (Thing dangerousSprite : FruitFever.dangerousSprites)
+				dangerousSprite.naturalAnimate();
+
+		return collisionOccurred;
+
+	}
+
+	private boolean checkForPlayerOutOfBounds(){
+
+		boolean playerOutOfBounds = (x + Data.TILE_SIZE < 0 || x > FruitFever.LEVEL_WIDTH || y + height < 0 || y - height > FruitFever.LEVEL_HEIGHT );
+
+		if (playerOutOfBounds) {
+
 			// Fixes Block animation problem
 			Block.resetPerformedNaturalAnimate();
 			
 			respawn();
-
 			lives--;		
- 
-		} 
+			adjustLives(lives);	
+		}
 
-		adjustLives(lives);	
-
+		return playerOutOfBounds;
 	}
 
-	private boolean playerWithinLevelBounds(){
-
-		return (x + Data.TILE_SIZE < 0 || x > FruitFever.LEVEL_WIDTH || y + height < 0 || y - height > FruitFever.LEVEL_HEIGHT );
-
-	} 
 	
 	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly */
 	private void adjustLives(int livesLeft){
@@ -534,6 +573,11 @@ public class Player extends MovingAnimation {
 			for (Thing thing : FruitFever.things)
 				thing.naturalAnimate();
 			
+			// needed?
+			for (Thing dangerousSprite : FruitFever.dangerousSprites)
+				dangerousSprite.naturalAnimate();
+			
+
 			swirl.resetState();
 		}
 		

@@ -229,7 +229,9 @@ public abstract class Data{
 						
 					// Lava
 					if(character == '~'){
-						FruitFever.things.add(new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, lavaImage));
+						Thing lava = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, lavaImage);
+						FruitFever.things.add(lava);
+						FruitFever.dangerousSprites.add(lava);
 						continue;
 					}
 					

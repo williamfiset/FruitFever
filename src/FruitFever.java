@@ -13,7 +13,7 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
-	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
+	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 80;
 	static int LEVEL_WIDTH = 0, LEVEL_HEIGHT = 0;
 	static String LEVEL_NAME = "";
 
@@ -23,6 +23,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<Block> blocks = new ArrayList<Block>();
 	static ArrayList<Thing> things = new ArrayList<Thing>();
 	static ArrayList<Animation> fruits = new ArrayList<Animation>();
+	static ArrayList<Thing> dangerousSprites = new ArrayList<Thing>();
 	static Animation grabbedFruit = null;
 	
 	static ArrayList<TextAnimator> texts = new ArrayList<TextAnimator>();
@@ -499,7 +500,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				i -= 1;
 				continue;
 			}
-		
 	}
 
 }
