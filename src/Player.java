@@ -63,8 +63,6 @@ public class Player extends MovingAnimation {
 // Animation things
 	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	public static boolean facingRight = true;
-	
-	final int TONGUE_WIDTH = 20;
 
 	public Player(int x, int y, GImage[] stillAnim, GImage[] stillAnimH, GImage[] shootAnim, GImage[] shootAnimH, GImage[] tongueAnim, GImage[] tongueAnimH){
 		
@@ -587,10 +585,18 @@ public class Player extends MovingAnimation {
 	
 	/** Returns the location of the tip of the tongue (when fully extended) **/
 	public Point getTonguePosition(){
+	
+		int currentTongueWidth = 0;
+		
+		switch (counter){
+			case 3: currentTongueWidth = 8; break;
+			case 4: currentTongueWidth = 20; break;
+		}
+		
 		if(facingRight)
-			return new Point(x + Data.TILE_SIZE + TONGUE_WIDTH, y + (int) image.getHeight()/2);
+			return new Point(x + Data.TILE_SIZE + currentTongueWidth, y + (int) image.getHeight()/2);
 		else
-			return new Point(x - TONGUE_WIDTH, y + (int) image.getHeight()/2);
+			return new Point(x - currentTongueWidth, y + (int) image.getHeight()/2);
 	}
 
 	public void posInfo(){

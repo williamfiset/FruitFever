@@ -9,14 +9,14 @@
 import acm.graphics.*;
 import java.awt.*;
 
-public class Enemy extends AdvancedMovingAnimation{
+public class AdvancedMovingAnimation extends MovingAnimation{
 
 	/** Public instance variables **/
 	public int[] xPos, yPos;
-	public int currentDestination = 1, dx, dy;
+	public int currentDestination, dx, dy;
 	public GImage[][] animations;
 
-	public Enemy(int[] xPos, int[] yPos, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int dx, int dy){
+	public AdvancedMovingAnimation(int[] xPos, int[] yPos, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int dx, int dy){
 	
 		super(xPos[0], yPos[0], originalImages, reverse, delay, repeat, 1);
 		
@@ -24,6 +24,9 @@ public class Enemy extends AdvancedMovingAnimation{
 		this.yPos = yPos;
 		this.dx = dx;
 		this.dy = dy;
+		
+		// Current destination will be 0 only when there's one point in the entire path
+		currentDestination = 1 % xPos.length;
 		
 		setXSpeed();
 		setYSpeed();

@@ -23,6 +23,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<Block> blocks = new ArrayList<Block>();
 	static ArrayList<Thing> things = new ArrayList<Thing>();
 	static ArrayList<Animation> fruits = new ArrayList<Animation>();
+	static Animation grabbedFruit = null;
 	
 	static ArrayList<TextAnimator> texts = new ArrayList<TextAnimator>();
 	
@@ -105,7 +106,25 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				/** Animate all fruit **/
 				for (Thing fruit : fruits)
 					fruit.animate();
-
+				
+				if (grabbedFruit != null) {
+				
+					// Reset fruit's position based on 
+					grabbedFruit.imageX = player.getTonguePosition().x - Data.TILE_SIZE/2;
+					grabbedFruit.imageY = player.getTonguePosition().y - Data.TILE_SIZE/2;
+					grabbedFruit.animate();
+					
+					// Remove fruit if animation has finished
+					if(!player.images.equals(player.tongueAnim) && !player.images.equals(player.tongueAnimH)){
+						remove(grabbedFruit.image);
+						for(int i = 0; i < fruits.size(); i++)
+							if(fruits.get(i).equals(grabbedFruit)){
+								fruits.remove(i);
+								break;
+							}
+						grabbedFruit = null;
+					}
+				}
 
 				// Takes an execution time of ≈ 1.8 x 10^-4 seconds
 				Block.drawBlocks();
@@ -243,7 +262,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		/** TESTING PURPOSES ONLY **/
 		// addToThings(new MovingAnimation(0, 100, Data.wormEnemyMoving, true, 2, true, 2, 0, 1));
 		// addToThings(new MovingAnimation(0, 100, Data.wormEnemyMoving, true, 2, true, 1, 0, 1));
-		// addToThings(new AdvancedMovingAnimation(new int[]{0, 80}, new int[]{0, 0}, Data.wormEnemyMoving, true, 2, true, 2, 0));
+		// addToThings(new AdvancedMovingAnimation(new int[]{0}, new int[]{0}, Data.redFruitAnimation, true, 2, true, 2, 0));
 		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
@@ -324,41 +343,44 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		int keyCode = key.getKeyCode();
 
 		// JUMP
-		if(keyCode == KeyEvent.VK_W)
+		if (keyCode == KeyEvent.VK_W) {
 			player.setIsJumping(true);
 
 		// Tongue Attack
-		else if (keyCode == KeyEvent.VK_S){
+		} else if (keyCode == KeyEvent.VK_S) {
 		
 			player.tongueAttack();
 			
 			// Try to eat fruit (only eats one at a time because of the break statement)
 			for(int i = 0; i < fruits.size(); i++)
-				// Check tongue's intersection with the fruit and remove fruit if it collides
+				// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
 				if(fruits.get(i).contains(player.getTonguePosition())){
-					remove(fruits.get(i).image);
-					fruits.remove(i);
-					i--;
+					grabbedFruit = fruits.get(i);
+					// if (grabbedFruit != null)
+						// remove(grabbedFruit.image);
+					// grabbedFruit = new Animation(player.getTonguePosition().x - Data.TILE_SIZE, player.getTonguePosition().y - Data.TILE_SIZE, Data.blueFruitAnimation, true, 3, true, 2);
+					// add(grabbedFruit.image);
+					// remove(fruits.get(i).image);
+					// fruits.remove(i);
+					// i--;
 					break;
 				}
-			
-		}
 
 		// Shoot Swirl
-		else if (keyCode == KeyEvent.VK_SPACE){
-			if(swirlAllowed){
+		} else if (keyCode == KeyEvent.VK_SPACE) {
+			if (swirlAllowed) {
 				player.shootSwirl();
 				swirlAllowed = false;
 			}
 	
 		// Movement LEFT
-		}else if (keyCode == KeyEvent.VK_A) {
+		} else if (keyCode == KeyEvent.VK_A) {
 
 			player.facingRight = false; 
 			dx = -1;
 		
 		// Movement RIGHT
-		}else if (keyCode == KeyEvent.VK_D) {
+		} else if (keyCode == KeyEvent.VK_D) {
 			
 			dx = 1;
 			player.facingRight = true;
@@ -377,7 +399,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			vx = 0;
 			vy = 0;
 		
-		}else if(keyCode == KeyEvent.VK_SPACE)
+		} else if (keyCode == KeyEvent.VK_SPACE)
 			swirlAllowed = true;
 	}
 	
@@ -414,11 +436,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 		clickedOnButton = null;
 	
-		if(currentScreen == 1)
+		if (currentScreen == 1)
 			checkAndSetClick(mainMenuButtons, mouse);
-		else if(currentScreen == 2)
+		else if (currentScreen == 2)
 			checkAndSetClick(levelSelectionButtons, mouse);
-		else if(currentScreen == 3)
+		else if (currentScreen == 3)
 			checkAndSetClick(inGameButtons, mouse);
 			
 	}
@@ -426,52 +448,41 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	@Override public void mouseReleased(MouseEvent mouse) {
 	
 		/** Temporary code to jump to the main menu **/
-		if(mouse.getX() < 25 && mouse.getY() < 25){
+		if (mouse.getX() < 25 && mouse.getY() < 25) {
 			drawMainMenu();
 			return;
 		}
 			
-		if(clickedOnButton != null){
+		if (clickedOnButton != null) {
 		
 			/** Unclick the button image and preform action (if applicable) **/
-			if(clickedOnButton.contains(mouse.getX(), mouse.getY())){
+			if (clickedOnButton.contains(mouse.getX(), mouse.getY())) {
 				clickedOnButton.setHover();
 				
 				// Play button
-				if(clickedOnButton.type == 0){
-					
+				if (clickedOnButton.type == 0) {
 					currentScreen = 2;
 					drawLevelSelection();
-					
-				}
 				
 				// Level left arrow button
-				else if(clickedOnButton.type == 4){
-					
-					if(levelSelectionPage > 0){
+				} else if (clickedOnButton.type == 4) {
+					if (levelSelectionPage > 0) {
 						levelSelectionPage--;
 						shiftLevelLabels(-20);
-					}
-					
-				}
-				
+					}		
+			
 				// Level right arrow button
-				else if(clickedOnButton.type == 5){
-					
-					if(levelSelectionPage < 4){
+				} else if (clickedOnButton.type == 5) {
+					if (levelSelectionPage < 4) {
 						levelSelectionPage++;
 						shiftLevelLabels(20);
 					}
-					
-				}
 				
 				// Level button
-				else if(clickedOnButton.type == 6){
-
+				} else if (clickedOnButton.type == 6) {
 					currentLevel = clickedOnButton.level + levelSelectionPage*20;
 					loadLevel();
 					currentScreen = 3;
-					
 				}				
 
 			}
@@ -483,10 +494,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	/** Animates all text in the "texts" ArrayList, removing the inactive ones **/
 	private void animateText(){
 			
-		for(int i = 0; i < texts.size(); i++)
-			if(texts.get(i).active)
+		for (int i = 0; i < texts.size(); i++)
+			if (texts.get(i).active)
 				texts.get(i).animate();
-			else{
+			else {
 				remove(texts.get(i).label);
 				texts.remove(i);
 				i -= 1;

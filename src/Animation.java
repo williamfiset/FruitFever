@@ -66,7 +66,7 @@ public class Animation extends Thing {
 				delayCounter = 0;
 			
 			// Adjust the counter in the correct direction
-			if(counterGoingUp)
+			if (counterGoingUp)
 				counter++;
 			else
 				counter--;

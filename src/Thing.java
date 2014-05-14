@@ -61,12 +61,8 @@ public class Thing extends Rectangle{
 		
 			// The '+ Data.TILE_SIZE' prevents the bug of the tiles accumulating
 			// at the bottom of the screen
-			if (y < FruitFever.SCREEN_HEIGHT  + Data.TILE_SIZE) { 
-
-				// places image at the correct position on the screen
+			if (y < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
 				image.setLocation(imageX - FruitFever.viewX, imageY  - FruitFever.viewY);		
-				
-			}
 		}
 	
 		// Changes the size of bounding box
@@ -95,26 +91,3 @@ public class Thing extends Rectangle{
 		image.setImage(img.getImage());
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
