@@ -16,8 +16,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.io.*;
 
-public abstract class DownloadImage {
+public abstract class Downloader {
 
 	/* Saves an image from the web to the current working directory */
 	public static void downloadImageWithName(String urlName, String imageName){
@@ -49,8 +50,6 @@ public abstract class DownloadImage {
 		}
 	}
 	
-	
-	
 	/* Saves an image from the web to a location specified on the computer */
 	public void downloadImageWithPath(String urlName, String pathWithImageName){
 		
@@ -79,30 +78,32 @@ public abstract class DownloadImage {
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-	
 	}
 	
 	/** This method will return a GImage (this we we can altogether avoid having)
-	  * physical images in our project **/
+	  * physical images in our project.
+	  * 
+	  * NOTE: Currently only works only with small image sizes, for the final release
+	  * we can make sure to break up our images into smaller ones and this would be no
+	  * problem or to make the file sizes smaller. **/
+	
 	public static GImage getImage(String urlName){
 			
-//		BufferedImage image =null;
-//	    try{
-//	
-//	        URL url = new URL(urlName);
-//	        // read the url
-//	       image = ImageIO.read(url);
-//	
-//	    }catch(IOException e){
-//	    	System.out.println("Could not turn URL into image");
-//	        e.printStackTrace();
-//	    }
-//		
-//	    GImage webImage = null;
-//	    System.out.println(image);
+		BufferedImage image =null;
+	    try{
+	
+	        URL url = new URL(urlName);
+	        // read the url
+	       image = ImageIO.read(url);
+	
+	    }catch(IOException e){
+	    	System.out.println("Could not turn URL into image");
+	        e.printStackTrace();
+	    }
 	    
+	    // Try returning a GImage if applicable
+	    if (image != null)
+	    	return new GImage(image);
 	    return null;
-		
 	}
-
 }
