@@ -112,8 +112,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				if (grabbedFruit != null) {
 				
 					// Reset fruit's position based on 
-					grabbedFruit.imageX = player.getTonguePosition().x - Data.TILE_SIZE/2;
-					grabbedFruit.imageY = player.getTonguePosition().y - Data.TILE_SIZE/2;
+					grabbedFruit.imageX = player.getTonguePosition(false).x - Data.TILE_SIZE/2;
+					grabbedFruit.imageY = player.getTonguePosition(false).y - Data.TILE_SIZE/2;
 					grabbedFruit.animate();
 					
 					// Remove fruit if animation has finished
@@ -355,7 +355,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// Try to eat fruit (only eats one at a time because of the break statement)
 				for(int i = 0; i < fruits.size(); i++)
 					// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
-					if(fruits.get(i).contains(player.getTonguePosition())){
+					if(fruits.get(i).contains(player.getTonguePosition(true))){
 						grabbedFruit = fruits.get(i);
 						break;
 					}

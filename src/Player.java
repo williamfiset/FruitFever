@@ -627,8 +627,9 @@ public class Player extends MovingAnimation {
 
 	}
 	
-	/** Returns the location of the tip of the tongue (when fully extended) **/
-	public Point getTonguePosition(){
+	/** Returns the location of the tip of the tongue (when fully extended)
+		@param collisionDetection: When true, we are dealing with x and y. When false, we are dealing with imageX and imageY **/
+	public Point getTonguePosition(boolean collisionDetection){
 	
 		int currentTongueWidth = 0;
 		
@@ -637,10 +638,21 @@ public class Player extends MovingAnimation {
 			case 4: currentTongueWidth = 20; break;
 		}
 		
+		int tempX, tempY;
+		
+		if (collisionDetection) {
+			tempX = x;
+			tempY = y;
+		}
+		else {
+			tempX = imageX + Data.TILE_SIZE;
+			tempY = imageY;
+		}
+		
 		if(facingRight)
-			return new Point(x + Data.TILE_SIZE + currentTongueWidth, y + (int) image.getHeight()/2);
+			return new Point(tempX + Data.TILE_SIZE + currentTongueWidth, tempY + (int) image.getHeight()/2);
 		else
-			return new Point(x - currentTongueWidth, y + (int) image.getHeight()/2);
+			return new Point(tempX - currentTongueWidth, tempY + (int) image.getHeight()/2);
 	}
 
 	public void posInfo(){
