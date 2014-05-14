@@ -457,7 +457,8 @@ public class Player extends MovingAnimation {
 				// If there is not Block in front of player
 				if (westNorth == null && westSouth == null) {
 
-					// Makes the swirl shoot out of the player from the left	
+					// Makes the swirl shoot out of the player from the left
+					swirl.reset = false;
 					swirl.imageX = x + SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
 					swirl.imageY = y + FruitFever.viewY;
 					swirl.xSpeed = Swirl.dx;
@@ -479,6 +480,7 @@ public class Player extends MovingAnimation {
 				if (eastSouth == null && eastNorth == null) {
 
 					// Makes the swirl shoot out of the player from the left
+					swirl.reset = false;
 					swirl.imageX = x - SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
 					swirl.imageY = y + FruitFever.viewY;
 					swirl.xSpeed = -Swirl.dx;
@@ -611,6 +613,8 @@ public class Player extends MovingAnimation {
 
 /** A swirl is a projectile shot from the player as a teleportation method  **/
 class Swirl extends MovingAnimation{
+	
+	static boolean reset = true;
 
 	// Swirls velocity
 	static final byte dx = 8;
@@ -644,7 +648,7 @@ class Swirl extends MovingAnimation{
 		xSpeed = 0;
 		ySpeed = 0;
 
-		FruitFever.swirlAllowed = true;
+		reset = true;
 
 	}
 

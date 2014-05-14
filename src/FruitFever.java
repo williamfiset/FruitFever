@@ -47,7 +47,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 // Player Variables
 
 	static int playerStartX, playerStartY;
-	static boolean swirlAllowed = true;
+	static boolean swirlButtonReleased = true;
+	static boolean tongueButtonReleased = true;
 	static int dx = 0, dy = 0;
 
 // Screen View Variables
@@ -312,11 +313,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 	// Add a Thing to the "things" arrayList, setting its position and adding it to the screen
 	public void addToThings(Thing obj){
-	
 		things.add(obj);
 		obj.image.setLocation(obj.x - viewX, obj.y - viewY);
 		add(obj.image);
-		
 	}
 	
 	/** This code is not in init() since it won't allow us to display anything on the screen during that method **/
@@ -348,29 +347,24 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// Tongue Attack
 		} else if (keyCode == KeyEvent.VK_S) {
-		
-			player.tongueAttack();
-			
-			// Try to eat fruit (only eats one at a time because of the break statement)
-			for(int i = 0; i < fruits.size(); i++)
-				// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
-				if(fruits.get(i).contains(player.getTonguePosition())){
-					grabbedFruit = fruits.get(i);
-					// if (grabbedFruit != null)
-						// remove(grabbedFruit.image);
-					// grabbedFruit = new Animation(player.getTonguePosition().x - Data.TILE_SIZE, player.getTonguePosition().y - Data.TILE_SIZE, Data.blueFruitAnimation, true, 3, true, 2);
-					// add(grabbedFruit.image);
-					// remove(fruits.get(i).image);
-					// fruits.remove(i);
-					// i--;
-					break;
-				}
+			if (tongueButtonReleased){
+				player.tongueAttack();
+				tongueButtonReleased = false;
+				
+				// Try to eat fruit (only eats one at a time because of the break statement)
+				for(int i = 0; i < fruits.size(); i++)
+					// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
+					if(fruits.get(i).contains(player.getTonguePosition())){
+						grabbedFruit = fruits.get(i);
+						break;
+					}
+			}
 
-		// Shoot Swirl
+			// Shoot Swirl
 		} else if (keyCode == KeyEvent.VK_SPACE) {
-			if (swirlAllowed) {
+			if (swirlButtonReleased && player.swirl.reset) {
 				player.shootSwirl();
-				swirlAllowed = false;
+				swirlButtonReleased = false;
 			}
 	
 		// Movement LEFT
@@ -400,7 +394,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			vy = 0;
 		
 		} else if (keyCode == KeyEvent.VK_SPACE)
-			swirlAllowed = true;
+			swirlButtonReleased = true;
+		else if (keyCode == KeyEvent.VK_S)
+			tongueButtonReleased = true;
 	}
 	
 	@Override public void mouseMoved(MouseEvent mouse) {
