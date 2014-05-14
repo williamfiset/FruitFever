@@ -363,8 +363,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 			// Shoot Swirl
 		} else if (keyCode == KeyEvent.VK_SPACE) {
-			if (swirlButtonReleased && player.swirl.reset) {
-				player.shootSwirl();
+		
+			if (swirlButtonReleased) {
+			
+				if(player.swirl.reset)
+					player.shootSwirl();
+				else
+					player.swirlTeleport();
+				
 				swirlButtonReleased = false;
 			}
 	

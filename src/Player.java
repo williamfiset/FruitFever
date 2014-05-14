@@ -476,110 +476,108 @@ public class Player extends MovingAnimation {
 
 	public void shootSwirl(){
 
-		// The swirl is at rest
-		if(swirl.xSpeed == 0){
+		// Makes sure you finish a cycle of images before starting a new one
+		if(!images.equals(shootAnim) && !images.equals(shootAnimH))
+			counter = -1;
 
-			// Makes sure you finish a cycle of images before starting a new one
-			if(!images.equals(shootAnim) && !images.equals(shootAnimH))
-				counter = -1;
-
-			// Adjust Animation variables
-			doneAnimating = false;
-			repeat = false;
-			
-			/** Check if there's a Block in front/in back of the player before he shoots **/
-			if (facingRight) {
-
-				Block westNorth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4 );
-				Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
-
-				// If there is not Block in front of player
-				if (westNorth == null && westSouth == null) {
-
-					// Makes the swirl shoot out of the player from the left
-					swirl.reset = false;
-					swirl.imageX = x + SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
-					swirl.imageY = y + FruitFever.viewY;
-					swirl.xSpeed = Swirl.dx;
-
-					// Set Right shooting animation
-					images = shootAnim;
-				
-				// If there is a block in front of the player, don't do swirl animation
-				} else
-					images = stillAnim;
-
-			// Facing left
-			} else {
-
-				Block eastNorth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4);
-				Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
-
-				// If there is not Block in front of player
-				if (eastSouth == null && eastNorth == null) {
-
-					// Makes the swirl shoot out of the player from the left
-					swirl.reset = false;
-					swirl.imageX = x - SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
-					swirl.imageY = y + FruitFever.viewY;
-					swirl.xSpeed = -Swirl.dx;
-
-					// Set Left shooting animation
-					images = shootAnimH;
-					
-				// If there is a block in front of the player, don't do swirl animation
-				} else
-					images = stillAnim;
-			}
-
+		// Adjust Animation variables
+		doneAnimating = false;
+		repeat = false;
 		
-		// Teleports Player
+		/** Check if there's a Block in front/in back of the player before he shoots **/
+		if (facingRight) {
+
+			Block westNorth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4 );
+			Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
+
+			// If there is not Block in front of player
+			if (westNorth == null && westSouth == null) {
+
+				// Makes the swirl shoot out of the player from the left
+				swirl.reset = false;
+				swirl.imageX = x + SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
+				swirl.imageY = y + FruitFever.viewY;
+				swirl.xSpeed = Swirl.dx;
+
+				// Set Right shooting animation
+				images = shootAnim;
+			
+			// If there is a block in front of the player, don't do swirl animation
+			} else
+				images = stillAnim;
+
+		// Facing left
 		} else {
 
-			// Remember that the player has a width of TileSize*3 so we must subtract a tile-size!
-			imageX = swirl.imageX - Data.TILE_SIZE;
-			imageY = swirl.imageY;
+			Block eastNorth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4);
+			Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
 
-			// Hardcoded Values are to make precision more accurate
-			Block upperRight = Block.getBlock(x, y + 3);
-			Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
-			Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
-			Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
+			// If there is not Block in front of player
+			if (eastSouth == null && eastNorth == null) {
 
-			/** Fixes Issue #42 where player semi teleports into blocks **/
+				// Makes the swirl shoot out of the player from the left
+				swirl.reset = false;
+				swirl.imageX = x - SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
+				swirl.imageY = y + FruitFever.viewY;
+				swirl.xSpeed = -Swirl.dx;
 
-			if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
-				imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
+				// Set Left shooting animation
+				images = shootAnimH;
 				
-				// Takes into account that the player's center is top left
-				if (!facingRight)
-					imageX += Data.TILE_SIZE;
-				
-			}
+			// If there is a block in front of the player, don't do swirl animation
+			} else
+				images = stillAnim;
 
-
-			// Focuses the view on the player placing the player in the center of the screen
-			focusViewOnPlayer(swirl.imageX, swirl.imageY);
-
-			/** Fixes Issue #41. Since the optimized .animate() method in Things doesn't move
-			the blocks off screen when you teleport to a location where there are unmoved blocks off
-			screen they appear on the screen. To fix this issue I added a new method in Thing called 
-			'naturalAnimate' which is the old .animate method that moves all the Things (in this case 
-			blocks) in sync together. Thus when you teleport it also moves the blocks off screen as well*/
-
-			for (Block block : FruitFever.blocks)
-				block.naturalAnimate();
-
-			for (Thing thing : FruitFever.things)
-				thing.naturalAnimate();
-			
-			// needed?
-			for (Thing dangerousSprite : FruitFever.dangerousSprites)
-				dangerousSprite.naturalAnimate();
-			
-
-			swirl.resetState();
+		
 		}
+	
+	}
+	
+	public void swirlTeleport(){
+	
+		// Remember that the player has a width of TileSize*3 so we must subtract a tile-size!
+		imageX = swirl.imageX - Data.TILE_SIZE;
+		imageY = swirl.imageY;
+
+		// Hardcoded Values are to make precision more accurate
+		Block upperRight = Block.getBlock(x, y + 3);
+		Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
+		Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
+		Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
+
+		/** Fixes Issue #42 where player semi teleports into blocks **/
+
+		if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
+			imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
+			
+			// Takes into account that the player's center is top left
+			if (!facingRight)
+				imageX += Data.TILE_SIZE;
+			
+		}
+
+
+		// Focuses the view on the player placing the player in the center of the screen
+		focusViewOnPlayer(swirl.imageX, swirl.imageY);
+
+		/** Fixes Issue #41. Since the optimized .animate() method in Things doesn't move
+		the blocks off screen when you teleport to a location where there are unmoved blocks off
+		screen they appear on the screen. To fix this issue I added a new method in Thing called 
+		'naturalAnimate' which is the old .animate method that moves all the Things (in this case 
+		blocks) in sync together. Thus when you teleport it also moves the blocks off screen as well*/
+
+		for (Block block : FruitFever.blocks)
+			block.naturalAnimate();
+
+		for (Thing thing : FruitFever.things)
+			thing.naturalAnimate();
+		
+		// needed?
+		for (Thing dangerousSprite : FruitFever.dangerousSprites)
+			dangerousSprite.naturalAnimate();
+		
+
+		swirl.resetState();
 		
 	}
 
