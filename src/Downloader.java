@@ -28,7 +28,7 @@ public abstract class Downloader {
 			// Get url object and open connection
 			URL url = new URL(urlName);
 			URLConnection urlConnection = url.openConnection();
-			
+
 			// Gets the current Working directory
 			FileOutputStream destination = new FileOutputStream( System.getProperty("user.dir") +"/" + imageName );
 			
@@ -100,7 +100,7 @@ public abstract class Downloader {
 	        e.printStackTrace();
 	        return null;
 	    }
-	    
+
 	    // Try returning a GImage if applicable
 	    if (image != null)
 	    	return new GImage(image);
