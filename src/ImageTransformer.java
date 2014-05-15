@@ -1,5 +1,5 @@
 /**
- *	ImageTransformer - Can flip a GImage horizontally or vertically, as well as rotating it.
+ *	ImageTransformer - Can flip a GImage horizontally or vertically, rotate it, or resize it.
  *
  * @author Micah Stairs
  * 
@@ -21,8 +21,8 @@ abstract class ImageTransformer {
 		int[][] arr = img.getPixelArray();
 		int[][] arr2 = new int[arr.length][arr[0].length];
 
-		for(int i = 0; i < arr.length; i++)
-			for(int j = 0; j < arr[i].length; j++)
+		for (int i = 0; i < arr.length; i++)
+			for (int j = 0; j < arr[i].length; j++)
 				arr2[i][j] = arr[arr.length - i - 1][j];
      
      	return new GImage(arr2);
@@ -35,8 +35,8 @@ abstract class ImageTransformer {
 		int[][] arr = img.getPixelArray();
 		int[][] arr2 = new int[arr.length][arr[0].length];
 
-		for(int i = 0; i < arr.length; i++)
-			for(int j = 0; j < arr[i].length; j++)
+		for (int i = 0; i < arr.length; i++)
+			for (int j = 0; j < arr[i].length; j++)
 				arr2[i][j] = arr[i][arr[0].length - j - 1];
      
      	return new GImage(arr2);
@@ -49,9 +49,29 @@ abstract class ImageTransformer {
 		int[][] arr = img.getPixelArray();
 		int[][] arr2 = new int[arr[0].length][arr.length];
 
-		for(int i = 0; i < arr.length; i++)
-			for(int j = 0; j < arr[i].length; j++)
+		for (int i = 0; i < arr.length; i++)
+			for (int j = 0; j < arr[i].length; j++)
 				arr2[j][i] = arr[i][arr[i].length - j - 1];
+     
+     	return new GImage(arr2);
+		
+    }
+	
+	/** Resizes (shrinks/stretches) a GImage **/
+	public static GImage resize(GImage img, int newWidth, int newHeight){
+		
+		int[][] arr = img.getPixelArray();
+		int[][] arr2 = new int[newHeight][newWidth];
+		
+		int oldWidth = arr[0].length;
+		int oldHeight = arr.length;
+		
+		double widthFactor = (double) newWidth / (double) oldWidth;
+		double heightFactor = (double) newHeight / (double) oldHeight;
+
+		for (int i = 0; i < arr2.length; i++)
+			for (int j = 0; j < arr2[i].length; j++)
+				arr2[i][j] = arr[(int) ((double)i / heightFactor)][(int) ((double)j / widthFactor)];
      
      	return new GImage(arr2);
 		
@@ -68,11 +88,3 @@ abstract class ImageTransformer {
     }
 	
 }
-
-
-
-
-
-
-
-
