@@ -80,8 +80,8 @@ public abstract class Downloader {
 		}
 	}
 	
-	/** This method will return a GImage (this we we can altogether avoid having)
-	  * physical images in our project.
+	/** This method will return a GImage (this way we can altogether avoid having
+	  * physical images in our project).
 	  * 
 	  * NOTE: Currently only works only with small image sizes, for the final release
 	  * we can make sure to break up our images into smaller ones and this would be no
