@@ -65,7 +65,7 @@ public abstract class Downloader {
 			BufferedInputStream in = new BufferedInputStream(urlConnection.getInputStream());
 			BufferedOutputStream out = new BufferedOutputStream(destination);
 
-			// until the end of data, keep saving into file.
+			// Until the end of data, keep saving into file.
 			int i;
 			while ((i = in.read()) != -1) {
 			    out.write(i);
@@ -89,14 +89,13 @@ public abstract class Downloader {
 	
 	public static GImage getImage(String urlName){
 			
-		BufferedImage image =null;
-	    try{
+		BufferedImage image = null;
+	    try {
 	
-	        URL url = new URL(urlName);
-	        // read the url
-	       image = ImageIO.read(url);
+			URL url = new URL(urlName);
+			image = ImageIO.read(url);
 	
-	    }catch(IOException e){
+	    } catch(IOException e) {
 	    	System.out.println("Could not turn URL into image");
 	        e.printStackTrace();
 	    }
@@ -105,5 +104,21 @@ public abstract class Downloader {
 	    if (image != null)
 	    	return new GImage(image);
 	    return null;
+	}
+	
+	public static GImage getBufferedImage(String urlName){
+			
+		BufferedImage image = null;
+		
+	    try {
+			URL url = new URL(urlName);
+			image = ImageIO.read(url);
+	
+	    } catch(IOException e) {
+	    	System.out.println("Could not turn URL into an image.");
+	        e.printStackTrace();
+	    }
+	    
+	    return image
 	}
 }
