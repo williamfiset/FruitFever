@@ -96,13 +96,16 @@ public abstract class Downloader {
 			image = ImageIO.read(url);
 	
 	    } catch(IOException e) {
-	    	System.out.println("Could not turn URL into image");
+	    	System.out.println("\nNo Internet connection.\n");
 	        e.printStackTrace();
+	        return null;
 	    }
 	    
 	    // Try returning a GImage if applicable
 	    if (image != null)
 	    	return new GImage(image);
+
+	    System.out.printf("\nImage is too large\n");
 	    return null;
 	}
 	
@@ -115,10 +118,27 @@ public abstract class Downloader {
 			image = ImageIO.read(url);
 	
 	    } catch(IOException e) {
-	    	System.out.println("Could not turn URL into an image.");
+	    	System.out.println("\nNo Internet connection.\n");
 	        e.printStackTrace();
+	        return null;
 	    }
 
-	    return image;
+		// Return BufferedImage if applicable
+	    if (image != null)
+	    	return image;
+		
+		System.out.println("\nImage is too large\n");
+		return null;
+
 	}
 }
+
+
+
+
+
+
+
+
+
+

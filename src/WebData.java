@@ -1,5 +1,5 @@
 /**
-*	WebData - Loads images from file and stores them as GImages or arrays of GImages.
+*	WebData - Loads images from webserver and stores them as GImages or arrays of GImages.
 * 
 * @Author Micah Stairs
 *
