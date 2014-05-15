@@ -65,7 +65,7 @@ public class Block extends Thing {
 	
 	public Block(int x, int y, int type, GImage image){
 	
-		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, type, image);
+		this(x, y, WebData.TILE_SIZE, WebData.TILE_SIZE, type, image);
 	
 	}
 
@@ -89,7 +89,7 @@ public class Block extends Thing {
 		}else{
 
 			outerLoop:
-			for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += Data.TILE_SIZE) {
+			for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += WebData.TILE_SIZE) {
 				ArrayList <Block> rowBlocks = xBlockPositions.get(rowNumber);
 
 
@@ -101,7 +101,7 @@ public class Block extends Thing {
 					int y = block.imageY - FruitFever.viewY;
 
 					
-					if (x > FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
+					if (x > FruitFever.SCREEN_WIDTH + WebData.TILE_SIZE) 
 
 						// Breaks Out of loop when you hit a block South East of the Screen
 						if (y > FruitFever.SCREEN_HEIGHT){ 
@@ -147,8 +147,8 @@ public class Block extends Thing {
 	public static Block getBlock(int xPos, int yPos){
 
 		// Gets both the center row and column containing the block were looking for
-		int rowNumber = ( (xPos + FruitFever.viewX) / Data.TILE_SIZE) * Data.TILE_SIZE;
-		int columnNumber = ( (yPos + FruitFever.viewY) / Data.TILE_SIZE) * Data.TILE_SIZE;
+		int rowNumber = ( (xPos + FruitFever.viewX) / WebData.TILE_SIZE) * WebData.TILE_SIZE;
+		int columnNumber = ( (yPos + FruitFever.viewY) / WebData.TILE_SIZE) * WebData.TILE_SIZE;
 
 		try{
 

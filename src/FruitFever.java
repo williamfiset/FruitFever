@@ -116,8 +116,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				if (grabbedFruit != null) {
 				
 					// Reset fruit's position based on 
-					grabbedFruit.imageX = player.getTonguePosition(false).x - Data.TILE_SIZE/2;
-					grabbedFruit.imageY = player.getTonguePosition(false).y - Data.TILE_SIZE/2;
+					grabbedFruit.imageX = player.getTonguePosition(false).x - WebData.TILE_SIZE/2;
+					grabbedFruit.imageY = player.getTonguePosition(false).y - WebData.TILE_SIZE/2;
 					grabbedFruit.animate();
 					
 					// Remove fruit if animation has finished
@@ -162,7 +162,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		viewY = 0;
 
 		// Loads all Blocks and Things
-		Data.loadObjects("../levels/levels.txt", currentLevel);
+		WebData.loadObjects("../levels/levels.txt", currentLevel);
 		
 		findScreenDimensions();
 
@@ -208,8 +208,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	private void addHearts(){
 		
 		for(int i = 0; i < player.maxLives; i++){
-			livesImages[i] = new GImage(Data.heartImage.getImage());
-			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
+			livesImages[i] = new GImage(WebData.heartImage.getImage());
+			livesImages[i].setLocation(i*WebData.TILE_SIZE, 0);
 			add(livesImages[i]);
 		}
 
@@ -265,10 +265,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addToScreen(inGameButtons);
 
 		/** TESTING PURPOSES ONLY **/
-		// addToThings(new MovingAnimation(0, 100, Data.wormEnemyMoving, true, 2, true, 2, 0, 1));
-		// addToThings(new MovingAnimation(0, 100, Data.wormEnemyMoving, true, 2, true, 1, 0, 1));
-		// addToThings(new AdvancedMovingAnimation(new int[]{0}, new int[]{0}, Data.redFruitAnimation, true, 2, true, 2, 0));
-		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
+		// addToThings(new MovingAnimation(0, 100, WebData.wormEnemyMoving, true, 2, true, 2, 0, 1));
+		// addToThings(new MovingAnimation(0, 100, WebData.wormEnemyMoving, true, 2, true, 1, 0, 1));
+		// addToThings(new AdvancedMovingAnimation(new int[]{0}, new int[]{0}, WebData.redFruitAnimation, true, 2, true, 2, 0));
+		// addToThings(new Animation(0, 125, WebData.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
 	}
@@ -277,7 +277,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	private void placePlayerOnScreen(){
 		
 		// Creates the Player class
-		player = new Player(playerStartX, playerStartY, Data.playerStill, Data.playerStillH, Data.playerShoot, Data.playerShootH, Data.playerTongue, Data.playerTongueH);
+		player = new Player(playerStartX, playerStartY, WebData.playerStill, WebData.playerStillH, WebData.playerShoot, WebData.playerShootH, WebData.playerTongue, WebData.playerTongueH);
 
 		add(player.image);
 
@@ -334,8 +334,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addMouseListeners();
 		addKeyListeners();
 		
-		/** Renders Images in the Data class, and fills the object ArrayLists **/
-		Data.loadImages();
+		/** Renders Images in the WebData class, and fills the object ArrayLists **/
+		WebData.loadImages();
 	
 		drawMainMenu();
 	

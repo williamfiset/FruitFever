@@ -106,7 +106,7 @@ public abstract class Downloader {
 	    return null;
 	}
 	
-	public static GImage getBufferedImage(String urlName){
+	public static BufferedImage getBufferedImage(String urlName){
 			
 		BufferedImage image = null;
 		
@@ -118,7 +118,7 @@ public abstract class Downloader {
 	    	System.out.println("Could not turn URL into an image.");
 	        e.printStackTrace();
 	    }
-	    
-	    return image
+
+	    return image;
 	}
 }
