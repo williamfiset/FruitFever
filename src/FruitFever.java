@@ -112,7 +112,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				
 
 				/** Perhaps put this in Player? how about motion() ? **/
-				
+
 				if (grabbedFruit != null) {
 				
 					// Reset fruit's position based on 
@@ -137,15 +137,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				player.animate();
 				player.motion();
 
+				// t.stop(true);
 
 				add(leftRect);
 				add(rightRect);
 				add(upRect);
 				add(downRect);
 				add(centerRect);
-
-
-				// t.stop(true);
 
 			}
 			pause(MAIN_LOOP_SPEED);
