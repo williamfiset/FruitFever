@@ -635,9 +635,9 @@ public class Player extends MovingAnimation {
 		}
 		
 		if(facingRight)
-			return new Point(tempX + WebData.TILE_SIZE + currentTongueWidth, tempY + (int) image.getHeight()/2);
+			return new Point(tempX + (int)(WebData.TILE_SIZE*1.5) + currentTongueWidth, tempY + (int) image.getHeight()/2);
 		else
-			return new Point(tempX - currentTongueWidth, tempY + (int) image.getHeight()/2);
+			return new Point(tempX - WebData.TILE_SIZE/2 - currentTongueWidth, tempY + (int) image.getHeight()/2);
 	}
 
 	public void posInfo(){
