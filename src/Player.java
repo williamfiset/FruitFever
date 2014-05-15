@@ -314,7 +314,6 @@ public class Player extends MovingAnimation {
 
 	}
 
-
 	/** Places the player on top of the block he is currently on **/
 	private void placePlayerOnBlock(Block block) {
 		if (onPlatform)
@@ -341,7 +340,7 @@ public class Player extends MovingAnimation {
 		isJumping = false;
 	}
 
-	public void tongueAttack(){
+	public void eat(){
 		
 		// Makes sure you finish a cycle of images before starting a new one
 		if(!images.equals(tongueAnim) && !images.equals(tongueAnimH))
@@ -388,18 +387,15 @@ public class Player extends MovingAnimation {
 
 			if (lavaRect.intersects(this)) {
 
-				respawn();
-				Block.resetPerformedNaturalAnimate();
+				collisionOccurred = true;
+
 				lives--;		
 				adjustLives(lives);	
-				collisionOccurred = true;
+				respawn();
+
 				break;
 			}
 		}
-
-		if (collisionOccurred)
-			for (Thing dangerousSprite : FruitFever.dangerousSprites)
-				dangerousSprite.naturalAnimate();
 
 		return collisionOccurred;
 
@@ -410,13 +406,10 @@ public class Player extends MovingAnimation {
 		boolean playerOutOfBounds = (x + Data.TILE_SIZE < 0 || x > FruitFever.LEVEL_WIDTH || y + height < 0 || y - height > FruitFever.LEVEL_HEIGHT );
 
 		if (playerOutOfBounds) {
-
-			// Fixes Block animation problem
-			Block.resetPerformedNaturalAnimate();
 			
-			respawn();
 			lives--;		
 			adjustLives(lives);	
+			respawn();
 		}
 
 		return playerOutOfBounds;
@@ -445,8 +438,14 @@ public class Player extends MovingAnimation {
 		FruitFever.viewY = Math.min(FruitFever.viewY, FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE);
 		FruitFever.viewX = Math.min(FruitFever.viewX, FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE);
 
+		FruitFever.naturalAnimateAll();
+
 	}
 
+	/** 
+	 * @Param levelRespawn: Used to indicate that the player was loaded into a level rather 
+	 * 		  than already previously being in the level
+	 **/
 	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos, boolean levelRespawn){
 
 		focusViewOnPlayer(newPlayerXPos, newPlayerYPos);
@@ -456,6 +455,8 @@ public class Player extends MovingAnimation {
 			imageX -= Data.TILE_SIZE; 
 			x -= Data.TILE_SIZE;
 		}
+
+		FruitFever.naturalAnimateAll();
 
 	}
 
@@ -560,23 +561,6 @@ public class Player extends MovingAnimation {
 		// Focuses the view on the player placing the player in the center of the screen
 		focusViewOnPlayer(swirl.imageX, swirl.imageY);
 
-		/** Fixes Issue #41. Since the optimized .animate() method in Things doesn't move
-		the blocks off screen when you teleport to a location where there are unmoved blocks off
-		screen they appear on the screen. To fix this issue I added a new method in Thing called 
-		'naturalAnimate' which is the old .animate method that moves all the Things (in this case 
-		blocks) in sync together. Thus when you teleport it also moves the blocks off screen as well*/
-
-		for (Block block : FruitFever.blocks)
-			block.naturalAnimate();
-
-		for (Thing thing : FruitFever.things)
-			thing.naturalAnimate();
-		
-		// needed?
-		for (Thing dangerousSprite : FruitFever.dangerousSprites)
-			dangerousSprite.naturalAnimate();
-		
-
 		swirl.resetState();
 		
 	}
@@ -628,7 +612,8 @@ public class Player extends MovingAnimation {
 	}
 	
 	/** Returns the location of the tip of the tongue (when fully extended)
-		@param collisionDetection: When true, we are dealing with x and y. When false, we are dealing with imageX and imageY **/
+		@param collisionDetection: When true, we are dealing with x and y. When false,
+		we are dealing with imageX and imageY **/
 	public Point getTonguePosition(boolean collisionDetection){
 	
 		int currentTongueWidth = 0;

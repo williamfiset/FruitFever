@@ -100,6 +100,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// Playing
 			if(currentScreen == 3){
 
+				Timer_ t = new Timer_();
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
 				for (Thing thing : things)
@@ -109,6 +110,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				for (Thing fruit : fruits)
 					fruit.animate();
 				
+
+				/** Perhaps put this in Player? how about motion() ? **/
 				if (grabbedFruit != null) {
 				
 					// Reset fruit's position based on 
@@ -128,19 +131,20 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					}
 				}
 
-				// Takes an execution time of ≈ 1.8 x 10^-4 seconds
 				Block.drawBlocks();
 
-				// Takes an execution time of ≈ 1.2 x 10^-4 seconds (seems like a lot...)
 				player.animate();
 				player.motion();
 
-				// Takes an execution time of ≈ 0.7 x 10^-4 seconds
+
 				add(leftRect);
 				add(rightRect);
 				add(upRect);
 				add(downRect);
 				add(centerRect);
+
+
+				t.stop(true);
 
 			}
 			pause(MAIN_LOOP_SPEED);
@@ -349,7 +353,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// Tongue Attack
 		} else if (keyCode == KeyEvent.VK_S) {
 			if (tongueButtonReleased){
-				player.tongueAttack();
+				player.eat();
 				tongueButtonReleased = false;
 				
 				// Try to eat fruit (only eats one at a time because of the break statement)
@@ -508,4 +512,49 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			}
 	}
 
+	/** This method properly sets the position of everything on the screen 
+	 * especially after a teleportation, death or a level selection **/
+
+	/** Fixes Issue #41. Since the optimized .animate() method in Things doesn't move
+	the blocks off screen when you teleport to a location where there are unmoved blocks off
+	screen they appear on the screen. To fix this issue I added a new method in Thing called 
+	'naturalAnimate' which is the old .animate() method that moves all the Things 
+	in sync together. Thus when you teleport it also moves the blocks off screen as well*/
+
+	public static void naturalAnimateAll(){
+
+		// avoids double drawing blocks on the screen
+		Block.resetPerformedNaturalAnimate();
+
+		for (Thing thing : FruitFever.things)
+			thing.naturalAnimate();
+		
+		for (Animation fruit : FruitFever.fruits)
+			fruit.naturalAnimate();
+		
+		for (Thing dangerousSprite : FruitFever.dangerousSprites)
+			dangerousSprite.naturalAnimate();
+	}
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

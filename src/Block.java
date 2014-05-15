@@ -77,6 +77,9 @@ public class Block extends Thing {
 
 	public static void drawBlocks(){
 
+		/** Temporary, make sure to optimize block drawing **/
+		performedNaturalAnimate = false;
+
 		if (!performedNaturalAnimate) {
 			
 			for (Block block : FruitFever.blocks)
@@ -144,8 +147,8 @@ public class Block extends Thing {
 	public static Block getBlock(int xPos, int yPos){
 
 		// Gets both the center row and column containing the block were looking for
-		int rowNumber = ( (xPos + FruitFever.viewX) / 25) * 25;
-		int columnNumber = ( (yPos + FruitFever.viewY) / 25) * 25;
+		int rowNumber = ( (xPos + FruitFever.viewX) / Data.TILE_SIZE) * Data.TILE_SIZE;
+		int columnNumber = ( (yPos + FruitFever.viewY) / Data.TILE_SIZE) * Data.TILE_SIZE;
 
 		try{
 
