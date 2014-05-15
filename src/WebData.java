@@ -15,7 +15,7 @@ import java.awt.*;
 
 public abstract class WebData{
 
-	public static int TILE_SIZE = 25;
+	public static final int TILE_SIZE = 25;
 
 	public static BufferedImage sheet = null;
 	public static GImage heartImage, levelBackDropImage, lavaImage,
