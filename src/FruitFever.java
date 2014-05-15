@@ -100,7 +100,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// Playing
 			if(currentScreen == 3){
 
-				Timer_ t = new Timer_();
+				// Timer_ t = new Timer_();
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
 				for (Thing thing : things)
@@ -112,6 +112,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				
 
 				/** Perhaps put this in Player? how about motion() ? **/
+				
 				if (grabbedFruit != null) {
 				
 					// Reset fruit's position based on 
@@ -144,7 +145,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				add(centerRect);
 
 
-				t.stop(true);
+				// t.stop(true);
 
 			}
 			pause(MAIN_LOOP_SPEED);
