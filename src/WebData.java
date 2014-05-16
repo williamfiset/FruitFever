@@ -258,7 +258,7 @@ public abstract class WebData{
 					if(character == '~'){
 						Thing lava = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, lavaImage);
 						FruitFever.things.add(lava);
-						FruitFever.dangerousSprites.add(lava);
+						FruitFever.dangerousThings.add(lava);
 						continue;
 					}
 					
@@ -269,9 +269,11 @@ public abstract class WebData{
 						continue;
 					}
 
-					// Vortex (∞ sorta looks like vortex), readability counts (line 7 of our coding philosophy)
-					if (character == '∞') {
-						FruitFever.vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.vortexAnimation, false, 2, true, -1);
+					// Vortex (% sorta looks like vortex), readability counts (line 7 of our coding philosophy)
+					if (character == '%') {
+						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.vortexAnimation, false, 2, true, -1);
+						FruitFever.vortex = vortex;
+						FruitFever.things.add(vortex);
 						continue;
 					}
 					

@@ -383,7 +383,7 @@ public class Player extends MovingAnimation {
 		Rectangle lavaRect = new Rectangle(0, 0, WebData.TILE_SIZE, WebData.TILE_SIZE/2);
 
 		// loop through all dangerous sprites
-		for (Thing dangerousSprite : FruitFever.dangerousSprites) {
+		for (Thing dangerousSprite : FruitFever.dangerousThings) {
 			
 			/** As we start getting more and more dangerous sprites we will have to
 			  * distinguish between types either by using instanceof or giving each 
@@ -445,7 +445,7 @@ public class Player extends MovingAnimation {
 
 		// Reset Level
 		if (this.intersects(FruitFever.vortex)) {
-			// FruitFever.drawMainMenu();
+			FruitFever.levelComplete = true;
 		}
 		
 

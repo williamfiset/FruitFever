@@ -16,13 +16,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 	static int LEVEL_WIDTH = 0, LEVEL_HEIGHT = 0;
 	static String LEVEL_NAME = "";
+	
+	static boolean levelComplete = false;
 
 	static Player player;
 
 // Game Object Lists
 	static ArrayList<Block> blocks = new ArrayList<Block>();
 	static ArrayList<Thing> things = new ArrayList<Thing>();
-	static ArrayList<Thing> dangerousSprites = new ArrayList<Thing>();
+	static ArrayList<Thing> dangerousThings = new ArrayList<Thing>();
 	static ArrayList<Thing> checkPoints = new ArrayList<Thing>();
 	static ArrayList<Animation> fruits = new ArrayList<Animation>();
 	static Animation vortex;
@@ -102,6 +104,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			
 			// Playing
 			if(currentScreen == 3){
+			
+				if(levelComplete){
+					drawLevelSelection();
+					levelComplete = false;
+					continue;
+				}
 
 				// Timer_ t = new Timer_();
 
@@ -112,8 +120,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				/** Animate all fruit **/
 				for (Thing fruit : fruits)
 					fruit.animate();
-				
-				vortex.animate();	
 
 				/** Perhaps put this in Player? how about motion() ? **/
 
@@ -191,6 +197,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 	
 	private void drawLevelSelection(){
+		
+		currentScreen = 2;
 	
 		/** Remove all images from screen and add the level selection images **/
 		removeAll();
@@ -464,6 +472,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			drawMainMenu();
 			return;
 		}
+		/** **/
 			
 		if (clickedOnButton != null) {
 		
@@ -472,12 +481,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				clickedOnButton.setHover();
 				
 				// Play button
-				if (clickedOnButton.type == 0) {
-					currentScreen = 2;
+				if (clickedOnButton.type == 0)
 					drawLevelSelection();
 				
 				// Level left arrow button
-				} else if (clickedOnButton.type == 4) {
+				else if (clickedOnButton.type == 4) {
 					if (levelSelectionPage > 0) {
 						levelSelectionPage--;
 						shiftLevelLabels(-20);
@@ -537,7 +545,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		for (Animation fruit : FruitFever.fruits)
 			fruit.naturalAnimate();
 		
-		for (Thing dangerousSprite : FruitFever.dangerousSprites)
+		for (Thing dangerousSprite : FruitFever.dangerousThings)
 			dangerousSprite.naturalAnimate();
 
 		vortex.naturalAnimate();
