@@ -438,10 +438,22 @@ public class Player extends MovingAnimation {
 
 			if (thinRod.intersects(this)){
 				checkPoint.changeImage(WebData.checkpointFlagGreen);
-				
+				FruitFever.greenCheckPoint = checkPoint;
+				FruitFever.playerStartX = x;
+				FruitFever.playerStartY = y;
 				// activate FireWorks with boolean
+
+				break;
 			}
 		}
+
+		for (Thing checkPoint : FruitFever.checkPoints) {
+			if (checkPoint == FruitFever.greenCheckPoint) continue;
+			checkPoint.changeImage(WebData.checkpointFlagRed);
+			
+		}
+
+
 
 		// Reset Level
 		if (this.intersects(FruitFever.vortex)) {
