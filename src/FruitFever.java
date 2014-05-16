@@ -30,7 +30,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<Thing> dangerousThings = new ArrayList<Thing>();
 	static ArrayList<Thing> checkPoints = new ArrayList<Thing>();
 	static ArrayList<Animation> fruits = new ArrayList<Animation>();
-	static ArrayList<Animation> frootLoops = new ArrayList<Animation>();
+	static ArrayList<Animation> fruitRings = new ArrayList<Animation>();
 	static Animation vortex;
 
 	static Animation grabbedFruit = null;

@@ -121,6 +121,10 @@ public abstract class WebData{
 		checkpointFlagRed = makeImage(sheet, 0, TILE_SIZE, TILE_SIZE, TILE_SIZE*2);
 		checkpointFlagGreen = makeImage(sheet, TILE_SIZE, TILE_SIZE, TILE_SIZE, TILE_SIZE*2);
 			
+		// Fruit Rings Animation Images
+		for(int i = 0; i < 6; i++)
+			fruitRingAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 2), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		
 		// Vortex Animation Images
 		for(int i = 0; i < 5; i++)
 			vortexAnimation[i] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE);
@@ -277,12 +281,12 @@ public abstract class WebData{
 						continue;
 					}
 					
-					// FrootLoops
+					// Fruit Ring
 					if (character == '*') {
-						// Animation frootLoop = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.fruitRingAnimation, true, 3, true, -1);
-						// FruitFever.frootLoops.add(frootLoop);
-						// FruitFever.things.add(frootLoop);
-						// continue;
+						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.fruitRingAnimation, true, 3, true, -1);
+						FruitFever.fruitRings.add(fruitRing);
+						FruitFever.things.add(fruitRing);
+						continue;
 					}
 
 					// CheckPoint
