@@ -6,11 +6,13 @@
  * 
  **/
 
+
 import acm.graphics.*;
 import acm.program.*;
 import java.util.*;
 import java.awt.Color.*;
 import java.awt.*;
+
 
 public class Player extends MovingAnimation {
 	
@@ -59,6 +61,9 @@ public class Player extends MovingAnimation {
 	final int VERTICAL_PX_BUFFER = 2;
 	final int HORIZONTAL_PX_BUFFER = 3;
 	
+// CheckPoint related Variables
+
+
 
 // Animation things
 	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
@@ -86,6 +91,8 @@ public class Player extends MovingAnimation {
 	public void motion(){
 
 		checkCollisionDetection();
+
+		objectCollisions();
 
 		jumpingEffect();
 
@@ -415,7 +422,37 @@ public class Player extends MovingAnimation {
 		return playerOutOfBounds;
 	}
 
-	
+	/** Checks for collisions with checkPoints, currency, vortex and other matter **/
+	private void objectCollisions(){
+
+		// Rod is 7 pixels thin
+		Rectangle thinRod = new Rectangle(0, 0, 7, WebData.TILE_SIZE*2);
+
+		/** CheckPoint Collision **/
+		for (Thing checkPoint : FruitFever.checkPoints) {
+			
+			// make new thin rectangle
+
+			thinRod.x = checkPoint.x + WebData.TILE_SIZE/2;
+			thinRod.y = checkPoint.y;
+
+			if (thinRod.intersects(this)){
+				checkPoint.changeImage(WebData.checkpointFlagGreen);
+				
+				// activate FireWorks with boolean
+			}
+		}
+
+		// Reset Level
+		if (this.intersects(FruitFever.vortex)) {
+			// FruitFever.drawMainMenu();
+		}
+		
+
+
+	}
+
+
 	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly */
 	private void adjustLives(int livesLeft){
 	
@@ -650,68 +687,105 @@ public class Player extends MovingAnimation {
 
 }
 
-/** A swirl is a projectile shot from the player as a teleportation method  **/
-class Swirl extends MovingAnimation{
-	
-	static boolean reset = true;
+	/** A swirl is a projectile shot from the player as a teleportation method  **/
+	class Swirl extends MovingAnimation{
+		
+		static boolean reset = true;
 
-	// Swirls velocity
-	static final byte dx = 8;
+		// Swirls velocity
+		static final byte dx = 8;
 
-	// This is the location of where the swirl is off screen when it is at rest
-	static final short SWIRL_X_REST_POS = -100;
-	static final short SWIRL_Y_REST_POS = -100;
+		// This is the location of where the swirl is off screen when it is at rest
+		static final short SWIRL_X_REST_POS = -100;
+		static final short SWIRL_Y_REST_POS = -100;
 
-	// These values are the actual image dimensions not the WebData.TILE_SIZE width and height
-	static final byte SWIRL_IMG_WIDTH = 14; 
-	static final byte SWIRL_IMG_HEIGHT = 14; 
+		// These values are the actual image dimensions not the WebData.TILE_SIZE width and height
+		static final byte SWIRL_IMG_WIDTH = 14; 
+		static final byte SWIRL_IMG_HEIGHT = 14; 
 
-	// Since the swirl is a circle the collision buffer makes collision much more accurate 
-	static final byte AIR_SPACING = 6;
+		// Since the swirl is a circle the collision buffer makes collision much more accurate 
+		static final byte AIR_SPACING = 6;
 
-	public Swirl(){
+		public Swirl(){
 
-		super(SWIRL_X_REST_POS, SWIRL_Y_REST_POS, WebData.swirlAnimation, false, 0, true, 0, 0, -1);
-		resetState();
+			super(SWIRL_X_REST_POS, SWIRL_Y_REST_POS, WebData.swirlAnimation, false, 0, true, 0, 0, -1);
+			resetState();
 
+		}
+
+		public void resetState(){	
+
+			imageX = SWIRL_X_REST_POS;
+			imageY = SWIRL_Y_REST_POS;
+
+			x = SWIRL_X_REST_POS;
+			y = SWIRL_Y_REST_POS;
+
+			xSpeed = 0;
+			ySpeed = 0;
+
+			reset = true;
+
+		}
+
+		/** Returns true or false depending on if the swirl has collided with a block**/
+		public boolean collidesWithBlock(){
+
+			Block westNorth = Block.getBlock(x + AIR_SPACING + xSpeed, y + AIR_SPACING ) ;
+			if (westNorth != null) return true;
+
+			Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + AIR_SPACING) ;
+			if (eastNorth != null) return true;
+
+			Block westSouth = Block.getBlock(x + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING ) ;
+			if (westSouth != null) return true;
+
+			Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING );
+			if (eastSouth != null) return true;
+
+			return false;
+
+		}
+
+		@Override public String toString(){
+			return "Swirl   X: " + x + "  Y: " + y;
+		}
 	}
 
-	public void resetState(){	
 
-		imageX = SWIRL_X_REST_POS;
-		imageY = SWIRL_Y_REST_POS;
 
-		x = SWIRL_X_REST_POS;
-		y = SWIRL_Y_REST_POS;
 
-		xSpeed = 0;
-		ySpeed = 0;
 
-		reset = true;
 
-	}
 
-	/** Returns true or false depending on if the swirl has collided with a block**/
-	public boolean collidesWithBlock(){
 
-		Block westNorth = Block.getBlock(x + AIR_SPACING + xSpeed, y + AIR_SPACING ) ;
-		if (westNorth != null) return true;
 
-		Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + AIR_SPACING) ;
-		if (eastNorth != null) return true;
 
-		Block westSouth = Block.getBlock(x + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING ) ;
-		if (westSouth != null) return true;
 
-		Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING );
-		if (eastSouth != null) return true;
 
-		return false;
 
-	}
 
-	@Override public String toString(){
-		return "Swirl   X: " + x + "  Y: " + y;
-	}
-	
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

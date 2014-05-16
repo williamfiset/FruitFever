@@ -22,8 +22,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 // Game Object Lists
 	static ArrayList<Block> blocks = new ArrayList<Block>();
 	static ArrayList<Thing> things = new ArrayList<Thing>();
-	static ArrayList<Animation> fruits = new ArrayList<Animation>();
 	static ArrayList<Thing> dangerousSprites = new ArrayList<Thing>();
+	static ArrayList<Thing> checkPoints = new ArrayList<Thing>();
+	static ArrayList<Animation> fruits = new ArrayList<Animation>();
+	static Animation vortex;
+
 	static Animation grabbedFruit = null;
 	
 	static ArrayList<TextAnimator> texts = new ArrayList<TextAnimator>();
@@ -110,6 +113,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				for (Thing fruit : fruits)
 					fruit.animate();
 				
+				vortex.animate();	
 
 				/** Perhaps put this in Player? how about motion() ? **/
 
@@ -257,6 +261,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			fruit.image.setLocation(fruit.getX(), fruit.getY());
 			add(fruit.image);
 		}
+
+		add(vortex.image);
 
 		placePlayerOnScreen();
 
@@ -533,6 +539,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		for (Thing dangerousSprite : FruitFever.dangerousSprites)
 			dangerousSprite.naturalAnimate();
+
+		vortex.naturalAnimate();
+
 	}
 
 

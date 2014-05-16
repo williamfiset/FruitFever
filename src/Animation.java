@@ -12,8 +12,8 @@ public class Animation extends Thing {
 
 	/** Instance variables **/
 	public boolean doneAnimating = false;
-	protected GImage[] images;
 	public int type, counter = 0, delayCounter = 0, delay;
+	protected GImage[] images;
 	private boolean counterGoingUp = true;
 	
 	protected boolean reverse, repeat; // Player will need to access these

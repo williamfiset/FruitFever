@@ -268,7 +268,21 @@ public abstract class WebData{
 						FruitFever.playerStartY = lineNumber*TILE_SIZE;
 						continue;
 					}
+
+					// Vortex (∞ sorta looks like vortex), readability counts (line 7 of our coding philosophy)
+					if (character == '∞') {
+						FruitFever.vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.vortexAnimation, false, 2, true, -1);
+						continue;
+					}
 					
+					// CheckPoint
+					if (character == '|') {
+						Thing checkPoint = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE - TILE_SIZE, checkpointFlagRed);
+						FruitFever.checkPoints.add(checkPoint);
+						FruitFever.things.add(checkPoint);
+						continue;
+					}
+
 					// Reads in a fruit
 					if(Character.isDigit(character)){
 						if(character == '0')
