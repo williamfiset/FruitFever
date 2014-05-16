@@ -2,14 +2,14 @@
 Programmers Paradise
 -------------------------------------------------------------------------------------------
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-a------------------------------aa-----aaaaa-----------------------------------------------a
-a-------------aaaa--aaaaa--|---aa--------aa------aaaaaaaaaaaaaaaaa----aaaaaaaaaaaaaa------a
+a-----------*---------*--------aa-----aaaaa-----------------------------------------------a
+a*------------aaaa--aaaaa--|---aa--------aa------aaaaaaaaaaaaaaaaa----aaaaaaaaaaaaaa------a
 aA----------aaaaa------aaaaaa--aa--------aaaa2-a-aaaaaaaaaaaaaaa--------aaaaaaaaa---------a
 a---------------aaaaa--aa------aa--------aaaaaaa---------aaaaaa-----------aaa------------Aa
-a----------------------aa------aaaaaaaaa-------------------aaa------------aa-----A--------a
-a--AAA----------aa-----aa------a--aaaaa----------------|---aa-----AAAAA---------AaA-------a
+a----*----------*------aa------aaaaaaaaa-------------------aaa------------aa-----A--------a
+a--AAA-----*----aa-----aa------a--aaaaa----------------|---aa-----AAAAA---------AaA-------a
 a--------------aa--0--aa---AAAAa--aaaaa---------------AA---aa-----aaaaa----------a--------a
-a-------------aaaaaaaaa----aaaa-----------aaaaaaaaaa--aa------------aaaA------------------a
+a--------*----aaaaaaaaa----aaaa-----------aaaaaaaaaa--aa------------aaaA------------------a
 aA------------aaaaaa------aaaaa-----------aaaaaaaaaa--aa-----AA------aaaAAAAA-------------a
 a--------------aaaaa--------------------aaaaaaaaaaaa---------aa-------aaaaaa--------------a
 a---AAAAAA-------aaa-----a--------------aaaaaa---aaa---------aa---------aaa---------------a

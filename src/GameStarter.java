@@ -14,7 +14,7 @@ public class GameStarter{
 	// Used PhotoShop to calculate the Border Height
 	final static int FRAME_BORDER_HEIGHT = 22;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 		
 		FruitFever gameApplet = new FruitFever();
 		JFrame appletFrame = new JFrame();

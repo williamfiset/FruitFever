@@ -38,7 +38,7 @@ public class Animation extends Thing {
 		// Make copy of images
 		this.images = originalImages;
 		
-		// Set these instance variables, now that we know the umage
+		// Set these instance variables, now that we know the image
 		super.image = new GImage(images[counter].getImage());
 		super.setSize((int) image.getWidth(), (int) image.getHeight());
 		

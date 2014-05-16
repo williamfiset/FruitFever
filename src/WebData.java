@@ -277,6 +277,14 @@ public abstract class WebData{
 						continue;
 					}
 					
+					// FrootLoops
+					if (character == '*') {
+						// Animation frootLoop = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.fruitRingAnimation, true, 3, true, -1);
+						// FruitFever.frootLoops.add(frootLoop);
+						// FruitFever.things.add(frootLoop);
+						// continue;
+					}
+
 					// CheckPoint
 					if (character == '|') {
 						Thing checkPoint = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE - TILE_SIZE, checkpointFlagRed);
