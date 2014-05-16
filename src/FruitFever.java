@@ -17,7 +17,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static int LEVEL_WIDTH = 0, LEVEL_HEIGHT = 0;
 	static String LEVEL_NAME = "";
 	
-	
+
 	static Thing greenCheckPoint = null;
 
 	static boolean levelComplete = false;
@@ -173,7 +173,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		LEVEL_HEIGHT = 0;
 		viewX = 0;
 		viewY = 0;
-
+		greenCheckPoint = null;
+		
 		// Loads all Blocks and Things
 		WebData.loadObjects("../levels/levels.txt", currentLevel);
 		

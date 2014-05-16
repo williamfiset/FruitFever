@@ -439,8 +439,8 @@ public class Player extends MovingAnimation {
 			if (thinRod.intersects(this)){
 				checkPoint.changeImage(WebData.checkpointFlagGreen);
 				FruitFever.greenCheckPoint = checkPoint;
-				FruitFever.playerStartX = x;
-				FruitFever.playerStartY = y;
+				FruitFever.playerStartX = checkPoint.imageX;
+				FruitFever.playerStartY = checkPoint.imageY + WebData.TILE_SIZE;
 				// activate FireWorks with boolean
 
 				break;
