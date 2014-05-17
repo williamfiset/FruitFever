@@ -18,7 +18,7 @@ public abstract class WebData{
 	public static final int TILE_SIZE = 25;
 
 	public static BufferedImage sheet = null;
-	public static GImage loadingScreenBackground,
+	public static GImage loadingScreenBackground, loadingScreenBar,
 						heartImage, levelBackDropImage, lavaImage,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
@@ -62,6 +62,9 @@ public abstract class WebData{
 	/** Loads all the images from the sprite sheet **/
 	public static void loadingScreen(){
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/loadingScreenSpriteSheet.png");
+		
+		loadingScreenBackground = makeImage(700, 500, 700, 500);
+		// loadingScreenBar = makeImage();
 	
 	}
 	    

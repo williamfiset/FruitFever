@@ -346,6 +346,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 		/** Loading screen **/
 		WebData.loadingScreen();
+		add(WebData.loadingScreenBackground);
+		
 		GLabel loadingText = new GLabel("Loading...");
 		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth()/2, SCREEN_HEIGHT/2);
 		add(loadingText);
