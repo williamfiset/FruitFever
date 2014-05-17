@@ -64,7 +64,7 @@ public abstract class WebData{
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/loadingScreenSpriteSheet.png");
 		
 		loadingScreenBackground = makeImage(700, 500, 700, 500);
-		// loadingScreenBar = makeImage();
+		loadingScreenBar = ImageTransformer.resize(makeImage(0, 1092, 100, 33), 700, 20);
 	
 	}
 	    

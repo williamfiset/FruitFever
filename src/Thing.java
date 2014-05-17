@@ -14,9 +14,7 @@ public class Thing extends Rectangle{
 	public GImage image;
 	int imageX, imageY;
 	
-	// These are no yet fully implemented, but they will be used to alter the underlyingRectangle's boundaries,
-	// without adjusting the size of the image's position (this will add a lot of flexibility to our game and 
-	// will be extremely useful, esepcially for the Player class).
+	// Used to alter the underlying Rectangle's boundaries, without adjusting the size of the image's or its position
 	public int boundaryLeft, boundaryRight, boundaryTop, boundaryBottom;
 	
 	/** Constructors that define the image **/
@@ -49,7 +47,7 @@ public class Thing extends Rectangle{
 		this(x, y, WebData.TILE_SIZE, WebData.TILE_SIZE);	
 	}
 
-	/** Update position **/
+	/** Update image **/
 	public void animate(){
 
 
