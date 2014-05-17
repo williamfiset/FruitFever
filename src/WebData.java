@@ -64,12 +64,14 @@ public abstract class WebData{
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/loadingScreenSpriteSheet.png");
 		
 		loadingScreenBackground = makeImage(700, 500, 700, 500);
-		loadingScreenBar = ImageTransformer.resize(makeImage(0, 1092, 100, 33), 700, 20);
+		loadingScreenBar = makeImage(0, 1092, 2, 33);
 	
 	}
 	    
 	/** Loads all the images from the sprite sheet **/
 	public static void loadImages(){
+	
+		updateLoadingBar(0.1);
 		
 		/** Blocks **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/blocks.png");
@@ -78,6 +80,8 @@ public abstract class WebData{
 			blockImages[i] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 			blockGrassImages[i] = makeImage(TILE_SIZE, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 		}
+		
+		updateLoadingBar(0.2);
 		
 		/** Scenery **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/plants.png");
@@ -102,6 +106,8 @@ public abstract class WebData{
 		sceneryImages[14] = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		sceneryImages[15] = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
+		updateLoadingBar(0.3);
+		
 		/** Fruits **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/fruits.png");
 		
@@ -113,6 +119,8 @@ public abstract class WebData{
 			
 		for(int i = 0; i < 7; i++)
 			redFruitAnimation[i] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		
+		updateLoadingBar(0.4);
 		
 		/** Miscellaneous **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/miscellaneous.png");
@@ -144,6 +152,8 @@ public abstract class WebData{
 		powerupBlockSpeed = makeImage(TILE_SIZE*12, 0, TILE_SIZE, TILE_SIZE);
 		powerupBlockAttack = makeImage(TILE_SIZE*13, 0, TILE_SIZE, TILE_SIZE);
 	
+		updateLoadingBar(0.5);
+	
 		/** Projectiles **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/projectiles.png");
 	
@@ -161,6 +171,8 @@ public abstract class WebData{
 		fireBallSmall = makeImage(TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
 		fireBallBig = makeImage(TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 
+		updateLoadingBar(0.6);
+		
 		/** Player **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/player.png");
 		
@@ -175,6 +187,8 @@ public abstract class WebData{
 			playerShoot[i] = makeImage(TILE_SIZE*3, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE); 
 			playerShootH[i] = ImageTransformer.horizontalFlip(playerShoot[i]);	
 		}
+		
+		updateLoadingBar(0.7);
 		
 		/** Enemies **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/enemies.png");
@@ -193,6 +207,7 @@ public abstract class WebData{
 			wormEnemyMoving[i] = makeImage(TILE_SIZE*(2*i), TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE); 
 			wormEnemyMovingH[i] = ImageTransformer.horizontalFlip(wormEnemyMoving[i]);	
 		}
+		updateLoadingBar(0.8);
 		
 		/** Import menu images **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/Menu/Menu_Red.png");
@@ -209,6 +224,8 @@ public abstract class WebData{
 			rightArrowButton[i] = makeImage(36, i*33, 36, 31);
 		}
 		
+		updateLoadingBar(0.9);
+		
 		/** Import level selection background/level button images **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/LevelSelection/backDrop/blueLevel.png");
 		
@@ -223,9 +240,13 @@ public abstract class WebData{
 			FruitFever.levelNumbers[i].setFont(new Font("Helvetica", Font.BOLD, 30));
 			FruitFever.levelNumbers[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - FruitFever.levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
 		}
+		
+		updateLoadingBar(0.95);
 
 		/** Add buttons and set locations **/
 		addButtonsToArrayList();
+		
+		updateLoadingBar(1.0);
 
 	}
 		
@@ -436,6 +457,13 @@ public abstract class WebData{
 		FruitFever.buttons.add(tempButton);
 		FruitFever.inGameButtons.add(tempButton);
 		
+	}
+	
+	private static void updateLoadingBar(double percentage){
+		FruitFever.screen.remove(loadingScreenBar);
+		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(percentage)), 20);
+		loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
+		FruitFever.screen.add(loadingScreenBar);
 	}
 	
 }

@@ -13,6 +13,8 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
+	static GraphicsProgram screen;
+
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 	static int LEVEL_WIDTH = 0, LEVEL_HEIGHT = 0;
 	static String LEVEL_NAME = "";
@@ -75,7 +77,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static double vy; 
 
 	// Unnecessary now that the code is moved into the run method? What exactly is this overriding?
-	@Override public void init() {}
+	@Override public void init() {
+		screen = this;
+	}
 	
 /** Contains the main game loop **/
 	@Override public void run(){
@@ -347,12 +351,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		/** Loading screen **/
 		WebData.loadingScreen();
 		add(WebData.loadingScreenBackground);
-		//WebData.setLocation();
-		add(WebData.loadingScreenBar);
-		
-		GLabel loadingText = new GLabel("Loading...");
-		loadingText.setLocation(SCREEN_WIDTH/2 - (int)loadingText.getWidth()/2, SCREEN_HEIGHT/2);
-		add(loadingText);
 		
 		/** Set up keyboard and mouse **/
 		addMouseListeners();
