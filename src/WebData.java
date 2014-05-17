@@ -18,151 +18,158 @@ public abstract class WebData{
 	public static final int TILE_SIZE = 25;
 
 	public static BufferedImage sheet = null;
-	public static GImage heartImage, levelBackDropImage, lavaImage,
-						 purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
-						 checkpointFlagRed, checkpointFlagGreen,
-						 powerupBlockJump, powerupBlockSpeed, powerupBlockAttack;
+	public static GImage loadingScreenBackground,
+						heartImage, levelBackDropImage, lavaImage,
+						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
+						checkpointFlagRed, checkpointFlagGreen,
+						powerupBlockJump, powerupBlockSpeed, powerupBlockAttack;
 	public static GImage[] blockImages = new GImage[15],
-						   blockGrassImages = new GImage[15],
+						blockGrassImages = new GImage[15],
 						   
-						   sceneryImages = new GImage[16],
+						sceneryImages = new GImage[16],
 						   
-						   blueFruitAnimation = new GImage[5],
-						   yellowFruitAnimation = new GImage[6],
-						   redFruitAnimation = new GImage[7],
+						blueFruitAnimation = new GImage[5],
+						yellowFruitAnimation = new GImage[6],
+						redFruitAnimation = new GImage[7],
+						
+						gearButton = new GImage[3],
+						fireworkAnimation = new GImage[7],
+						fruitRingAnimation = new GImage[6],
+						vortexAnimation = new GImage[5],
 						   
-						   gearButton = new GImage[3],
-						   fireworkAnimation = new GImage[7],
-						   fruitRingAnimation = new GImage[6],
-						   vortexAnimation = new GImage[5],
+						playerStill = new GImage[1],
+						playerStillH = new GImage[1],
+						playerTongue = new GImage[5],
+						playerTongueH = new GImage[5],
+						playerShoot = new GImage[6],
+						playerShootH = new GImage[6],
+						  
+						fuzzyEnemyAttack = new GImage[4],
+						fuzzyEnemyAttackH = new GImage[4],
+						fuzzyEnemyMoving = new GImage[3],
+						fuzzyEnemyMovingH = new GImage[3],
+						wormEnemyMoving = new GImage[4],
+						wormEnemyMovingH = new GImage[4],
 						   
-						   playerStill = new GImage[1],
-						   playerStillH = new GImage[1],
-						   playerTongue = new GImage[5],
-						   playerTongueH = new GImage[5],
-						   playerShoot = new GImage[6],
-						   playerShootH = new GImage[6],
+						fuzzyShot = new GImage[8],
+						swirlAnimation = new GImage[6],
 						   
-						   fuzzyEnemyAttack = new GImage[4],
-						   fuzzyEnemyAttackH = new GImage[4],
-						   fuzzyEnemyMoving = new GImage[3],
-						   fuzzyEnemyMovingH = new GImage[3],
-						   wormEnemyMoving = new GImage[4],
-						   wormEnemyMovingH = new GImage[4],
-						   
-						   fuzzyShot = new GImage[8],
-						   swirlAnimation = new GImage[6],
-						   
-						   menuButtons = new GImage[12],
-						   leftArrowButton = new GImage[3],
-						   rightArrowButton = new GImage[3],
-						   levelButton = new GImage[2];
+						menuButtons = new GImage[12],
+						leftArrowButton = new GImage[3],
+						rightArrowButton = new GImage[3],
+						levelButton = new GImage[2];
+		
+	/** Loads all the images from the sprite sheet **/
+	public static void loadingScreen(){
+		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/loadingScreenSpriteSheet.png");
+	
+	}
 	    
-/** Loads all the images from the sprite sheet **/
+	/** Loads all the images from the sprite sheet **/
 	public static void loadImages(){
 		
 		/** Blocks **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/blocks.png");
 	
 		for(int i = 0; i < 15; i++){
-			blockImages[i] = makeImage(sheet, 0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
-			blockGrassImages[i] = makeImage(sheet, TILE_SIZE, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
+			blockImages[i] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
+			blockGrassImages[i] = makeImage(TILE_SIZE, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 		}
 		
 		/** Scenery **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/plants.png");
 
 		// Scenery (Top Row in sheet)
-		sceneryImages[0] = makeImage(sheet, 0, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
-		sceneryImages[1] = makeImage(sheet, TILE_SIZE*2, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		sceneryImages[2] = makeImage(sheet, TILE_SIZE*3, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		sceneryImages[3] = makeImage(sheet, TILE_SIZE*4, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		sceneryImages[4] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		sceneryImages[5] = makeImage(sheet, TILE_SIZE*6, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		sceneryImages[6] = makeImage(sheet, TILE_SIZE*7, TILE_SIZE - 2, TILE_SIZE + 5, TILE_SIZE + 2);
+		sceneryImages[0] = makeImage(0, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
+		sceneryImages[1] = makeImage(TILE_SIZE*2, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		sceneryImages[2] = makeImage(TILE_SIZE*3, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		sceneryImages[3] = makeImage(TILE_SIZE*4, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		sceneryImages[4] = makeImage(TILE_SIZE*5, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		sceneryImages[5] = makeImage(TILE_SIZE*6, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		sceneryImages[6] = makeImage(TILE_SIZE*7, TILE_SIZE - 2, TILE_SIZE + 5, TILE_SIZE + 2);
 
 		// Scenery (Bottom Row in sheet)
-		sceneryImages[7] = makeImage(sheet, 0, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[8] = makeImage(sheet, TILE_SIZE, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[9] = makeImage(sheet, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[10] = makeImage(sheet, TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[11] = makeImage(sheet, TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[12] = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[13] = makeImage(sheet, TILE_SIZE*6, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[14] = makeImage(sheet, TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[15] = makeImage(sheet, TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[7] = makeImage(0, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[8] = makeImage(TILE_SIZE, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[9] = makeImage(TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[10] = makeImage(TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[11] = makeImage(TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[12] = makeImage(TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[13] = makeImage(TILE_SIZE*6, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[14] = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[15] = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
 		/** Fruits **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/fruits.png");
 		
 		for(int i = 0; i < 5; i++)
-			blueFruitAnimation[i] = makeImage(sheet, TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
+			blueFruitAnimation[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
 
 		for(int i = 0; i < 6; i++)
-			yellowFruitAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
+			yellowFruitAnimation[i] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
 			
 		for(int i = 0; i < 7; i++)
-			redFruitAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+			redFruitAnimation[i] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
 		/** Miscellaneous **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/miscellaneous.png");
 		
 		// Heart Image
-		heartImage = makeImage(sheet, 0, 0, TILE_SIZE, TILE_SIZE);
+		heartImage = makeImage(0, 0, TILE_SIZE, TILE_SIZE);
 		
 		// Gear Button Images
 		for(int i = 0; i < 3; i++)
-			gearButton[i] = makeImage(sheet, TILE_SIZE*(i + 1), 0, TILE_SIZE, TILE_SIZE);
+			gearButton[i] = makeImage(TILE_SIZE*(i + 1), 0, TILE_SIZE, TILE_SIZE);
 			
 		// Lava Image
-		lavaImage = makeImage(sheet, TILE_SIZE*7, 0, TILE_SIZE, TILE_SIZE);
+		lavaImage = makeImage(TILE_SIZE*7, 0, TILE_SIZE, TILE_SIZE);
 			
 		// Checkpoint Flags
-		checkpointFlagRed = makeImage(sheet, 0, TILE_SIZE, TILE_SIZE, TILE_SIZE*2);
-		checkpointFlagGreen = makeImage(sheet, TILE_SIZE, TILE_SIZE, TILE_SIZE, TILE_SIZE*2);
+		checkpointFlagRed = makeImage(0, TILE_SIZE, TILE_SIZE, TILE_SIZE*2);
+		checkpointFlagGreen = makeImage(TILE_SIZE, TILE_SIZE, TILE_SIZE, TILE_SIZE*2);
 			
 		// Fruit Rings Animation Images
 		for(int i = 0; i < 6; i++)
-			fruitRingAnimation[i] = makeImage(sheet, TILE_SIZE*(i + 2), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+			fruitRingAnimation[i] = makeImage(TILE_SIZE*(i + 2), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
 		// Vortex Animation Images
 		for(int i = 0; i < 5; i++)
-			vortexAnimation[i] = makeImage(sheet, TILE_SIZE*14, TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE);
+			vortexAnimation[i] = makeImage(TILE_SIZE*14, TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE);
 		
 		// Powerup Blocks
-		powerupBlockJump = makeImage(sheet, TILE_SIZE*11, 0, TILE_SIZE, TILE_SIZE);
-		powerupBlockSpeed = makeImage(sheet, TILE_SIZE*12, 0, TILE_SIZE, TILE_SIZE);
-		powerupBlockAttack = makeImage(sheet, TILE_SIZE*13, 0, TILE_SIZE, TILE_SIZE);
+		powerupBlockJump = makeImage(TILE_SIZE*11, 0, TILE_SIZE, TILE_SIZE);
+		powerupBlockSpeed = makeImage(TILE_SIZE*12, 0, TILE_SIZE, TILE_SIZE);
+		powerupBlockAttack = makeImage(TILE_SIZE*13, 0, TILE_SIZE, TILE_SIZE);
 	
 		/** Projectiles **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/projectiles.png");
 	
 		// Fuzzy Projectile Animation Images
 		for(int i = 0; i < 8; i++)
-			fuzzyShot[i] = makeImage(sheet, TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
+			fuzzyShot[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
 			
 		// Swirl Animation Images
 		for(int i = 0; i < 6; i++)
-			swirlAnimation[i] = makeImage(sheet, TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			swirlAnimation[i] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		
 		// Fireball and Purple Ball Images
-		purpleBallSmall = makeImage(sheet, 0, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
-		purpleBallBig = makeImage(sheet, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		fireBallSmall = makeImage(sheet, TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
-		fireBallBig = makeImage(sheet, TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		purpleBallSmall = makeImage(0, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
+		purpleBallBig = makeImage(TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		fireBallSmall = makeImage(TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
+		fireBallBig = makeImage(TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 
 		/** Player **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/player.png");
 		
-		playerStill[0] = makeImage(sheet, 0, 0, TILE_SIZE*3, TILE_SIZE);
+		playerStill[0] = makeImage(0, 0, TILE_SIZE*3, TILE_SIZE);
 		playerStillH[0] = ImageTransformer.horizontalFlip(playerStill[0]);
 		
 		for(int i = 0; i < 9; i+=2){
-			playerTongue[i/2] = makeImage(sheet, 0, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE);
+			playerTongue[i/2] = makeImage(0, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE);
 			playerTongueH[i/2] = ImageTransformer.horizontalFlip(playerTongue[i/2]);
 		}
 		for(int i = 0; i < 6; i++){
-			playerShoot[i] = makeImage(sheet, TILE_SIZE*3, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE); 
+			playerShoot[i] = makeImage(TILE_SIZE*3, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE); 
 			playerShootH[i] = ImageTransformer.horizontalFlip(playerShoot[i]);	
 		}
 		
@@ -170,17 +177,17 @@ public abstract class WebData{
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/enemies.png");
 		
 		for(int i = 0; i < 4; i++){
-			fuzzyEnemyAttack[i] = makeImage(sheet, TILE_SIZE*(2*i), 0, TILE_SIZE*2, TILE_SIZE); 
+			fuzzyEnemyAttack[i] = makeImage(TILE_SIZE*(2*i), 0, TILE_SIZE*2, TILE_SIZE); 
 			fuzzyEnemyAttackH[i] = ImageTransformer.horizontalFlip(fuzzyEnemyAttack[i]);	
 		}
 		
 		for(int i = 0; i < 3; i++){
-			fuzzyEnemyMoving[i] = makeImage(sheet, TILE_SIZE*(2*i), TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE); 
+			fuzzyEnemyMoving[i] = makeImage(TILE_SIZE*(2*i), TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE); 
 			fuzzyEnemyMovingH[i] = ImageTransformer.horizontalFlip(fuzzyEnemyMoving[i]);	
 		}
 		
 		for(int i = 0; i < 4; i++){
-			wormEnemyMoving[i] = makeImage(sheet, TILE_SIZE*(2*i), TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE); 
+			wormEnemyMoving[i] = makeImage(TILE_SIZE*(2*i), TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE); 
 			wormEnemyMovingH[i] = ImageTransformer.horizontalFlip(wormEnemyMoving[i]);	
 		}
 		
@@ -189,22 +196,22 @@ public abstract class WebData{
 		
 		// Menu Button Images
 		for(int i = 0; i < 12; i++)
-			menuButtons[i] = makeImage(sheet, 0, i*69, 266, 69);
+			menuButtons[i] = makeImage(0, i*69, 266, 69);
 		
 		/** Import level selection arrow images **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/LevelSelection/arrows/blueArrows.png");
 		
 		for(int i = 0; i < 3; i++){
-			leftArrowButton[i] = makeImage(sheet, 0, i*33, 36, 31);
-			rightArrowButton[i] = makeImage(sheet, 36, i*33, 36, 31);
+			leftArrowButton[i] = makeImage(0, i*33, 36, 31);
+			rightArrowButton[i] = makeImage(36, i*33, 36, 31);
 		}
 		
 		/** Import level selection background/level button images **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/LevelSelection/backDrop/blueLevel.png");
 		
-		levelButton[0] = makeImage(sheet, 0, 139, 51, 45);
-		levelButton[1] = makeImage(sheet, 0, 93, 50, 44);
-		levelBackDropImage = makeImage(sheet, 70, 0, 260, 333);
+		levelButton[0] = makeImage(0, 139, 51, 45);
+		levelButton[1] = makeImage(0, 93, 50, 44);
+		levelBackDropImage = makeImage(70, 0, 260, 333);
 		FruitFever.levelBackDrop = new Thing((int) (FruitFever.SCREEN_WIDTH/2 - levelBackDropImage.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelBackDropImage.getHeight()/2), levelBackDropImage);
 
 		// Create numbers to display in the level boxes
@@ -220,8 +227,8 @@ public abstract class WebData{
 	}
 		
 /** Used to help get the sub-images from the sprite-sheet **/
-	private static GImage makeImage(BufferedImage i, int x, int y, int width, int height){
-		return new GImage(i.getSubimage(x, y, width, height).getScaledInstance(-50, -50, 0));
+	private static GImage makeImage(int x, int y, int width, int height){
+		return new GImage(sheet.getSubimage(x, y, width, height).getScaledInstance(-50, -50, 0));
 	}
 
 /** Loads objects from the file **/
