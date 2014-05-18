@@ -377,20 +377,16 @@ public class Player extends MovingAnimation {
 
 		boolean collisionOccurred = false;
 
-		// instead of creating a new instance for every sprite, just reuse the same one right?
-		Rectangle lavaRect = new Rectangle(0, 0, WebData.TILE_SIZE, WebData.TILE_SIZE/2);
-
 		// loop through all dangerous sprites
-		for (Thing dangerousSprite : FruitFever.dangerousThings) {
+		for (Thing dangerousThing : FruitFever.dangerousThings) {
 			
 			/** As we start getting more and more dangerous sprites we will have to
 			  * distinguish between types either by using instanceof or giving each 
 			  * sprite a property **/
 			
-			lavaRect.x = dangerousSprite.x;
-			lavaRect.y = dangerousSprite.y + (WebData.TILE_SIZE/3);
+			dangerousThing.boundaryTop = (WebData.TILE_SIZE/3);
 
-			if (lavaRect.intersects(this)) {
+			if (dangerousThing.intersects(this)) {
 
 				collisionOccurred = true;
 
@@ -423,9 +419,11 @@ public class Player extends MovingAnimation {
 	/** Checks for collisions with checkPoints, currency, vortex and other matter **/
 	private void objectCollisions(){
 
+
 		/** CheckPoint Collision **/
 		for (Thing checkPoint : FruitFever.checkPoints) {
-
+			checkPoint.boundaryLeft = 11;
+			checkPoint.boundaryRight = -11;
 			// Check if the player intersects the rod
 			if (checkPoint.intersects(this)){
 				

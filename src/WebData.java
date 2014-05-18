@@ -142,7 +142,7 @@ public abstract class WebData{
 			
 		// Fruit Rings Animation Images
 		for(int i = 0; i < 6; i++)
-			fruitRingAnimation[i] = makeImage(TILE_SIZE*(i + 2), TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+			fruitRingAnimation[i] = makeImage(TILE_SIZE*(i + 2), TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 		
 		// Vortex Animation Images
 		for(int i = 0; i < 5; i++)
