@@ -79,7 +79,7 @@ public abstract class WebData{
 	
 		for(int i = 0; i < 15; i++){
 			blockImages[i] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
-			blockGrassImages[i] = makeImage(TILE_SIZE, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
+			// blockGrassImages[i] = makeImage(TILE_SIZE, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 		}
 		
 		updateLoadingBar(0.2);
@@ -357,8 +357,8 @@ public abstract class WebData{
 						}
 						// Grass Blocks
 						else{
-							type = character - 'A';
-							image = WebData.blockGrassImages[type];
+							// Leave this until we removed all UpperCase letters
+							continue;
 						}
 
 
