@@ -464,7 +464,6 @@ public abstract class WebData{
 	}
 	
 	private static void updateLoadingBar(double percentage){
-		FruitFever.screen.remove(loadingScreenBar);
 		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(percentage)), 20);
 		loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
 		FruitFever.screen.add(loadingScreenBar);

@@ -6,13 +6,11 @@
  * 
  **/
 
-
 import acm.graphics.*;
 import acm.program.*;
 import java.util.*;
 import java.awt.Color.*;
 import java.awt.*;
-
 
 public class Player extends MovingAnimation {
 	
@@ -437,15 +435,21 @@ public class Player extends MovingAnimation {
 
 			// Check if the player intersects the rod
 			if (thinRod.intersects(this)){
+				
+				// Check to see if this checkpoint hasn't already been attained
+				if(FruitFever.greenCheckPoint == null || !FruitFever.greenCheckPoint.equals(checkPoint)){
+				
+					checkPoint.changeImage(WebData.checkpointFlagGreen);
+					FruitFever.greenCheckPoint = checkPoint;
+					FruitFever.playerStartX = checkPoint.imageX;
+					FruitFever.playerStartY = checkPoint.imageY + WebData.TILE_SIZE;
 
-				checkPoint.changeImage(WebData.checkpointFlagGreen);
-				FruitFever.greenCheckPoint = checkPoint;
-				FruitFever.playerStartX = checkPoint.imageX;
-				FruitFever.playerStartY = checkPoint.imageY + WebData.TILE_SIZE;
-
-				FruitFever.addToThings(new Animation(checkPoint.imageX - 10 + (int) (Math.random()*20), checkPoint.imageY - 10 + (int) (Math.random()*20), WebData.fireworkAnimation, false, 3, false, -1 ));
-
-				break;
+					for(int i = 0; i < 5; i++)
+						FruitFever.addToThings(new Animation(checkPoint.imageX - 10 + (int) (Math.random()*20), checkPoint.imageY - 10 + (int) (Math.random()*20), WebData.fireworkAnimation, false, 2 + (int)(Math.random()*2), false, 3 ));
+					
+					break;
+					
+				}
 			}
 		}
 
@@ -576,10 +580,8 @@ public class Player extends MovingAnimation {
 				images = shootAnimH;
 				
 			// If there is a block in front of the player, don't do swirl animation
-			} else
-				images = stillAnim;
+			} else images = stillAnim;
 
-		
 		}
 	
 	}
@@ -764,41 +766,3 @@ public class Player extends MovingAnimation {
 			return "Swirl   X: " + x + "  Y: " + y;
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
