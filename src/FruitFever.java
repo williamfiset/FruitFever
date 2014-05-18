@@ -34,6 +34,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<Animation> fruits = new ArrayList<Animation>();
 	static ArrayList<Animation> fruitRings = new ArrayList<Animation>();
 	static Animation vortex;
+	static Animation fireWorks;
 
 	static Animation grabbedFruit = null;
 	
@@ -112,7 +113,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			
 			// Playing
 			if(currentScreen == 3){
-			
+				
+				// Controls if it is time to return to the level selection menu
 				if(levelComplete){
 					drawLevelSelection();
 					levelComplete = false;
@@ -151,6 +153,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				}
 
 				Block.drawBlocks();
+
+				fireWorks.animate();
 
 				player.animate();
 				player.motion();
@@ -280,6 +284,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 
 		add(vortex.image);
+		add(fireWorks.image);
 
 		placePlayerOnScreen();
 
@@ -557,6 +562,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			dangerousSprite.naturalAnimate();
 
 		vortex.naturalAnimate();
+		fireWorks.naturalAnimate();
 
 	}
 

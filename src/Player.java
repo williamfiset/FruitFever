@@ -431,37 +431,40 @@ public class Player extends MovingAnimation {
 		/** CheckPoint Collision **/
 		for (Thing checkPoint : FruitFever.checkPoints) {
 			
-			// make new thin rectangle
-
+			// Make new thin rectangle to represent the rod
 			thinRod.x = checkPoint.x + WebData.TILE_SIZE/2;
 			thinRod.y = checkPoint.y;
 
+			// Check if the player intersects the rod
 			if (thinRod.intersects(this)){
+
 				checkPoint.changeImage(WebData.checkpointFlagGreen);
 				FruitFever.greenCheckPoint = checkPoint;
 				FruitFever.playerStartX = checkPoint.imageX;
 				FruitFever.playerStartY = checkPoint.imageY + WebData.TILE_SIZE;
+
+
 				// activate FireWorks with boolean
+
+				FruitFever.fireWorks.imageX = checkPoint.imageX;
+				FruitFever.fireWorks.imageY = checkPoint.imageY;
+				FruitFever.fireWorks.doneAnimating = false;
 
 				break;
 			}
 		}
 
+		// Changes all the flags to red flags except the current green flag
 		for (Thing checkPoint : FruitFever.checkPoints) {
 			if (checkPoint == FruitFever.greenCheckPoint) continue;
 			checkPoint.changeImage(WebData.checkpointFlagRed);
 			
 		}
 
-
-
 		// Reset Level
-		if (this.intersects(FruitFever.vortex)) {
+		if (this.intersects(FruitFever.vortex))
 			FruitFever.levelComplete = true;
-		}
 		
-
-
 	}
 
 
@@ -512,14 +515,18 @@ public class Player extends MovingAnimation {
 	/** These are all the settings that need to be reset when the player respawns **/
 	private void respawn(){
 
+		// Reset falling speed
 		fallingVelocity = STARTING_FALLING_VELOCITY;
 		fallingAcceleration = STARTING_FALLING_ACCELERATION;
 
-		/** In the future respawn should be start an detect where the players should spawn **/
-
+		// Load player in the correct spot 
 		imageX = FruitFever.playerStartX;
 		imageY = FruitFever.playerStartY;			
 
+		// Resetswirl
+		swirl.resetState();
+
+		// Focus view on the player
 		focusViewOnPlayer(FruitFever.playerStartX, FruitFever.playerStartY, true);
 
 	}
