@@ -63,7 +63,7 @@ public abstract class WebData{
 	public static void loadingScreen(){
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/loadingScreenSpriteSheet.png");
 		
-		loadingScreenBackground = makeImage(700, 500, 700, 500);
+		loadingScreenBackground = makeImage( (int)(Math.random()*2)*700, (int)(Math.random()*2)*500, 700, 500 );
 		loadingScreenBar = makeImage(0, 1092, 2, 33);
 	
 	}
@@ -153,10 +153,8 @@ public abstract class WebData{
 		powerupBlockAttack = makeImage(TILE_SIZE*13, 0, TILE_SIZE, TILE_SIZE);
 	
 		// Fireworks
-		for (int i = 0; i < 5; i++) 
+		for (int i = 0; i < 7; i++) 
 			fireworkAnimation[i] = makeImage(TILE_SIZE*(i + 2), TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		fireworkAnimation[5] = makeImage(TILE_SIZE*8, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		fireworkAnimation[6] = makeImage(TILE_SIZE*9, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		
 		updateLoadingBar(0.5);
 	
