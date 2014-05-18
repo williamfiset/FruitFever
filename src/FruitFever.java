@@ -34,7 +34,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<Animation> fruits = new ArrayList<Animation>();
 	static ArrayList<Animation> fruitRings = new ArrayList<Animation>();
 	static Animation vortex;
-	static Animation fireWorks;
 
 	static Animation grabbedFruit = null;
 	
@@ -124,8 +123,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// Timer_ t = new Timer_();
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
-				for (Thing thing : things)
-					thing.animate();
+				for (int i = 0; i < things.size(); i++) {
+					if (!things.get(i).active) {
+						remove(things.get(i).image);
+						things.remove(i);
+						i--;
+					} else things.get(i).animate();
+				}
 					
 				/** Animate all fruit **/
 				for (Thing fruit : fruits)
@@ -153,8 +157,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				}
 
 				Block.drawBlocks();
-
-				fireWorks.animate();
 
 				player.animate();
 				player.motion();
@@ -284,7 +286,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		}
 
 		add(vortex.image);
-		add(fireWorks.image);
 
 		placePlayerOnScreen();
 
@@ -344,10 +345,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 	
 	// Add a Thing to the "things" arrayList, setting its position and adding it to the screen
-	public void addToThings(Thing obj){
+	public static void addToThings(Thing obj){
 		things.add(obj);
 		obj.image.setLocation(obj.x - viewX, obj.y - viewY);
-		add(obj.image);
+		screen.add(obj.image);
 	}
 	
 	/** This code is not in init() since it won't allow us to display anything on the screen during that method **/
@@ -562,7 +563,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			dangerousSprite.naturalAnimate();
 
 		vortex.naturalAnimate();
-		fireWorks.naturalAnimate();
 
 	}
 

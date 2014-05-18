@@ -33,7 +33,7 @@ public abstract class WebData{
 						redFruitAnimation = new GImage[7],
 						
 						gearButton = new GImage[3],
-						fireworkAnimation = new GImage[5], // seven actually needed
+						fireworkAnimation = new GImage[7],
 						fruitRingAnimation = new GImage[6],
 						vortexAnimation = new GImage[5],
 						   
@@ -152,14 +152,12 @@ public abstract class WebData{
 		powerupBlockSpeed = makeImage(TILE_SIZE*12, 0, TILE_SIZE, TILE_SIZE);
 		powerupBlockAttack = makeImage(TILE_SIZE*13, 0, TILE_SIZE, TILE_SIZE);
 	
-		//Firework 
-
+		// Fireworks
 		for (int i = 0; i < 5; i++) 
 			fireworkAnimation[i] = makeImage(TILE_SIZE*(i + 2), TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		FruitFever.fireWorks = new Animation(Swirl.SWIRL_X_REST_POS, Swirl.SWIRL_X_REST_POS, WebData.fireworkAnimation, false, 3, false, -1 );
-
+		fireworkAnimation[5] = makeImage(TILE_SIZE*8, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		fireworkAnimation[6] = makeImage(TILE_SIZE*9, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		
-
 		updateLoadingBar(0.5);
 	
 		/** Projectiles **/

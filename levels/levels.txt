@@ -59,10 +59,10 @@ aa--a---j-----A-a----------b
 f---a--jj-----a------------b
 f-A-a--jj%---aa---D--------b
 f---a-jjjjA---a--a----@----f
-A--aa-jjjjj---aB---a-JBF---f
-a-----jjjjjj-------------A-f
+A--aa-jjjjj---aB---a-JBF-|-f
+a-----jjjjjj----|--------A-f
 aa--a-jjjj---a-ea--a------Af
-a---a--------a--a----------b
+a---a--------a--a---------|b
 aaaaaaaaaaaeaaaaaaa------aab
 +
 ----------------------------

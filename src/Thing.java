@@ -13,6 +13,7 @@ public class Thing extends Rectangle{
 	/** Public instance variables **/
 	public GImage image;
 	int imageX, imageY;
+	boolean active = true;
 	
 	// Used to alter the underlying Rectangle's boundaries, without adjusting the size of the image's or its position
 	public int boundaryLeft, boundaryRight, boundaryTop, boundaryBottom;

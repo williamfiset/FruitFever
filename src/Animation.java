@@ -11,7 +11,6 @@ import java.awt.*;
 public class Animation extends Thing {
 
 	/** Instance variables **/
-	public boolean doneAnimating = false;
 	public int type, counter = 0, delayCounter = 0, delay;
 	protected GImage[] images;
 	private boolean counterGoingUp = true;
@@ -56,9 +55,9 @@ public class Animation extends Thing {
 	
 	public void animate(){
 	
-		if(!doneAnimating){
+		if(active){
 			
-			// Break out of this method if it's not time to change the image yet
+			// Break out of this 'if statement' if it's not time to change the image yet
 			if (++delayCounter < delay) {
 				super.animate();
 				return;
@@ -73,20 +72,17 @@ public class Animation extends Thing {
 			
 			/** Determine if the counter needs to switch directions **/
 			if (reverse) {
-				if (counter == images.length - 1) {
+				if (counter == images.length - 1)
+					counterGoingUp = false;
+				else if (counter == 0) {
 					if (!repeat)
-						doneAnimating = true;
-					else
-						counterGoingUp = false;
-				} else if (counter == 0) {
-					if (!repeat)
-						doneAnimating = true;
+						active = false;
 					else
 						counterGoingUp = true;
 				}
 			} else if (counter == images.length)  {
 				if (!repeat)
-					doneAnimating = true;
+					active = false;
 				counter = 0;
 			}
 			

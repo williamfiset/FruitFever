@@ -355,7 +355,7 @@ public class Player extends MovingAnimation {
 
 		// Adjust Animation variables		
 		repeat = false;
-		doneAnimating = false;
+		active = false;
 
 		// Switch animation images
 		if(facingRight)
@@ -443,12 +443,7 @@ public class Player extends MovingAnimation {
 				FruitFever.playerStartX = checkPoint.imageX;
 				FruitFever.playerStartY = checkPoint.imageY + WebData.TILE_SIZE;
 
-
-				// activate FireWorks with boolean
-
-				FruitFever.fireWorks.imageX = checkPoint.imageX;
-				FruitFever.fireWorks.imageY = checkPoint.imageY;
-				FruitFever.fireWorks.doneAnimating = false;
+				FruitFever.addToThings(new Animation(checkPoint.imageX - 10 + (int) (Math.random()*20), checkPoint.imageY - 10 + (int) (Math.random()*20), WebData.fireworkAnimation, false, 3, false, -1 ));
 
 				break;
 			}
@@ -458,7 +453,6 @@ public class Player extends MovingAnimation {
 		for (Thing checkPoint : FruitFever.checkPoints) {
 			if (checkPoint == FruitFever.greenCheckPoint) continue;
 			checkPoint.changeImage(WebData.checkpointFlagRed);
-			
 		}
 
 		// Reset Level
@@ -538,7 +532,7 @@ public class Player extends MovingAnimation {
 			counter = -1;
 
 		// Adjust Animation variables
-		doneAnimating = false;
+		active = false;
 		repeat = false;
 		
 		/** Check if there's a Block in front/in back of the player before he shoots **/
@@ -643,12 +637,12 @@ public class Player extends MovingAnimation {
 				images = tongueAnimH;
 		}
 		
-		if(doneAnimating){
+		if(active){
 		
 			// Adjust Animation variables
 			repeat = true;
 			counter = -1;
-			doneAnimating = false;
+			active = false;
 			
 			// Switch animation images
 			if(facingRight)
@@ -690,7 +684,7 @@ public class Player extends MovingAnimation {
 			tempY = imageY;
 		}
 		
-		if(facingRight)
+		if (facingRight)
 			return new Point(tempX + (int)(WebData.TILE_SIZE*1.5) + currentTongueWidth, tempY + (int) image.getHeight()/2);
 		else
 			return new Point(tempX - WebData.TILE_SIZE/2 - currentTongueWidth, tempY + (int) image.getHeight()/2);
