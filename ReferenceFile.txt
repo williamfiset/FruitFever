@@ -237,6 +237,31 @@ HELPFUL NOTES BY WILL:
 
 		
 
+		(Change everything to a '#' expect '-'')
+		NOTE: by Default the python script performs this operation
+
+		python charChange.py
+			or
+		python charChange.py '!' '#' '-'
+
+
+		--aa--     --##--
+		-abc12     -###??
+		abbcc- --> #####-
+		---FF|     ---##?
+
+		Special characters such as flags/fruitrings/fruits are turned to '?'s
+		which are ignored my the scenery loader
+
+		--*--|     --?--?
+		----cc     ----## 
+		01---- --> ??----
+		ABC---     ###---
+
+
+
+
+
 		(Anywhere where there is a either 'E', 'S', 'T' change it to a 'W')
 
 	   $python charChange.py 'W' 'EST'
@@ -271,18 +296,7 @@ HELPFUL NOTES BY WILL:
 
 
 
-		(Change everything to a '#' expect '-'')
-		NOTE: by Default the python script performs this operation
 
-		python charChange.py
-			or
-		python charChange.py '!' '#' '-'
-
-
-		--aa--     --##--
-		-abc--     -###--
-		abbcc- --> #####-
-		---FF-     ---##-
 
 
 
