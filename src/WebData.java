@@ -386,7 +386,7 @@ public abstract class WebData{
 					char character = line.charAt(i);
 
 					// Skip if it's a blank
-					if(character == '-' || character == '#' || character == ' ')
+					if(character == '-' || character == '#' || character == ' ' || character == '?')
 						continue;
 
 					try{

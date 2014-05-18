@@ -123,20 +123,20 @@ ________________________________________________________________________________
 	
 		-TOP ROW:
 		Wide Plant (V-Shaped)	(0)  --> a
-		Weeds 					(1)  --> b
+		Tall Weeds  			(1)  --> b
 		Yellow Flower			(2)  --> c
 		Pink Flower				(3)  --> d
-		Plant 					(4)  --> e
+		Night flower			(4)  --> e
 		Tree (No Blossoms)		(5)  --> f
 		Tree (Blossoms)			(6)  --> g
 		
 		-BOTTOM ROW:
-		Yelow Flower 2			(7)	 --> h
+		Orange flower			(7)	 --> h
 		Tree Trunk				(8)  --> i
 		Grass					(9)  --> j
-		Plant2					(10) --> k
+		Failed Cabbage			(10) --> k
 		Marijuana Plant			(11) --> l
-		Plant3 					(12) --> m
+		Medusa Plant			(12) --> m
 		Mushroom (Small)		(13) --> n
 		Mushroom (Medium)		(14) --> o
 		Mushroom (Large)		(15) --> p

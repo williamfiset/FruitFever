@@ -459,7 +459,7 @@ public class Player extends MovingAnimation {
 			checkPoint.changeImage(WebData.checkpointFlagRed);
 		}
 
-		// Reset Level
+		// Reset Level if player touches vortex
 		if (this.intersects(FruitFever.vortex))
 			FruitFever.levelComplete = true;
 		

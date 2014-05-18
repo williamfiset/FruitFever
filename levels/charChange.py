@@ -10,7 +10,7 @@ ex:
 
 	This will change every character to a W expect E, S and T
 
-        ####      WWWW
+    ####      WWWW
 	PPPP      WWWW
 	WWWW      WWWW
 	EEEE  --> EEEE
@@ -112,7 +112,11 @@ if __name__ == '__main__':
 	args = commandLineArguments
 
 	if len(args) == 0:
-		changeCharacters(True, "#", '-')
+		# changes all the characters @012~&| to dashes
+		changeCharacters(False, "?", "@012~%|*")
+
+		#
+		changeCharacters(True, "#", '-?')
 
 	elif len(args) == 1:
 		print "Please provide at least one more argument"		
