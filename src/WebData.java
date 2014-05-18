@@ -310,7 +310,7 @@ public abstract class WebData{
 
 					// Vortex (% sorta looks like vortex), readability counts (line 7 of our coding philosophy)
 					if (character == '%') {
-						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.vortexAnimation, false, 2, true, -1);
+						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.vortexAnimation, false, 2, true, -1, true);
 						FruitFever.vortex = vortex;
 						FruitFever.things.add(vortex);
 						continue;
@@ -318,7 +318,7 @@ public abstract class WebData{
 					
 					// Fruit Ring
 					if (character == '*') {
-						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.fruitRingAnimation, true, 3, true, -1);
+						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.fruitRingAnimation, true, 3, true, -1, true);
 						FruitFever.fruitRings.add(fruitRing);
 						FruitFever.things.add(fruitRing);
 						continue;
@@ -335,11 +335,11 @@ public abstract class WebData{
 					// Reads in a fruit
 					if(Character.isDigit(character)){
 						if(character == '0')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.blueFruitAnimation, true, 3, true, 2));
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.blueFruitAnimation, true, 3, true, 2, true));
 						else if(character == '1')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.yellowFruitAnimation, true, 3, true, 2));
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.yellowFruitAnimation, true, 3, true, 2, true));
 						else if(character == '2')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.redFruitAnimation, true, 3, true, 2));
+							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.redFruitAnimation, true, 3, true, 2, true));
 						continue;
 					}
 					
@@ -425,7 +425,6 @@ public abstract class WebData{
 			e.printStackTrace();
 			System.exit(0);
 		}
-		
 
 	}
 	

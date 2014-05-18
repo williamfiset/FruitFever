@@ -15,7 +15,7 @@ public class Animation extends Thing {
 	protected GImage[] images;
 	private boolean counterGoingUp = true;
 	
-	protected boolean reverse, repeat; // Player will need to access these
+	protected boolean reverse, repeat;
 	
 	/**
 	 * @param x : default x-position
@@ -31,8 +31,17 @@ public class Animation extends Thing {
 	 **/
 	 
 	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type){
+		this(x, y, originalImages, reverse, delay, repeat, type, false);	
+	}
+	
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type, boolean randomStartingFrame){
+	
+	super(x, y);
 		
-		super(x, y);
+		// Randomizes which frame the animation starts on
+		// (makes things such as fruit or fruit rings look better when they are clustered together)
+		if(randomStartingFrame)
+			counter = (int) (Math.random()*(originalImages.length - 1));
 		
 		// Make copy of images
 		this.images = originalImages;
@@ -46,7 +55,7 @@ public class Animation extends Thing {
 		this.repeat = repeat;
 		
 		this.type = type;
-	
+		
 	}
 	
 	public Animation(int x, int y, GImage[] originalImages){

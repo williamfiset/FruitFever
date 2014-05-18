@@ -379,7 +379,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// Tongue Attack
 		} else if (keyCode == KeyEvent.VK_S) {
-			if (tongueButtonReleased){
+			if (tongueButtonReleased && grabbedFruit == null){
 				player.eat();
 				tongueButtonReleased = false;
 				
