@@ -353,7 +353,7 @@ public class Player extends MovingAnimation {
 
 		// Adjust Animation variables		
 		repeat = false;
-		active = false;
+		active = true;
 
 		// Switch animation images
 		if(facingRight)
@@ -639,12 +639,12 @@ public class Player extends MovingAnimation {
 				images = tongueAnimH;
 		}
 		
-		if(active){
+		if(!active){
 		
 			// Adjust Animation variables
 			repeat = true;
 			counter = -1;
-			active = false;
+			active = true;
 			
 			// Switch animation images
 			if(facingRight)
