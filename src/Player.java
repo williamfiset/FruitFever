@@ -423,18 +423,11 @@ public class Player extends MovingAnimation {
 	/** Checks for collisions with checkPoints, currency, vortex and other matter **/
 	private void objectCollisions(){
 
-		// Rod is 7 pixels thin
-		Rectangle thinRod = new Rectangle(0, 0, 7, WebData.TILE_SIZE*2);
-
 		/** CheckPoint Collision **/
 		for (Thing checkPoint : FruitFever.checkPoints) {
-			
-			// Make new thin rectangle to represent the rod
-			thinRod.x = checkPoint.x + WebData.TILE_SIZE/2;
-			thinRod.y = checkPoint.y;
 
 			// Check if the player intersects the rod
-			if (thinRod.intersects(this)){
+			if (checkPoint.intersects(this)){
 				
 				// Check to see if this checkpoint hasn't already been attained
 				if(FruitFever.greenCheckPoint == null || !FruitFever.greenCheckPoint.equals(checkPoint)){
@@ -444,8 +437,8 @@ public class Player extends MovingAnimation {
 					FruitFever.playerStartX = checkPoint.imageX;
 					FruitFever.playerStartY = checkPoint.imageY + WebData.TILE_SIZE;
 
-					for(int i = 0; i < 5; i++)
-						FruitFever.addToThings(new Animation(checkPoint.imageX - 10 + (int) (Math.random()*20), checkPoint.imageY - 10 + (int) (Math.random()*20), WebData.fireworkAnimation, false, 2 + (int)(Math.random()*2), false, 3 ));
+					for(int i = 0; i < 7; i++)
+						FruitFever.addToThings(new Animation(checkPoint.imageX + WebData.TILE_SIZE/2 - 17 + (int) (Math.random()*35), checkPoint.imageY - WebData.TILE_SIZE*2 + (int) (Math.random()*35), WebData.fireworkAnimation, false, 2 + (int)(Math.random()*3), false, 3 ));
 					
 					break;
 					
