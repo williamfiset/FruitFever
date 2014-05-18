@@ -25,7 +25,7 @@ ________________________________________________________________________________
 ANIMATION TYPES:
 
 	-1	-> N/A
-	0	-> Player
+	0	-> Fruit Rings
 	1	-> Enemy
 	2	-> Fruit
 	3	-> Fireworks

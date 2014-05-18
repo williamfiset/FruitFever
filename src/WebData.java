@@ -61,6 +61,7 @@ public abstract class WebData{
 		
 	/** Loads all the images from the sprite sheet **/
 	public static void loadingScreen(){
+	
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/loadingScreenSpriteSheet.png");
 		
 		loadingScreenBackground = makeImage( (int)(Math.random()*2)*700, (int)(Math.random()*2)*500, 700, 500 );
@@ -319,7 +320,7 @@ public abstract class WebData{
 					// Fruit Ring
 					if (character == '*') {
 						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.fruitRingAnimation, true, 3, true, -1, true);
-						FruitFever.fruitRings.add(fruitRing);
+						FruitFever.edibleItems.add(fruitRing);
 						FruitFever.things.add(fruitRing);
 						continue;
 					}
@@ -335,11 +336,11 @@ public abstract class WebData{
 					// Reads in a fruit
 					if(Character.isDigit(character)){
 						if(character == '0')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.blueFruitAnimation, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.blueFruitAnimation, true, 3, true, 2, true));
 						else if(character == '1')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.yellowFruitAnimation, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.yellowFruitAnimation, true, 3, true, 2, true));
 						else if(character == '2')
-							FruitFever.fruits.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.redFruitAnimation, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.redFruitAnimation, true, 3, true, 2, true));
 						continue;
 					}
 					

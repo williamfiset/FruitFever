@@ -31,11 +31,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<Thing> things = new ArrayList<Thing>();
 	static ArrayList<Thing> dangerousThings = new ArrayList<Thing>();
 	static ArrayList<Thing> checkPoints = new ArrayList<Thing>();
-	static ArrayList<Animation> fruits = new ArrayList<Animation>();
-	static ArrayList<Animation> fruitRings = new ArrayList<Animation>();
+	static ArrayList<Animation> edibleItems = new ArrayList<Animation>();
 	static Animation vortex;
 
-	static Animation grabbedFruit = null;
+	static Animation grabbedItem = null;
 	
 	static ArrayList<TextAnimator> texts = new ArrayList<TextAnimator>();
 	
@@ -131,28 +130,28 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					} else things.get(i).animate();
 				}
 					
-				/** Animate all fruit **/
-				for (Thing fruit : fruits)
-					fruit.animate();
+				/** Animate all edible items **/
+				for (Thing item : edibleItems)
+					item.animate();
 
 				/** Perhaps put this in Player? how about motion() ? **/
 
-				if (grabbedFruit != null) {
+				if (grabbedItem != null) {
 				
 					// Reset fruit's position based on 
-					grabbedFruit.imageX = player.getTonguePosition(false).x - WebData.TILE_SIZE/2;
-					grabbedFruit.imageY = player.getTonguePosition(false).y - WebData.TILE_SIZE/2;
-					grabbedFruit.animate();
+					grabbedItem.imageX = player.getTonguePosition(false).x - WebData.TILE_SIZE/2;
+					grabbedItem.imageY = player.getTonguePosition(false).y - WebData.TILE_SIZE/2;
+					grabbedItem.animate();
 					
 					// Remove fruit if animation has finished
 					if(!player.images.equals(player.tongueAnim) && !player.images.equals(player.tongueAnimH)){
-						remove(grabbedFruit.image);
-						for(int i = 0; i < fruits.size(); i++)
-							if(fruits.get(i).equals(grabbedFruit)){
-								fruits.remove(i);
+						remove(grabbedItem.image);
+						for(int i = 0; i < edibleItems.size(); i++)
+							if(edibleItems.get(i).equals(grabbedItem)){
+								edibleItems.remove(i);
 								break;
 							}
-						grabbedFruit = null;
+						grabbedItem = null;
 					}
 				}
 
@@ -226,7 +225,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		/** Clear all lists pertaining to a specific level **/
 		blocks.clear();
 		things.clear();
-		fruits.clear();
+		edibleItems.clear();
 		texts.clear();
 		
 	}
@@ -280,9 +279,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			add(thing.image);
 		}
 		
-		for (Thing fruit : fruits ) {
-			fruit.image.setLocation(fruit.getX(), fruit.getY());
-			add(fruit.image);
+		for (Thing item : edibleItems ) {
+			item.image.setLocation(item.getX(), item.getY());
+			add(item.image);
 		}
 
 		add(vortex.image);
@@ -379,15 +378,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// Tongue Attack
 		} else if (keyCode == KeyEvent.VK_S) {
-			if (tongueButtonReleased && grabbedFruit == null){
+			if (tongueButtonReleased && grabbedItem == null){
 				player.eat();
 				tongueButtonReleased = false;
 				
 				// Try to eat fruit (only eats one at a time because of the break statement)
-				for(int i = 0; i < fruits.size(); i++)
+				for(int i = 0; i < edibleItems.size(); i++)
 					// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
-					if(fruits.get(i).contains(player.getTonguePosition(true))){
-						grabbedFruit = fruits.get(i);
+					if(edibleItems.get(i).contains(player.getTonguePosition(true))){
+						grabbedItem = edibleItems.get(i);
 						break;
 					}
 			}
@@ -556,7 +555,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		for (Thing thing : FruitFever.things)
 			thing.naturalAnimate();
 		
-		for (Animation fruit : FruitFever.fruits)
+		for (Animation fruit : FruitFever.edibleItems)
 			fruit.naturalAnimate();
 		
 		for (Thing dangerousSprite : FruitFever.dangerousThings)
