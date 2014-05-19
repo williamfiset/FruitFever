@@ -79,10 +79,8 @@ public abstract class WebData{
 		/** Blocks **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/blocks.png");
 	
-		for(int i = 0; i < 15; i++){
+		for(int i = 0; i < 15; i++)
 			blockImages[i] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
-			// blockGrassImages[i] = makeImage(TILE_SIZE, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
-		}
 		
 		updateLoadingBar(0.2);
 		
@@ -223,8 +221,8 @@ public abstract class WebData{
 		}
 		
 		for(int i = 0; i < 4; i++){
-			wormEnemyMoving[i] = makeImage(TILE_SIZE*(2*i), TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE); 
-			wormEnemyMovingH[i] = ImageTransformer.horizontalFlip(wormEnemyMoving[i]);	
+			wormEnemyMoving[i] = makeImage(TILE_SIZE*(2*i), TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE); 
+			wormEnemyMovingH[i] = ImageTransformer.horizontalFlip(wormEnemyMoving[i]);
 		}
 		updateLoadingBar(0.8);
 		

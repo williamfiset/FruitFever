@@ -293,9 +293,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addToScreen(inGameButtons);
 
 		/** TESTING PURPOSES ONLY **/
-		// addToThings(new MovingAnimation(0, 100, WebData.wormEnemyMoving, true, 2, true, 2, 0, 1));
+		//addToThings(new MovingAnimation(0, 100, WebData.redFruitAnimation, true, 2, true, 2, 0, 1));
 		// addToThings(new MovingAnimation(0, 100, WebData.wormEnemyMoving, true, 2, true, 1, 0, 1));
-		// addToThings(new AdvancedMovingAnimation(new int[]{0}, new int[]{0}, WebData.redFruitAnimation, true, 2, true, 2, 0));
+		addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, new GImage[][]{ WebData.wormEnemyMoving, WebData.wormEnemyMovingH}, true, 2, true, 2, 0));
+		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, WebData.wormEnemyMoving, true, 2, true, 2, 0));
 		// addToThings(new Animation(0, 125, WebData.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
@@ -376,8 +377,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		if (keyCode == KeyEvent.VK_W) {
 			player.setIsJumping(true);
 
-		// Tongue Attack
-		} else if (keyCode == KeyEvent.VK_S) {
+		// TONGUE
+		} else if (keyCode == KeyEvent.VK_E) {
 			if (tongueButtonReleased && grabbedItem == null){
 				player.eat();
 				tongueButtonReleased = false;
@@ -432,7 +433,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		} else if (keyCode == KeyEvent.VK_SPACE)
 			swirlButtonReleased = true;
-		else if (keyCode == KeyEvent.VK_S)
+		else if (keyCode == KeyEvent.VK_E)
 			tongueButtonReleased = true;
 	}
 	
