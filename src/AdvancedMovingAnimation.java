@@ -13,17 +13,18 @@ public class AdvancedMovingAnimation extends MovingAnimation{
 
 	/** Public instance variables **/
 	public int[] xPos, yPos;
-	public int currentDestination, dx, dy;
+	public int currentDestination, currentAnimation = 0, dx, dy;
 	public GImage[][] animations;
 
-	public AdvancedMovingAnimation(int[] xPos, int[] yPos, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int dx, int dy){
+	public AdvancedMovingAnimation(int[] xPos, int[] yPos, GImage[][] originalImages, boolean reverse, int delay, boolean repeat, int dx, int dy){
 	
-		super(xPos[0], yPos[0], originalImages, reverse, delay, repeat, 1);
+		super(xPos[0], yPos[0], originalImages[0], reverse, delay, repeat, 1);
 		
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.dx = dx;
 		this.dy = dy;
+		this.animations = originalImages;
 		
 		// Current destination will be 0 only when there's one point in the entire path
 		currentDestination = 1 % xPos.length;
@@ -36,12 +37,20 @@ public class AdvancedMovingAnimation extends MovingAnimation{
 	// Overrides MovingAnimation.animate()
 	@Override public void animate(){
 		
-		if (imageX == xPos[currentDestination] && imageY == yPos[currentDestination])
+		if (imageX == xPos[currentDestination] && imageY == yPos[currentDestination]){
+		
+			// Adjust destination
 			currentDestination = (++currentDestination % xPos.length);
+			
+			// Adjust animation
+			currentAnimation = (currentAnimation + 1) % animations.length;
+			images = animations[currentAnimation];
+		}
 		
 		setXSpeed();
 		setYSpeed();
 		
+		// Calls MovingAnimation.animate()
 		super.animate();
 		
 	}
