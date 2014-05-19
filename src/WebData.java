@@ -343,7 +343,7 @@ public abstract class WebData{
 					
 					// Fruit Ring
 					if (character == '*') {
-						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.fruitRingAnimation, true, 3, true, -1, true);
+						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, WebData.fruitRingAnimation, true, 1.5, true, -1, true,0.76);
 						FruitFever.edibleItems.add(fruitRing);
 						FruitFever.things.add(fruitRing);
 						continue;

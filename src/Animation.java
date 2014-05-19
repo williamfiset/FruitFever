@@ -16,7 +16,7 @@ public class Animation extends Thing {
 	protected GImage[] images;
 	private boolean counterGoingUp = true; 
 
-	private double delayCounter, delay;
+	private double delayCounter, delay, delayCounterIncrement = 1;
 	
 	protected boolean reverse, repeat;
 	
@@ -35,17 +35,57 @@ public class Animation extends Thing {
 	 
 	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type){
 		this(x, y, originalImages, reverse, delay, repeat, type, false);	
+		
 	}
-	
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type, double delayCounterIncrement){
+		
+		super(x, y);
+		initializeVariables(originalImages, reverse, delay, repeat, type);
+		// This is the speed varient
+		this.delayCounterIncrement = delayCounterIncrement;
+
+
+	}
+
 	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type, boolean randomStartingFrame){
 	
-	super(x, y);
-		
+		super(x, y);
+		initializeVariables(originalImages, reverse, delay, repeat, type);
 		// Randomizes which frame the animation starts on
 		// (makes things such as fruit or fruit rings look better when they are clustered together)
 		if(randomStartingFrame)
 			counter = (int) (Math.random()*(originalImages.length - 1));
+
+	}
+	
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type, boolean randomStartingFrame, double delayCounterIncrement){
+
+		super(x, y);
+		initializeVariables(originalImages, reverse, delay, repeat, type);
+		// Randomizes which frame the animation starts on
+		// (makes things such as fruit or fruit rings look better when they are clustered together)
+		if(randomStartingFrame)
+			counter = (int) (Math.random()*(originalImages.length - 1));
+
+		// This is the speed varient
+		this.delayCounterIncrement = delayCounterIncrement;
+
+	}
+
+	public Animation(int x, int y, GImage[] originalImages){
+		this(x, y, originalImages, false, 1, true, -1);
+
+		// Make copy of images
+		this.images = originalImages;
 		
+		// Set these instance variables, now that we know the image
+		super.image = new GImage(images[counter].getImage());
+		super.setSize((int) image.getWidth(), (int) image.getHeight());
+	}
+
+
+	private void initializeVariables(GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type){
+
 		// Make copy of images
 		this.images = originalImages;
 		
@@ -58,23 +98,23 @@ public class Animation extends Thing {
 		this.repeat = repeat;
 		
 		this.type = type;
-		
+
 	}
-	
-	public Animation(int x, int y, GImage[] originalImages){
-		this(x, y, originalImages, false, 1, true, -1);
-	}
-	
+
 	public void animate(){
 	
 		if(active){
 			
 			// Break out of this 'if statement' if it's not time to change the image yet
-			if (++delayCounter < delay) {
+
+			delayCounter += delayCounterIncrement;
+
+			if (delayCounter < delay) {
 				super.animate();
 				return;
 			} else
 				delayCounter = 0;
+			
 			
 			// Adjust the counter in the correct direction
 			if (counterGoingUp)
