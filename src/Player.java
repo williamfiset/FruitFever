@@ -57,7 +57,7 @@ public class Player extends MovingAnimation {
 
 // The distance from a corner of the image used in collision detection
 	final int VERTICAL_PX_BUFFER = 2;
-	final int HORIZONTAL_PX_BUFFER = 2; // 3
+	final int HORIZONTAL_PX_BUFFER = 3; // 3
 	
 // CheckPoint related Variables
 
