@@ -75,7 +75,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static int vx; // Δ in viewX & viewY
 	static double vy; 
 
-	// Unnecessary now that the code is moved into the run method? What exactly is this overriding?
+// Natural disaster Variables
+
+	static int earthQuakeMagnitude = 6;
+
+
 	@Override public void init() {
 		screen = this;
 	}
@@ -112,6 +116,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// Playing
 			if(currentScreen == 3){
 				
+				// Activates EarthQuake Effect				
+				// earthQuakeEffect();
+
+
 				// Controls if it is time to return to the level selection menu
 				if(levelComplete){
 					drawLevelSelection();
@@ -135,7 +143,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					item.animate();
 
 				/** Perhaps put this in Player? how about motion() ? **/
-
 				if (grabbedItem != null) {
 				
 					// Reset fruit's position based on 
@@ -162,6 +169,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				// t.stop(true);
 
+
 				add(leftRect);
 				add(rightRect);
 				add(upRect);
@@ -174,6 +182,19 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 	}
 
+
+	/** Makes the screen shake violently like an earthquake **/
+	private void earthQuakeEffect(){
+
+		if (viewY%2 == 0) {
+			viewX += (int) (Math.random()*earthQuakeMagnitude);
+			viewY -= (int) (Math.random()*earthQuakeMagnitude);
+		}else{
+			viewX -= (int) (Math.random()*earthQuakeMagnitude);
+			viewY += (int) (Math.random()*earthQuakeMagnitude);
+		}
+
+	}
 
 /** Loads and Displays all initial graphics of a level on the screen  **/
 
@@ -306,7 +327,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	private void placePlayerOnScreen(){
 		
 		// Creates the Player class
-		player = new Player(playerStartX, playerStartY, WebData.playerStill, WebData.playerStillH, WebData.playerShoot, WebData.playerShootH, WebData.playerTongue, WebData.playerTongueH);
+		player = new Player(playerStartX, playerStartY);
 
 		add(player.image);
 

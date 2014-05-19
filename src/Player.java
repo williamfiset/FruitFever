@@ -4,6 +4,12 @@
  *
  * @Author William Fiset, Micah Stairs
  * 
+ *
+ * Note on Collision Detection with the player:
+ * There are currently eight sensors on the player, two for each side, they measure if the player 
+ * came in contact with the block adjacent and if so they execute the code within the function.
+ *
+ *
  **/
 
 import acm.graphics.*;
@@ -24,6 +30,10 @@ public class Player extends MovingAnimation {
 // Movement Variables
 	static final int HORIZONTAL_VELOCITY = 3; // For release make horizontal velocity 3
 	int dx = 0;
+
+// Collision Detection Variables
+	final int VERTICAL_PX_BUFFER = 2;
+	final int HORIZONTAL_PX_BUFFER = 4; // 3
 
 // Variables concerning Gravity
 
@@ -50,16 +60,10 @@ public class Player extends MovingAnimation {
 // Jumping motion Variables
 	final double STARTING_JUMPING_VELOCITY = 6.25; 
 	final double STARTING_JUMPING_DECCELERATION = 0;
-	final double CHANGE_INDECLERATION = 0.043; 
+	final double CHANGE_IN_DECLERATION = 0.043; 
 
 	double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 	double jumpingVelocity = STARTING_JUMPING_VELOCITY;
-
-// The distance from a corner of the image used in collision detection
-	final int VERTICAL_PX_BUFFER = 2;
-	final int HORIZONTAL_PX_BUFFER = 3; // 3
-	
-// CheckPoint related Variables
 
 
 
@@ -67,16 +71,16 @@ public class Player extends MovingAnimation {
 	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	public static boolean facingRight = true;
 
-	public Player(int x, int y, GImage[] stillAnim, GImage[] stillAnimH, GImage[] shootAnim, GImage[] shootAnimH, GImage[] tongueAnim, GImage[] tongueAnimH){
-		
-		super(x, y, stillAnim, false, 1, true, 0);
+	public Player(int x, int y){
 
-		this.stillAnim = stillAnim;
-		this.stillAnimH = stillAnimH;
-		this.shootAnim = shootAnim;
-		this.shootAnimH = shootAnimH;
-		this.tongueAnim = tongueAnim;
-		this.tongueAnimH = tongueAnimH;
+		super(x, y, WebData.playerStill, false, 1, true, 0);
+
+		this.stillAnim = WebData.playerStill;
+		this.stillAnimH = WebData.playerStillH;
+		this.shootAnim = WebData.playerShoot;
+		this.shootAnimH = WebData.playerShootH;
+		this.tongueAnim = WebData.playerTongue;
+		this.tongueAnimH = WebData.playerTongueH;
 
 		boundaryLeft = WebData.TILE_SIZE;
 		boundaryRight = -WebData.TILE_SIZE;
@@ -88,22 +92,17 @@ public class Player extends MovingAnimation {
 	/** Calls all the players actions **/
 	public void motion(){
 
+		// System.out.println("On Platform: "+onPlatform + " setBaseLine:"+setBaseLine );
+
 		checkCollisionDetection();
-
 		objectCollisions();
-
 		jumpingEffect();
-
 		enableJumping();
-
 		gravityEffect();
-
 		relativisticScreenMovement();
-
 		updateHealth();
-
 		imageX += dx;	
-		
+
 	}
 	
 	/** Resets players ability to jump if applicable **/
@@ -168,10 +167,108 @@ public class Player extends MovingAnimation {
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
 
+		downwardsCollision(); 
 		sidewaysCollision();
-		downwardsCollision();
 		upwardsCollision();
 
+	}
+
+	/** Side Collisions **/
+	private void sidewaysCollision(){
+
+		// Player is moving EAST
+		if (FruitFever.dx == 1) {
+
+			Block eastNorth;
+			Block eastSouth;
+
+			// When not on platform
+			eastNorth = Block.getBlock(x + width, y + VERTICAL_PX_BUFFER); 
+			eastSouth = Block.getBlock(x + width, y + height - VERTICAL_PX_BUFFER);
+
+			// No block right of player
+			if (eastSouth == null && eastNorth == null){
+				System.out.println("Side");
+				dx = HORIZONTAL_VELOCITY;
+			} else {
+
+				// Stop viewX from moving as well as player
+				dx = 0; 
+				FruitFever.vx = 0;
+			}
+
+		// Player is moving WEST
+		} else if (FruitFever.dx == -1) {
+			
+			
+			Block westNorth = Block.getBlock(x - 2, y + VERTICAL_PX_BUFFER); // -1
+			Block westSouth = Block.getBlock(x - 2, y + height - VERTICAL_PX_BUFFER);
+
+			// No block left of player
+			if (westNorth == null && westSouth == null){
+				System.out.println("Side");
+				dx = -HORIZONTAL_VELOCITY;
+			} else {
+				
+				// Stop viewX from moving as well as player
+				dx = 0; 
+				FruitFever.vx = 0;
+			}
+		}
+
+	}
+
+	/** Test if player is going to hit a platform while falling **/
+	private void downwardsCollision(){
+
+
+		// SOUTH
+		Block southWest, southEast;
+
+		// Need to do this because starting starting falling velocity is never 0
+		if (gravity) {
+			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);			
+			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);
+		} else {
+			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);			
+			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
+		}
+
+		
+		if (southEast != null || southWest != null) {
+			
+			System.out.println("Down");
+
+			onPlatform = true;	
+
+			if (southEast != null)
+				placePlayerOnBlock(southEast);
+			else
+				placePlayerOnBlock(southWest);
+			
+		} else
+			onPlatform = false;
+
+	}
+
+	private void upwardsCollision(){
+
+		Block northWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER );
+		Block northEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER );
+
+		// Collision on block above this one has happened
+		if (northWest != null || northEast != null){
+			System.out.println("Up");
+			resetJump();
+		}
+
+	}
+
+	/** Places the player on top of the block he is currently on **/
+	private void placePlayerOnBlock(Block block) {
+		if (onPlatform)
+			// This could be more general if there were different size blocks
+			imageY = block.imageY - block.height;
 	}
 
 	/** Handles Jumping triggered by the Player **/
@@ -192,13 +289,33 @@ public class Player extends MovingAnimation {
 				imageY -= jumpingVelocity;
 
 				jumpingVelocity -= jumpingDecceleration;
-				jumpingDecceleration += CHANGE_INDECLERATION;
+				jumpingDecceleration += CHANGE_IN_DECLERATION;
 
 			// Player has reached maxHeight, gravity now kicks in
-			}
-			else resetJump();				
+			} else resetJump();				
 		}
 	}
+
+	/** 
+	 * It was a good idea to have a setter for IsJumping.  
+	 * For example you don't always want to set isJumping to true if the
+	 * character is in free fall. 
+	 **/
+	public void setIsJumping(boolean value){
+
+		// If you are not jumping and are on a platform
+		if (!setBaseLine && onPlatform)
+			isJumping = true;
+	}
+
+	private void resetJump(){
+
+		jumpingVelocity = STARTING_JUMPING_VELOCITY;
+		jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
+
+		isJumping = false;
+	}
+
 
 	/** Takes care of making the player fall when not jumping and not on a platform **/
 	private void gravityEffect(){
@@ -226,121 +343,6 @@ public class Player extends MovingAnimation {
 			fallingAcceleration = STARTING_FALLING_ACCELERATION;
 		}
 
-	}
-
-	/** Sideways Collisions **/
-	private void sidewaysCollision(){
-
-		// EAST
-		if (FruitFever.dx == 1) {
-
-			// +1 is hardcoded to precision, HORIZONTAL_PX_BUFFER did not suffice 
-			Block eastNorth = Block.getBlock(x + width + 1, y + VERTICAL_PX_BUFFER);
-			Block eastSouth = Block.getBlock(x + width + 1, y + height - VERTICAL_PX_BUFFER);
-
-			// No block right of player
-			if (eastSouth == null && eastNorth == null)
-				dx = HORIZONTAL_VELOCITY;
-			else {
-				// Stop viewX from moving as well as player
-				dx = 0; 
-				FruitFever.vx = 0;
-			}
-			
-		// WEST
-		} else if (FruitFever.dx == -1) {
-			
-			// -1 is hardcoded to precision, HORIZONTAL_PX_BUFFER did not suffice 
-			Block westNorth = Block.getBlock(x - 1, y + VERTICAL_PX_BUFFER);
-			Block westSouth = Block.getBlock(x - 1, y + height - VERTICAL_PX_BUFFER);
-
-			// No block left of player
-			if (westNorth == null && westSouth == null)
-				dx = -HORIZONTAL_VELOCITY;
-			else {
-				
-				// Stop viewX from moving as well as player
-				dx = 0; 
-				FruitFever.vx = 0;
-			}
-		}
-
-	}
-
-	private void upwardsCollision(){
-
-		Block northWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER );
-		Block northEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER );
-
-		// Collision on block above this one has happened
-		if (northWest != null || northEast != null)
-			resetJump();
-
-	}
-
-	/** Test if player is going to hit a platform while falling **/
-	private void downwardsCollision(){
-
-
-		// SOUTH
-		Block southWest, southEast;
-
-		// Need to do this because starting starting falling velocity is never 0
-		if (gravity) {
-			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);			
-			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);
-		}
-		else {
-			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);			
-			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
-		}
-
-		checkForFreeFall(southEast, southWest);
-
-	}
-
-	private void checkForFreeFall(Block southEast, Block southWest){
-
-		// Checks if player is in free fall
-		if (southEast != null || southWest != null) {
-			
-			onPlatform = true;	
-
-			if (southEast != null)
-				placePlayerOnBlock(southEast);
-			else
-				placePlayerOnBlock(southWest);
-			
-		}
-		else
-			onPlatform = false;
-
-	}
-
-	/** Places the player on top of the block he is currently on **/
-	private void placePlayerOnBlock(Block block) {
-		if (onPlatform)
-			imageY = block.imageY - block.width;
-	}
-
-	/** 
-	 * It was a good idea to have a setter for IsJumping.  
-	 * For example you don't always want to set isJumping to true if the
-	 * character is in free fall. 
-	 **/
-	public void setIsJumping(boolean value){
-
-		// If you are not jumping and are on a platform
-		if (!setBaseLine && onPlatform)
-			isJumping = true;
-	}
-
-	private void resetJump(){
-
-		jumpingVelocity = STARTING_JUMPING_VELOCITY;
-		jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
-
-		isJumping = false;
 	}
 
 	public void eat(){
@@ -773,7 +775,7 @@ public class Player extends MovingAnimation {
 
 
 
-
+// keep the space!
 
 
 

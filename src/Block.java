@@ -27,6 +27,9 @@ public class Block extends Thing {
 
 	public Block(int x, int y, int width, int height, int type, GImage image){
 
+		/** To improve the rotation couldn't we simply generate the four rotations and then pick one 
+		    Randomly instead of running the filter each time? This doesn't matter because we have 
+		    few blocks atm but this could save us a lot of time **/
 		super(x, y, width, height, ImageTransformer.rotateRandomly(image));
 
 		// Search if row exists within HashMap

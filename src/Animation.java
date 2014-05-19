@@ -37,38 +37,17 @@ public class Animation extends Thing {
 		this(x, y, originalImages, reverse, delay, repeat, type, false);	
 		
 	}
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type, double delayCounterIncrement){
-		
-		super(x, y);
-		initializeVariables(originalImages, reverse, delay, repeat, type);
-		// This is the speed varient
-		this.delayCounterIncrement = delayCounterIncrement;
-
-
-	}
 
 	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type, boolean randomStartingFrame){
 	
 		super(x, y);
-		initializeVariables(originalImages, reverse, delay, repeat, type);
+		
 		// Randomizes which frame the animation starts on
 		// (makes things such as fruit or fruit rings look better when they are clustered together)
 		if(randomStartingFrame)
 			counter = (int) (Math.random()*(originalImages.length - 1));
 
-	}
-	
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type, boolean randomStartingFrame, double delayCounterIncrement){
-
-		super(x, y);
 		initializeVariables(originalImages, reverse, delay, repeat, type);
-		// Randomizes which frame the animation starts on
-		// (makes things such as fruit or fruit rings look better when they are clustered together)
-		if(randomStartingFrame)
-			counter = (int) (Math.random()*(originalImages.length - 1));
-
-		// This is the speed varient
-		this.delayCounterIncrement = delayCounterIncrement;
 
 	}
 
@@ -149,3 +128,34 @@ public class Animation extends Thing {
 	
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// keep the space!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
