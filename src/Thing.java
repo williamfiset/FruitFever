@@ -39,7 +39,6 @@ public class Thing extends Rectangle{
 	
 	public Thing(int x, int y, int width, int height){
 		super(x, y, width, height);
-		this.image = image;
 		this.imageX = x;
 		this.imageY = y;
 	}
