@@ -22,7 +22,9 @@ public abstract class WebData{
 						heartImage, levelBackDropImage, lavaImage,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
-						powerupBlockJump, powerupBlockSpeed, powerupBlockAttack;
+						powerupBlockJump, powerupBlockSpeed, powerupBlockAttack,
+						moss, music0, music1,
+						bronzeStar, silverStar, goldStar;
 	public static GImage[] blockImages = new GImage[15],
 						blockGrassImages = new GImage[15],
 						   
@@ -33,7 +35,6 @@ public abstract class WebData{
 						redFruitAnimation = new GImage[7],
 						
 						gearButton = new GImage[3],
-						fireworkAnimation = new GImage[5],
 						fruitRingAnimation = new GImage[6],
 						vortexAnimation = new GImage[5],
 						   
@@ -58,7 +59,8 @@ public abstract class WebData{
 						leftArrowButton = new GImage[3],
 						rightArrowButton = new GImage[3],
 						levelButton = new GImage[2];
-		
+	public static GImage[][] fireworkAnimation = new GImage[3][5];	
+	
 	/** Loads all the images from the sprite sheet **/
 	public static void loadingScreen(){
 	
@@ -107,6 +109,8 @@ public abstract class WebData{
 		sceneryImages[14] = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		sceneryImages[15] = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
+		moss = makeImage(TILE_SIZE*9, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		
 		updateLoadingBar(0.3);
 		
 		/** Fruits **/
@@ -154,8 +158,18 @@ public abstract class WebData{
 		powerupBlockAttack = makeImage(TILE_SIZE*13, 0, TILE_SIZE, TILE_SIZE);
 	
 		// Fireworks
-		for (int i = 0; i < 5; i++) 
-			fireworkAnimation[i] = makeImage(TILE_SIZE*(i + 2), TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		for (int n = 0; n < 3; n++) 
+			for (int i = 0; i < 5; i++) 
+				fireworkAnimation[n][i] = makeImage(TILE_SIZE*(i + 2), TILE_SIZE*(n + 1), TILE_SIZE, TILE_SIZE);
+				
+		// Stars
+		bronzeStar = makeImage(TILE_SIZE*8, 0, TILE_SIZE, TILE_SIZE);
+		silverStar = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE*2);
+		goldStar = makeImage(TILE_SIZE*8, TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE*2);
+		
+		// Notes
+		music0 = makeImage(TILE_SIZE*7, TILE_SIZE*1, TILE_SIZE, TILE_SIZE);
+		music1 = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
 		updateLoadingBar(0.5);
 	
@@ -387,25 +401,25 @@ public abstract class WebData{
 					char character = line.charAt(i);
 
 					// Skip if it's a blank
-					if(character == '-' || character == '#' || character == ' ' || character == '?')
+					if (character == '-' || character == '#' || character == ' ' || character == '?')
 						continue;
 
-					try{
+					try {
 
 						int type = character - 'a';
 						GImage image = new GImage(WebData.sceneryImages[type].getImage());
 						int xOffset = 0, yOffset = 0;
 
 						// Hard-Coded Exceptions
-						if(type == 0)
+						if (type == 0)
 							xOffset = -TILE_SIZE/2;
-						else if(type == 6)
+						else if (type == 6)
 							xOffset = -3;
 
 						// Add Scenery to the ArrayList
 						FruitFever.things.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
 
-					} catch(ArrayIndexOutOfBoundsException e){ 
+					} catch(ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("\nSCENERY LAYER contains invalid character: '%c' \n", character);
 						System.exit(0);
 					}	
@@ -416,12 +430,12 @@ public abstract class WebData{
 			sc.close();
 		
 		}
-		catch(NoSuchElementException e){
+		catch (NoSuchElementException e) {
 			System.out.println("Level " + FruitFever.currentLevel + " was not found.\n");
 			e.printStackTrace();
 			System.exit(0);
 		}
-		catch(IOException e){
+		catch (IOException e) {
 			System.out.println("\n IOException \n");
 			e.printStackTrace();
 			System.exit(0);

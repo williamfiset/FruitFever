@@ -73,51 +73,36 @@ ________________________________________________________________________________
 
 	BLOCKS (each Block also has an associated type/integer value, but this is not used for building the levels):
 
-		Brownblock0 (0)  --> a
-		Brownblock1 (1)  --> b
-		Brownblock2 (2)  --> c
-		Brownblock3 (3)  --> d
-		Brownblock4 (4)  --> e
-		BlueBlock   (5)  --> f
-		YellowBlock (6)  --> g
-		RedBlock    (7)  --> h
-		GreenBlock  (8)  --> i
-		PurpleBlock (9)  --> j
-		GrayBlock   (10) --> k
-		WhiteBlock0 (11) --> l
-		WhiteBlock1 (12) --> m
-		WhiteBlock2 (13) --> n
-		BlackBlock  (14) --> o
-
-		GrassBrownblock0 (0)  --> A
-		GrassBrownblock1 (1)  --> B
-		GrassBrownblock2 (2)  --> C
-		GrassBrownblock3 (3)  --> D
-		GrassBrownblock4 (4)  --> E
-		GrassBlueBlock   (5)  --> F
-		GrassYellowBlock (6)  --> G
-		GrassRedBlock    (7)  --> H
-		GrassGreenBlock  (8)  --> I
-		GrassPurpleBlock (9)  --> J
-		GrassGrayBlock   (10) --> K
-		GrassWhiteBlock0 (11) --> L
-		GrassWhiteBlock1 (12) --> M
-		GrassWhiteBlock2 (13) --> N
-		GrassBlackBlock  (14) --> O
+		Brownblock0 	(0)  --> a
+		Brownblock1 	(1)  --> b
+		Brownblock2 	(2)  --> c
+		Brownblock3 	(3)  --> d
+		Brownblock4 	(4)  --> e
+		BlueBlock   	(5)  --> f
+		YellowBlock 	(6)  --> g
+		RedBlock    	(7)  --> h
+		GreenBlock  	(8)  --> i
+		PurpleBlock 	(9)  --> j
+		GrayBlock   	(10) --> k
+		WhiteBlock0 	(11) --> l
+		WhiteBlock1 	(12) --> m
+		WhiteBlock2 	(13) --> n
+		BlackBlock  	(14) --> o
+		LightBlueBlock 	(15) --> p
+		TealBlock		(16) --> q
+		PinkBlock		(17) --> r
+		InvisibleBlock	(18) --> s
 		
-		FRUIT are also put into this section:
+		Other things that are put into this section:
 		
-			Blue		--> 0
-			Yellow		--> 1
-			Red			--> 2
-			
-		The player's startng position is also put into this section:
-		
-			Player			--> @
-			
-		Lava is also put into this section:
-			
-			Lava tile		--> ~
+			Blue Fruit					--> 0
+			Yellow Fruit				--> 1
+			Red Fruit					--> 2
+			Player's starting position	--> @
+			Checpoint					--> |
+			Fruit Rings					--> *
+			Horizontal Vortex			--> %
+			Lava tile					--> ~
 
 	SCENERY (each Scenery object also has an associated type/integer value, but this is not used for building the levels):
 	
@@ -177,7 +162,15 @@ ________________________________________________________________________________
 	
 	-GameStarter
 	
-	-Data
+	-WebData
+	
+	-Data (Discontinued - replaced by WebData)
+	
+	-Downloader
+	
+	-Timer_
+	
+	-TextAnimator
 	
 	-ImageTransformer
 	
@@ -191,6 +184,7 @@ ________________________________________________________________________________
 					-Player
 					-Swirl
 					-AdvancedMovingAnimation
+						-Enemy (in progress)
 		
 _____________________________________________________________________________________________
 

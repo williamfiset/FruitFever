@@ -163,7 +163,6 @@ public class Player extends MovingAnimation {
 		if (FruitFever.viewY + FruitFever.vy >= 0)
  			FruitFever.viewY += FruitFever.vy;	
  		
-
 	}
 
 	/** Responds accordingly to collision detection **/
@@ -179,16 +178,16 @@ public class Player extends MovingAnimation {
 	private void jumpingEffect(){
 
 		// Jumping event was Triggered
-		if(isJumping) {
+		if (isJumping) {
 
 			// Sets baseLine (where the player started before jumping)
-			if(!setBaseLine){
+			if (!setBaseLine) {
 				baseLine = y;
 				setBaseLine = true;	
 			}
 			
 			// Player has not yet hit the maximum jump limit
-			if(imageY - jumpingVelocity > baseLine - maxJumpHeight && jumpingVelocity > 0) {
+			if (imageY - jumpingVelocity > baseLine - maxJumpHeight && jumpingVelocity > 0) {
 
 				imageY -= jumpingVelocity;
 
@@ -197,8 +196,7 @@ public class Player extends MovingAnimation {
 
 			// Player has reached maxHeight, gravity now kicks in
 			}
-			else
-				resetJump();				
+			else resetJump();				
 		}
 	}
 
@@ -206,7 +204,7 @@ public class Player extends MovingAnimation {
 	private void gravityEffect(){
 
 		// Gravity Effect triggered here
-		if(!isJumping && gravity && !onPlatform){
+		if (!isJumping && gravity && !onPlatform) {
 
 			imageY += fallingVelocity;
 
@@ -221,7 +219,7 @@ public class Player extends MovingAnimation {
 			
 
 		// Executes when not falling or not allowed to fall
-		} else{
+		} else {
 
 			// Reset falling speed
 			fallingVelocity = STARTING_FALLING_VELOCITY;
@@ -234,7 +232,7 @@ public class Player extends MovingAnimation {
 	private void sidewaysCollision(){
 
 		// EAST
-		if(FruitFever.dx == 1){
+		if (FruitFever.dx == 1) {
 
 			// +1 is hardcoded to precision, HORIZONTAL_PX_BUFFER did not suffice 
 			Block eastNorth = Block.getBlock(x + width + 1, y + VERTICAL_PX_BUFFER);
@@ -250,7 +248,7 @@ public class Player extends MovingAnimation {
 			}
 			
 		// WEST
-		} else if(FruitFever.dx == -1) {
+		} else if (FruitFever.dx == -1) {
 			
 			// -1 is hardcoded to precision, HORIZONTAL_PX_BUFFER did not suffice 
 			Block westNorth = Block.getBlock(x - 1, y + VERTICAL_PX_BUFFER);
@@ -436,7 +434,7 @@ public class Player extends MovingAnimation {
 					FruitFever.playerStartY = checkPoint.imageY + WebData.TILE_SIZE;
 
 					for(int i = 0; i < 7; i++)
-						FruitFever.addToThings(new Animation(checkPoint.imageX + WebData.TILE_SIZE/2 - 17 + (int) (Math.random()*35), checkPoint.imageY - WebData.TILE_SIZE*2 + (int) (Math.random()*35), WebData.fireworkAnimation, false, 2 + (int)(Math.random()*3), false, 3 ));
+						FruitFever.addToThings(new Animation(checkPoint.imageX + WebData.TILE_SIZE/2 - 17 + (int) (Math.random()*35), checkPoint.imageY - WebData.TILE_SIZE*2 + (int) (Math.random()*35), WebData.fireworkAnimation[(int) (Math.random()*3)], false, 2 + (int)(Math.random()*3), false, 3 ));
 					
 					break;
 					
