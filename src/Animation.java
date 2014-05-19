@@ -11,9 +11,12 @@ import java.awt.*;
 public class Animation extends Thing {
 
 	/** Instance variables **/
-	public int type, counter = 0, delayCounter = 0, delay;
+	public int type, counter = 0;
+
 	protected GImage[] images;
-	private boolean counterGoingUp = true;
+	private boolean counterGoingUp = true; 
+
+	private double delayCounter, delay;
 	
 	protected boolean reverse, repeat;
 	
@@ -51,7 +54,7 @@ public class Animation extends Thing {
 		super.setSize((int) image.getWidth(), (int) image.getHeight());
 		
 		this.reverse = reverse;
-		this.delay = delay;
+		this.delay = (double) delay;
 		this.repeat = repeat;
 		
 		this.type = type;

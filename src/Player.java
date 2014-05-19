@@ -57,7 +57,7 @@ public class Player extends MovingAnimation {
 
 // The distance from a corner of the image used in collision detection
 	final int VERTICAL_PX_BUFFER = 2;
-	final int HORIZONTAL_PX_BUFFER = 3;
+	final int HORIZONTAL_PX_BUFFER = 2; // 3
 	
 // CheckPoint related Variables
 
@@ -420,8 +420,8 @@ public class Player extends MovingAnimation {
 
 		/** CheckPoint Collision **/
 		for (Thing checkPoint : FruitFever.checkPoints) {
-			checkPoint.boundaryLeft = 11;
-			checkPoint.boundaryRight = -11;
+			checkPoint.boundaryLeft = 9;
+			checkPoint.boundaryRight = -9;
 			// Check if the player intersects the rod
 			if (checkPoint.intersects(this)){
 				
@@ -434,13 +434,17 @@ public class Player extends MovingAnimation {
 					FruitFever.playerStartY = checkPoint.imageY + WebData.TILE_SIZE;
 
 					for(int i = 0; i < 7; i++)
-						FruitFever.addToThings(new Animation(checkPoint.imageX + WebData.TILE_SIZE/2 - 17 + (int) (Math.random()*35), checkPoint.imageY - WebData.TILE_SIZE*2 + (int) (Math.random()*35), WebData.fireworkAnimation[(int) (Math.random()*3)], false, 2 + (int)(Math.random()*3), false, 3 ));
-					
+						FruitFever.addToThings(new Animation(checkPoint.imageX - 17 + (int) (Math.random()*35),
+						                                     checkPoint.imageY - WebData.TILE_SIZE*2 + (int) (Math.random()*35),
+						                                     WebData.fireworkAnimation[(int) (Math.random()*3)],
+						                                     false, 2 + (int)(Math.random()*3), false, 3 ));					
 					break;
 					
 				}
 			}
 		}
+
+
 
 		// Changes all the flags to red flags except the current green flag
 		for (Thing checkPoint : FruitFever.checkPoints) {
@@ -757,3 +761,28 @@ public class Player extends MovingAnimation {
 			return "Swirl   X: " + x + "  Y: " + y;
 		}
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
