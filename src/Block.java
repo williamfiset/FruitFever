@@ -19,17 +19,17 @@ public class Block extends Thing {
 	*				and associated types)
 	**/
 
-	private static HashMap <Integer, ArrayList <Block>> xBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
-	private static HashMap <Integer, ArrayList <Block>> yBlockPositions = new HashMap <Integer, ArrayList <Block>> ();
+	private static HashMap<Integer, ArrayList<Block>> xBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
+	private static HashMap<Integer, ArrayList<Block>> yBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
 
 	/** To fix issue #41 the first itme you draw on the screen you must call naturalAnimate() **/
 	private static boolean performedNaturalAnimate = false;
 
 	public Block(int x, int y, int width, int height, int type, GImage image){
 
-		super(x, y, width, height, image);
+		super(x, y, width, height, ImageTransformer.rotateRandomly(image));
 
-		// Search if row exists within hashmap
+		// Search if row exists within HashMap
 		if (xBlockPositions.containsKey(x)) {
 			
 			// If it does, extract ArrayList, add element and push it back into hashmap
@@ -37,8 +37,8 @@ public class Block extends Thing {
 			xPos.add(this);
 			xBlockPositions.put(x, xPos);
 
-		}else{
-			ArrayList <Block> xPos = new ArrayList <Block> ();
+		} else {
+			ArrayList<Block> xPos = new ArrayList<Block> ();
 			xPos.add(this);
 			xBlockPositions.put(x, xPos);
 		}
@@ -52,8 +52,8 @@ public class Block extends Thing {
 			yPos.add(this);
 			yBlockPositions.put(y, yPos);
 
-		}else{
-			ArrayList <Block> yPos = new ArrayList <Block> ();
+		} else {
+			ArrayList<Block> yPos = new ArrayList<Block> ();
 			yPos.add(this);
 			yBlockPositions.put(y, yPos);
 		}
@@ -64,15 +64,11 @@ public class Block extends Thing {
 	}
 	
 	public Block(int x, int y, int type, GImage image){
-	
 		this(x, y, WebData.TILE_SIZE, WebData.TILE_SIZE, type, image);
-	
 	}
 
 	public static void resetPerformedNaturalAnimate(){
-
 		performedNaturalAnimate = false;
-
 	}
 
 	public static void drawBlocks(){
@@ -86,7 +82,7 @@ public class Block extends Thing {
 				block.naturalAnimate();
 			performedNaturalAnimate = true;
 
-		}else{
+		} else {
 
 			outerLoop:
 			for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += WebData.TILE_SIZE) {
@@ -99,21 +95,17 @@ public class Block extends Thing {
 					
 					int x = block.imageX - FruitFever.viewX;
 					int y = block.imageY - FruitFever.viewY;
-
 					
-					if (x > FruitFever.SCREEN_WIDTH + WebData.TILE_SIZE) 
+					if (x > FruitFever.SCREEN_WIDTH + WebData.TILE_SIZE) {
 
 						// Breaks Out of loop when you hit a block South East of the Screen
-						if (y > FruitFever.SCREEN_HEIGHT){ 
+						if (y > FruitFever.SCREEN_HEIGHT) 
 							break outerLoop;
-						}else{
-
-							// Breaks row when the first block east goes off screen
-							break row;
-						}
+						// Breaks row when the first block east goes off screen
+						else break row;
 
 					// Skips drawing blocks Left and up off the screen
-					else if (x < -FruitFever.LEFT_BOUNDARY || y < -FruitFever.UP_BOUNDARY)
+					} else if (x < -FruitFever.LEFT_BOUNDARY || y < -FruitFever.UP_BOUNDARY)
 						continue;
 
 					block.animate();
@@ -168,7 +160,7 @@ public class Block extends Thing {
 			}
 
 		// I got too lazy to check the boundaries so I used a try block which is error proof			
-		}catch(NullPointerException e){
+		} catch(NullPointerException e) {
 
 			// Block coordinates were not found, typically due to air space or out of bounds
 			return null;
@@ -187,25 +179,3 @@ public class Block extends Thing {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

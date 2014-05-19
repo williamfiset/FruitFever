@@ -87,4 +87,13 @@ abstract class ImageTransformer {
      	return rotateCounterClockwise(rotateCounterClockwise(img));
     }
 	
+	public static GImage rotateRandomly(GImage img){
+		int rotations = (int) (Math.random()*4);
+		
+		for(int i = 0; i < rotations; i++)
+			img = rotateClockwise(img);
+		
+		return img;
+	}
+	
 }
