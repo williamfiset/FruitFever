@@ -234,9 +234,21 @@ public abstract class WebData{
 		// Menu Button Images
 		for(int i = 0; i < 12; i++)
 			menuButtons[i] = makeImage(0, i*69, 266, 69);
+			
+			
+		// PICK RANDOM COLOR SCHEME
+		
+		String color = "";
+		int randomColor = (int) (Math.random()*3);
+		if(randomColor == 0)
+			color = "blue";
+		else if(randomColor == 1)
+			color = "green";
+		else if(randomColor == 2)
+			color = "purple";
 		
 		/** Import level selection arrow images **/
-		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/LevelSelection/arrows/blueArrows.png");
+		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/LevelSelection/arrows/" + color + "Arrows.png");
 		
 		for(int i = 0; i < 3; i++){
 			leftArrowButton[i] = makeImage(0, i*33, 36, 31);
@@ -246,7 +258,7 @@ public abstract class WebData{
 		updateLoadingBar(0.9);
 		
 		/** Import level selection background/level button images **/
-		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/LevelSelection/backDrop/blueLevel.png");
+		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/LevelSelection/backDrop/" + color + "Level.png");
 		
 		levelButton[0] = makeImage(0, 139, 51, 45);
 		levelButton[1] = makeImage(0, 93, 50, 44);
