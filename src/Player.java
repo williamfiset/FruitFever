@@ -102,8 +102,8 @@ public class Player extends MovingAnimation {
 		gravityEffect();
 		relativisticScreenMovement();
 		updateHealth();
-		imageX += dx;	
-
+		imageX += dx;
+		grabbingItem();
 	}
 	
 	/** Resets players ability to jump if applicable **/
@@ -188,8 +188,8 @@ public class Player extends MovingAnimation {
 			eastSouth = Block.getBlock(x + width, y + height - VERTICAL_PX_BUFFER);
 
 			// No block right of player
-			if (eastSouth == null && eastNorth == null){
-				System.out.println("Side");
+			if (eastSouth == null && eastNorth == null) {
+				// System.out.println("Side");
 				dx = HORIZONTAL_VELOCITY;
 			} else {
 
@@ -207,7 +207,7 @@ public class Player extends MovingAnimation {
 
 			// No block left of player
 			if (westNorth == null && westSouth == null){
-				System.out.println("Side");
+				// System.out.println("Side");
 				dx = -HORIZONTAL_VELOCITY;
 			} else {
 				
@@ -238,7 +238,7 @@ public class Player extends MovingAnimation {
 		
 		if (southEast != null || southWest != null) {
 			
-			System.out.println("Down");
+			// System.out.println("Down");
 
 			onPlatform = true;	
 
@@ -259,7 +259,7 @@ public class Player extends MovingAnimation {
 
 		// Collision on block above this one has happened
 		if (northWest != null || northEast != null){
-			System.out.println("Up");
+			// System.out.println("Up");
 			resetJump();
 		}
 
@@ -438,9 +438,10 @@ public class Player extends MovingAnimation {
 
 					for(int i = 0; i < 7; i++)
 						FruitFever.addToThings(new Animation(checkPoint.imageX - 17 + (int) (Math.random()*35),
-						                                     checkPoint.imageY - WebData.TILE_SIZE*2 + (int) (Math.random()*35),
-						                                     WebData.fireworkAnimation[(int) (Math.random()*3)],
-						                                     false, 2 + (int)(Math.random()*3), false, 3 ));					
+						checkPoint.imageY - WebData.TILE_SIZE*2 + (int) (Math.random()*35),
+						WebData.fireworkAnimation[(int) (Math.random()*3)], false, 2 + (int)(Math.random()*3),
+						false, 3 ));
+					
 					break;
 					
 				}
@@ -466,10 +467,8 @@ public class Player extends MovingAnimation {
 
 	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly */
 	private void adjustLives(int livesLeft){
-	
 		for (int i = 0; i < maxLives; i++)
 			FruitFever.livesImages[i].setVisible(livesLeft > i);
-
 	}
 
 	/** Adjusts View to place the player in the middle of the screen **/
@@ -661,10 +660,43 @@ public class Player extends MovingAnimation {
 
 	}
 	
-	/** Returns the location of the tip of the tongue (when fully extended)
-		@param collisionDetection: When true, we are dealing with x and y. When false,
-		we are dealing with imageX and imageY **/
-	public Point getTonguePosition(boolean collisionDetection){
+	/** Update currently grabbed item or try to grab a item **/
+	private void grabbingItem(){
+		
+		// If the player already has a grabbbed item
+		if (FruitFever.grabbedItem != null) {
+			
+			// Reset item's position based on 
+			FruitFever.grabbedItem.imageX = getTonguePosition().x - WebData.TILE_SIZE/2;
+			FruitFever.grabbedItem.imageY = getTonguePosition().y - WebData.TILE_SIZE/2;
+			FruitFever.grabbedItem.animate();
+			
+			// Remove item if animation has finished
+			if(!images.equals(tongueAnim) && !images.equals(tongueAnimH)){
+				FruitFever.screen.remove(FruitFever.grabbedItem.image);
+				for(int i = 0; i < FruitFever.edibleItems.size(); i++)
+					if(FruitFever.edibleItems.get(i).equals(FruitFever.grabbedItem)){
+						FruitFever.edibleItems.remove(i);
+						break;
+					}
+				FruitFever.grabbedItem = null;
+			}
+		
+		// Try grabbing item (only eats one at a time because of the break statement)
+		} else if (!FruitFever.tongueButtonReleased) {
+			for (int i = 0; i < FruitFever.edibleItems.size(); i++)
+				// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
+				if (FruitFever.edibleItems.get(i).intersects(getTongueRectangle())) {
+					FruitFever.grabbedItem = FruitFever.edibleItems.get(i);
+					break;
+				}
+		
+		}
+	
+	}
+
+	/** Returns the current location of the tip of the tongue **/
+	private Point getTonguePosition(){
 	
 		int currentTongueWidth = 0;
 		
@@ -673,21 +705,29 @@ public class Player extends MovingAnimation {
 			case 4: currentTongueWidth = 20; break;
 		}
 		
-		int tempX, tempY;
+		if (facingRight)
+			return new Point(imageX + WebData.TILE_SIZE*2 + currentTongueWidth, imageY + (int) image.getHeight()/2);
+		else
+			return new Point(imageX + WebData.TILE_SIZE - currentTongueWidth, imageY + (int) image.getHeight()/2);
+	}
+	
+	/** Returns the a Rectangle representing the tongue for collision detection **/
+	private Rectangle getTongueRectangle(){
+	
+		int currentTongueWidth = 1;
 		
-		if (collisionDetection) {
-			tempX = x;
-			tempY = y;
+		switch (counter){
+			case 3: currentTongueWidth = 8; break;
+			case 4: currentTongueWidth = 20; break;
 		}
-		else {
-			tempX = imageX + WebData.TILE_SIZE;
-			tempY = imageY;
-		}
+		
+		// NOTE: The height of the tongue is 1 full tile for collision detection, whereas the real tongue is
+		// only a few pixels tall.
 		
 		if (facingRight)
-			return new Point(tempX + (int)(WebData.TILE_SIZE*1.5) + currentTongueWidth, tempY + (int) image.getHeight()/2);
+			return new Rectangle(x + WebData.TILE_SIZE, y, currentTongueWidth, WebData.TILE_SIZE);
 		else
-			return new Point(tempX - WebData.TILE_SIZE/2 - currentTongueWidth, tempY + (int) image.getHeight()/2);
+			return new Rectangle(x - currentTongueWidth, y, currentTongueWidth, WebData.TILE_SIZE);
 	}
 
 	public void posInfo(){
@@ -741,7 +781,7 @@ public class Player extends MovingAnimation {
 
 		}
 
-		/** Returns true or false depending on if the swirl has collided with a block**/
+		/** Returns true or false depending on if the swirl has collided with a block **/
 		public boolean collidesWithBlock(){
 
 			Block westNorth = Block.getBlock(x + AIR_SPACING + xSpeed, y + AIR_SPACING ) ;
@@ -776,7 +816,7 @@ public class Player extends MovingAnimation {
 
 
 
-// keep the space!
+
 
 
 

@@ -13,32 +13,39 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
-	static GraphicsProgram screen;
+/** Constants **/
 
+	static GraphicsProgram screen;
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
+
+/** Level Information/Objects/Lists **/
+	
 	static int LEVEL_WIDTH = 0, LEVEL_HEIGHT = 0;
 	static String LEVEL_NAME = "";
 	
-
+	static Animation vortex;
+	static Animation grabbedItem = null;
 	static Thing greenCheckPoint = null;
-
 	static boolean levelComplete = false;
 
-	static Player player;
-
-// Game Object Lists
 	static ArrayList<Block> blocks = new ArrayList<Block>();
 	static ArrayList<Thing> things = new ArrayList<Thing>();
 	static ArrayList<Thing> dangerousThings = new ArrayList<Thing>();
 	static ArrayList<Thing> checkPoints = new ArrayList<Thing>();
 	static ArrayList<Animation> edibleItems = new ArrayList<Animation>();
-	static Animation vortex;
-
-	static Animation grabbedItem = null;
 	
 	static ArrayList<TextAnimator> texts = new ArrayList<TextAnimator>();
+
+/** Player **/
+	static Player player;
 	
-// Menu/Level selection variables	
+	static int playerStartX, playerStartY;
+	static boolean swirlButtonReleased = true;
+	static boolean tongueButtonReleased = true;
+	static int dx = 0;
+	
+/** Menus/GUI **/
+
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
 	static ArrayList<Button> inGameButtons = new ArrayList<Button>();
@@ -55,14 +62,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	static Thing levelBackDrop;
 
-// Player Variables
-
-	static int playerStartX, playerStartY;
-	static boolean swirlButtonReleased = true;
-	static boolean tongueButtonReleased = true;
-	static int dx = 0, dy = 0;
-
-// Screen View Variables
+/** Screen View Variables **/
 
 	// This value seems to be optimal for screen view 	
 	final static double viewBoxSpacing = 0.29;
@@ -75,16 +75,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static int vx; // Δ in viewX & viewY
 	static double vy; 
 
-// Natural disaster Variables
+/** Natural disaster Variables **/
 
 	static int earthQuakeMagnitude = 6;
-
 
 	@Override public void init() {
 		screen = this;
 	}
 	
-/** Contains the main game loop **/
+	/** Contains the main game loop **/
 	@Override public void run(){
 		
 		postInit();
@@ -142,33 +141,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				for (Thing item : edibleItems)
 					item.animate();
 
-				/** Perhaps put this in Player? how about motion() ? **/
-				if (grabbedItem != null) {
-				
-					// Reset fruit's position based on 
-					grabbedItem.imageX = player.getTonguePosition(false).x - WebData.TILE_SIZE/2;
-					grabbedItem.imageY = player.getTonguePosition(false).y - WebData.TILE_SIZE/2;
-					grabbedItem.animate();
-					
-					// Remove fruit if animation has finished
-					if(!player.images.equals(player.tongueAnim) && !player.images.equals(player.tongueAnimH)){
-						remove(grabbedItem.image);
-						for(int i = 0; i < edibleItems.size(); i++)
-							if(edibleItems.get(i).equals(grabbedItem)){
-								edibleItems.remove(i);
-								break;
-							}
-						grabbedItem = null;
-					}
-				}
-
 				Block.drawBlocks();
 
 				player.animate();
 				player.motion();
 
 				// t.stop(true);
-
 
 				add(leftRect);
 				add(rightRect);
@@ -189,31 +167,46 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		if (viewY%2 == 0) {
 			viewX += (int) (Math.random()*earthQuakeMagnitude);
 			viewY -= (int) (Math.random()*earthQuakeMagnitude);
-		}else{
+		} else {
 			viewX -= (int) (Math.random()*earthQuakeMagnitude);
 			viewY += (int) (Math.random()*earthQuakeMagnitude);
 		}
 
 	}
 
-/** Loads and Displays all initial graphics of a level on the screen  **/
+/** Loads and displays all initial graphics of a level on the screen  **/
 
-	private void loadLevel(){
-		
+	private void loadLevel() {
+	
+		/** Clear all lists and variables pertaining to the previous played level **/
+		blocks.clear();
+		things.clear();
+		edibleItems.clear();
+		texts.clear();
+		dangerousThings.clear();
+		checkPoints.clear();
+		LEVEL_NAME = "";
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
 		viewX = 0;
 		viewY = 0;
 		greenCheckPoint = null;
+		grabbedItem = null;
+		vortex = null;
+		levelComplete = false;
+		dx = 0;
+		vx = 0;
+		vy = 0;
 
-		// Loads all Blocks and Things
+		// Loads all objects for the current level
 		WebData.loadObjects("../levels/levels.txt", currentLevel);
 		
 		findScreenDimensions();
 
 		// Clear the screen
 		removeAll();
-
+		
+		// Fill the screen with new images
 		addBackground();
 		addImagesToScreen();
 		
@@ -242,12 +235,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		for(int i = 0; i < levelNumbers.length; i++)
 			add(levelNumbers[i]);
-		
-		/** Clear all lists pertaining to a specific level **/
-		blocks.clear();
-		things.clear();
-		edibleItems.clear();
-		texts.clear();
 		
 	}
 
@@ -316,7 +303,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		/** TESTING PURPOSES ONLY **/
 		//addToThings(new MovingAnimation(0, 100, WebData.redFruitAnimation, true, 2, true, 2, 0, 1));
 		// addToThings(new MovingAnimation(0, 100, WebData.wormEnemyMoving, true, 2, true, 1, 0, 1));
-		addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, new GImage[][]{ WebData.wormEnemyMoving, WebData.wormEnemyMovingH}, true, 2, true, 2, 0));
+		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, new GImage[][]{ WebData.wormEnemyMoving, WebData.wormEnemyMovingH}, true, 2, true, 2, 0));
 		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, WebData.wormEnemyMoving, true, 2, true, 2, 0));
 		// addToThings(new Animation(0, 125, WebData.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
@@ -391,71 +378,72 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 	
 	@Override public void keyPressed(KeyEvent key){
-
-		int keyCode = key.getKeyCode();
-
-		// JUMP
-		if (keyCode == KeyEvent.VK_W) {
-			player.setIsJumping(true);
-
-		// TONGUE
-		} else if (keyCode == KeyEvent.VK_E) {
-			if (tongueButtonReleased && grabbedItem == null){
-				player.eat();
-				tongueButtonReleased = false;
-				
-				// Try to eat fruit (only eats one at a time because of the break statement)
-				for(int i = 0; i < edibleItems.size(); i++)
-					// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
-					if(edibleItems.get(i).contains(player.getTonguePosition(true))){
-						grabbedItem = edibleItems.get(i);
-						break;
-					}
-			}
-
-			// Shoot Swirl
-		} else if (keyCode == KeyEvent.VK_SPACE) {
 		
-			if (swirlButtonReleased) {
-			
-				if(player.swirl.reset)
-					player.shootSwirl();
-				else
-					player.swirlTeleport();
-				
-				swirlButtonReleased = false;
-			}
-	
-		// Movement LEFT
-		} else if (keyCode == KeyEvent.VK_A) {
-
-			player.facingRight = false; 
-			dx = -1;
+		// If the game mode is PLAYING
+		if (currentScreen == 3) {
 		
-		// Movement RIGHT
-		} else if (keyCode == KeyEvent.VK_D) {
+			int keyCode = key.getKeyCode();
+
+			// JUMP
+			if (keyCode == KeyEvent.VK_W) {
+				player.setIsJumping(true);
+
+			// TONGUE
+			} else if (keyCode == KeyEvent.VK_E) {
+				if (tongueButtonReleased && grabbedItem == null){
+					player.eat();
+					tongueButtonReleased = false;
+				}
+
+				// Shoot Swirl
+			} else if (keyCode == KeyEvent.VK_SPACE) {
 			
-			dx = 1;
-			player.facingRight = true;
+				if (swirlButtonReleased) {
+				
+					if(player.swirl.reset)
+						player.shootSwirl();
+					else
+						player.swirlTeleport();
+					
+					swirlButtonReleased = false;
+				}
+		
+			// Movement LEFT
+			} else if (keyCode == KeyEvent.VK_A) {
+
+				player.facingRight = false; 
+				dx = -1;
 			
+			// Movement RIGHT
+			} else if (keyCode == KeyEvent.VK_D) {
+				
+				dx = 1;
+				player.facingRight = true;
+				
+			}
 		}
 	}
 	
 	@Override public void keyReleased(KeyEvent key){
 		
-		int keyCode = key.getKeyCode();
+		// If the game mode is PLAYING
+		if (currentScreen == 3) {
+		
+			int keyCode = key.getKeyCode();
 
-		if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
+			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
+			
+				dx = 0;
+				player.dx = 0;
+				vx = 0;
+				vy = 0;
+			
+			} else if (keyCode == KeyEvent.VK_SPACE)
+				swirlButtonReleased = true;
+			else if (keyCode == KeyEvent.VK_E)
+				tongueButtonReleased = true;
+		}
 		
-			dx = 0;
-			player.dx = 0;
-			vx = 0;
-			vy = 0;
-		
-		} else if (keyCode == KeyEvent.VK_SPACE)
-			swirlButtonReleased = true;
-		else if (keyCode == KeyEvent.VK_E)
-			tongueButtonReleased = true;
 	}
 	
 	@Override public void mouseMoved(MouseEvent mouse) {
@@ -567,7 +555,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	the blocks off screen when you teleport to a location where there are unmoved blocks off
 	screen they appear on the screen. To fix this issue I added a new method in Thing called 
 	'naturalAnimate' which is the old .animate() method that moves all the Things 
-	in sync together. Thus when you teleport it also moves the blocks off screen as well*/
+	in sync together. Thus when you teleport it also moves the blocks off screen as well **/
 
 	public static void naturalAnimateAll(){
 
