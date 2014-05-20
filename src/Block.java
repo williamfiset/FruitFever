@@ -1,4 +1,5 @@
 
+
 /**
 *
 * @Author William Fiset
@@ -73,7 +74,7 @@ public class Block extends Thing {
 	}
 	
 	public Block(int x, int y, int color, GImage image){
-		this(x, y, WebData.TILE_SIZE, WebData.TILE_SIZE, color, image);
+		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, color, image);
 	}
 
 	public static void resetPerformedNaturalAnimate(){
@@ -94,7 +95,7 @@ public class Block extends Thing {
 		} else {
 
 			outerLoop:
-			for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += WebData.TILE_SIZE) {
+			for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += Data.TILE_SIZE) {
 				ArrayList <Block> rowBlocks = xBlockPositions.get(rowNumber);
 
 
@@ -105,7 +106,7 @@ public class Block extends Thing {
 					int x = block.imageX - FruitFever.viewX;
 					int y = block.imageY - FruitFever.viewY;
 					
-					if (x > FruitFever.SCREEN_WIDTH + WebData.TILE_SIZE) {
+					if (x > FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) {
 
 						// Breaks Out of loop when you hit a block South East of the Screen
 						if (y > FruitFever.SCREEN_HEIGHT) 
@@ -148,8 +149,8 @@ public class Block extends Thing {
 	public static Block getBlock(int xPos, int yPos){
 
 		// Gets both the center row and column containing the block were looking for
-		int rowNumber = ( (xPos + FruitFever.viewX) / WebData.TILE_SIZE) * WebData.TILE_SIZE;
-		int columnNumber = ( (yPos + FruitFever.viewY) / WebData.TILE_SIZE) * WebData.TILE_SIZE;
+		int rowNumber = ( (xPos + FruitFever.viewX) / Data.TILE_SIZE) * Data.TILE_SIZE;
+		int columnNumber = ( (yPos + FruitFever.viewY) / Data.TILE_SIZE) * Data.TILE_SIZE;
 
 		try{
 
@@ -200,17 +201,17 @@ public class Block extends Thing {
 
 		for (Block block : FruitFever.blocks) {
 			
-			topBlock = getBlock(block.x + WebData.TILE_SIZE/2, block.y - WebData.TILE_SIZE/2 );
+			topBlock = getBlock(block.x + Data.TILE_SIZE/2, block.y - Data.TILE_SIZE/2 );
 			if (topBlock == null) continue;
 
-			firstBlockDown = getBlock(block.x + WebData.TILE_SIZE/2, block.y + WebData.TILE_SIZE + WebData.TILE_SIZE/2 );
+			firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
 			if (firstBlockDown != null) continue;
 			
-			secondBlockDown = getBlock(block.x + WebData.TILE_SIZE/2, block.y + WebData.TILE_SIZE*2 + WebData.TILE_SIZE/2 );
+			secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
 			if (secondBlockDown != null) continue;
 
 			
-			block.changeImage(WebData.blockImages[17]);
+			block.changeImage(Data.blockImages[17]);
 
 			
 
@@ -225,9 +226,9 @@ public class Block extends Thing {
 		// from the players position get the column of blocks below the position
 		// get the last block and add it to the falling block list
 
-		int column0 = ((playerX / WebData.TILE_SIZE) * WebData.TILE_SIZE);
-		int column1 = ((playerX / WebData.TILE_SIZE) * WebData.TILE_SIZE) + WebData.TILE_SIZE;
-		int column2 = column1 + WebData.TILE_SIZE;
+		int column0 = ((playerX / Data.TILE_SIZE) * Data.TILE_SIZE);
+		int column1 = ((playerX / Data.TILE_SIZE) * Data.TILE_SIZE) + Data.TILE_SIZE;
+		int column2 = column1 + Data.TILE_SIZE;
 
 		Block fallingBlock0 = getLastBlockInColumn(xBlockPositions.get(column0), playerX, playerY);
 		Block fallingBlock1 = getLastBlockInColumn(xBlockPositions.get(column1), playerX, playerY);
@@ -236,17 +237,17 @@ public class Block extends Thing {
 		// found the block we were looking for
 		if (fallingBlock1 != null) {
 			fallingBlocks.add(fallingBlock1);
-			fallingBlock1.changeImage(WebData.blockImages[16]);
+			fallingBlock1.changeImage(Data.blockImages[16]);
 		}
 
 		if (fallingBlock2 != null) {
 			fallingBlocks.add(fallingBlock2);
-			fallingBlock2.changeImage(WebData.blockImages[16]);	
+			fallingBlock2.changeImage(Data.blockImages[16]);	
 		}
 
 		if (fallingBlock0 != null) {
 			fallingBlocks.add(fallingBlock0);
-			fallingBlock0.changeImage(WebData.blockImages[16]);	
+			fallingBlock0.changeImage(Data.blockImages[16]);	
 		}
 
 	}
@@ -269,8 +270,8 @@ public class Block extends Thing {
 				continue;	
 
 			// Starting searching position is in the middle of the first block found
-			int startY = fallingBlock.y + WebData.TILE_SIZE/2;
-			int startX = fallingBlock.x + WebData.TILE_SIZE/2;
+			int startY = fallingBlock.y + Data.TILE_SIZE/2;
+			int startX = fallingBlock.x + Data.TILE_SIZE/2;
 
 
 			furthestBlockDown = fallingBlock;
@@ -280,7 +281,7 @@ public class Block extends Thing {
 			// Search for the last block in the column the player is standing on
 			while (true){
 
-				startY += WebData.TILE_SIZE;
+				startY += Data.TILE_SIZE;
 
 				nextBlock = getBlock(startX, startY);
 

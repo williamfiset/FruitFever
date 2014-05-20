@@ -44,7 +44,7 @@ public class Thing extends Rectangle{
 	}
 	
 	public Thing(int x, int y){
-		this(x, y, WebData.TILE_SIZE, WebData.TILE_SIZE);	
+		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE);	
 	}
 
 	/** Update image **/
@@ -57,9 +57,9 @@ public class Thing extends Rectangle{
 		// Moves image to be on screen only if it needs to be on the screen
 		if (x < FruitFever.SCREEN_WIDTH) { 
 		
-			// The '+ WebData.TILE_SIZE' prevents the bug of the tiles accumulating
+			// The '+ Data.TILE_SIZE' prevents the bug of the tiles accumulating
 			// at the bottom of the screen
-			if (y < FruitFever.SCREEN_HEIGHT + WebData.TILE_SIZE)
+			if (y < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
 				image.setLocation(imageX - FruitFever.viewX, imageY  - FruitFever.viewY);		
 		}
 	

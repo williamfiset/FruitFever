@@ -203,7 +203,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		vy = 0;
 
 		// Loads all objects for the current level
-		WebData.loadObjects("../levels/levels.txt", currentLevel);
+		Data.loadObjects("../levels/levels.txt", currentLevel);
 		
 		findScreenDimensions();
 
@@ -246,8 +246,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	private void addHearts(){
 		
 		for(int i = 0; i < player.maxLives; i++){
-			livesImages[i] = new GImage(WebData.heartImage.getImage());
-			livesImages[i].setLocation(i*WebData.TILE_SIZE, 0);
+			livesImages[i] = new GImage(Data.heartImage.getImage());
+			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
 			add(livesImages[i]);
 		}
 
@@ -305,11 +305,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addToScreen(inGameButtons);
 
 		/** TESTING PURPOSES ONLY **/
-		//addToThings(new MovingAnimation(0, 100, WebData.redFruitAnimation, true, 2, true, 2, 0, 1));
-		// addToThings(new MovingAnimation(0, 100, WebData.wormEnemyMoving, true, 2, true, 1, 0, 1));
-		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, new GImage[][]{ WebData.wormEnemyMoving, WebData.wormEnemyMovingH}, true, 2, true, 2, 0));
-		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, WebData.wormEnemyMoving, true, 2, true, 2, 0));
-		// addToThings(new Animation(0, 125, WebData.fuzzyDiskAnimation, true, 2, true, -1));
+		//addToThings(new MovingAnimation(0, 100, Data.redFruitAnimation, true, 2, true, 2, 0, 1));
+		// addToThings(new MovingAnimation(0, 100, Data.wormEnemyMoving, true, 2, true, 1, 0, 1));
+		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, new GImage[][]{ Data.wormEnemyMoving, Data.wormEnemyMovingH}, true, 2, true, 2, 0));
+		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, Data.wormEnemyMoving, true, 2, true, 2, 0));
+		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
 		/** **/
 		
 	}
@@ -367,15 +367,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	private void postInit(){
 	
 		/** Loading screen **/
-		WebData.loadingScreen();
-		add(WebData.loadingScreenBackground);
+		Data.loadingScreen();
+		add(Data.loadingScreenBackground);
 		
 		/** Set up keyboard and mouse **/
 		addMouseListeners();
 		addKeyListeners();
 		
-		/** Renders Images in the WebData class, and fills the object ArrayLists **/
-		WebData.loadImages();
+		/** Renders Images in the Data class, and fills the object ArrayLists **/
+		Data.loadImages();
 	
 		drawMainMenu();
 	
