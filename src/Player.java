@@ -730,6 +730,10 @@ public class Player extends MovingAnimation {
 			return new Rectangle(x - currentTongueWidth, y, currentTongueWidth, WebData.TILE_SIZE);
 	}
 
+	public static boolean isOnPlatform(){
+		return onPlatform;
+	}
+
 	public void posInfo(){
 		System.out.println("ImageX: " + imageX + "   ImageY: " + imageY + "   X: " + x + "   Y: " + y);
 	}

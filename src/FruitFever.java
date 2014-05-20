@@ -119,8 +119,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// earthQuakeEffect();
 
 				// Tests for falling blocks
-				Block.updateFallingBlocksByNaturalDisaster();
-				// Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
+				// Block.updateFallingBlocksByNaturalDisaster();
+				Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
 
 				// Controls if it is time to return to the level selection menu
 				if(levelComplete){

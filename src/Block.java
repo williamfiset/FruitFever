@@ -257,8 +257,8 @@ public class Block extends Thing {
 
 		Block furthestBlockDown = null;
 
-		// list is empty
-		if (column == null || column.size() == 0)
+		// list is empty or player is not on platform
+		if (column == null || !Player.isOnPlatform() || column.size() == 0)
 			return furthestBlockDown;
 
 		outerLoop:
