@@ -33,7 +33,8 @@ public class Player extends MovingAnimation {
 
 // Collision Detection Variables
 	final int VERTICAL_PX_BUFFER = 2;
-	final int HORIZONTAL_PX_BUFFER = 4; // 3
+	final int CRACK_SPACING = 3;
+	final int JUMP_SPACING = 3;
 
 // Variables concerning Gravity
 
@@ -201,8 +202,8 @@ public class Player extends MovingAnimation {
 		} else if (FruitFever.dx == -1) {
 			
 			
-			Block westNorth = Block.getBlock(x - 2, y + VERTICAL_PX_BUFFER); // -1
-			Block westSouth = Block.getBlock(x - 2, y + height - VERTICAL_PX_BUFFER);
+			Block westNorth = Block.getBlock(x, y + VERTICAL_PX_BUFFER); 
+			Block westSouth = Block.getBlock(x, y + height - VERTICAL_PX_BUFFER);
 
 			// No block left of player
 			if (westNorth == null && westSouth == null){
@@ -227,11 +228,11 @@ public class Player extends MovingAnimation {
 
 		// Need to do this because starting starting falling velocity is never 0
 		if (gravity) {
-			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);			
-			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);
+			southWest = Block.getBlock(x + CRACK_SPACING, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);			
+			southEast = Block.getBlock(x + width - CRACK_SPACING, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);
 		} else {
-			southWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);			
-			southEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y + height + VERTICAL_PX_BUFFER);
+			southWest = Block.getBlock(x + CRACK_SPACING, y + height + VERTICAL_PX_BUFFER);			
+			southEast = Block.getBlock(x + width - CRACK_SPACING, y + height + VERTICAL_PX_BUFFER);
 		}
 
 		
@@ -253,8 +254,8 @@ public class Player extends MovingAnimation {
 
 	private void upwardsCollision(){
 
-		Block northWest = Block.getBlock(x + HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER );
-		Block northEast = Block.getBlock(x + width - HORIZONTAL_PX_BUFFER, y - VERTICAL_PX_BUFFER );
+		Block northWest = Block.getBlock(x + JUMP_SPACING, y - VERTICAL_PX_BUFFER );
+		Block northEast = Block.getBlock(x + width - JUMP_SPACING, y - VERTICAL_PX_BUFFER );
 
 		// Collision on block above this one has happened
 		if (northWest != null || northEast != null){
