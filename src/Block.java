@@ -194,6 +194,29 @@ public class Block extends Thing {
 		// Select a few worthy falling block candidates
 		// make sure that the block above doesn't start falling 
 
+		Block topBlock = null;
+		Block firstBlockDown = null;
+		Block secondBlockDown = null;
+
+		for (Block block : FruitFever.blocks) {
+			
+			topBlock = getBlock(block.x + WebData.TILE_SIZE/2, block.y - WebData.TILE_SIZE/2 );
+			if (topBlock == null) continue;
+
+			firstBlockDown = getBlock(block.x + WebData.TILE_SIZE/2, block.y + WebData.TILE_SIZE + WebData.TILE_SIZE/2 );
+			if (firstBlockDown != null) continue;
+			
+			secondBlockDown = getBlock(block.x + WebData.TILE_SIZE/2, block.y + WebData.TILE_SIZE*2 + WebData.TILE_SIZE/2 );
+			if (secondBlockDown != null) continue;
+
+			
+			block.changeImage(WebData.blockImages[17]);
+
+			
+
+		}
+
+
 	}
 
 	public static void updateFallingBlocksWithPlayerPosition(int playerX, int playerY){
@@ -206,8 +229,6 @@ public class Block extends Thing {
 		int column1 = ((playerX / WebData.TILE_SIZE) * WebData.TILE_SIZE) + WebData.TILE_SIZE;
 		int column2 = column1 + WebData.TILE_SIZE;
 
-		boolean random = (Math.random() * 100) % 2 == 0;
-
 		Block fallingBlock0 = getLastBlockInColumn(xBlockPositions.get(column0), playerX, playerY);
 		Block fallingBlock1 = getLastBlockInColumn(xBlockPositions.get(column1), playerX, playerY);
 		Block fallingBlock2 = getLastBlockInColumn(xBlockPositions.get(column2), playerX, playerY);
@@ -215,17 +236,17 @@ public class Block extends Thing {
 		// found the block we were looking for
 		if (fallingBlock1 != null) {
 			fallingBlocks.add(fallingBlock1);
-			fallingBlock1.changeImage(WebData.blockImages[17]);
+			fallingBlock1.changeImage(WebData.blockImages[16]);
 		}
 
 		if (fallingBlock2 != null) {
 			fallingBlocks.add(fallingBlock2);
-			fallingBlock2.changeImage(WebData.blockImages[17]);	
+			fallingBlock2.changeImage(WebData.blockImages[16]);	
 		}
 
 		if (fallingBlock0 != null) {
 			fallingBlocks.add(fallingBlock0);
-			fallingBlock0.changeImage(WebData.blockImages[17]);	
+			fallingBlock0.changeImage(WebData.blockImages[16]);	
 		}
 
 	}
@@ -256,6 +277,7 @@ public class Block extends Thing {
 			
 			Block nextBlock = fallingBlock;
 
+			// Search for the last block in the column the player is standing on
 			while (true){
 
 				startY += WebData.TILE_SIZE;
@@ -263,17 +285,15 @@ public class Block extends Thing {
 				nextBlock = getBlock(startX, startY);
 
 				// next block was found
-				if (nextBlock != null) furthestBlockDown = nextBlock;
-				else break outerLoop;
+				if (nextBlock != null) 
+					furthestBlockDown = nextBlock;
 				
-
+				// if there is no next block break out
+				else break outerLoop;
 			}
 		}
-
 		return furthestBlockDown;
-
 	}
-
 }
 
 /*
