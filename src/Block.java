@@ -13,19 +13,24 @@ import java.util.*;
 public class Block extends Thing {
 
 	public int type;
+	public int color;
 
 	/**
 	* @param type - defines what type of block it is (the reference file contains a list of these values
 	*				and associated types)
+	*
+	* @Param color - defines the color the block is
 	**/
 
 	private static HashMap<Integer, ArrayList<Block>> xBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
 	private static HashMap<Integer, ArrayList<Block>> yBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
 
-	/** To fix issue #41 the first itme you draw on the screen you must call naturalAnimate() **/
+	static ArrayList<Block> fallingBlocks = new ArrayList<Block>();
+
+	/** To fix issue #41 the first time you draw on the screen you must call naturalAnimate() **/
 	private static boolean performedNaturalAnimate = false;
 
-	public Block(int x, int y, int width, int height, int type, GImage image){
+	public Block(int x, int y, int width, int height, int color, GImage image){
 
 		/** To improve the rotation couldn't we simply generate the four rotations and then pick one 
 		    Randomly instead of running the filter each time? This doesn't matter because we have 
@@ -63,11 +68,12 @@ public class Block extends Thing {
 		
 
 		this.type = type;
+		this.color = color;
 
 	}
 	
-	public Block(int x, int y, int type, GImage image){
-		this(x, y, WebData.TILE_SIZE, WebData.TILE_SIZE, type, image);
+	public Block(int x, int y, int color, GImage image){
+		this(x, y, WebData.TILE_SIZE, WebData.TILE_SIZE, color, image);
 	}
 
 	public static void resetPerformedNaturalAnimate(){
@@ -181,4 +187,133 @@ public class Block extends Thing {
 		return null;
 	}
 
+	/** Selects all the block candidates that are worthy of falling **/
+	public static void updateFallingBlocksByNaturalDisaster(){
+
+		// Only loop through the blocks on the screen (with a little buffer)
+		// Select a few worthy falling block candidates
+		// make sure that the block above doesn't start falling 
+
+	}
+
+	public static void updateFallingBlocksWithPlayerPosition(int playerX, int playerY){
+
+
+		// from the players position get the column of blocks below the position
+		// get the last block and add it to the falling block list
+
+		int column0 = ((playerX / WebData.TILE_SIZE) * WebData.TILE_SIZE);
+		int column1 = ((playerX / WebData.TILE_SIZE) * WebData.TILE_SIZE) + WebData.TILE_SIZE;
+		int column2 = column1 + WebData.TILE_SIZE;
+
+		boolean random = (Math.random() * 100) % 2 == 0;
+
+		Block fallingBlock0 = getLastBlockInColumn(xBlockPositions.get(column0), playerX, playerY);
+		Block fallingBlock1 = getLastBlockInColumn(xBlockPositions.get(column1), playerX, playerY);
+		Block fallingBlock2 = getLastBlockInColumn(xBlockPositions.get(column2), playerX, playerY);
+
+		// found the block we were looking for
+		if (fallingBlock1 != null) {
+			fallingBlocks.add(fallingBlock1);
+			fallingBlock1.changeImage(WebData.blockImages[17]);
+		}
+
+		if (fallingBlock2 != null) {
+			fallingBlocks.add(fallingBlock2);
+			fallingBlock2.changeImage(WebData.blockImages[17]);	
+		}
+
+		if (fallingBlock0 != null) {
+			fallingBlocks.add(fallingBlock0);
+			fallingBlock0.changeImage(WebData.blockImages[17]);	
+		}
+
+	}
+
+	/** Gets the furthest block down below the player **/
+	private static Block getLastBlockInColumn(ArrayList<Block> column, int playerX, int playerY){
+
+
+		Block furthestBlockDown = null;
+
+		// list is empty
+		if (column == null || column.size() == 0)
+			return furthestBlockDown;
+
+		outerLoop:
+		for (Block fallingBlock : column) {
+			
+			// ignore the blocks above the player
+			if (fallingBlock.y <= playerY)
+				continue;	
+
+			// Starting searching position is in the middle of the first block found
+			int startY = fallingBlock.y + WebData.TILE_SIZE/2;
+			int startX = fallingBlock.x + WebData.TILE_SIZE/2;
+
+
+			furthestBlockDown = fallingBlock;
+			
+			Block nextBlock = fallingBlock;
+
+			while (true){
+
+				startY += WebData.TILE_SIZE;
+
+				nextBlock = getBlock(startX, startY);
+
+				// next block was found
+				if (nextBlock != null) furthestBlockDown = nextBlock;
+				else break outerLoop;
+				
+
+			}
+		}
+
+		return furthestBlockDown;
+
+	}
+
 }
+
+/*
+
+fallingBlock
+- falls when the player lands on it
+- falls by natural disaster 
+
+movingBlock 
+- A block that moves between points
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// don't delete space!
+
+
+

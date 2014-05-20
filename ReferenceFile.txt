@@ -71,7 +71,7 @@ ________________________________________________________________________________
 
 	Add a '+' character between each section 	
 
-	BLOCKS (each Block also has an associated type/integer value, but this is not used for building the levels):
+	BLOCKS (each Block also has an associated color/integer value, but this is not used for building the levels):
 
 		Brownblock0 	(0)  --> a
 		Brownblock1 	(1)  --> b
@@ -92,14 +92,14 @@ ________________________________________________________________________________
 		TealBlock		(16) --> q
 		PinkBlock		(17) --> r
 		InvisibleBlock	(18) --> s
-		
+
 		Other things that are put into this section:
 		
 			Blue Fruit					--> 0
 			Yellow Fruit				--> 1
 			Red Fruit					--> 2
 			Player's starting position	--> @
-			Checpoint					--> |
+			Checkpoint					--> |
 			Fruit Rings					--> *
 			Horizontal Vortex			--> %
 			Lava tile					--> ~

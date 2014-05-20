@@ -25,8 +25,7 @@ public abstract class WebData{
 						powerupBlockJump, powerupBlockSpeed, powerupBlockAttack,
 						moss, music0, music1,
 						bronzeStar, silverStar, goldStar;
-	public static GImage[] blockImages = new GImage[15],
-						blockGrassImages = new GImage[15],
+	public static GImage[] blockImages = new GImage[18],
 						   
 						sceneryImages = new GImage[16],
 						   
@@ -59,8 +58,10 @@ public abstract class WebData{
 						leftArrowButton = new GImage[3],
 						rightArrowButton = new GImage[3],
 						levelButton = new GImage[2];
+
 	public static GImage[][] fireworkAnimation = new GImage[3][5];	
 	
+
 	/** Loads all the images from the sprite sheet **/
 	public static void loadingScreen(){
 	
@@ -79,7 +80,7 @@ public abstract class WebData{
 		/** Blocks **/
 		sheet = Downloader.getBufferedImage("https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/img/sprites/blocks.png");
 	
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 18; i++)
 			blockImages[i] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 		
 		updateLoadingBar(0.2);
@@ -372,12 +373,12 @@ public abstract class WebData{
 					try{
 
 						GImage image;
-						int type;
+						int color;
 
 						// Normal Blocks
 						if(character - 'a' >= 0){
-							type = character - 'a';
-							image = WebData.blockImages[type];
+							color = character - 'a';
+							image = WebData.blockImages[color];
 						}
 						// Grass Blocks
 						else{
@@ -387,7 +388,7 @@ public abstract class WebData{
 
 
 						// Add Block to the ArrayList
-						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, type, image));
+						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, color, image));
 
 					} catch(ArrayIndexOutOfBoundsException e){ 
 						System.out.printf("\nBLOCK LAYER contains invalid character: '%c' \n", character);

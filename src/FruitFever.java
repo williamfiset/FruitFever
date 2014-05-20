@@ -141,6 +141,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				for (Thing item : edibleItems)
 					item.animate();
 
+				Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
+
 				Block.drawBlocks();
 
 				player.animate();
