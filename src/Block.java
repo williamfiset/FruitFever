@@ -13,15 +13,7 @@ import java.util.*;
 
 public class Block extends Thing {
 
-	public int type;
 	public int color;
-
-	/**
-	* @param type - defines what type of block it is (the reference file contains a list of these values
-	*				and associated types)
-	*
-	* @Param color - defines the color the block is
-	**/
 
 	private static HashMap<Integer, ArrayList<Block>> xBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
 	private static HashMap<Integer, ArrayList<Block>> yBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
@@ -30,6 +22,11 @@ public class Block extends Thing {
 
 	/** To fix issue #41 the first time you draw on the screen you must call naturalAnimate() **/
 	private static boolean performedNaturalAnimate = false;
+
+
+	/**
+ 	 * @Param color - defines the color the block is
+	 **/
 
 	public Block(int x, int y, int width, int height, int color, GImage image){
 
@@ -67,8 +64,6 @@ public class Block extends Thing {
 			yBlockPositions.put(y, yPos);
 		}
 		
-
-		this.type = type;
 		this.color = color;
 
 	}
@@ -286,11 +281,11 @@ public class Block extends Thing {
 				nextBlock = getBlock(startX, startY);
 
 				// next block was found
-				if (nextBlock != null) 
+				if (nextBlock != null ){ 
 					furthestBlockDown = nextBlock;
 				
 				// if there is no next block break out
-				else break outerLoop;
+				} else break outerLoop;
 			}
 		}
 		return furthestBlockDown;

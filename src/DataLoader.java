@@ -1,7 +1,9 @@
 
 /*
  * @author William Fiset
- * This class allow you to download images from the web and save them somewhere on your computer 
+ * This class allow you to:
+ *   - Download images from the web and save them somewhere on your computer 
+ *   - Load images from your computer to memory
  */
 
 import acm.graphics.*;
@@ -117,8 +119,7 @@ public class DataLoader {
 		
 		try { 
 			image = ImageIO.read(new File(relativePath));
-		}
-		catch (IOException e) {	
+		} catch (IOException e) {	
 			e.printStackTrace(); 
 		}
 		
@@ -127,7 +128,7 @@ public class DataLoader {
 	}
 	
 
-	/** Uses the sun package toolKit to laod images **/
+	/** Uses the sun package toolKit to laod images**/
     public static BufferedImage getImageFromClassDirectory( String image ){
         
     	URL imagePath = null;
@@ -167,10 +168,8 @@ public class DataLoader {
         }
     }
 
-    /**
-     * This is another bit of a hack and might also change
-     */
-    public static int[] loadPixelsCrazyFast( BufferedImage img ){
+
+    public static int[] getPixelArray( BufferedImage img ){
         return ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
     }
 

@@ -53,7 +53,7 @@ public class Player extends MovingAnimation {
 	
 	// setBaseLine is true because we don't know where the player starts
 	private boolean setBaseLine = true;
-	private boolean isJumping = false;
+	private static boolean isJumping = false;
 
 	int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // 3.5 tile jump limit
 	private int baseLine;
@@ -732,6 +732,10 @@ public class Player extends MovingAnimation {
 
 	public static boolean isOnPlatform(){
 		return onPlatform;
+	}
+
+	public static boolean isPlayerJumping(){
+		return isJumping;
 	}
 
 	public void posInfo(){
