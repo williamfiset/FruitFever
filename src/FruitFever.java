@@ -203,7 +203,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		vy = 0;
 
 		// Loads all objects for the current level
-		Data.loadObjects("../levels/levels.txt", currentLevel);
+		Data.loadObjects("levels/levels.txt", currentLevel);
 		
 		findScreenDimensions();
 

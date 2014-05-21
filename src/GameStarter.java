@@ -40,8 +40,22 @@ public class GameStarter{
     	appletFrame.add(gameApplet);
 		gameApplet.start();
     	
+		// tasksBeforeProgramQuits();
 
 	}
+
+	/** Make a new thread that monitors when the program quits **/
+	private static void tasksBeforeProgramQuits(){
+
+		// The code within this will execute when the program exits for good
+    	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() { public void run() {
+
+    		// Thing you want to do before quiting FruitFever (save?, call dc.py )
+
+		 }}));
+	}
+
+
 }
 
 
