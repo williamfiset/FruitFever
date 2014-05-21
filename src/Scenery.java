@@ -13,7 +13,7 @@ public class Scenery extends Thing{
 
 	public Scenery(int x, int y, int type, GImage image){
 		
-		super(x, y, image);
+		super(x, y, ImageTransformer.mirrorRandomly(image));
 		
 		this.type = type;
 		

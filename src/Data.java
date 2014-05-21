@@ -18,20 +18,23 @@ public abstract class Data{
 	public static final int TILE_SIZE = 25;
 
 	public static BufferedImage sheet = null;
-	public static GImage loadingScreenBackground, loadingScreenBar,
-						heartImage, levelBackDropImage, lavaImage,
+	public static GImage loadingScreenBackground, loadingScreenBar, levelBackDropImage,
+						heartImage,
+						lavaImage,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						powerupBlockJump, powerupBlockSpeed, powerupBlockAttack,
-						moss, music0, music1,
+						moss, thickMoss,
+						music0, music1,
 						bronzeStar, silverStar, goldStar;
 	public static GImage[] blockImages = new GImage[18],
 						   
-						sceneryImages = new GImage[16],
+						sceneryImages = new GImage[18],
 						   
-						blueFruitAnimation = new GImage[5],
-						yellowFruitAnimation = new GImage[6],
-						redFruitAnimation = new GImage[7],
+						blueFruit = new GImage[5],
+						yellowFruit = new GImage[6],
+						redFruit = new GImage[7],	
+						purpleFruit = new GImage[10],	
 						
 						gearButton = new GImage[3],
 						fruitRingAnimation = new GImage[6],
@@ -53,22 +56,22 @@ public abstract class Data{
 						   
 						fuzzyShot = new GImage[8],
 						swirlAnimation = new GImage[6],
-						   
+						
+						backButton = new GImage[3],
 						menuButtons = new GImage[12],
 						leftArrowButton = new GImage[3],
 						rightArrowButton = new GImage[3],
 						levelButton = new GImage[2];
 
 	public static GImage[][] fireworkAnimation = new GImage[3][5];	
-	
 
-	/** Loads all the images from the sprite sheet **/
+	/** Loads the images required for the loading screen **/
 	public static void loadingScreen(){
 	
-		sheet = DataLoader.getImageFromClassDirectory("img/loadingScreenSpriteSheet.png");
+		sheet = DataLoader.getImageFromClassDirectory("img/loadingScreen/loadingScreen" + String.valueOf((int)(Math.random()*4)) + ".png");
 		
-		loadingScreenBackground = makeImage( (int)(Math.random()*2)*700, (int)(Math.random()*2)*500, 700, 500 );
-		loadingScreenBar = makeImage(0, 1092, 2, 33);
+		loadingScreenBackground = makeImage(0, 0, 700, 500 );
+		loadingScreenBar = makeImage(0, 617, 2, 33);
 	
 	}
 	    
@@ -90,6 +93,7 @@ public abstract class Data{
 
 		// Scenery (Top Row in sheet)
 		sceneryImages[0] = makeImage(0, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
+		// Used to be tall weeds, but was removed from spritesheet, so it's currently empty
 		sceneryImages[1] = makeImage(TILE_SIZE*2, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		sceneryImages[2] = makeImage(TILE_SIZE*3, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		sceneryImages[3] = makeImage(TILE_SIZE*4, TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -97,7 +101,7 @@ public abstract class Data{
 		sceneryImages[5] = makeImage(TILE_SIZE*6, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		sceneryImages[6] = makeImage(TILE_SIZE*7, TILE_SIZE - 2, TILE_SIZE + 5, TILE_SIZE + 2);
 
-		// Scenery (Bottom Row in sheet)
+		// Scenery (Middle Row in sheet)
 		sceneryImages[7] = makeImage(0, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		sceneryImages[8] = makeImage(TILE_SIZE, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		sceneryImages[9] = makeImage(TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
@@ -107,8 +111,14 @@ public abstract class Data{
 		sceneryImages[13] = makeImage(TILE_SIZE*6, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		sceneryImages[14] = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		sceneryImages[15] = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+
+		// Scenery (Bottom Row in sheet)
+		sceneryImages[14] = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[15] = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
-		moss = makeImage(TILE_SIZE*9, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		// Moss for blocks (Off to the right)
+		moss = makeImage(TILE_SIZE*9, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		thickMoss = makeImage(TILE_SIZE*10, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
 		updateLoadingBar(0.3);
 		
@@ -116,13 +126,16 @@ public abstract class Data{
 		sheet = DataLoader.getImageFromClassDirectory("img/sprites/fruits.png");
 		
 		for(int i = 0; i < 5; i++)
-			blueFruitAnimation[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
+			blueFruit[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
 
 		for(int i = 0; i < 6; i++)
-			yellowFruitAnimation[i] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
+			yellowFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
 			
 		for(int i = 0; i < 7; i++)
-			redFruitAnimation[i] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+			redFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+			
+		for(int i = 0; i < 10; i++)
+			purpleFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
 		
 		updateLoadingBar(0.4);
 		
@@ -135,6 +148,10 @@ public abstract class Data{
 		// Gear Button Images
 		for(int i = 0; i < 3; i++)
 			gearButton[i] = makeImage(TILE_SIZE*(i + 1), 0, TILE_SIZE, TILE_SIZE);
+			
+		// Back Button Images
+		for(int i = 0; i < 3; i++)
+			backButton[i] = makeImage(0, TILE_SIZE*(i + 3), TILE_SIZE, TILE_SIZE);	
 			
 		// Lava Image
 		lavaImage = makeImage(TILE_SIZE*7, 0, TILE_SIZE, TILE_SIZE);
@@ -227,18 +244,28 @@ public abstract class Data{
 		}
 		updateLoadingBar(0.8);
 		
+		// PICK RANDOM COLOR SCHEME
+		
+		String color = "";
+		int randomColor = (int) (Math.random()*3);
+		if(randomColor == 0)
+			color = "Orange";
+		else if(randomColor == 1)
+			color = "Pink";
+		else if(randomColor == 2)
+			color = "Red";
+		
 		/** Import menu images **/
-		sheet = DataLoader.getImageFromClassDirectory("img/Menu/Menu_Red.png");
+		sheet = DataLoader.getImageFromClassDirectory("img/Menu/Menu_" + color + ".png");
 		
 		// Menu Button Images
 		for(int i = 0; i < 12; i++)
 			menuButtons[i] = makeImage(0, i*69, 266, 69);
 			
-			
 		// PICK RANDOM COLOR SCHEME
 		
-		String color = "";
-		int randomColor = (int) (Math.random()*3);
+		color = "";
+		randomColor = (int) (Math.random()*3);
 		if(randomColor == 0)
 			color = "blue";
 		else if(randomColor == 1)
@@ -361,11 +388,13 @@ public abstract class Data{
 					// Reads in a fruit
 					if(Character.isDigit(character)){
 						if(character == '0')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.blueFruitAnimation, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.blueFruit, true, 3, true, 2, true));
 						else if(character == '1')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.yellowFruitAnimation, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.yellowFruit, true, 3, true, 2, true));
 						else if(character == '2')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.redFruitAnimation, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.redFruit, true, 3, true, 2, true));
+						else if(character == '3')
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.purpleFruit, false, 3, true, 2, true));
 						continue;
 					}
 					
@@ -466,23 +495,29 @@ public abstract class Data{
 			
 		}
 		
-		// Adds arrow buttons to the ArrayLists
+		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
 		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, 4, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]);
 		FruitFever.buttons.add(tempButton);
 		FruitFever.levelSelectionButtons.add(tempButton);
+		
 		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, 5, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]);
 		FruitFever.buttons.add(tempButton);
 		FruitFever.levelSelectionButtons.add(tempButton);
 		
-		// Level buttons
+		/** Adds back button to the ArrayLists for Level Selection Screen and the In-Game Screen **/
+		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, 8, backButton[0], backButton[1], backButton[2]);
+		FruitFever.buttons.add(tempButton);
+		FruitFever.levelSelectionButtons.add(tempButton);
+		
+		/** Adds level buttons to the ArrayLists for Level Selection Screen **/
 		for(int i = 0; i < 20; i++){
 			tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, 6, levelButton[0], levelButton[1], levelButton[1], i);
 			FruitFever.buttons.add(tempButton);
 			FruitFever.levelSelectionButtons.add(tempButton);
 		}
 		
-		// Adds gear button to the ArrayLists
-		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, 4, gearButton[0], gearButton[1], gearButton[2]);
+		/** Adds gear button to the ArrayLists for In-Game Screen **/
+		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, 4, gearButton[0], gearButton[1], gearButton[2]);
 		FruitFever.buttons.add(tempButton);
 		FruitFever.inGameButtons.add(tempButton);
 		

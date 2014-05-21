@@ -20,6 +20,8 @@ BUTTON TYPES:
 	6 - Level boxes
 	
 	7 - Gear (in-game options)
+	
+	8 - Back Arrow
 _____________________________________________________________________________________________
 
 ANIMATION TYPES:
@@ -67,9 +69,7 @@ ________________________________________________________________________________
 
 _____________________________________________________________________________________________
 
--LEVEL FILE STRUCTURE:
-
-	Add a '+' character between each section 	
+-LEVEL FILE STRUCTURE:	
 
 	BLOCKS (each Block also has an associated color/integer value, but this is not used for building the levels):
 
@@ -98,24 +98,28 @@ ________________________________________________________________________________
 			Blue Fruit					--> 0
 			Yellow Fruit				--> 1
 			Red Fruit					--> 2
+			Purple Fruit				--> 3
+			
 			Player's starting position	--> @
 			Checkpoint					--> |
 			Fruit Rings					--> *
 			Horizontal Vortex			--> %
 			Lava tile					--> ~
+			
+	(Add a '+' character here)
 
 	SCENERY (each Scenery object also has an associated type/integer value, but this is not used for building the levels):
 	
 		-TOP ROW:
 		Wide Plant (V-Shaped)	(0)  --> a
-		Tall Weeds  			(1)  --> b
+		(Empty)					(1)  --> b
 		Yellow Flower			(2)  --> c
 		Pink Flower				(3)  --> d
 		Night flower			(4)  --> e
 		Tree (No Blossoms)		(5)  --> f
 		Tree (Blossoms)			(6)  --> g
 		
-		-BOTTOM ROW:
+		-MIDDLE ROW:
 		Orange flower			(7)	 --> h
 		Tree Trunk				(8)  --> i
 		Grass					(9)  --> j
@@ -126,6 +130,12 @@ ________________________________________________________________________________
 		Mushroom (Medium)		(14) --> o
 		Mushroom (Large)		(15) --> p
 		
+		-BOTTOM ROW:
+		Tall Thin Grass			(16) --> q
+		Tall Thick Grass		(17) --> r
+	
+	(Add a '+' character here)
+	
 	ENEMIES:
 
 		The accepted format for declaring an enemy is to replace

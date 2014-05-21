@@ -84,7 +84,7 @@ public class Animation extends Thing {
 	
 		if(active){
 			
-			// Break out of this 'if statement' if it's not time to change the image yet
+			// Break out of this method if it's not time to change the image yet
 
 			delayCounter += delayCounterIncrement;
 
@@ -144,7 +144,6 @@ public class Animation extends Thing {
 
 
 
-// keep the space!
 
 
 

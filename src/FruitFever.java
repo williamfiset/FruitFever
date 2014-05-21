@@ -305,7 +305,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addToScreen(inGameButtons);
 
 		/** TESTING PURPOSES ONLY **/
-		//addToThings(new MovingAnimation(0, 100, Data.redFruitAnimation, true, 2, true, 2, 0, 1));
+		//addToThings(new MovingAnimation(0, 100, Data.redFruit, true, 2, true, 2, 0, 1));
 		// addToThings(new MovingAnimation(0, 100, Data.wormEnemyMoving, true, 2, true, 1, 0, 1));
 		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, new GImage[][]{ Data.wormEnemyMoving, Data.wormEnemyMovingH}, true, 2, true, 2, 0));
 		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, Data.wormEnemyMoving, true, 2, true, 2, 0));
@@ -493,14 +493,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 	
 	@Override public void mouseReleased(MouseEvent mouse) {
-	
-		/** Temporary code to jump to the main menu **/
-		if (mouse.getX() < 25 && mouse.getY() < 25) {
-			drawMainMenu();
-			return;
-		}
-		/** **/
-			
+		
 		if (clickedOnButton != null) {
 		
 			/** Unclick the button image and preform action (if applicable) **/
@@ -530,7 +523,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					currentLevel = clickedOnButton.level + levelSelectionPage*20;
 					loadLevel();
 					currentScreen = 3;
-				}				
+				
+				// Back Button
+				} else if (clickedOnButton.type == 7) {
+					drawMainMenu();
+					return;
+				}
+				
+				
 
 			}
 			else clickedOnButton.setDefault();
