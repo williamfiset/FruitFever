@@ -45,7 +45,7 @@ def runDaemon():
         time.sleep(1)
         
         if not is_running("GameStarter"):
-        	deleteFiles( os.getcwd() + "/" , "class" )
+        	deleteFiles( os.getcwd() + "/src/" , "class" )
 
 if __name__ == "__main__":
     runDaemon()
