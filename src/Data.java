@@ -508,6 +508,7 @@ public abstract class Data{
 		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, 8, backButton[0], backButton[1], backButton[2]);
 		FruitFever.buttons.add(tempButton);
 		FruitFever.levelSelectionButtons.add(tempButton);
+		FruitFever.inGameButtons.add(tempButton);
 		
 		/** Adds level buttons to the ArrayLists for Level Selection Screen **/
 		for(int i = 0; i < 20; i++){

@@ -20,29 +20,22 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 /** Level Information/Objects/Lists **/
 	
-	static int LEVEL_WIDTH = 0, LEVEL_HEIGHT = 0;
-	static String LEVEL_NAME = "";
+	static int LEVEL_WIDTH, LEVEL_HEIGHT;
+	static String LEVEL_NAME;
 	
-	static Animation vortex;
-	static Animation grabbedItem = null;
-	static Thing greenCheckPoint = null;
-	static boolean levelComplete = false;
+	static Animation vortex, grabbedItem;
+	static Thing greenCheckPoint;
+	static boolean levelComplete;
 
-	static ArrayList<Block> blocks = new ArrayList<Block>();
-	static ArrayList<Thing> things = new ArrayList<Thing>();
-	static ArrayList<Thing> dangerousThings = new ArrayList<Thing>();
-	static ArrayList<Thing> checkPoints = new ArrayList<Thing>();
-	static ArrayList<Animation> edibleItems = new ArrayList<Animation>();
-	
-	static ArrayList<TextAnimator> texts = new ArrayList<TextAnimator>();
+	static ArrayList<Block> blocks;
+	static ArrayList<Thing> things, dangerousThings, checkPoints;
+	static ArrayList<Animation> edibleItems;
+	static ArrayList<TextAnimator> texts;
 
 /** Player **/
 	static Player player;
-	
-	static int playerStartX, playerStartY;
-	static boolean swirlButtonReleased = true;
-	static boolean tongueButtonReleased = true;
-	static int dx = 0;
+	static int playerStartX, playerStartY, dx;
+	static boolean swirlButtonReleased, tongueButtonReleased;
 	
 /** Menus/GUI **/
 
@@ -55,10 +48,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static GLabel[] levelNumbers = new GLabel[20];
 	static GImage[] livesImages = new GImage[player.maxLives];
 	
-	// 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
-	static int currentScreen = 0;
-	static int currentLevel = 1;
-	static int levelSelectionPage = 0; // 0-based, just like the levels
+	// CurrentScreen: 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
+	static int currentScreen = 0, currentLevel = 1, levelSelectionPage = 0;
 
 	static Thing levelBackDrop;
 
@@ -89,38 +80,38 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		postInit();
 		
 		/** TEMPORARY **/
-		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
-		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3);
-		GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
+		// GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		// GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		// GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
+		// GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3);
+		// GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
 
-		leftRect.setFillColor(Color.RED);
-		rightRect.setFillColor(Color.RED);
-		upRect.setFillColor(Color.RED);
-		downRect.setFillColor(Color.RED);
-		centerRect.setFillColor(Color.RED);
+		// leftRect.setFillColor(Color.RED);
+		// rightRect.setFillColor(Color.RED);
+		// upRect.setFillColor(Color.RED);
+		// downRect.setFillColor(Color.RED);
+		// centerRect.setFillColor(Color.RED);
 
-		leftRect.setFilled(true);
-		rightRect.setFilled(true);
-		downRect.setFilled(true);
-		upRect.setFilled(true);
-		centerRect.setFilled(true);
+		// leftRect.setFilled(true);
+		// rightRect.setFilled(true);
+		// downRect.setFilled(true);
+		// upRect.setFilled(true);
+		// centerRect.setFilled(true);
 		/** TEMPORARY **/
 
 		while(true){
 			
-			animateText();
-			
 			// Playing
 			if(currentScreen == 3){
+			
+				animateText();
 				
 				// Activates EarthQuake Effect				
 				// earthQuakeEffect();
 
 				// Tests for falling blocks
 				// Block.updateFallingBlocksByNaturalDisaster();
-				Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
+				// Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
 
 				// Controls if it is time to return to the level selection menu
 				if(levelComplete){
@@ -152,11 +143,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				// t.stop(true);
 
-				add(leftRect);
-				add(rightRect);
-				add(upRect);
-				add(downRect);
-				add(centerRect);
+				// add(leftRect);
+				// add(rightRect);
+				// add(upRect);
+				// add(downRect);
+				// add(centerRect);
 
 			}
 			pause(MAIN_LOOP_SPEED);
@@ -182,13 +173,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	private void loadLevel() {
 	
-		/** Clear all lists and variables pertaining to the previous played level **/
-		blocks.clear();
-		things.clear();
-		edibleItems.clear();
-		texts.clear();
-		dangerousThings.clear();
-		checkPoints.clear();
+		/** Reset all lists and variables pertaining to the previous played level **/
+		blocks = new ArrayList<Block>();
+		things = new ArrayList<Thing>();
+		edibleItems = new ArrayList<Animation>();;
+		dangerousThings = new ArrayList<Thing>();
+		texts = new ArrayList<TextAnimator>();
+		checkPoints = new ArrayList<Thing>();
 		LEVEL_NAME = "";
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
@@ -525,13 +516,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					currentScreen = 3;
 				
 				// Back Button
-				} else if (clickedOnButton.type == 7) {
+				} else if (clickedOnButton.type == 8) {
 					drawMainMenu();
-					return;
 				}
 				
-				
-
 			}
 			else clickedOnButton.setDefault();
 		}
