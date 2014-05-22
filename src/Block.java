@@ -243,8 +243,6 @@ public class Block extends Thing {
 		naturalFallingBlockCondidates.remove(randomlySelectedBlock);
 		
 		// FruitFever.blocks.remove(randomlySelectedBlock);
-		
-		System.out.println(FruitFever.blocks.size());
 
 
 	}

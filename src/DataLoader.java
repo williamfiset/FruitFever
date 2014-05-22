@@ -121,8 +121,8 @@ public class DataLoader {
 
 	/** This method will load an image given a path and a url to the image.
 	  * 
-	  * First it will try loading the image as a ToolKit image (fastest)
-	  * if that fails (which it does with Java 1.6 and lower) it uses imageIO (slower) 
+	  * First it will try loading the image with imageIO (fastest)
+	  * if that fails try using toolkit ( 20% slower) 
 	  * and if that also fails it loads the images from the GitHub server
 	  *
 	  * @return - returns a BufferedImage of the path/Url specified
@@ -133,42 +133,7 @@ public class DataLoader {
         
 
 
-
-    	/** If using toolKitImage Works keep using it because it's really fast! **/ 
-    	if (usingToolKitImage) {
-
-	        try{
-
-		    	URL imagePath = null;
-		    	try{ imagePath = new File( imgPath ).toURI().toURL();}catch(Exception e){}
-
-	            Image img = Toolkit.getDefaultToolkit().createImage( imagePath );
-	            Method method = img.getClass().getMethod( "getBufferedImage" );
-	            BufferedImage bufferedImage = null;
-	            int counter = 0;
-
-	            // Waits a maximum of 2.5 seconds before quitting
-	            while( bufferedImage == null && counter < 250 ){
-
-	                img.getWidth( null );
-	                bufferedImage = (BufferedImage) method.invoke( img );
-	                try{ Thread.sleep( 10 ); }
-	                catch( InterruptedException e ){ }
-	                counter ++;
-
-	            }
-	           
-	            if( bufferedImage != null )
-	                return bufferedImage;
-	            
-	        } catch( Exception e ){
-	        	usingToolKitImage = false;
-	        }
-    	}
-
-
-
-    	/** If using toolKitImage doesn't work try loading image using ImageIO **/
+    	/** try loading image with imageIO **/
 	    if (usingImageIO) {
 
 			// Make sure you instantiate a dataloader object to get the class
@@ -183,13 +148,47 @@ public class DataLoader {
 				
 				if (buffImage != null)
 					return buffImage;
-
+				
 	        } catch( IOException ioe ){
 	        	System.out.printf("Failed to Load imageIO: %s", imgPath);
 	        	usingImageIO = false;
 	        }
 	    }
-    	
+
+
+    	/** If using imageIO doesn't work try using toolkit **/ 
+    	if (usingToolKitImage) {
+
+	        try{
+
+		    	URL imagePath = null;
+		    	try{ imagePath = new File( imgPath ).toURI().toURL();}catch(Exception e){}
+
+	            Image img = Toolkit.getDefaultToolkit().createImage( imagePath );
+	            Method method = img.getClass().getMethod( "getBufferedImage" );
+	            BufferedImage bufferedImage = null;
+	            int counter = 0;
+
+	            // Waits a maximum of 2.5 seconds before quitting
+	            while( bufferedImage == null && counter < 3000 ){
+
+	                img.getWidth( null );
+	                bufferedImage = (BufferedImage) method.invoke( img );
+	                try{ Thread.sleep( 10 ); }
+	                catch( InterruptedException e ){ }
+	                counter ++;
+
+	            }
+	           
+	            if( bufferedImage != null )
+	                return bufferedImage;
+	            
+	            
+	        } catch( Exception e ){
+	        	usingToolKitImage = false;
+	        }
+    	}
+
 
 
 		/** If loading image from the computer fails load it using the web! **/

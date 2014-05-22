@@ -50,4 +50,17 @@ class Timer_{
 
 		return duration;
 	}
+
+	/** Overloaded method, does the same thing as ^ but only returns**/
+	public double stop(){
+
+		stopTime = System.nanoTime();
+		double duration = (double) ((stopTime - startTime) / 1000000000f);
+		
+		stopTime = 0;
+		startTime = 0;
+
+		return duration;
+	}
+
 }
