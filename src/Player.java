@@ -532,8 +532,7 @@ public class Player extends MovingAnimation {
 		if(!images.equals(shootAnim) && !images.equals(shootAnimH))
 			counter = -1;
 
-		// Adjust Animation variables
-		active = false;
+		// Adjust Animation variable
 		repeat = false;
 		
 		/** Check if there's a Block in front/in back of the player before he shoots **/
@@ -683,7 +682,7 @@ public class Player extends MovingAnimation {
 			}
 		
 		// Try grabbing item (only eats one at a time because of the break statement)
-		} else if (!FruitFever.tongueButtonReleased) {
+		} if (!FruitFever.tongueButtonReleased) {
 			for (int i = 0; i < FruitFever.edibleItems.size(); i++)
 				// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
 				if (FruitFever.edibleItems.get(i).intersects(getTongueRectangle())) {

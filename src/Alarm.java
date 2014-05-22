@@ -26,7 +26,7 @@ class Alarm {
 				// ...
 				
 			}
-		System.out.println(FruitFever.player.maxJumpHeight);
+		// System.out.println(FruitFever.player.maxJumpHeight);
 	}
 
 	public void execute() {

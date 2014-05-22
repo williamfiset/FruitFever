@@ -35,7 +35,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 /** Player **/
 	static Player player;
 	static int playerStartX, playerStartY, dx;
-	static boolean swirlButtonReleased, tongueButtonReleased;
+	static boolean swirlButtonReleased = true, tongueButtonReleased = true;
 	
 /** Menus/GUI **/
 
