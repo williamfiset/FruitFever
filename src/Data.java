@@ -28,7 +28,7 @@ public abstract class Data{
 						bronzeStar, silverStar, goldStar;
 	public static GImage[] blockImages = new GImage[18],
 						   
-						sceneryImages = new GImage[18],
+						sceneryImages = new GImage[25],
 						   
 						blueFruit = new GImage[5],
 						yellowFruit = new GImage[6],
@@ -93,28 +93,18 @@ public abstract class Data{
 
 		// Scenery (Top Row in sheet)
 		sceneryImages[0] = makeImage(0, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
-		// Used to be tall weeds, but was removed from spritesheet, so it's currently empty
-		sceneryImages[1] = makeImage(TILE_SIZE*2, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		sceneryImages[2] = makeImage(TILE_SIZE*3, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		sceneryImages[3] = makeImage(TILE_SIZE*4, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		sceneryImages[4] = makeImage(TILE_SIZE*5, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		sceneryImages[5] = makeImage(TILE_SIZE*6, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		for (int i = 2; i < 6; i++)
+			sceneryImages[i - 1] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		sceneryImages[6] = makeImage(TILE_SIZE*7, TILE_SIZE - 2, TILE_SIZE + 5, TILE_SIZE + 2);
 
 		// Scenery (Middle Row in sheet)
-		sceneryImages[7] = makeImage(0, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[8] = makeImage(TILE_SIZE, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[9] = makeImage(TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[10] = makeImage(TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[11] = makeImage(TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[12] = makeImage(TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[13] = makeImage(TILE_SIZE*6, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[14] = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[15] = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		for (int i = 0; i < 9; i++)
+			sceneryImages[i + 7] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 
 		// Scenery (Bottom Row in sheet)
-		sceneryImages[14] = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[15] = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		for (int i = 0; i < 9; i++)
+			sceneryImages[i + 16] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
+		sceneryImages[24] = makeImage(TILE_SIZE*8, TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE);
 		
 		// Moss for blocks (Off to the right)
 		moss = makeImage(TILE_SIZE*9, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);

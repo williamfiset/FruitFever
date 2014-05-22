@@ -112,7 +112,7 @@ ________________________________________________________________________________
 	
 		-TOP ROW:
 		Wide Plant (V-Shaped)	(0)  --> a
-		(Empty)					(1)  --> b
+		Sunflower				(1)  --> b
 		Yellow Flower			(2)  --> c
 		Pink Flower				(3)  --> d
 		Night flower			(4)  --> e
@@ -133,6 +133,13 @@ ________________________________________________________________________________
 		-BOTTOM ROW:
 		Tall Thin Grass			(16) --> q
 		Tall Thick Grass		(17) --> r
+		Spiderweb				(18) --> s
+		Spiderweb (bottom-right)(19) --> t
+		Spiderweb (bottom-left) (20) --> u
+		Spiderweb (top-left)	(21) --> v
+		Spiderweb (top-right)	(22) --> w
+		Pink Flower				(23) --> x
+		Piranha Plant			(24) --> y
 
 
 		POWERUPS:
