@@ -167,6 +167,7 @@ public class DataLoader {
     	}
 
 
+
     	/** If using toolKitImage doesn't work try loading image using ImageIO **/
 	    if (usingImageIO) {
 
@@ -188,9 +189,9 @@ public class DataLoader {
 	        	usingImageIO = false;
 	        }
 	    }
-
-
     	
+
+
 		/** If loading image from the computer fails load it using the web! **/
 	    try{
 

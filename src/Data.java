@@ -68,7 +68,7 @@ public abstract class Data{
 	/** Loads the images required for the loading screen **/
 	public static void loadingScreen(){
 		
-		sheet = DataLoader.getImageFromClassDirectory("img/loadingScreen/loadingScreen" + String.valueOf((int)(Math.random()*4)) + ".png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/loadingScreen/loadingScreen" + String.valueOf((int)(Math.random()*4)) + ".png");
+		sheet = DataLoader.loadImage("img/loadingScreen/loadingScreen" + String.valueOf((int)(Math.random()*4)) + ".png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/loadingScreen/loadingScreen" + String.valueOf((int)(Math.random()*4)) + ".png");
 		
 		loadingScreenBackground = makeImage(0, 0, 700, 500 );
 		loadingScreenBar = makeImage(0, 617, 2, 33);
@@ -81,7 +81,7 @@ public abstract class Data{
 		updateLoadingBar(0.1);
 		
 		/** Blocks **/
-		sheet = DataLoader.getImageFromClassDirectory("img/sprites/blocks.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/blocks.png");
+		sheet = DataLoader.loadImage("img/sprites/blocks.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/blocks.png");
 	
 		for(int i = 0; i < 18; i++)
 			blockImages[i] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
@@ -89,7 +89,7 @@ public abstract class Data{
 		updateLoadingBar(0.2);
 		
 		/** Scenery **/
-		sheet = DataLoader.getImageFromClassDirectory("img/sprites/plants.png","https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/plants.png");
+		sheet = DataLoader.loadImage("img/sprites/plants.png","https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/plants.png");
 
 		// Scenery (Top Row in sheet)
 		sceneryImages[0] = makeImage(0, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
@@ -123,7 +123,7 @@ public abstract class Data{
 		updateLoadingBar(0.3);
 		
 		/** Fruits **/
-		sheet = DataLoader.getImageFromClassDirectory("img/sprites/fruits.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/fruits.png");
+		sheet = DataLoader.loadImage("img/sprites/fruits.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/fruits.png");
 		
 		for(int i = 0; i < 5; i++)
 			blueFruit[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
@@ -140,7 +140,7 @@ public abstract class Data{
 		updateLoadingBar(0.4);
 		
 		/** Miscellaneous **/
-		sheet = DataLoader.getImageFromClassDirectory("img/sprites/miscellaneous.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/miscellaneous.png");
+		sheet = DataLoader.loadImage("img/sprites/miscellaneous.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/miscellaneous.png");
 		
 		// Heart Image
 		heartImage = makeImage(0, 0, TILE_SIZE, TILE_SIZE);
@@ -189,7 +189,7 @@ public abstract class Data{
 		updateLoadingBar(0.5);
 	
 		/** Projectiles **/
-		sheet = DataLoader.getImageFromClassDirectory("img/sprites/projectiles.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/projectiles.png");
+		sheet = DataLoader.loadImage("img/sprites/projectiles.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/projectiles.png");
 	
 		// Fuzzy Projectile Animation Images
 		for(int i = 0; i < 8; i++)
@@ -208,7 +208,7 @@ public abstract class Data{
 		updateLoadingBar(0.6);
 		
 		/** Player **/
-		sheet = DataLoader.getImageFromClassDirectory("img/sprites/player.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/player.png");
+		sheet = DataLoader.loadImage("img/sprites/player.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/player.png");
 		
 		playerStill[0] = makeImage(0, 0, TILE_SIZE*3, TILE_SIZE);
 		playerStillH[0] = ImageTransformer.horizontalFlip(playerStill[0]);
@@ -225,7 +225,7 @@ public abstract class Data{
 		updateLoadingBar(0.7);
 		
 		/** Enemies **/
-		sheet = DataLoader.getImageFromClassDirectory("img/sprites/enemies.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/enemies.png");
+		sheet = DataLoader.loadImage("img/sprites/enemies.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/enemies.png");
 		
 		for(int i = 0; i < 4; i++){
 			fuzzyEnemyAttack[i] = makeImage(TILE_SIZE*(2*i), 0, TILE_SIZE*2, TILE_SIZE); 
@@ -255,7 +255,7 @@ public abstract class Data{
 			color = "Red";
 		
 		/** Import menu images **/
-		sheet = DataLoader.getImageFromClassDirectory("img/Menu/Menu_" + color + ".png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/Menu_"+color+".png");
+		sheet = DataLoader.loadImage("img/Menu/Menu_" + color + ".png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/Menu_"+color+".png");
 		
 		// Menu Button Images
 		for(int i = 0; i < 12; i++)
@@ -273,7 +273,7 @@ public abstract class Data{
 			color = "purple";
 		
 		/** Import level selection arrow images **/
-		sheet = DataLoader.getImageFromClassDirectory("img/LevelSelection/arrows/" + color + "Arrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/"+color+"Arrows.png");
+		sheet = DataLoader.loadImage("img/LevelSelection/arrows/" + color + "Arrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/"+color+"Arrows.png");
 		
 		for(int i = 0; i < 3; i++){
 			leftArrowButton[i] = makeImage(0, i*33, 36, 31);
@@ -283,7 +283,7 @@ public abstract class Data{
 		updateLoadingBar(0.9);
 		
 		/** Import level selection background/level button images **/
-		sheet = DataLoader.getImageFromClassDirectory("img/LevelSelection/backDrop/" + color + "Level.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/backDrop/"+color+"Level.png");
+		sheet = DataLoader.loadImage("img/LevelSelection/backDrop/" + color + "Level.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/backDrop/"+color+"Level.png");
 		
 		levelButton[0] = makeImage(0, 139, 51, 45);
 		levelButton[1] = makeImage(0, 93, 50, 44);
