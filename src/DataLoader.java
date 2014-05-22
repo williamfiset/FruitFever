@@ -25,8 +25,10 @@ public class DataLoader {
 
 	private static boolean usingToolKitImage = true;
 	private static boolean usingImageIO = true;
+	private static DataLoader obj = null;
 
-	/* Saves an image from the web to the current working directory */
+	/** Saves an image from the web to the current working directory *
+	  * NOTE: this only seems to works with images without alpha channels **/
 	public static void downloadImageWithName(String urlName, String imageName){
 		
 		try{
@@ -58,7 +60,8 @@ public class DataLoader {
 	
 	
 	
-	/* Saves an image from the web to a location specified on the computer */
+	/* Saves an image from the web to a location specified on the computer
+	 * NOTE: this only seems to works with images without alpha channels */
 	public void downloadImageWithPath(String urlName, String pathWithImageName){
 		
 		try{
@@ -115,37 +118,29 @@ public class DataLoader {
 	    return null;
 	}
 	
-	/** This is the old image loading method, avoid using if possible **/
-	public static BufferedImage getImageWithRelativePath(String relativePath){
 
-		BufferedImage image = null;
-		
-		try { 
-			image = ImageIO.read(new File(relativePath));
-		} catch (IOException e) {	
-			e.printStackTrace(); 
-		}
-		
-		return image;
-		
-	}
-	
+	/** This method will load an image given a path and a url to the image.
+	  * 
+	  * First it will try loading the image as a ToolKit image (fastest)
+	  * if that fails (which it does with Java 1.6 and lower) it uses imageIO (slower) 
+	  * and if that also fails it loads the images from the GitHub server
+	  *
+	  * @return - returns a BufferedImage of the path/Url specified
+	  *
+	  **/
 
-	/** Uses the sun package toolKit to laod images**/
-    public static BufferedImage getImageFromClassDirectory( String image, String urlLink ){
+    public static BufferedImage loadImage( String imgPath, String urlLink ){
         
-    	URL imagePath = null;
-
-    	try{
-			imagePath = new File( image ).toURI().toURL(); 
-    	}catch(Exception e){}
 
 
 
-    	// If using toolKitImage Works keep using it! 
+    	/** If using toolKitImage Works keep using it because it's really fast! **/ 
     	if (usingToolKitImage) {
 
 	        try{
+
+		    	URL imagePath = null;
+		    	try{ imagePath = new File( imgPath ).toURI().toURL();}catch(Exception e){}
 
 	            Image img = Toolkit.getDefaultToolkit().createImage( imagePath );
 	            Method method = img.getClass().getMethod( "getBufferedImage" );
@@ -169,54 +164,72 @@ public class DataLoader {
 	        } catch( Exception e ){
 	        	usingToolKitImage = false;
 	        }
-    		
     	}
 
 
-		// If Loading with toolkit failed try using the slower ImageIO method
-    	if (usingImageIO) {
+    	/** If using toolKitImage doesn't work try loading image using ImageIO **/
+	    if (usingImageIO) {
+
+			// Make sure you instantiate a dataloader object to get the class
+	    	if (obj == null) 
+	    		obj = new DataLoader();
 
 	        try{
 
+	        	// Gets absolute path
 				BufferedImage buffImage = null;
-				buffImage = ImageIO.read( new File(image) );
+				buffImage = ImageIO.read(obj.getClass().getResource(imgPath) );
 				
 				if (buffImage != null)
 					return buffImage;
-	            
 
 	        } catch( IOException ioe ){
-	            usingImageIO = false;
+	        	System.out.printf("Failed to Load imageIO: %s", imgPath);
+	        	usingImageIO = false;
 	        }
-    	}
+	    }
 
-        
-    	// If loading image from the computer failed load it using the web
+
+    	
+		/** If loading image from the computer fails load it using the web! **/
 	    try{
-	
+
 			BufferedImage buffImage =null;
 
 			// Reads image from the link provided
 	        URL url = new URL(urlLink);
 	        buffImage = ImageIO.read(url);
 		
-	        if (buffImage != null) 
+
+	        if (buffImage != null)
 	       		return buffImage;	
-	       
-	    // Image is too large or no internet connection
+	        else{
+
+	        	// Prints which URL caused null
+				String [] urlParts = urlLink.split("/");
+				System.out.printf("\nFailed To Load URL:  %s ", urlParts[urlParts.length - 1]);
+	        }
+
+	    // Image is too large or no Internet connection
 	    }catch(Exception e){
-	    	// Tell user to connect to the internet?
+
+	    	// Tell user to connect to the Internet?
+
+        	// Prints which URL caused error
+			String [] urlParts = urlLink.split("/");
+			System.out.printf("\nFailed To Load URL:  %s ", urlParts[urlParts.length - 1]);
+
 	    }
 
 
 	    /** If return null executes it means that the image could not be loaded using a toolKitImage,
-	     * using imageIO nor using the internet **/
+	     * using imageIO nor using the Internet **/
 		return null;
 
 
     }
 
-
+    /** Returns a pixel array of a buffered image **/
     public static int[] getPixelArray( BufferedImage img ){
         return ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
     }
