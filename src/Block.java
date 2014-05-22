@@ -236,7 +236,10 @@ public class Block extends Thing {
 
 		int randomIndex = (int) (Math.random() * listLength);
 		Block randomlySelectedBlock = naturalFallingBlockCondidates.get(randomIndex);
-		randomlySelectedBlock.changeImage(Data.blockImages[17]);
+		
+		if (randomlySelectedBlock.imageX > 0 && randomlySelectedBlock.imageX < FruitFever.SCREEN_WIDTH)
+			if (randomlySelectedBlock.imageY > 0 && randomlySelectedBlock.imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+				randomlySelectedBlock.changeImage(Data.blockImages[17]);
 
 		// Removing form list should be fine as long as this method is called at an interval
 		// otherwise blocks will be falling very fast as the list gets sorter
@@ -269,7 +272,7 @@ public class Block extends Thing {
 
 		if (fallingBlock2 != null) {
 			fallingBlocks.add(fallingBlock2);
-			fallingBlock2.changeImage(Data.blockImages[16]);	
+			fallingBlock2.changeImage(Data.blockImages[16]);
 		}
 
 		if (fallingBlock0 != null) {

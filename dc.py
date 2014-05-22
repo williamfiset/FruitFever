@@ -15,18 +15,25 @@ import sys
 import signal
 import re
 import subprocess
+import commands
 
 # returns true or false on whether a subprocess is running
 def is_running(process):
 
-	subprocesses = subprocess.Popen(["ps", "axw"],stdout=subprocess.PIPE)
-	for executingApplication in subprocesses.stdout:
 
-		if re.search(process, executingApplication):
-
-			return True
-
+	output = commands.getoutput('ps -A')
+	if process in output:
+	    return True
 	return False
+
+	# subprocesses = subprocess.Popen(["ps", "axw"],stdout=subprocess.PIPE)
+	# for executingApplication in subprocesses.stdout:
+
+	# 	if re.search(process, executingApplication):
+
+	# 		return True
+
+	# return False
 
 # Deletes all the files that end in the extension specified within a given a directory 
 def deleteFiles(directory, extension):
@@ -50,6 +57,5 @@ def runDaemon():
 
 if __name__ == "__main__":
     runDaemon()
-
 
 
