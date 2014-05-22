@@ -23,6 +23,9 @@ import java.awt.image.DataBufferInt;
 
 public class DataLoader {
 
+	private static boolean usingToolKitImage = true;
+	private static boolean usingImageIO = true;
+
 	/* Saves an image from the web to the current working directory */
 	public static void downloadImageWithName(String urlName, String imageName){
 		
@@ -129,7 +132,7 @@ public class DataLoader {
 	
 
 	/** Uses the sun package toolKit to laod images**/
-    public static BufferedImage getImageFromClassDirectory( String image ){
+    public static BufferedImage getImageFromClassDirectory( String image, String urlLink ){
         
     	URL imagePath = null;
 
@@ -137,35 +140,80 @@ public class DataLoader {
 			imagePath = new File( image ).toURI().toURL(); 
     	}catch(Exception e){}
 
-        try{
 
-            Image img = Toolkit.getDefaultToolkit().createImage( imagePath );
-            Method method = img.getClass().getMethod( "getBufferedImage" );
-            BufferedImage bufferedImage = null;
-            int counter = 0;
 
-            // Take 30 seconds maximum
-            while( bufferedImage == null && counter < 3000 ){
+    	// If using toolKitImage Works keep using it! 
+    	if (usingToolKitImage) {
 
-                img.getWidth( null );
-                bufferedImage = (BufferedImage) method.invoke( img );
-                try{ Thread.sleep( 10 ); }
-                catch( InterruptedException e ){ }
-                counter ++;
+	        try{
 
-            }
-           
-            if( bufferedImage != null )
-                return bufferedImage;
-            
-        } catch( Exception e ){ }
+	            Image img = Toolkit.getDefaultToolkit().createImage( imagePath );
+	            Method method = img.getClass().getMethod( "getBufferedImage" );
+	            BufferedImage bufferedImage = null;
+	            int counter = 0;
 
-        // If Loading with toolkit failed use the slower ImageIO method
-        try{
-            return ImageIO.read( imagePath );
-        } catch( IOException ioe ){
-            return null;
-        }
+	            // Waits a maximum of 2.5 seconds before quitting
+	            while( bufferedImage == null && counter < 250 ){
+
+	                img.getWidth( null );
+	                bufferedImage = (BufferedImage) method.invoke( img );
+	                try{ Thread.sleep( 10 ); }
+	                catch( InterruptedException e ){ }
+	                counter ++;
+
+	            }
+	           
+	            if( bufferedImage != null )
+	                return bufferedImage;
+	            
+	        } catch( Exception e ){
+	        	usingToolKitImage = false;
+	        }
+    		
+    	}
+
+
+		// If Loading with toolkit failed try using the slower ImageIO method
+    	if (usingImageIO) {
+
+	        try{
+
+				BufferedImage buffImage = null;
+				buffImage = ImageIO.read( new File(image) );
+				
+				if (buffImage != null)
+					return buffImage;
+	            
+
+	        } catch( IOException ioe ){
+	            usingImageIO = false;
+	        }
+    	}
+
+        
+    	// If loading image from the computer failed load it using the web
+	    try{
+	
+			BufferedImage buffImage =null;
+
+			// Reads image from the link provided
+	        URL url = new URL(urlLink);
+	        buffImage = ImageIO.read(url);
+		
+	        if (buffImage != null) 
+	       		return buffImage;	
+	       
+	    // Image is too large or no internet connection
+	    }catch(Exception e){
+	    	// Tell user to connect to the internet?
+	    }
+
+
+	    /** If return null executes it means that the image could not be loaded using a toolKitImage,
+	     * using imageIO nor using the internet **/
+		return null;
+
+
     }
 
 
