@@ -20,13 +20,13 @@ class Alarm {
 		
 		switch (startCode) {
 				
-				case 0: FruitFever.player.maxJumpHeight = 5*Data.TILE_SIZE; break;
+				case 0: break;
 				case 1: break;
 				case 2: break;
 				// ...
 				
 			}
-		// System.out.println(FruitFever.player.maxJumpHeight);
+		
 	}
 
 	public void execute() {
@@ -35,7 +35,7 @@ class Alarm {
 		
 			switch (endCode) {
 				
-				case 0: FruitFever.player.maxJumpHeight = (int)(3.5*Data.TILE_SIZE); break;
+				case 0: break;
 				case 1: break;
 				case 2: break;
 				// ...

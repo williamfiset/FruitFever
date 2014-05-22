@@ -23,7 +23,6 @@ public abstract class Data{
 						lavaImage,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
-						powerupBlockJump, powerupBlockSpeed, powerupBlockAttack,
 						moss, thickMoss,
 						music0, music1,
 						bronzeStar, silverStar, goldStar;
@@ -39,6 +38,7 @@ public abstract class Data{
 						gearButton = new GImage[3],
 						fruitRingAnimation = new GImage[6],
 						vortexAnimation = new GImage[5],
+						powerups = new GImage[3],
 						   
 						playerStill = new GImage[1],
 						playerStillH = new GImage[1],
@@ -161,17 +161,16 @@ public abstract class Data{
 		checkpointFlagGreen = makeImage(TILE_SIZE, TILE_SIZE, TILE_SIZE, TILE_SIZE*2);
 			
 		// Fruit Rings Animation Images
-		for(int i = 0; i < 6; i++)
+		for (int i = 0; i < 6; i++)
 			fruitRingAnimation[i] = makeImage(TILE_SIZE*(i + 2), TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 		
 		// Vortex Animation Images
-		for(int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++)
 			vortexAnimation[i] = makeImage(TILE_SIZE*14, TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE);
 		
 		// Powerup Blocks
-		powerupBlockJump = makeImage(TILE_SIZE*11, 0, TILE_SIZE, TILE_SIZE);
-		powerupBlockSpeed = makeImage(TILE_SIZE*12, 0, TILE_SIZE, TILE_SIZE);
-		powerupBlockAttack = makeImage(TILE_SIZE*13, 0, TILE_SIZE, TILE_SIZE);
+		for (int i = 0; i < 3; i++)
+			powerups[i] = makeImage(TILE_SIZE*(i + 11), 0, TILE_SIZE, TILE_SIZE);
 	
 		// Fireworks
 		for (int n = 0; n < 3; n++) 
@@ -396,8 +395,7 @@ public abstract class Data{
 						else if(character == '3')
 							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.purpleFruit, false, 3, true, 2, true));
 						continue;
-					}
-					
+					}		
 
 					try{
 
@@ -443,7 +441,19 @@ public abstract class Data{
 					// Skip if it's a blank
 					if (character == '-' || character == '#' || character == ' ' || character == '?')
 						continue;
-
+					
+					try {
+						// Read in a powerup
+						if(Character.isDigit(character)) {
+							FruitFever.addToThings(new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, powerups[Integer.valueOf(String.valueOf(character))]));
+							continue;
+						}
+					} catch(ArrayIndexOutOfBoundsException e) { 
+						System.out.printf("SCENERY LAYER contains invalid character: '%c' \n", character);
+						System.exit(0);
+					}
+					
+					
 					try {
 
 						int type = character - 'a';

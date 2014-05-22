@@ -224,7 +224,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		Block.findNaturalFallingBlockCandidates();
 
 		/** TEMPORARY for powerup testing, this automatically gives the player a jump powerup at the beginning of the level. eventually he'll have blocks to get this power-up **/
-		alarms.add(new Alarm (100, 0, 0));
+		// alarms.add(new Alarm (100, 0, 0));
 		/** TEMPORARY **/
 
 	}
