@@ -60,6 +60,10 @@ def runDaemon():
 
     while True:
 
+    	if os.name != 'mac':
+    		deleteFiles( os.getcwd() + "/src/" , "class" )
+    		sys.exit(0)
+
     	# Sleeps for one second
         time.sleep(1)
         
@@ -68,5 +72,17 @@ def runDaemon():
 
 if __name__ == "__main__":
     runDaemon()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
