@@ -14,39 +14,20 @@ import time
 import sys
 import signal
 import re
-# import subprocess
-# import commands
+# import subprocess 
+# import commands # commands module not defined in windows
 
 
 # returns true or false on whether a subprocess is running
 def is_running(process):
 
-	""" Method Three, windows doesn't know what 'ps' is.. """
-
+	# Get a string of all the processes 
 	processes = os.popen("ps -Af").read() 
 	
 	if process in processes:
 		return True
 	return False
 
-
-	""" Method two, Micah doesn't have commands import """
-
-	# output = commands.getoutput('ps -A')
-	# if process in output:
-	#     return True
-	# return False
-
-	""" Method one, seems to work only on Mac """
-
-	# subprocesses = subprocess.Popen(["ps", "axw"],stdout=subprocess.PIPE)
-	# for executingApplication in subprocesses.stdout:
-
-	# 	if re.search(process, executingApplication):
-
-	# 		return True
-
-	# return False
 
 # Deletes all the files that end in the extension specified within a given a directory 
 def deleteFiles(directory, extension):
