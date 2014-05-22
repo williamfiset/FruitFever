@@ -133,29 +133,6 @@ public class DataLoader {
         
 
 
-    	/** try loading image with imageIO **/
-	    if (usingImageIO) {
-
-			// Make sure you instantiate a dataloader object to get the class
-	    	if (obj == null) 
-	    		obj = new DataLoader();
-
-	        try{
-
-	        	// Gets absolute path
-				BufferedImage buffImage = null;
-				buffImage = ImageIO.read(obj.getClass().getResource(imgPath) );
-				
-				if (buffImage != null)
-					return buffImage;
-				
-	        } catch( IOException ioe ){
-	        	System.out.printf("Failed to Load imageIO: %s", imgPath);
-	        	usingImageIO = false;
-	        }
-	    }
-
-
     	/** If using imageIO doesn't work try using toolkit **/ 
     	if (usingToolKitImage) {
 
@@ -189,6 +166,28 @@ public class DataLoader {
 	        }
     	}
 
+
+    	/** try loading image with imageIO **/
+	    if (usingImageIO) {
+
+			// Make sure you instantiate a dataloader object to get the class
+	    	if (obj == null) 
+	    		obj = new DataLoader();
+
+	        try{
+
+	        	// Gets absolute path
+				BufferedImage buffImage = null;
+				buffImage = ImageIO.read(obj.getClass().getResource(imgPath) );
+				
+				if (buffImage != null)
+					return buffImage;
+				
+	        } catch( IOException ioe ){
+	        	System.out.printf("Failed to Load imageIO: %s", imgPath);
+	        	usingImageIO = false;
+	        }
+	    }
 
 
 		/** If loading image from the computer fails load it using the web! **/
