@@ -21,6 +21,8 @@ import re
 # returns true or false on whether a subprocess is running
 def is_running(process):
 
+	""" Method Three, windows doesn't know what 'ps' is.. """
+
 	processes = os.popen("ps -Af").read() 
 	
 	if process in processes:
@@ -62,7 +64,7 @@ def runDaemon():
 
     	if os.name != 'mac':
     		deleteFiles( os.getcwd() + "/src/" , "class" )
-    		sys.exit(0)
+    		break
 
     	# Sleeps for one second
         time.sleep(1)
