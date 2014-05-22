@@ -44,7 +44,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<Button> inGameButtons = new ArrayList<Button>();
 	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other array lists)
 	static Button clickedOnButton = null;
-
+	
 	static GLabel[] levelNumbers = new GLabel[20];
 	static GImage[] livesImages = new GImage[player.maxLives];
 	
@@ -53,6 +53,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	static Thing levelBackDrop;
 
+	static ArrayList<Alarm>	alarms = new ArrayList<Alarm>();
+	
 /** Screen View Variables **/
 
 	// This value seems to be optimal for screen view 	
@@ -66,7 +68,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static int vx; // Δ in viewX & viewY
 	static double vy; 
 
-/** Natural disaster Variables **/
+/** Natural Disaster Variables **/
 
 	static int earthQuakeMagnitude = 6;
 
@@ -98,9 +100,17 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// upRect.setFilled(true);
 		// centerRect.setFilled(true);
 		/** TEMPORARY **/
-
+		
 		while(true){
-			
+		
+			// Countdown all of the alarms towards execution
+			for (int i = 0; i < alarms.size(); i++) {
+					if (!alarms.get(i).active) {
+						alarms.remove(i);
+						i--;
+					} else alarms.get(i).execute();
+				}
+				
 			// Playing
 			if(currentScreen == 3){
 			
@@ -209,6 +219,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		add(texts.get(0).label);
 		
 		Block.resetPerformedNaturalAnimate();
+		
+		/** TEMPORARY for powerup testing, this automatically gives the player a jump powerup at the beginning of the level. eventually he'll have blocks to get this power-up **/
+		alarms.add(new Alarm (100, 0, 0));
+		/** TEMPORARY **/
 
 	}
 
