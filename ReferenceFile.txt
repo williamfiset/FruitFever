@@ -133,6 +133,14 @@ ________________________________________________________________________________
 		-BOTTOM ROW:
 		Tall Thin Grass			(16) --> q
 		Tall Thick Grass		(17) --> r
+
+
+		POWERUPS:
+
+		Jump			-->			 0
+		Speed           -->          1
+		Attack          -->          2
+
 	
 	(Add a '+' character here)
 	
