@@ -14,17 +14,28 @@ import time
 import sys
 import signal
 import re
-import subprocess
-import commands
+# import subprocess
+# import commands
+
 
 # returns true or false on whether a subprocess is running
 def is_running(process):
 
-
-	output = commands.getoutput('ps -A')
-	if process in output:
-	    return True
+	processes = os.popen("ps -Af").read() 
+	
+	if process in processes:
+		return True
 	return False
+
+
+	""" Method two, Micah doesn't have commands import """
+
+	# output = commands.getoutput('ps -A')
+	# if process in output:
+	#     return True
+	# return False
+
+	""" Method one, seems to work only on Mac """
 
 	# subprocesses = subprocess.Popen(["ps", "axw"],stdout=subprocess.PIPE)
 	# for executingApplication in subprocesses.stdout:
