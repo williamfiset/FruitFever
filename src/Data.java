@@ -322,7 +322,7 @@ public abstract class Data{
 			// Clear ArrayLists
 			FruitFever.blocks.clear();
 			FruitFever.things.clear();
-			Block.resetBlockList();
+			Block.resetBlockLists();
 
 			/** Find the correct level **/
 			while(!sc.nextLine().equals(String.valueOf(level))){}

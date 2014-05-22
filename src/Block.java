@@ -18,11 +18,13 @@ public class Block extends Thing {
 	private static HashMap<Integer, ArrayList<Block>> xBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
 	private static HashMap<Integer, ArrayList<Block>> yBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
 
+	static ArrayList<Block> naturalFallingBlockCondidates = new ArrayList<Block>();
 	static ArrayList<Block> fallingBlocks = new ArrayList<Block>();
 
 	/** To fix issue #41 the first time you draw on the screen you must call naturalAnimate() **/
 	private static boolean performedNaturalAnimate = false;
 
+	private double vx, vy;
 
 	/**
  	 * @Param color - defines the color the block is
@@ -125,10 +127,12 @@ public class Block extends Thing {
 	 * you are left with the blocks from the previous level
 	 */
 
-	public static void resetBlockList(){
+	public static void resetBlockLists(){
 	
 		xBlockPositions.clear();
-		yBlockPositions.clear();			
+		yBlockPositions.clear();
+		naturalFallingBlockCondidates.clear();
+		fallingBlocks.clear();			
 		
 	}
 
@@ -183,16 +187,22 @@ public class Block extends Thing {
 		return null;
 	}
 
-	/** Selects all the block candidates that are worthy of falling **/
-	public static void updateFallingBlocksByNaturalDisaster(){
-
-		// Only loop through the blocks on the screen (with a little buffer)
-		// Select a few worthy falling block candidates
-		// make sure that the block above doesn't start falling 
+	/** Populates the fallingBlockCondidates list to be more effective than looping through all the
+	  * blocks very time you want to make a block fall **/
+	public static void findNaturalFallingBlockCandidates(){
 
 		Block topBlock = null;
 		Block firstBlockDown = null;
 		Block secondBlockDown = null;
+
+
+		/*
+ 		 * Loops through all the blocks and tests each to see if they meet the criteria to be a natural falling block
+ 		 *
+ 		 * Criteria:
+ 		 * - block must not be alone (stationary platform)
+ 		 * - block must have two empty blocks directly below itself (so that when they fall they do not clog a tunnel)
+		 */
 
 		for (Block block : FruitFever.blocks) {
 			
@@ -205,12 +215,36 @@ public class Block extends Thing {
 			secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
 			if (secondBlockDown != null) continue;
 
-			
-			block.changeImage(Data.blockImages[17]);
-
-			
+			naturalFallingBlockCondidates.add(block);
 
 		}
+
+	}
+
+	/** Selects all the block candidates that are worthy of falling **/
+	public static void updateFallingBlocksByNaturalDisaster(){
+
+		// Only loop through the blocks on the screen (with a little buffer)
+		// Select a few worthy falling block candidates
+		// make sure that the block above doesn't start falling 
+
+		int listLength = naturalFallingBlockCondidates.size();
+
+		// very unlikely to select index 0? 
+		if (listLength == 0)
+			return;
+
+		int randomIndex = (int) (Math.random() * listLength);
+		Block randomlySelectedBlock = naturalFallingBlockCondidates.get(randomIndex);
+		randomlySelectedBlock.changeImage(Data.blockImages[17]);
+
+		// Removing form list should be fine as long as this method is called at an interval
+		// otherwise blocks will be falling very fast as the list gets sorter
+		naturalFallingBlockCondidates.remove(randomlySelectedBlock);
+		
+		// FruitFever.blocks.remove(randomlySelectedBlock);
+		
+		System.out.println(FruitFever.blocks.size());
 
 
 	}

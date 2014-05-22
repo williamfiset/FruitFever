@@ -19,10 +19,10 @@ import subprocess
 # returns true or false on whether a subprocess is running
 def is_running(process):
 
-	s = subprocess.Popen(["ps", "axw"],stdout=subprocess.PIPE)
-	for x in s.stdout:
+	subprocesses = subprocess.Popen(["ps", "axw"],stdout=subprocess.PIPE)
+	for executingApplication in subprocesses.stdout:
 
-		if re.search(process, x):
+		if re.search(process, executingApplication):
 
 			return True
 
@@ -31,6 +31,7 @@ def is_running(process):
 # Deletes all the files that end in the extension specified within a given a directory 
 def deleteFiles(directory, extension):
 
+	# Ensures that we do not delete our own Java files by accident 
 	if extension == "java": return
 
 	for _file in os.listdir(directory):

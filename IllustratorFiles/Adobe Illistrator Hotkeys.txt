@@ -1,0 +1,21 @@
+Adobe Illistrator 
+
+
+
+Shapes:
+
+	Hold Shift to make perfect shape
+	Press the up and down arrows to adjust how many sides to a shape you want
+		- star and polygon
+
+
+Rotate:
+	
+	You can rotate a shape with the transform tool or simply by pressing 'r'
+
+Direct Selection tool (White arrow)
+
+	Used to change the points that make up a shape
+	you can use shift to select multiple points
+
+

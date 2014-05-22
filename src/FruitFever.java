@@ -120,7 +120,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// earthQuakeEffect();
 
 				// Tests for falling blocks
-				// Block.updateFallingBlocksByNaturalDisaster();
+				Block.updateFallingBlocksByNaturalDisaster();
 				// Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
 
 				// Controls if it is time to return to the level selection menu
@@ -190,9 +190,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		dangerousThings = new ArrayList<Thing>();
 		texts = new ArrayList<TextAnimator>();
 		checkPoints = new ArrayList<Thing>();
+
 		LEVEL_NAME = "";
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
+
 		viewX = 0;
 		viewY = 0;
 		greenCheckPoint = null;
@@ -219,7 +221,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		add(texts.get(0).label);
 		
 		Block.resetPerformedNaturalAnimate();
-		
+		Block.findNaturalFallingBlockCandidates();
+
 		/** TEMPORARY for powerup testing, this automatically gives the player a jump powerup at the beginning of the level. eventually he'll have blocks to get this power-up **/
 		alarms.add(new Alarm (100, 0, 0));
 		/** TEMPORARY **/
