@@ -180,7 +180,7 @@ public class Player extends MovingAnimation {
 		downwardsCollision(); 
 		sidewaysCollision();
 		upwardsCollision();
-		// extraCollisionChecks();		
+		extraCollisionChecks();		
 
 	}
 
