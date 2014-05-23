@@ -103,7 +103,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		while(true){
 		
-			// Timer_ t = new Timer_();
+			Timer_ t = new Timer_();
 		
 			// Countdown all of the alarms towards execution
 			for (int i = 0; i < alarms.size(); i++) {
@@ -150,8 +150,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				player.animate();
 				player.motion();
 
-				// t.stop(true);
-
 				// add(leftRect);
 				// add(rightRect);
 				// add(upRect);
@@ -159,7 +157,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// add(centerRect);
 
 			}
-			pause(MAIN_LOOP_SPEED);
+			// pause(MAIN_LOOP_SPEED);
+			pause(Math.max(0, MAIN_LOOP_SPEED - (t.stop())*1000));
 		}
 		
 	}
@@ -530,6 +529,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				} else if (clickedOnButton.type == 6) {
 					currentLevel = clickedOnButton.level + levelSelectionPage*20;
 					loadLevel();
+				
+				// Main Menu Button (Gear)
+				} else if (clickedOnButton.type == 7) {
+					drawMainMenu();
 				
 				// Refresh Button
 				} else if (clickedOnButton.type == 8) {

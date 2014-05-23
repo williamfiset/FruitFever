@@ -528,7 +528,7 @@ public abstract class Data{
 		}
 		
 		/** Adds gear button to the ArrayLists for In-Game Screen **/
-		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, 4, gearButton[0], gearButton[1], gearButton[2]);
+		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, 7, gearButton[0], gearButton[1], gearButton[2]);
 		FruitFever.buttons.add(tempButton);
 		FruitFever.inGameButtons.add(tempButton);
 		
