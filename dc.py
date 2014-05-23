@@ -43,7 +43,7 @@ def runDaemon():
 
     while True:
 
-    	if os.name != 'mac':
+    	if os.name != 'posix':
     		deleteFiles( os.getcwd() + "/src/" , "class" )
     		break
 

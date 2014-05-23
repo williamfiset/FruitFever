@@ -447,7 +447,11 @@ public abstract class Data{
 					try {
 
 						int type = character - 'a';
+
+						// Error with type 5 (f) blossomless tree
+						if (type == 5) continue;
 						GImage image = new GImage(Data.sceneryImages[type].getImage());
+
 						int xOffset = 0, yOffset = 0;
 
 						// Hard-Coded Exceptions

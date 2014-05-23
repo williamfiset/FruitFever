@@ -382,13 +382,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addMouseListeners();
 		addKeyListeners();
 		
-		Timer_ timer = new Timer_();
-
 		/** Renders Images in the Data class, and fills the object ArrayLists **/
 		Data.loadImages();
 	
-		System.out.printf("Time taken to Load images: %fs \n", timer.stop() ); 
-
 		drawMainMenu();
 	
 	}
