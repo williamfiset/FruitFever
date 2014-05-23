@@ -95,14 +95,20 @@ public class Player extends MovingAnimation {
 
 		// System.out.println("On Platform: "+onPlatform + " setBaseLine:"+setBaseLine );
 
+		// Collisions
 		checkCollisionDetection();
 		objectCollisions();
+
 		jumpingEffect();
 		enableJumping();
-		gravityEffect();
+		
 		relativisticScreenMovement();
-		updateHealth();
+	
+		// These methods control the movement of the player 
+		gravityEffect();
 		imageX += dx;
+
+		updateHealth();
 		grabbingItem();
 	}
 	
@@ -168,9 +174,11 @@ public class Player extends MovingAnimation {
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
 
+		// extraCollisionChecks();
 		downwardsCollision(); 
 		sidewaysCollision();
 		upwardsCollision();
+		
 
 	}
 
@@ -224,12 +232,14 @@ public class Player extends MovingAnimation {
 
 
 		// SOUTH
-		Block southWest, southEast;
+		Block southWest = null, southEast = null;
 
 		// Need to do this because starting starting falling velocity is never 0
 		if (gravity) {
-			southWest = Block.getBlock(x + CRACK_SPACING, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);			
-			southEast = Block.getBlock(x + width - CRACK_SPACING, y + height + VERTICAL_PX_BUFFER+ (int) fallingVelocity);
+			southWest = Block.getBlock(x + CRACK_SPACING, y + height + VERTICAL_PX_BUFFER + (int) fallingVelocity);			
+			southEast = Block.getBlock(x + width - CRACK_SPACING, y + height + VERTICAL_PX_BUFFER + (int) fallingVelocity);
+		
+		// Will this ever execute?
 		} else {
 			southWest = Block.getBlock(x + CRACK_SPACING, y + height + VERTICAL_PX_BUFFER);			
 			southEast = Block.getBlock(x + width - CRACK_SPACING, y + height + VERTICAL_PX_BUFFER);
@@ -251,7 +261,21 @@ public class Player extends MovingAnimation {
 			onPlatform = false;
 
 	}
+	/** Does extra checks for special case(s) **/
+	private void extraCollisionChecks(){
 
+		// When jumping add extra collision detection for blocks
+		if (!onPlatform) {
+
+			Block southWest = Block.getBlock(x + 2, y + height + (int) fallingVelocity);
+			Block southEast = Block.getBlock(x + width - 2, y + height + (int) fallingVelocity);
+			
+			if (southEast != null || southWest != null)
+				onPlatform = true;
+		}
+	}
+
+	/** Does all the upwards boundary colliion checks **/
 	private void upwardsCollision(){
 
 		Block northWest = Block.getBlock(x + JUMP_SPACING, y - VERTICAL_PX_BUFFER );
