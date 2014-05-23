@@ -101,6 +101,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// centerRect.setFilled(true);
 		/** TEMPORARY **/
 		
+
+		GRect point1 = new GRect(0 , 0, 3, 3);
+		GRect point2 = new GRect(0 , 0, 3, 3);
+		
+		point1.setFillColor(Color.RED);
+		point2.setFillColor(Color.RED);
+
+		point1.setFilled(true);
+		point2.setFilled(true);
+
 		while(true){
 		
 			Timer_ t = new Timer_();
@@ -147,8 +157,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				Block.drawBlocks();
 
-				player.animate();
 				player.motion();
+				player.animate();
+
+				point1.setLocation( player.x + player.dx + 2, player.y + 25 + (int) player.fallingVelocity );
+				point2.setLocation( player.x + player.dx + 23, player.y + 25 + (int) player.fallingVelocity);
+
+				add(point1);
+				add(point2);
 
 				// add(leftRect);
 				// add(rightRect);
@@ -158,6 +174,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 			}
 			// pause(MAIN_LOOP_SPEED);
+			System.out.println(Math.max(0, MAIN_LOOP_SPEED - (t.getTime())*1000));
 			pause(Math.max(0, MAIN_LOOP_SPEED - (t.stop())*1000));
 		}
 		

@@ -63,4 +63,11 @@ class Timer_{
 		return duration;
 	}
 
+	public double getTime(){
+
+		stopTime = System.nanoTime();
+		double duration = (double) ((stopTime - startTime) / 1000000000f);
+		return duration;
+	}
+
 }

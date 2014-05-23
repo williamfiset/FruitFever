@@ -98,7 +98,7 @@ public class Player extends MovingAnimation {
 	/** Calls all the players actions **/
 	public void motion(){
 
-		// System.out.println("On Platform: "+onPlatform + " setBaseLine:"+setBaseLine );
+		// System.out.println("On Platform: "+onPlatform);
 
 		// Collisions
 		checkCollisionDetection();
@@ -164,7 +164,7 @@ public class Player extends MovingAnimation {
 		} else if (!isJumping && onPlatform) 
 			FruitFever.vy = 0;
 		
-		// Stop moving the screen up if you passed the (WILL: YOU DIDN'T FINISH YOUR SENTENCE HERE?)
+		// Stop moving the screen up 
 		if (FruitFever.viewY >= FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE && FruitFever.vy > 0 )
 			FruitFever.vy = 0;
 
@@ -179,7 +179,7 @@ public class Player extends MovingAnimation {
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
 
-		// extraCollisionChecks();
+		extraCollisionChecks();
 		downwardsCollision(); 
 		sidewaysCollision();
 		upwardsCollision();
@@ -272,8 +272,8 @@ public class Player extends MovingAnimation {
 		// When jumping add extra collision detection for blocks
 		if (!onPlatform) {
 
-			Block southWest = Block.getBlock(x + 2, y + height + (int) fallingVelocity);
-			Block southEast = Block.getBlock(x + width - 2, y + height + (int) fallingVelocity);
+			Block southWest = Block.getBlock(x + 2 + dx, y + height + (int) fallingVelocity);
+			Block southEast = Block.getBlock(x + width - 2 + dx, y + height + (int) fallingVelocity);
 			
 			if (southEast != null || southWest != null)
 				onPlatform = true;
@@ -843,7 +843,27 @@ public class Player extends MovingAnimation {
 
 
 
+/*
 
+
+				System.out.println((int)player.fallingVelocity);
+				point1.setLocation( player.imageX + 2, player.imageY + 25 + (int) player.fallingVelocity );
+				point2.setLocation( player.imageX + 23, player.imageY + 25 + (int) player.fallingVelocity);
+
+				add(point1);
+				add(point2);
+
+
+				GRect point1 = new GRect(0 , 0, 3, 3);
+				GRect point2 = new GRect(0 , 0, 3, 3);
+				
+				point1.setFillColor(Color.RED);
+				point2.setFillColor(Color.RED);
+
+				point1.setFilled(true);
+				point2.setFilled(true);
+
+*/
 
 
 

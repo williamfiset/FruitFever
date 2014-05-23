@@ -8,12 +8,12 @@ aa----------aaaaa------aaaaaa--aa--------aaaa2-a-aaaaaaaaaaaaaaa--*-*---aaaaaaaa
 a---------------aaaaa--aa------aa--------aaaaaaa---------aaaaaa-----------aaa------*-----aa
 a---@*----------*------aa------aaaaaaaaa------------**-----aaa------------aa---*-a----*---a
 a--aaa-----*----aa-----aa------a--aaaaa----*-----------|---aa---*-aaaaa---------aaa-------a
-a--------------aa--0--aa---aaaaa--aaaaa---------------aa---aa-----aaaaa--*-------a--------a
-a--------*----aaaaaaaaa----aaaa-----------aaaaaaaaaa--aa------------aaaa--------------*---a
-aa------------aaaaaa------aaaaa-----------aaaaaaaaaa--aa-----aa------aaaaaaaa-------------a
-a--------------aaaaa------------------*--aaaaaaaaaaaa-----*---aa-------aaaaaa--------------a
+a--------a-----aa--0--aa---aaaaa--aaaaa---------------aa---aa-----aaaaa--*-------a--------a
+a--------a----aaaaaaaaa----aaaa-----------aaaaaaaaaa--aa------------aaaa--------------*---a
+aa-------a----aaaaaa------aaaaa-----------aaaaaaaaaa--aa-----aa------aaaaaaaa-------------a
+a--------aa----aaaaa------------------*--aaaaaaaaaaaa-----*---aa-------aaaaaa--------------a
 a---aaaaaa-------aaa-----a--------------aaaaaa---aaa---------aa---------aaa---------------a
-aaaaaaaaaa--------aa-----a-a----a---*---aaaa--|1-aaaaaa---aaaaaa----------------------*---a
+aaaaaaaaaa---a----aa-----a-a----a---*---aaaa--|1-aaaaaa---aaaaaa----------------------*---a
 aaaaaa-------a----aaaa-aaa-----------a--aaa---aaaaaaaaa---aaaaaaa-------------------------a
 a-----------aa-------a---a---a------aa--aaa---------aaaa--aa--aaaa----------------aaaa--aaa
 a------aaaaaaa-aa----a---aa-------------aaa-----***-------aa--aaa----------------aaaaa%-aaa
