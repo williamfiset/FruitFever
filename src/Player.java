@@ -21,7 +21,7 @@ import java.awt.*;
 public class Player extends MovingAnimation {
 	
 	static byte lives = 3;
-	static final int maxLives = 3;
+	static final byte maxLives = 3;
 
 // Swirl related Variables
 	static Swirl swirl;
@@ -87,6 +87,11 @@ public class Player extends MovingAnimation {
 		boundaryRight = -Data.TILE_SIZE;
 		
 		swirl = new Swirl();
+		
+		// Reset static variables
+		isJumping = false;
+		onPlatform = false;
+		lives = maxLives;
 
 	}
 

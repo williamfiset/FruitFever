@@ -96,5 +96,5 @@ public class Thing extends Rectangle{
 		boundaryTop = top;
 		boundaryBottom = bottom;
 	}
-	
+
 }

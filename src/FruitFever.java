@@ -103,6 +103,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		while(true){
 		
+			// Timer_ t = new Timer_();
+		
 			// Countdown all of the alarms towards execution
 			for (int i = 0; i < alarms.size(); i++) {
 					if (!alarms.get(i).active) {
@@ -129,8 +131,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// Tests for falling blocks
 				Block.updateFallingBlocksByNaturalDisaster();
 				// Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
-
-				// Timer_ t = new Timer_();
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
 				for (int i = 0; i < things.size(); i++) {
@@ -328,7 +328,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		// Creates the Player class
 		player = new Player(playerStartX, playerStartY);
-
 		add(player.image);
 
 		player.focusViewOnPlayer(playerStartX, playerStartY, true);

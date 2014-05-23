@@ -25,7 +25,7 @@ public abstract class Data{
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
 						music0, music1,
-						bronzeStar, silverStar, goldStar;
+						bronzeStar, silverStar, goldStar, locked;
 	public static GImage[] blockImages = new GImage[18],
 						   
 						sceneryImages = new GImage[25],
@@ -172,6 +172,9 @@ public abstract class Data{
 		bronzeStar = makeImage(TILE_SIZE*8, 0, TILE_SIZE, TILE_SIZE);
 		silverStar = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE*2);
 		goldStar = makeImage(TILE_SIZE*8, TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE*2);
+		
+		// Locked
+		locked = makeImage(TILE_SIZE*10, TILE_SIZE, TILE_SIZE*2, TILE_SIZE*2);
 		
 		// Notes
 		music0 = makeImage(TILE_SIZE*7, TILE_SIZE*1, TILE_SIZE, TILE_SIZE);
