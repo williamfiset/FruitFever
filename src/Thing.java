@@ -35,6 +35,10 @@ public class Thing extends Rectangle{
 		this(x, y, (int) image.getWidth(), (int) image.getHeight(), image);
 	}
 	
+	public Thing(int x, int y, GImage image, boolean mirrorRandomly){
+		this(x, y, (int) image.getWidth(), (int) image.getHeight(), mirrorRandomly ? ImageTransformer.mirrorRandomly(image) : image);
+	}
+	
 	/** Constructors that do not define the image **/
 	
 	public Thing(int x, int y, int width, int height){
@@ -49,11 +53,9 @@ public class Thing extends Rectangle{
 
 	/** Update image **/
 	public void animate(){
-
-
-		// Changes the position of the bounding box responsible for collision detection 
-		setLocation(imageX + boundaryLeft - FruitFever.viewX, imageY + boundaryTop - FruitFever.viewY);
-
+	
+		updateLocation();
+		
 		// Moves image to be on screen only if it needs to be on the screen
 		if (x < FruitFever.SCREEN_WIDTH) 
 		
@@ -84,17 +86,22 @@ public class Thing extends Rectangle{
 	}
 	
 	/** Change image **/
-	public void changeImage(GImage img){
+	public void changeImage(GImage img) {
 		img = new GImage(img.getImage());
 		image.setImage(img.getImage());
 	}
 	
 	/** Adjusts all boundary variables **/
-	public void adjustBoundaries(int left, int right, int top, int bottom){
+	public void adjustBoundaries(int left, int right, int top, int bottom) {
 		boundaryLeft = left;
 		boundaryRight = right;
 		boundaryTop = top;
 		boundaryBottom = bottom;
+	}
+	
+	public void updateLocation() {
+		// Changes the position of the bounding box responsible for collision detection 
+		setLocation(imageX + boundaryLeft - FruitFever.viewX, imageY + boundaryTop - FruitFever.viewY);
 	}
 
 }
