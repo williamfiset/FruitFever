@@ -180,7 +180,7 @@ public class Player extends MovingAnimation {
 		downwardsCollision(); 
 		sidewaysCollision();
 		upwardsCollision();
-		extraCollisionChecks();		
+		// extraCollisionChecks();		
 
 	}
 
@@ -271,34 +271,25 @@ public class Player extends MovingAnimation {
 	/** Does extra checks for special case(s) **/
 	private void extraCollisionChecks(){
 
+		// ** Fixes issue #64 (player falling into block) **//
 		if (!isJumping) {
 
 			for (int horizontalPosition = 3; horizontalPosition <= 22 ; horizontalPosition++){
 
-				// optimization 
+				// optimization (we don't need to check all the points)
 				if (horizontalPosition > 6 && horizontalPosition < 19) continue;
 
+				// Forms a line of points that determine if the player has hit anything
 				Block southernBlock = Block.getBlock(x + horizontalPosition , y + height + (int) fallingVelocity - 4);
+
+				// If collision 
 				if (southernBlock != null) {
 					onPlatform = true; 
 					placePlayerOnBlock(southernBlock);
-					System.out.println("Executes" + y);
 					return;
 				}
 			}
-			
 		}
-
-
-
-
-		FruitFever.point1.setLocation( x + 3, y + height + (int) fallingVelocity - 6 ); 
-		FruitFever.point1.setSize( (22 - 3), 3 );
-
-		FruitFever.point1.setFillColor(Color.RED);
-		FruitFever.point1.setFilled(true);
-		// FruitFever.point2.setLocation( x + 3 , y + height + (int) fallingVelocity - 6  );
-
 
 	}
 
