@@ -72,6 +72,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	static int earthQuakeMagnitude = 6;
 
+
+	static GRect point1;
+	static GRect point2;
+
 	@Override public void init() {
 		screen = this;
 	}
@@ -85,25 +89,25 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
 		// GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
 		// GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
-		// GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3);
+		GRect downRect = new GRect(0, 300, SCREEN_WIDTH, 3); // No DOWN_BOUNDARY!
 		// GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
 
 		// leftRect.setFillColor(Color.RED);
 		// rightRect.setFillColor(Color.RED);
 		// upRect.setFillColor(Color.RED);
-		// downRect.setFillColor(Color.RED);
+		downRect.setFillColor(Color.RED);
 		// centerRect.setFillColor(Color.RED);
 
 		// leftRect.setFilled(true);
 		// rightRect.setFilled(true);
-		// downRect.setFilled(true);
+		downRect.setFilled(true);
 		// upRect.setFilled(true);
 		// centerRect.setFilled(true);
 		/** TEMPORARY **/
 		
 
-		GRect point1 = new GRect(0 , 0, 3, 3);
-		GRect point2 = new GRect(0 , 0, 3, 3);
+		point1 = new GRect(0 , 0, 3, 3);
+		point2 = new GRect(0 , 0, 3, 3);
 		
 		point1.setFillColor(Color.RED);
 		point2.setFillColor(Color.RED);
@@ -157,25 +161,29 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				Block.drawBlocks();
 
+
 				player.motion();
 				player.animate();
-
-				point1.setLocation( player.x + player.dx + 2, player.y + 25 + (int) player.fallingVelocity );
-				point2.setLocation( player.x + player.dx + 23, player.y + 25 + (int) player.fallingVelocity);
-
+				
 				add(point1);
 				add(point2);
 
 				// add(leftRect);
 				// add(rightRect);
 				// add(upRect);
-				// add(downRect);
+				add(downRect);
 				// add(centerRect);
 
 			}
 			// pause(MAIN_LOOP_SPEED);
-			System.out.println(Math.max(0, MAIN_LOOP_SPEED - (t.getTime())*1000));
-			pause(Math.max(0, MAIN_LOOP_SPEED - (t.stop())*1000));
+
+			try{
+				pause(Math.max(0, MAIN_LOOP_SPEED - (t.stop())*1000));
+			}catch(IllegalArgumentException exception){
+				System.out.println("Pause time was: " + Math.max(0, MAIN_LOOP_SPEED - (t.getTime())*1000));
+				exception.printStackTrace();
+			}			
+			
 		}
 		
 	}

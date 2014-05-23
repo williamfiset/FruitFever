@@ -98,8 +98,6 @@ public class Player extends MovingAnimation {
 	/** Calls all the players actions **/
 	public void motion(){
 
-		// System.out.println("On Platform: "+onPlatform);
-
 		// Collisions
 		checkCollisionDetection();
 		objectCollisions();
@@ -179,16 +177,17 @@ public class Player extends MovingAnimation {
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
 
-		extraCollisionChecks();
 		downwardsCollision(); 
 		sidewaysCollision();
 		upwardsCollision();
-		
+		extraCollisionChecks();		
 
 	}
 
 	/** Side Collisions **/
-	private void sidewaysCollision(){
+	private boolean sidewaysCollision(){
+
+		boolean collision = false;
 
 		// Player is moving EAST
 		if (FruitFever.dx == 1) {
@@ -204,6 +203,7 @@ public class Player extends MovingAnimation {
 			if (eastSouth == null && eastNorth == null) {
 				// System.out.println("Side");
 				dx = HORIZONTAL_VELOCITY;
+				collision = true;
 			} else {
 
 				// Stop viewX from moving as well as player
@@ -222,6 +222,7 @@ public class Player extends MovingAnimation {
 			if (westNorth == null && westSouth == null){
 				// System.out.println("Side");
 				dx = -HORIZONTAL_VELOCITY;
+				collision = true;
 			} else {
 				
 				// Stop viewX from moving as well as player
@@ -229,6 +230,8 @@ public class Player extends MovingAnimation {
 				FruitFever.vx = 0;
 			}
 		}
+
+		return collision;
 
 	}
 
@@ -257,10 +260,9 @@ public class Player extends MovingAnimation {
 
 			onPlatform = true;	
 
-			if (southEast != null)
-				placePlayerOnBlock(southEast);
-			else
-				placePlayerOnBlock(southWest);
+			// This is what actually stops the fall 
+			if (southEast != null) placePlayerOnBlock(southEast);
+			else placePlayerOnBlock(southWest);
 			
 		} else
 			onPlatform = false;
@@ -269,15 +271,35 @@ public class Player extends MovingAnimation {
 	/** Does extra checks for special case(s) **/
 	private void extraCollisionChecks(){
 
-		// When jumping add extra collision detection for blocks
-		if (!onPlatform) {
+		if (!isJumping) {
 
-			Block southWest = Block.getBlock(x + 2 + dx, y + height + (int) fallingVelocity);
-			Block southEast = Block.getBlock(x + width - 2 + dx, y + height + (int) fallingVelocity);
+			for (int horizontalPosition = 3; horizontalPosition <= 22 ; horizontalPosition++){
+
+				// optimization 
+				if (horizontalPosition > 6 && horizontalPosition < 19) continue;
+
+				Block southernBlock = Block.getBlock(x + horizontalPosition , y + height + (int) fallingVelocity - 4);
+				if (southernBlock != null) {
+					onPlatform = true; 
+					placePlayerOnBlock(southernBlock);
+					System.out.println("Executes" + y);
+					return;
+				}
+			}
 			
-			if (southEast != null || southWest != null)
-				onPlatform = true;
 		}
+
+
+
+
+		FruitFever.point1.setLocation( x + 3, y + height + (int) fallingVelocity - 6 ); 
+		FruitFever.point1.setSize( (22 - 3), 3 );
+
+		FruitFever.point1.setFillColor(Color.RED);
+		FruitFever.point1.setFilled(true);
+		// FruitFever.point2.setLocation( x + 3 , y + height + (int) fallingVelocity - 6  );
+
+
 	}
 
 	/** Does all the upwards boundary colliion checks **/
