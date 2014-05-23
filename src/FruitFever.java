@@ -233,6 +233,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	private void drawMainMenu(){
 		removeAll();
 		addToScreen(mainMenuButtons);
+		add(Data.fruitFeverTitle);
 		levelSelectionPage = 0;
 		
 		currentScreen = 1;

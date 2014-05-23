@@ -18,7 +18,7 @@ public abstract class Data{
 	public static final int TILE_SIZE = 25;
 
 	public static BufferedImage sheet = null;
-	public static GImage loadingScreenBackground, loadingScreenBar, levelBackDropImage,
+	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
 						heartImage,
 						lavaImage,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
@@ -252,6 +252,14 @@ public abstract class Data{
 		for(int i = 0; i < 12; i++)
 			menuButtons[i] = makeImage(0, i*69, 266, 69);
 			
+		// Fruit Fever Title
+		if (color == "Orange")
+			fruitFeverTitle = makeImage(267, 212, 351, 36);
+		else
+			fruitFeverTitle = makeImage(267, 338, 351, 36);
+			
+		fruitFeverTitle.setLocation(FruitFever.SCREEN_WIDTH/2 - (int)fruitFeverTitle.getWidth()/2, 50);
+			
 		// PICK RANDOM COLOR SCHEME
 		
 		color = "";
@@ -278,8 +286,8 @@ public abstract class Data{
 		
 		levelButton[0] = makeImage(0, 139, 51, 45);
 		levelButton[1] = makeImage(0, 93, 50, 44);
-		levelBackDropImage = makeImage(70, 0, 260, 333);
-		FruitFever.levelBackDrop = new Thing((int) (FruitFever.SCREEN_WIDTH/2 - levelBackDropImage.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelBackDropImage.getHeight()/2), levelBackDropImage);
+		levelSelectionBackDrop = makeImage(70, 0, 260, 333);
+		FruitFever.levelBackDrop = new Thing((int) (FruitFever.SCREEN_WIDTH/2 - levelSelectionBackDrop.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelSelectionBackDrop.getHeight()/2), levelSelectionBackDrop);
 
 		// Create numbers to display in the level boxes
 		for(int i = 0; i < 20; i++){
@@ -490,7 +498,7 @@ public abstract class Data{
 		
 		// Adds main menu buttons to the ArrayLists
 		for(int i = 0; i < 4; i++){
-			tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[i/3].getWidth()/2), 100 + 75*i, i, menuButtons[3*i], menuButtons[3*i + 1], menuButtons[3*i + 2]);
+			tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[i/3].getWidth()/2), 125 + 75*i, i, menuButtons[3*i], menuButtons[3*i + 1], menuButtons[3*i + 2]);
 			FruitFever.buttons.add(tempButton);
 			FruitFever.mainMenuButtons.add(tempButton);
 		}
