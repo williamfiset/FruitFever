@@ -21,9 +21,9 @@ import re
 # returns true or false on whether a subprocess is running
 def is_running(process):
 
-	# Get a string of all the processes 
+# Get a string of all the processes 
 	processes = os.popen("ps -Af").read() 
-	
+
 	if process in processes:
 		return True
 	return False
@@ -41,20 +41,20 @@ def deleteFiles(directory, extension):
 
 def runDaemon():
 
-    while True:
+	while True:
 
-    	if os.name != 'posix':
-    		deleteFiles( os.getcwd() + "/src/" , "class" )
-    		break
+		if os.name != 'posix':
+			deleteFiles( os.getcwd() + "/src/" , "class" )
+			break
 
-    	# Sleeps for one second
-        time.sleep(1)
-        
-        if not is_running("GameStarter"):
-        	deleteFiles( os.getcwd() + "/src/" , "class" )
+		# Sleeps for one second
+		time.sleep(1)
+
+		if not is_running("GameStarter"):
+			deleteFiles( os.getcwd() + "/src/" , "class" )
 
 if __name__ == "__main__":
-    runDaemon()
+	runDaemon()
 
 
 
