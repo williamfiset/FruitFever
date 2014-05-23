@@ -48,7 +48,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static GLabel[] levelNumbers = new GLabel[20];
 	static GImage[] livesImages = new GImage[player.maxLives];
 	
-	// CurrentScreen: 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
+	// CurrentScreen: -1 = N/A, 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
 	static int currentScreen = 0, currentLevel = 1, levelSelectionPage = 0;
 
 	static Thing levelBackDrop;
@@ -114,6 +114,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			// Playing
 			if(currentScreen == 3){
 			
+				// Controls if it is time to return to the level selection menu
+				if(levelComplete || player.lives <= 0){
+					drawLevelSelection();
+					levelComplete = false;
+					continue;
+				}
+			
 				animateText();
 				
 				// Activates EarthQuake Effect				
@@ -122,13 +129,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// Tests for falling blocks
 				Block.updateFallingBlocksByNaturalDisaster();
 				// Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
-
-				// Controls if it is time to return to the level selection menu
-				if(levelComplete){
-					drawLevelSelection();
-					levelComplete = false;
-					continue;
-				}
 
 				// Timer_ t = new Timer_();
 
@@ -144,7 +144,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				/** Animate all edible items **/
 				for (Thing item : edibleItems)
 					item.animate();
-
 
 				Block.drawBlocks();
 
@@ -222,6 +221,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		Block.resetPerformedNaturalAnimate();
 		Block.findNaturalFallingBlockCandidates();
+		
+		currentScreen = 3;
 
 		/** TEMPORARY for powerup testing, this automatically gives the player a jump powerup at the beginning of the level. eventually he'll have blocks to get this power-up **/
 		// alarms.add(new Alarm (100, 0, 0));
@@ -230,15 +231,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 
 	private void drawMainMenu(){
-		currentScreen = 1;
 		removeAll();
 		addToScreen(mainMenuButtons);
 		levelSelectionPage = 0;
+		
+		currentScreen = 1;
 	}
 	
 	private void drawLevelSelection(){
-		
-		currentScreen = 2;
 	
 		/** Remove all images from screen and add the level selection images **/
 		removeAll();
@@ -247,6 +247,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		for(int i = 0; i < levelNumbers.length; i++)
 			add(levelNumbers[i]);
+			
+		currentScreen = 2;
 		
 	}
 
@@ -303,8 +305,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			item.image.setLocation(item.getX(), item.getY());
 			add(item.image);
 		}
-
-		add(vortex.image);
 
 		placePlayerOnScreen();
 
@@ -530,11 +530,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				} else if (clickedOnButton.type == 6) {
 					currentLevel = clickedOnButton.level + levelSelectionPage*20;
 					loadLevel();
-					currentScreen = 3;
 				
-				// Back Button
+				// Refresh Button
 				} else if (clickedOnButton.type == 8) {
-					drawMainMenu();
+					currentScreen = -1;
+					loadLevel();
 				}
 				
 			}
@@ -579,8 +579,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		for (Thing dangerousSprite : FruitFever.dangerousThings)
 			dangerousSprite.naturalAnimate();
-
-		vortex.naturalAnimate();
 
 	}
 

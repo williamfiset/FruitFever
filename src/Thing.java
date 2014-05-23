@@ -88,4 +88,13 @@ public class Thing extends Rectangle{
 		img = new GImage(img.getImage());
 		image.setImage(img.getImage());
 	}
+	
+	/** Adjusts all boundary variables **/
+	public void adjustBoundaries(int left, int right, int top, int bottom){
+		boundaryLeft = left;
+		boundaryRight = right;
+		boundaryTop = top;
+		boundaryBottom = bottom;
+	}
+	
 }

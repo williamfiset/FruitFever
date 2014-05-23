@@ -55,7 +55,7 @@ public class Player extends MovingAnimation {
 	private boolean setBaseLine = true;
 	private static boolean isJumping = false;
 
-	int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // 3.5 tile jump limit
+	private int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // 3.5 tile jump limit
 	private int baseLine;
 
 // Jumping motion Variables
@@ -480,10 +480,8 @@ public class Player extends MovingAnimation {
 			checkPoint.changeImage(Data.checkpointFlagRed);
 		}
 
-		FruitFever.vortex.boundaryTop = Data.TILE_SIZE/2 ;
-
 		// Reset Level if player touches vortex
-		if (this.intersects(FruitFever.vortex))
+		if (FruitFever.vortex != null && this.intersects(FruitFever.vortex))
 			FruitFever.levelComplete = true;
 		
 	}

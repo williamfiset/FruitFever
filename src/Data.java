@@ -57,7 +57,7 @@ public abstract class Data{
 						fuzzyShot = new GImage[8],
 						swirlAnimation = new GImage[6],
 						
-						backButton = new GImage[3],
+						refreshButton = new GImage[3],
 						menuButtons = new GImage[12],
 						leftArrowButton = new GImage[3],
 						rightArrowButton = new GImage[3],
@@ -93,7 +93,7 @@ public abstract class Data{
 
 		// Scenery (Top Row in sheet)
 		sceneryImages[0] = makeImage(0, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
-		for (int i = 2; i < 6; i++)
+		for (int i = 2; i < 7; i++)
 			sceneryImages[i - 1] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		sceneryImages[6] = makeImage(TILE_SIZE*7, TILE_SIZE - 2, TILE_SIZE + 5, TILE_SIZE + 2);
 
@@ -140,8 +140,9 @@ public abstract class Data{
 			gearButton[i] = makeImage(TILE_SIZE*(i + 1), 0, TILE_SIZE, TILE_SIZE);
 			
 		// Back Button Images
+		int randomButtonColor = (int) (Math.random()*4);
 		for(int i = 0; i < 3; i++)
-			backButton[i] = makeImage(0, TILE_SIZE*(i + 3), TILE_SIZE, TILE_SIZE);	
+			refreshButton[i] = makeImage(TILE_SIZE*randomButtonColor, TILE_SIZE*(i + 5), TILE_SIZE, TILE_SIZE);	
 			
 		// Lava Image
 		lavaImage = makeImage(TILE_SIZE*7, 0, TILE_SIZE, TILE_SIZE);
@@ -352,15 +353,16 @@ public abstract class Data{
 
 					// Vortex (% sorta looks like vortex), readability counts (line 7 of our coding philosophy)
 					if (character == '%') {
-						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.vortexAnimation, false, 2, true, -1, true);
+						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, vortexAnimation, false, 2, true, -1, true);
 						FruitFever.vortex = vortex;
+						FruitFever.vortex.adjustBoundaries(7, -7, 7, -7);
 						FruitFever.things.add(vortex);
 						continue;
 					}
 					
 					// Fruit Ring
 					if (character == '*') {
-						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.fruitRingAnimation, true, 3, true, -1, true);
+						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruitRingAnimation, true, 3, true, -1, true);
 						FruitFever.edibleItems.add(fruitRing);
 						FruitFever.things.add(fruitRing);
 						continue;
@@ -377,13 +379,13 @@ public abstract class Data{
 					// Reads in a fruit
 					if(Character.isDigit(character)){
 						if(character == '0')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.blueFruit, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, blueFruit, true, 3, true, 2, true));
 						else if(character == '1')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.yellowFruit, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, yellowFruit, true, 3, true, 2, true));
 						else if(character == '2')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.redFruit, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, redFruit, true, 3, true, 2, true));
 						else if(character == '3')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, Data.purpleFruit, false, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, purpleFruit, false, 3, true, 2, true));
 						continue;
 					}		
 
@@ -395,7 +397,7 @@ public abstract class Data{
 						// Normal Blocks
 						if(character - 'a' >= 0){
 							color = character - 'a';
-							image = Data.blockImages[color];
+							image = blockImages[color];
 						}
 						// Grass Blocks
 						else{
@@ -447,11 +449,6 @@ public abstract class Data{
 					try {
 
 						int type = character - 'a';
-
-						// Error with type 5 (f) blossomless tree
-						if (type == 5) continue;
-						GImage image = new GImage(Data.sceneryImages[type].getImage());
-
 						int xOffset = 0, yOffset = 0;
 
 						// Hard-Coded Exceptions
@@ -461,7 +458,7 @@ public abstract class Data{
 							xOffset = -3;
 
 						// Add Scenery to the ArrayList
-						FruitFever.things.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, image));
+						FruitFever.things.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, sceneryImages[type]));
 
 					} catch(ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("\nSCENERY LAYER contains invalid character: '%c' \n", character);
@@ -496,7 +493,6 @@ public abstract class Data{
 			tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[i/3].getWidth()/2), 100 + 75*i, i, menuButtons[3*i], menuButtons[3*i + 1], menuButtons[3*i + 2]);
 			FruitFever.buttons.add(tempButton);
 			FruitFever.mainMenuButtons.add(tempButton);
-			
 		}
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
@@ -509,9 +505,8 @@ public abstract class Data{
 		FruitFever.levelSelectionButtons.add(tempButton);
 		
 		/** Adds back button to the ArrayLists for Level Selection Screen and the In-Game Screen **/
-		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, 8, backButton[0], backButton[1], backButton[2]);
+		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, 8, refreshButton[0], refreshButton[1], refreshButton[2]);
 		FruitFever.buttons.add(tempButton);
-		FruitFever.levelSelectionButtons.add(tempButton);
 		FruitFever.inGameButtons.add(tempButton);
 		
 		/** Adds level buttons to the ArrayLists for Level Selection Screen **/
