@@ -100,7 +100,7 @@ public class Player extends MovingAnimation {
 
 		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
 
-		System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
+		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
 
 		// Collisions
 		checkCollisionDetection();
@@ -637,6 +637,10 @@ public class Player extends MovingAnimation {
 		imageX = swirl.imageX - Data.TILE_SIZE;
 		imageY = swirl.imageY;
 
+		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) **/
+		y = swirl.imageY;
+
+
 		// Hardcoded Values are to make precision more accurate
 		Block upperRight = Block.getBlock(x, y + 3);
 		Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
@@ -654,12 +658,15 @@ public class Player extends MovingAnimation {
 			
 		}
 
+		/** 
+		* The player is sometimes teleported into a block (because swirl height varies) and
+		* thus this checks to see if that happened
+		* NOTE: This seems to cause a small bounce when teleporting
+		*/
+		extraCollisionChecks();
 
 		// Focuses the view on the player placing the player in the center of the screen
 		focusViewOnPlayer(swirl.imageX, swirl.imageY, false);
-
-		// Doesn't fix issue #77 
-		// resetJump();
 
 		swirl.resetState();
 		
