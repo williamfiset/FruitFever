@@ -98,89 +98,34 @@ public class Player extends MovingAnimation {
 	/** Calls all the players actions **/
 	public void motion(){
 
+		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
+
+		System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
+
 		// Collisions
 		checkCollisionDetection();
 		objectCollisions();
 
-		jumpingEffect();
-		enableJumping();
-		
 		relativisticScreenMovement();
 	
 		// These methods control the movement of the player 
+		jumpingEffect();
 		gravityEffect();
 		imageX += dx;
 
+		enableJumping();
 		updateHealth();
 		grabbingItem();
 	}
 	
-	/** Resets players ability to jump if applicable **/
-	private void enableJumping(){
-		
-		if(onPlatform)
-			setBaseLine = false;
-		
-	}
-
-	/** 
-     * Moves the view of the screen relative to the character
-     * (This method could use serious refactoring, but I dare not!)
-	 **/
-	private void relativisticScreenMovement(){
-
-		// Horizontal screen movement
-		if (x + width > FruitFever.RIGHT_BOUNDARY && dx > 0) {
-			
-			// Makes sure view never passes maximum level width 
-			if (FruitFever.viewX >= FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
-				FruitFever.vx = 0;
-			else
-				FruitFever.vx = dx;	
-		
-		} else if (x < FruitFever.LEFT_BOUNDARY && dx < 0) {
-
-			// Makes sure view never shows blank left of screen
-			if (FruitFever.viewX <= 0)
-				FruitFever.vx = 0;
-			else
-				FruitFever.vx = dx;	
-		}
-
-		// DOWN bound 
-		if (y + height > FruitFever.DOWN_BOUNDARY)
-			FruitFever.vy = fallingVelocity;
-
-		// UPPER bound
-		else if (y < FruitFever.UP_BOUNDARY && FruitFever.viewY >= 0) {
-			
-			// When jump gets and starts falling jumpingVelocity = STARTING_JUMPING_VELOCITY
-			if (jumpingVelocity != STARTING_JUMPING_VELOCITY)
-				FruitFever.vy = -jumpingVelocity;		
-
-		// Make sure screen doesn't move when player is not jumping or on platform
-		} else if (!isJumping && onPlatform) 
-			FruitFever.vy = 0;
-		
-		// Stop moving the screen up 
-		if (FruitFever.viewY >= FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE && FruitFever.vy > 0 )
-			FruitFever.vy = 0;
-
-		FruitFever.viewX += FruitFever.vx;
-		
-		// Fixes the glitch with half jumping height
-		if (FruitFever.viewY + FruitFever.vy >= 0)
- 			FruitFever.viewY += FruitFever.vy;	
- 		
-	}
 
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
 
-		downwardsCollision(); 
+		extraCollisionChecks();
+		downwardsCollision();
 		sidewaysCollision();
 		upwardsCollision();
-		extraCollisionChecks();		
 
 	}
 
@@ -249,6 +194,7 @@ public class Player extends MovingAnimation {
 		
 		// Will this ever execute?
 		} else {
+			System.out.println("downwardsCollision - ?Executes?");
 			southWest = Block.getBlock(x + CRACK_SPACING, y + height + VERTICAL_PX_BUFFER);			
 			southEast = Block.getBlock(x + width - CRACK_SPACING, y + height + VERTICAL_PX_BUFFER);
 		}
@@ -268,12 +214,15 @@ public class Player extends MovingAnimation {
 			onPlatform = false;
 
 	}
+
 	/** Does extra checks for special case(s) **/
 	private void extraCollisionChecks(){
 
 		// ** Fixes issue #64 (player falling into block) **//
-		if (!isJumping) {
 
+		// Executes only when falling downwards 
+		if (!isJumping && jumpingVelocity > STARTING_JUMPING_VELOCITY) {
+			System.out.println(jumpingVelocity);
 			for (int horizontalPosition = 3; horizontalPosition <= 22 ; horizontalPosition++){
 
 				// optimization (we don't need to check all the points)
@@ -284,6 +233,7 @@ public class Player extends MovingAnimation {
 
 				// If collision 
 				if (southernBlock != null) {
+					System.out.println("extraCollisionChecks() triggered");
 					onPlatform = true; 
 					placePlayerOnBlock(southernBlock);
 					return;
@@ -329,6 +279,7 @@ public class Player extends MovingAnimation {
 			// Player has not yet hit the maximum jump limit
 			if (imageY - jumpingVelocity > baseLine - maxJumpHeight && jumpingVelocity > 0) {
 
+				// Move the player's image up
 				imageY -= jumpingVelocity;
 
 				jumpingVelocity -= jumpingDecceleration;
@@ -338,6 +289,15 @@ public class Player extends MovingAnimation {
 			} else resetJump();				
 		}
 	}
+
+	private void resetJump(){
+
+		jumpingVelocity = STARTING_JUMPING_VELOCITY;
+		jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
+
+		isJumping = false;
+	}
+
 
 	/** 
 	 * It was a good idea to have a setter for IsJumping.  
@@ -351,14 +311,13 @@ public class Player extends MovingAnimation {
 			isJumping = true;
 	}
 
-	private void resetJump(){
-
-		jumpingVelocity = STARTING_JUMPING_VELOCITY;
-		jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
-
-		isJumping = false;
+	/** Resets players ability to jump if applicable **/
+	private void enableJumping(){
+		
+		if(onPlatform)
+			setBaseLine = false;
+		
 	}
-
 
 	/** Takes care of making the player fall when not jumping and not on a platform **/
 	private void gravityEffect(){
@@ -366,6 +325,7 @@ public class Player extends MovingAnimation {
 		// Gravity Effect triggered here
 		if (!isJumping && gravity && !onPlatform) {
 
+			// Move the player's image down
 			imageY += fallingVelocity;
 
 			if (fallingVelocity < TERMINAL_VELOCITY) {
@@ -373,11 +333,10 @@ public class Player extends MovingAnimation {
 				// Acceleration effect
 				fallingVelocity += fallingAcceleration;
 				fallingAcceleration += changeInAcceleration;
-			}
-			else
+			
+			} else
 				fallingVelocity = TERMINAL_VELOCITY;
 			
-
 		// Executes when not falling or not allowed to fall
 		} else {
 
@@ -386,6 +345,58 @@ public class Player extends MovingAnimation {
 			fallingAcceleration = STARTING_FALLING_ACCELERATION;
 		}
 
+	}
+
+
+	/** 
+     * Moves the view of the screen relative to the character
+     * (This method could use some serious refactoring, but I dare not!)
+	 **/
+	private void relativisticScreenMovement(){
+
+		// Horizontal screen movement
+		if (x + width > FruitFever.RIGHT_BOUNDARY && dx > 0) {
+			
+			// Makes sure view never passes maximum level width 
+			if (FruitFever.viewX >= FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
+				FruitFever.vx = 0;
+			else
+				FruitFever.vx = dx;	
+		
+		} else if (x < FruitFever.LEFT_BOUNDARY && dx < 0) {
+
+			// Makes sure view never shows blank left of screen
+			if (FruitFever.viewX <= 0)
+				FruitFever.vx = 0;
+			else
+				FruitFever.vx = dx;	
+		}
+
+		// DOWN bound 
+		if (y + height > FruitFever.DOWN_BOUNDARY)
+			FruitFever.vy = fallingVelocity;
+
+		// UPPER bound
+		else if (y < FruitFever.UP_BOUNDARY && FruitFever.viewY >= 0) {
+			
+			// When jump gets and starts falling jumpingVelocity = STARTING_JUMPING_VELOCITY
+			if (jumpingVelocity != STARTING_JUMPING_VELOCITY)
+				FruitFever.vy = -jumpingVelocity;		
+
+		// Make sure screen doesn't move when player is not jumping or on platform
+		} else if (!isJumping && onPlatform) 
+			FruitFever.vy = 0;
+		
+		// Stop moving the screen up 
+		if (FruitFever.viewY >= FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE && FruitFever.vy > 0 )
+			FruitFever.vy = 0;
+
+		FruitFever.viewX += FruitFever.vx;
+		
+		// Fixes the glitch with half jumping height
+		if (FruitFever.viewY + FruitFever.vy >= 0)
+ 			FruitFever.viewY += FruitFever.vy;	
+ 		
 	}
 
 	public void eat(){
@@ -511,8 +522,17 @@ public class Player extends MovingAnimation {
 			FruitFever.livesImages[i].setVisible(livesLeft > i);
 	}
 
-	/** Adjusts View to place the player in the middle of the screen **/
-	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos){
+	/** Adjusts View to place the player in the middle of the screen 
+	 *
+	 * @Param levelRespawn: Used to indicate that the player was loaded into a level rather 
+	 * 		  than already previously being in the level
+	 *
+	 * The levelRespawn variable is needed because loading the player in the level as opposed
+	 * to changing the players position from within the level seems to have different effect
+	 * (I assume this may have to do with the player's actual size of 3*TILE_SIZE)
+	 *
+	 */
+	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos, boolean levelRespawn){
 
 		// Places the player exactly in the middle of the screen
 		FruitFever.viewX = newPlayerXPos - (FruitFever.SCREEN_WIDTH/2) + (Data.TILE_SIZE/2);
@@ -525,24 +545,13 @@ public class Player extends MovingAnimation {
 		FruitFever.viewY = Math.min(FruitFever.viewY, FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE);
 		FruitFever.viewX = Math.min(FruitFever.viewX, FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE);
 
-		FruitFever.naturalAnimateAll();
 
-	}
-
-	/** 
-	 * @Param levelRespawn: Used to indicate that the player was loaded into a level rather 
-	 * 		  than already previously being in the level
-	 **/
-	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos, boolean levelRespawn){
-
-		focusViewOnPlayer(newPlayerXPos, newPlayerYPos);
-
-		// Fixes the loading player position bug 
+ 		// Fixes the loading player position bug 
 		if (levelRespawn) {
 			imageX -= Data.TILE_SIZE; 
 			x -= Data.TILE_SIZE;
 		}
-
+			
 		FruitFever.naturalAnimateAll();
 
 	}
@@ -647,7 +656,10 @@ public class Player extends MovingAnimation {
 
 
 		// Focuses the view on the player placing the player in the center of the screen
-		focusViewOnPlayer(swirl.imageX, swirl.imageY);
+		focusViewOnPlayer(swirl.imageX, swirl.imageY, false);
+
+		// Doesn't fix issue #77 
+		// resetJump();
 
 		swirl.resetState();
 		

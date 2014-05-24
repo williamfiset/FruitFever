@@ -91,7 +91,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
 		// GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		// GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
+		GRect upRect = new GRect(0, 278, SCREEN_WIDTH, 3);
 		// GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3); 
 		// GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
 		// point1 = new GRect(0,0,0,0);
@@ -99,7 +99,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// leftRect.setFillColor(Color.RED);
 		// rightRect.setFillColor(Color.RED);
-		// upRect.setFillColor(Color.RED);
+		upRect.setFillColor(Color.RED);
 		// downRect.setFillColor(Color.RED);
 		// centerRect.setFillColor(Color.RED);
 		// point1.setFillColor(Color.RED);
@@ -108,7 +108,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// leftRect.setFilled(true);
 		// rightRect.setFilled(true);
 		// downRect.setFilled(true);
-		// upRect.setFilled(true);
+		upRect.setFilled(true);
 		// centerRect.setFilled(true);
 		// point1.setFilled(true);
 		// point2.setFilled(true);
@@ -169,7 +169,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// add(point2);
 				// add(leftRect);
 				// add(rightRect);
-				// add(upRect);
+				add(upRect);
 				// add(downRect);
 				// add(centerRect);
 
@@ -179,7 +179,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			try{
 				pause(Math.max(0, MAIN_LOOP_SPEED - (t.stop())*1000));
 			}catch(IllegalArgumentException exception){
-				System.out.println("Pause time was: " + Math.max(0, MAIN_LOOP_SPEED - (t.getTime())*1000));
+				System.out.println("MAIN_LOOP_SPEED - (t.stop())*1000)  =  " + (MAIN_LOOP_SPEED - (t.getTime())*1000));
 				exception.printStackTrace();
 			}			
 			
@@ -437,8 +437,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				
 					if(player.swirl.reset)
 						player.shootSwirl();
-					else
+					else{
+						System.out.println("teleport");
 						player.swirlTeleport();
+					}
 					
 					swirlButtonReleased = false;
 				}
