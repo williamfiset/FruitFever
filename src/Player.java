@@ -668,6 +668,9 @@ public class Player extends MovingAnimation {
 		// Focuses the view on the player placing the player in the center of the screen
 		focusViewOnPlayer(swirl.imageX, swirl.imageY, false);
 
+		// makes sure the player cannot jump directly after teleportation
+		resetJump();
+
 		swirl.resetState();
 		
 	}

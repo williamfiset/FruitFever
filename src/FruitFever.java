@@ -36,6 +36,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static Player player;
 	static int playerStartX, playerStartY, dx;
 	static boolean swirlButtonReleased = true, tongueButtonReleased = true;
+	private static boolean keepJumping = false;
 	
 /** Menus/GUI **/
 
@@ -161,6 +162,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				Block.drawBlocks();
 
+
+				if (keepJumping)
+					player.setIsJumping(true);	
 
 				player.motion();
 				player.animate();
@@ -421,7 +425,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 			// JUMP
 			if (keyCode == KeyEvent.VK_W) {
-				player.setIsJumping(true);
+				keepJumping = true;
+
 
 			// TONGUE
 			} else if (keyCode == KeyEvent.VK_E) {
@@ -432,28 +437,24 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				// Shoot Swirl
 			} else if (keyCode == KeyEvent.VK_SPACE) {
-			
+				
 				if (swirlButtonReleased) {
 				
 					if(player.swirl.reset)
 						player.shootSwirl();
-					else{
-						System.out.println("teleport");
+					else
 						player.swirlTeleport();
-					}
 					
 					swirlButtonReleased = false;
 				}
 		
 			// Movement LEFT
 			} else if (keyCode == KeyEvent.VK_A) {
-
 				player.facingRight = false; 
 				dx = -1;
 			
 			// Movement RIGHT
 			} else if (keyCode == KeyEvent.VK_D) {
-				
 				dx = 1;
 				player.facingRight = true;
 				
@@ -479,6 +480,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				swirlButtonReleased = true;
 			else if (keyCode == KeyEvent.VK_E)
 				tongueButtonReleased = true;
+			else if (keyCode == KeyEvent.VK_W) 
+				keepJumping = false;
+			
 		}
 		
 	}
