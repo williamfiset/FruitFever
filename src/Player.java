@@ -52,6 +52,7 @@ public class Player extends MovingAnimation {
 // Variables concerning jumping
 	
 	// setBaseLine is true because we don't know where the player starts
+	private static boolean keepJumping = false;
 	private boolean setBaseLine = true;
 	private static boolean isJumping = false;
 
@@ -71,6 +72,18 @@ public class Player extends MovingAnimation {
 // Animation things
 	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	public static boolean facingRight = true;
+
+	public void setKeepJumping(boolean keepJumping){
+		this.keepJumping = keepJumping;
+	}
+
+	/** triggers the variables that make the player jump **/
+	public void jump(){
+
+		if (keepJumping)
+			setIsJumping(true);	
+
+	}
 
 	public Player(int x, int y){
 
@@ -670,6 +683,8 @@ public class Player extends MovingAnimation {
 
 		// makes sure the player cannot jump directly after teleportation
 		resetJump();
+		// setKeepJumping(false);
+		
 
 		swirl.resetState();
 		

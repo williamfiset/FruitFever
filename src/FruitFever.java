@@ -36,7 +36,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static Player player;
 	static int playerStartX, playerStartY, dx;
 	static boolean swirlButtonReleased = true, tongueButtonReleased = true;
-	private static boolean keepJumping = false;
 	
 /** Menus/GUI **/
 
@@ -163,9 +162,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				Block.drawBlocks();
 
 
-				if (keepJumping)
-					player.setIsJumping(true);	
-
+				player.jump();
 				player.motion();
 				player.animate();
 				
@@ -425,8 +422,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 			// JUMP
 			if (keyCode == KeyEvent.VK_W) {
-				keepJumping = true;
-
+				player.setKeepJumping(true);
 
 			// TONGUE
 			} else if (keyCode == KeyEvent.VK_E) {
@@ -481,7 +477,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			else if (keyCode == KeyEvent.VK_E)
 				tongueButtonReleased = true;
 			else if (keyCode == KeyEvent.VK_W) 
-				keepJumping = false;
+				player.setKeepJumping(false);
 			
 		}
 		
