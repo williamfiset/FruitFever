@@ -91,7 +91,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
 		// GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		GRect upRect = new GRect(0, 278, SCREEN_WIDTH, 3);
+		// GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
 		// GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3); 
 		// GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
 		// point1 = new GRect(0,0,0,0);
@@ -99,7 +99,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// leftRect.setFillColor(Color.RED);
 		// rightRect.setFillColor(Color.RED);
-		upRect.setFillColor(Color.RED);
+		// upRect.setFillColor(Color.RED);
 		// downRect.setFillColor(Color.RED);
 		// centerRect.setFillColor(Color.RED);
 		// point1.setFillColor(Color.RED);
@@ -108,7 +108,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// leftRect.setFilled(true);
 		// rightRect.setFilled(true);
 		// downRect.setFilled(true);
-		upRect.setFilled(true);
+		// upRect.setFilled(true);
 		// centerRect.setFilled(true);
 		// point1.setFilled(true);
 		// point2.setFilled(true);
@@ -143,7 +143,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// earthQuakeEffect();
 
 				// Tests for falling blocks
-				Block.updateFallingBlocksByNaturalDisaster();
+				// Block.updateFallingBlocksByNaturalDisaster();
 				// Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
@@ -170,7 +170,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// add(point2);
 				// add(leftRect);
 				// add(rightRect);
-				add(upRect);
+				// add(upRect);
 				// add(downRect);
 				// add(centerRect);
 
@@ -422,7 +422,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 			// JUMP
 			if (keyCode == KeyEvent.VK_W) {
-				player.setKeepJumping(true);
+				player.setKeepJumping(true);	
 
 			// TONGUE
 			} else if (keyCode == KeyEvent.VK_E) {

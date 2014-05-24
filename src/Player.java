@@ -73,17 +73,6 @@ public class Player extends MovingAnimation {
 	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	public static boolean facingRight = true;
 
-	public void setKeepJumping(boolean keepJumping){
-		this.keepJumping = keepJumping;
-	}
-
-	/** triggers the variables that make the player jump **/
-	public void jump(){
-
-		if (keepJumping)
-			setIsJumping(true);	
-
-	}
 
 	public Player(int x, int y){
 
@@ -309,6 +298,20 @@ public class Player extends MovingAnimation {
 		jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 
 		isJumping = false;
+	}
+
+
+	public void setKeepJumping(boolean keepJumping){
+
+		this.keepJumping = keepJumping;	
+				
+	}
+
+	/** triggers the variables that make the player jump **/
+	public void jump(){
+
+		if (keepJumping)
+			setIsJumping(true);	
 	}
 
 
@@ -652,7 +655,7 @@ public class Player extends MovingAnimation {
 
 		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) **/
 		y = swirl.imageY;
-
+		x = swirl.imageX;
 
 		// Hardcoded Values are to make precision more accurate
 		Block upperRight = Block.getBlock(x, y + 3);
@@ -677,6 +680,7 @@ public class Player extends MovingAnimation {
 		* NOTE: This seems to cause a small bounce when teleporting
 		*/
 		extraCollisionChecks();
+		downwardsCollision();
 
 		// Focuses the view on the player placing the player in the center of the screen
 		focusViewOnPlayer(swirl.imageX, swirl.imageY, false);
