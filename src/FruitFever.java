@@ -5,18 +5,22 @@
  *
  */
 
+// CurrentScreen: -1 = N/A, 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
+
 import acm.graphics.*;
 import acm.program.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 
+
+
 public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 /** Constants **/
 
 	static GraphicsProgram screen;
-	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
+	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 50;
 
 /** Level Information/Objects/Lists **/
 	
@@ -38,6 +42,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static boolean swirlButtonReleased = true, tongueButtonReleased = true;
 	
 /** Menus/GUI **/
+	
+	// Defines ScreenMode constants	
+	private enum ScreenMode{
+		NOT_AVAILABLE,
+		LOADING_GAME,
+		MAIN_MENU,
+		LEVEL_SELECTION,
+		PLAYING,
+		CONTROLS,
+		OPTIONS,
+		MULTIPLAYER;
+	};
 
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
@@ -48,8 +64,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static GLabel[] levelNumbers = new GLabel[20];
 	static GImage[] livesImages = new GImage[player.maxLives];
 	
-	// CurrentScreen: -1 = N/A, 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
-	static int currentScreen = 0, currentLevel = 1, levelSelectionPage = 0;
+	
+	static int currentLevel = 1, levelSelectionPage = 0;
+	static ScreenMode currentScreen;
 
 	static Thing levelBackDrop;
 
@@ -94,24 +111,24 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		// GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
 		// GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3); 
 		// GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
-		// point1 = new GRect(0,0,0,0);
-		// point2 = new GRect(0,0,0,0);
+		point1 = new GRect(0,0,2,3);
+		point2 = new GRect(0,0,2,3);
 
 		// leftRect.setFillColor(Color.RED);
 		// rightRect.setFillColor(Color.RED);
 		// upRect.setFillColor(Color.RED);
 		// downRect.setFillColor(Color.RED);
 		// centerRect.setFillColor(Color.RED);
-		// point1.setFillColor(Color.RED);
-		// point2.setFillColor(Color.RED);
+		point1.setFillColor(Color.RED);
+		point2.setFillColor(Color.RED);
 
 		// leftRect.setFilled(true);
 		// rightRect.setFilled(true);
 		// downRect.setFilled(true);
 		// upRect.setFilled(true);
 		// centerRect.setFilled(true);
-		// point1.setFilled(true);
-		// point2.setFilled(true);
+		point1.setFilled(true);
+		point2.setFilled(true);
 		/** TEMPORARY **/
 		
 
@@ -128,7 +145,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				}
 				
 			// Playing
-			if(currentScreen == 3){
+			if(currentScreen == ScreenMode.PLAYING){
 			
 				// Controls if it is time to return to the level selection menu
 				if(levelComplete || player.lives <= 0){
@@ -166,8 +183,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				player.motion();
 				player.animate();
 				
-				// add(point1);
-				// add(point2);
+				add(point1);
+				add(point2);
 				// add(leftRect);
 				// add(rightRect);
 				// add(upRect);
@@ -246,7 +263,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		Block.resetPerformedNaturalAnimate();
 		Block.findNaturalFallingBlockCandidates();
 		
-		currentScreen = 3;
+		currentScreen = ScreenMode.PLAYING;
 
 		/** TEMPORARY for powerup testing, this automatically gives the player a jump powerup at the beginning of the level. eventually he'll have blocks to get this power-up **/
 		// alarms.add(new Alarm (100, 0, 0));
@@ -259,8 +276,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		addToScreen(mainMenuButtons);
 		add(Data.fruitFeverTitle);
 		levelSelectionPage = 0;
-		
-		currentScreen = 1;
+
+		currentScreen = ScreenMode.MAIN_MENU;
 	}
 	
 	private void drawLevelSelection(){
@@ -273,7 +290,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		for(int i = 0; i < levelNumbers.length; i++)
 			add(levelNumbers[i]);
 			
-		currentScreen = 2;
+		currentScreen = ScreenMode.LEVEL_SELECTION;
 		
 	}
 
@@ -416,7 +433,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	@Override public void keyPressed(KeyEvent key){
 		
 		// If the game mode is PLAYING
-		if (currentScreen == 3) {
+		if (currentScreen == ScreenMode.PLAYING) {
 		
 			int keyCode = key.getKeyCode();
 
@@ -461,7 +478,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	@Override public void keyReleased(KeyEvent key){
 		
 		// If the game mode is PLAYING
-		if (currentScreen == 3) {
+		if (currentScreen == ScreenMode.PLAYING) {
 		
 			int keyCode = key.getKeyCode();
 
@@ -515,12 +532,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	@Override public void mousePressed(MouseEvent mouse) {
 	
 		clickedOnButton = null;
-	
-		if (currentScreen == 1)
+		
+		if (currentScreen == ScreenMode.MAIN_MENU)
 			checkAndSetClick(mainMenuButtons, mouse);
-		else if (currentScreen == 2)
+		else if (currentScreen == ScreenMode.LEVEL_SELECTION)
 			checkAndSetClick(levelSelectionButtons, mouse);
-		else if (currentScreen == 3)
+		else if (currentScreen == ScreenMode.PLAYING)
 			checkAndSetClick(inGameButtons, mouse);
 			
 	}
@@ -562,7 +579,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				
 				// Refresh Button
 				} else if (clickedOnButton.type == 8) {
-					currentScreen = -1;
+					currentScreen = ScreenMode.NOT_AVAILABLE;
 					loadLevel();
 				}
 				

@@ -93,6 +93,7 @@ public class Player extends MovingAnimation {
 		// Reset static variables
 		isJumping = false;
 		onPlatform = false;
+		resetJump();
 		lives = maxLives;
 
 	}
@@ -101,8 +102,8 @@ public class Player extends MovingAnimation {
 	public void motion(){
 
 		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
-
 		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
+		System.out.printf("imageX: %d imageY: %d\n", imageX, imageY);
 
 		// Collisions
 		checkCollisionDetection();
@@ -649,13 +650,19 @@ public class Player extends MovingAnimation {
 	
 	public void swirlTeleport(){
 	
+		// - Dat
+
 		// Remember that the player has a width of TileSize*3 so we must subtract a tile-size!
-		imageX = swirl.imageX - Data.TILE_SIZE;
-		imageY = swirl.imageY;
+		imageX = (swirl.imageX - Data.TILE_SIZE) + Swirl.SWIRL_IMG_WIDTH / 2;
+		imageY = ((swirl.imageY + Swirl.SWIRL_IMG_HEIGHT / 2) / Data.TILE_SIZE) * Data.TILE_SIZE;
 
 		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) **/
-		y = swirl.imageY;
-		x = swirl.imageX;
+		x = swirl.x + Swirl.SWIRL_IMG_WIDTH / 2;
+		y = ((swirl.y + Swirl.SWIRL_IMG_HEIGHT / 2) / Data.TILE_SIZE) * Data.TILE_SIZE;
+
+		// FruitFever.point1.setLocation(imageX, imageY);
+		
+		System.out.printf("Teleport imageX: %d imageY: %d\n", imageX, imageY);
 
 		// Hardcoded Values are to make precision more accurate
 		Block upperRight = Block.getBlock(x, y + 3);
@@ -679,17 +686,17 @@ public class Player extends MovingAnimation {
 		* thus this checks to see if that happened
 		* NOTE: This seems to cause a small bounce when teleporting
 		*/
-		extraCollisionChecks();
-		downwardsCollision();
+		// checkCollisionDetection();
 
 		// Focuses the view on the player placing the player in the center of the screen
 		focusViewOnPlayer(swirl.imageX, swirl.imageY, false);
+
+		System.out.printf("focusViewOnPlayer imageX: %d imageY: %d\n", imageX, imageY);
 
 		// makes sure the player cannot jump directly after teleportation
 		resetJump();
 		// setKeepJumping(false);
 		
-
 		swirl.resetState();
 		
 	}
