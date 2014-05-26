@@ -5,6 +5,8 @@
 *
 **/
 
+// To-do : Make Fruit Rings appear on top of scenery 
+
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -410,9 +412,9 @@ public abstract class Data{
 							color = character - 'a';
 							image = blockImages[color];
 						}
-						// Grass Blocks
+						// Capital letters
 						else{
-							// Leave this until we removed all UpperCase letters
+							// We will use capitals for something else later (falling blocks?)
 							continue;
 						}
 
@@ -478,6 +480,62 @@ public abstract class Data{
 				}
 				lineNumber++;
 			}
+			
+			lineNumber = 0;
+			
+			/** ENEMIES **/
+
+			while (sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")) {
+				
+				int characterOffset = 0;
+				
+				// Iterate through each character in the line, instantiating the specified enemy (if it exists)
+				for (int i = 0; i < line.length(); i++) {
+					
+					char character = line.charAt(i);
+
+					// Skip if it's a blank
+					if (character == '-' || character == ' ' || character == '#')
+						continue;
+						
+					// Read in enemy
+					if (character == '<') {
+						int currentCharacterOffset = 1;
+						char enemyType = line.charAt(i - characterOffset + currentCharacterOffset);
+						currentCharacterOffset++;
+						char enemyColor = line.charAt(i - characterOffset + currentCharacterOffset);
+						currentCharacterOffset++;
+						
+						String left = findFirstNumber(line, i - characterOffset + currentCharacterOffset);
+						currentCharacterOffset += left.length() + 1;
+						
+						String right = findFirstNumber(line, i - characterOffset + currentCharacterOffset);
+						currentCharacterOffset += right.length() + 1;
+						
+						String up = findFirstNumber(line, i - characterOffset + currentCharacterOffset);
+						currentCharacterOffset += up.length() + 1;
+						
+						String down = findFirstNumber(line, i - characterOffset + currentCharacterOffset);
+						currentCharacterOffset += down.length();
+						
+						// System.out.println(enemyType + " " + enemyColor + " " + left + " " + right + " " + up + " " + down);
+						
+						int x = (i - characterOffset)*TILE_SIZE;
+						characterOffset += currentCharacterOffset;
+						int y = lineNumber*TILE_SIZE;
+						
+						//if(enemyType == 'a')
+							//FruitFever.things.add(new AdvancedMovingAnimation(new int[]{x - Integer.valueOf(left), x + Integer.valueOf(right) + 1}, new int[]{y - Integer.valueOf(up)*TILE_SIZE, y + (Integer.valueOf(down) + 1)*TILE_SIZE}, new GImage[][]{ Data.fuzzyEnemyMoving, Data.fuzzyEnemyMovingH}, true, 2, true, 1, 1));
+						//else if(enemyType == 'b')
+							FruitFever.things.add(new AdvancedMovingAnimation(new int[]{x - Integer.valueOf(left)*TILE_SIZE, x + Integer.valueOf(right)*TILE_SIZE}, new int[]{y - Integer.valueOf(up)*TILE_SIZE, y + Integer.valueOf(down)*TILE_SIZE}, new GImage[][]{ wormEnemyMoving, wormEnemyMovingH}, true, 2, true, 1, 1));
+
+					}
+		
+				}
+
+				lineNumber++;
+
+			}
 
 			sc.close();
 		
@@ -538,6 +596,17 @@ public abstract class Data{
 		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(percentage)), 20);
 		loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
 		FruitFever.screen.add(loadingScreenBar);
+	}
+	
+	private static String findFirstNumber(String line, int index){
+	
+		String str = "";
+		
+		while(line.charAt(index) != ',' && line.charAt(index) != '>'){
+			str += line.charAt(index++);
+		}
+		
+		return str;
 	}
 	
 }

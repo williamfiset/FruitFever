@@ -1,5 +1,5 @@
 /**
- *	LevelInformation - This class holds the information for one level including the high score and stars.
+ *	LevelInformation - This simple class holds the information for one level including the high score and stars.
  *
  * @Author Micah Stairs
  *
