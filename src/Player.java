@@ -29,12 +29,12 @@ public class Player extends MovingAnimation {
 
 // Movement Variables
 	static final int HORIZONTAL_VELOCITY = 3; // For release make horizontal velocity 3
-	int dx = 0;
+	byte dx = 0;
 
 // Collision Detection Variables
-	final int VERTICAL_PX_BUFFER = 2;
-	final int CRACK_SPACING = 3;
-	final int JUMP_SPACING = 3;
+	final byte VERTICAL_PX_BUFFER = 2;
+	final byte CRACK_SPACING = 3;
+	final byte JUMP_SPACING = 3;
 
 // Variables concerning Gravity
 
@@ -103,7 +103,9 @@ public class Player extends MovingAnimation {
 
 		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
 		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
-		System.out.printf("imageX: %d imageY: %d\n", imageX, imageY);
+		//System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
+
+		// FruitFever.point1.setLocation(swirl.x + Data.TILE_SIZE + spacing, swirl.y);
 
 		// Collisions
 		checkCollisionDetection();
@@ -144,8 +146,8 @@ public class Player extends MovingAnimation {
 			Block eastSouth;
 
 			// When not on platform
-			eastNorth = Block.getBlock(x + width, y + VERTICAL_PX_BUFFER); 
-			eastSouth = Block.getBlock(x + width, y + height - VERTICAL_PX_BUFFER);
+			eastNorth = Block.getBlock(x + Data.TILE_SIZE, y + VERTICAL_PX_BUFFER); 
+			eastSouth = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - VERTICAL_PX_BUFFER);
 
 			// No block right of player
 			if (eastSouth == null && eastNorth == null) {
@@ -164,7 +166,7 @@ public class Player extends MovingAnimation {
 			
 			
 			Block westNorth = Block.getBlock(x, y + VERTICAL_PX_BUFFER); 
-			Block westSouth = Block.getBlock(x, y + height - VERTICAL_PX_BUFFER);
+			Block westSouth = Block.getBlock(x, y + Data.TILE_SIZE - VERTICAL_PX_BUFFER);
 
 			// No block left of player
 			if (westNorth == null && westSouth == null){
@@ -192,14 +194,14 @@ public class Player extends MovingAnimation {
 
 		// Need to do this because starting starting falling velocity is never 0
 		if (gravity) {
-			southWest = Block.getBlock(x + CRACK_SPACING, y + height + VERTICAL_PX_BUFFER + (int) fallingVelocity);			
-			southEast = Block.getBlock(x + width - CRACK_SPACING, y + height + VERTICAL_PX_BUFFER + (int) fallingVelocity);
+			southWest = Block.getBlock(x + CRACK_SPACING, y + Data.TILE_SIZE + VERTICAL_PX_BUFFER + (int) fallingVelocity);			
+			southEast = Block.getBlock(x + Data.TILE_SIZE - CRACK_SPACING, y + Data.TILE_SIZE + VERTICAL_PX_BUFFER + (int) fallingVelocity);
 		
 		// Will this ever execute?
 		} else {
 			System.out.println("downwardsCollision - ?Executes?");
-			southWest = Block.getBlock(x + CRACK_SPACING, y + height + VERTICAL_PX_BUFFER);			
-			southEast = Block.getBlock(x + width - CRACK_SPACING, y + height + VERTICAL_PX_BUFFER);
+			southWest = Block.getBlock(x + CRACK_SPACING, y + Data.TILE_SIZE + VERTICAL_PX_BUFFER);			
+			southEast = Block.getBlock(x + Data.TILE_SIZE - CRACK_SPACING, y + Data.TILE_SIZE + VERTICAL_PX_BUFFER);
 		}
 
 		
@@ -221,22 +223,21 @@ public class Player extends MovingAnimation {
 	/** Does extra checks for special case(s) **/
 	private void extraCollisionChecks(){
 
-		// ** Fixes issue #64 (player falling into block) **//
-
+		
 		// Executes only when falling downwards 
-		if (!isJumping && jumpingVelocity > STARTING_JUMPING_VELOCITY) {
-			System.out.println(jumpingVelocity);
+		if (!isJumping && fallingVelocity > STARTING_FALLING_VELOCITY) { // && fallingVelocity > STARTING_FALLING_VELOCITY
+
 			for (int horizontalPosition = 3; horizontalPosition <= 22 ; horizontalPosition++){
 
 				// optimization (we don't need to check all the points)
 				if (horizontalPosition > 6 && horizontalPosition < 19) continue;
 
 				// Forms a line of points that determine if the player has hit anything
-				Block southernBlock = Block.getBlock(x + horizontalPosition , y + height + (int) fallingVelocity - 4);
+				Block southernBlock = Block.getBlock(x + horizontalPosition , y + Data.TILE_SIZE + (int) fallingVelocity - 4);
 
 				// If collision 
 				if (southernBlock != null) {
-					System.out.println("extraCollisionChecks() triggered");
+					System.out.println(y);
 					onPlatform = true; 
 					placePlayerOnBlock(southernBlock);
 					return;
@@ -250,7 +251,7 @@ public class Player extends MovingAnimation {
 	private void upwardsCollision(){
 
 		Block northWest = Block.getBlock(x + JUMP_SPACING, y - VERTICAL_PX_BUFFER );
-		Block northEast = Block.getBlock(x + width - JUMP_SPACING, y - VERTICAL_PX_BUFFER );
+		Block northEast = Block.getBlock(x + Data.TILE_SIZE - JUMP_SPACING, y - VERTICAL_PX_BUFFER );
 
 		// Collision on block above this one has happened
 		if (northWest != null || northEast != null){
@@ -262,9 +263,11 @@ public class Player extends MovingAnimation {
 
 	/** Places the player on top of the block he is currently on **/
 	private void placePlayerOnBlock(Block block) {
-		if (onPlatform)
+		if (onPlatform){
 			// This could be more general if there were different size blocks
 			imageY = block.imageY - block.height;
+			y = block.y - block.height;
+		}
 	}
 
 	/** Handles Jumping triggered by the Player **/
@@ -372,9 +375,9 @@ public class Player extends MovingAnimation {
 	private void relativisticScreenMovement(){
 
 		// Horizontal screen movement
-		if (x + width > FruitFever.RIGHT_BOUNDARY && dx > 0) {
+		if (x + Data.TILE_SIZE > FruitFever.RIGHT_BOUNDARY && dx > 0) {
 			
-			// Makes sure view never passes maximum level width 
+			// Makes sure view never passes maximum level Data.TILE_SIZE 
 			if (FruitFever.viewX >= FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) 
 				FruitFever.vx = 0;
 			else
@@ -390,7 +393,7 @@ public class Player extends MovingAnimation {
 		}
 
 		// DOWN bound 
-		if (y + height > FruitFever.DOWN_BOUNDARY)
+		if (y + Data.TILE_SIZE > FruitFever.DOWN_BOUNDARY)
 			FruitFever.vy = fallingVelocity;
 
 		// UPPER bound
@@ -410,7 +413,7 @@ public class Player extends MovingAnimation {
 
 		FruitFever.viewX += FruitFever.vx;
 		
-		// Fixes the glitch with half jumping height
+		// Fixes the glitch with half jumping Data.TILE_SIZE
 		if (FruitFever.viewY + FruitFever.vy >= 0)
  			FruitFever.viewY += FruitFever.vy;	
  		
@@ -475,7 +478,7 @@ public class Player extends MovingAnimation {
 
 	private boolean checkForPlayerOutOfBounds(){
 
-		boolean playerOutOfBounds = (x + Data.TILE_SIZE < 0 || x > FruitFever.LEVEL_WIDTH || y + height < 0 || y - height > FruitFever.LEVEL_HEIGHT );
+		boolean playerOutOfBounds = (x + Data.TILE_SIZE < 0 || x > FruitFever.LEVEL_WIDTH || y + Data.TILE_SIZE < 0 || y - Data.TILE_SIZE > FruitFever.LEVEL_HEIGHT );
 
 		if (playerOutOfBounds) {
 			
@@ -647,16 +650,17 @@ public class Player extends MovingAnimation {
 		}
 	
 	}
-	
-	public void swirlTeleport(){
-	
-		// - Dat
 
-		// Remember that the player has a width of TileSize*3 so we must subtract a tile-size!
+
+/*
+
+	public void swirlTeleport(){
+
+		// Remember that the player has a Data.TILE_SIZE of TileSize*3 so we must subtract a tile-size!
 		imageX = (swirl.imageX - Data.TILE_SIZE) + Swirl.SWIRL_IMG_WIDTH / 2;
 		imageY = ((swirl.imageY + Swirl.SWIRL_IMG_HEIGHT / 2) / Data.TILE_SIZE) * Data.TILE_SIZE;
 
-		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) **/
+		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) ** /
 		x = swirl.x + Swirl.SWIRL_IMG_WIDTH / 2;
 		y = ((swirl.y + Swirl.SWIRL_IMG_HEIGHT / 2) / Data.TILE_SIZE) * Data.TILE_SIZE;
 
@@ -670,7 +674,7 @@ public class Player extends MovingAnimation {
 		Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
 		Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
 
-		/** Fixes Issue #42 where player semi teleports into blocks **/
+		/** Fixes Issue #42 where player semi teleports into blocks ** /
 
 		if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
 			imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
@@ -682,10 +686,10 @@ public class Player extends MovingAnimation {
 		}
 
 		/** 
-		* The player is sometimes teleported into a block (because swirl height varies) and
+		* The player is sometimes teleported into a block (because swirl Data.TILE_SIZE varies) and
 		* thus this checks to see if that happened
 		* NOTE: This seems to cause a small bounce when teleporting
-		*/
+		* /
 		// checkCollisionDetection();
 
 		// Focuses the view on the player placing the player in the center of the screen
@@ -696,6 +700,48 @@ public class Player extends MovingAnimation {
 		// makes sure the player cannot jump directly after teleportation
 		resetJump();
 		// setKeepJumping(false);
+		
+		swirl.resetState();
+		
+	}
+*/
+
+	public void swirlTeleport(){
+
+         /** The '+ Data.TILE_SIZE' comes from the left/right boundary ... **/
+
+		imageX = swirl.imageX - Data.TILE_SIZE;
+		imageY = swirl.imageY ;
+
+		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) **/
+		x = swirl.x + Data.TILE_SIZE;
+		y = swirl.y ;
+
+	
+
+		/** Fixes Issue #42  (player semi teleports into blocks) **/
+		Block upperRight = Block.getBlock(x, y + 3);
+		Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
+		Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
+		Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
+
+		if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
+			imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
+
+			// Takes into account that the player's center is top left
+			if (!facingRight)
+				imageX += Data.TILE_SIZE;
+			
+		}
+
+		checkCollisionDetection();
+
+		// Focuses the view on the player placing the player in the center of the screen
+		focusViewOnPlayer(swirl.imageX, swirl.imageY, false);
+
+		// makes sure the player cannot jump directly after teleportation
+		resetJump();
+		setKeepJumping(false);
 		
 		swirl.resetState();
 		
@@ -808,7 +854,7 @@ public class Player extends MovingAnimation {
 			case 4: currentTongueWidth = 20; break;
 		}
 		
-		// NOTE: The height of the tongue is 1 full tile for collision detection, whereas the real tongue is
+		// NOTE: The Data.TILE_SIZE of the tongue is 1 full tile for collision detection, whereas the real tongue is
 		// only a few pixels tall.
 		
 		if (facingRight)
@@ -830,7 +876,7 @@ public class Player extends MovingAnimation {
 	}
 
 	@Override public String toString(){
-		return "Player: (Image: " + imageX + ", " + imageY + "   W: " + image.getWidth() + ", H: " + image.getHeight() + ") (Bounding Box: " + x + ", " + y + "   W: " + width + ", H: " + height + ")"; 
+		return "Player: (Image: " + imageX + ", " + imageY + "   W: " + image.getWidth() + ", H: " + image.getHeight() + ") (Bounding Box: " + x + ", " + y + "   W: " + Data.TILE_SIZE + ", H: " + Data.TILE_SIZE + ")"; 
 	}
 
 }
@@ -841,13 +887,13 @@ public class Player extends MovingAnimation {
 		static boolean reset = true;
 
 		// Swirls velocity
-		static final byte dx = 8;
+		static final byte dx = 6;
 
 		// This is the location of where the swirl is off screen when it is at rest
 		static final short SWIRL_X_REST_POS = -100;
 		static final short SWIRL_Y_REST_POS = -100;
 
-		// These values are the actual image dimensions not the Data.TILE_SIZE width and height
+		// These values are the actual image dimensions not the Data.TILE_SIZE Data.TILE_SIZE and Data.TILE_SIZE
 		static final byte SWIRL_IMG_WIDTH = 14; 
 		static final byte SWIRL_IMG_HEIGHT = 14; 
 

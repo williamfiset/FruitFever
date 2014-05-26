@@ -270,7 +270,7 @@ HELPFUL NOTES BY WILL:
 		---FF|     ---##?
 
 		Special characters such as flags/fruitrings/fruits are turned to '?'s
-		which are ignored my the scenery loader
+		which are ignored by the scenery loader
 
 		--*--|     --?--?
 		----cc     ----## 

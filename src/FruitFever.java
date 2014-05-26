@@ -20,7 +20,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 /** Constants **/
 
 	static GraphicsProgram screen;
-	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 50;
+	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
 /** Level Information/Objects/Lists **/
 	
@@ -192,11 +192,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// add(centerRect);
 
 			}
-			// pause(MAIN_LOOP_SPEED);
+
 
 			try{
 				pause(Math.max(0, MAIN_LOOP_SPEED - (t.stop())*1000));
 			}catch(IllegalArgumentException exception){
+				pause(MAIN_LOOP_SPEED);	
 				System.out.println("MAIN_LOOP_SPEED - (t.stop())*1000)  =  " + (MAIN_LOOP_SPEED - (t.getTime())*1000));
 				exception.printStackTrace();
 			}			
