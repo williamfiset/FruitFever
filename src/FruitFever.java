@@ -62,7 +62,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static Button clickedOnButton = null;
 	
 	static GLabel[] levelNumbers = new GLabel[20];
-	static GImage[] livesImages = new GImage[player.maxLives];
+	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	
 	
 	static int currentLevel = 1, levelSelectionPage = 0;
@@ -134,7 +134,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		while(true){
 		
-			Timer_ t = new Timer_();
+			Timer_ loopTimer = new Timer_();
 		
 			// Countdown all of the alarms towards execution
 			for (int i = 0; i < alarms.size(); i++) {
@@ -148,7 +148,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			if(currentScreen == ScreenMode.PLAYING){
 			
 				// Controls if it is time to return to the level selection menu
-				if(levelComplete || player.lives <= 0){
+				if(levelComplete || player.getLives() <= 0){
 					drawLevelSelection();
 					levelComplete = false;
 					continue;
@@ -161,7 +161,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				// Tests for falling blocks
 				// Block.updateFallingBlocksByNaturalDisaster();
-				// Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y);
+				Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onPlatform());
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
 				for (int i = 0; i < things.size(); i++) {
@@ -193,12 +193,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 			}
 
+			double loopTime = loopTimer.stop();
 
 			try{
-				pause(Math.max(0, MAIN_LOOP_SPEED - (t.stop())*1000));
+				pause(Math.max(0, MAIN_LOOP_SPEED - loopTime*1000));
 			}catch(IllegalArgumentException exception){
 				pause(MAIN_LOOP_SPEED);	
-				System.out.println("MAIN_LOOP_SPEED - (t.stop())*1000)  =  " + (MAIN_LOOP_SPEED - (t.getTime())*1000));
+				System.out.println("MAIN_LOOP_SPEED  =  " + (MAIN_LOOP_SPEED - loopTime*1000) );
 				exception.printStackTrace();
 			}			
 			
@@ -298,7 +299,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	// Loads the Hearts
 	private void addHearts(){
 		
-		for(int i = 0; i < player.maxLives; i++){
+		for(int i = 0; i < Player.MAX_LIVES; i++){
 			livesImages[i] = new GImage(Data.heartImage.getImage());
 			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
 			add(livesImages[i]);

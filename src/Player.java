@@ -5,10 +5,6 @@
  * @Author William Fiset, Micah Stairs
  * 
  *
- * Note on Collision Detection with the player:
- * There are currently eight sensors on the player, two for each side, they measure if the player 
- * came in contact with the block adjacent and if so they execute the code within the function.
- *
  *
  **/
 
@@ -19,9 +15,12 @@ import java.awt.Color.*;
 import java.awt.*;
 
 public class Player extends MovingAnimation {
-	
-	static byte lives = 3;
-	static final byte maxLives = 3;
+
+
+/** ! DO NOT CHANGE PLAYER ENCAPSULATION SPECIFIERS ! **/
+
+	private byte lives = 3;
+	static final byte MAX_LIVES = 3;
 
 // Swirl related Variables
 	static Swirl swirl;
@@ -29,49 +28,50 @@ public class Player extends MovingAnimation {
 
 // Movement Variables
 	static final int HORIZONTAL_VELOCITY = 3; // For release make horizontal velocity 3
-	byte dx = 0;
+	public byte dx = 0;
+	public boolean facingRight = true;
 
 // Collision Detection Variables
-	final byte VERTICAL_PX_BUFFER = 2;
-	final byte CRACK_SPACING = 3;
-	final byte JUMP_SPACING = 3;
+	private static final byte VERTICAL_PX_BUFFER = 2;
+	private static final byte CRACK_SPACING = 3;
+	private static final byte JUMP_SPACING = 3;
 
 // Variables concerning Gravity
 
-	final double TERMINAL_VELOCITY = Data.TILE_SIZE - 1;
-	final double STARTING_FALLING_VELOCITY = 2.5;
-	final double STARTING_FALLING_ACCELERATION = 0.5;
-	final double changeInAcceleration = 0.015;
+	private static final double TERMINAL_VELOCITY = Data.TILE_SIZE - 1;
+	private static final double STARTING_FALLING_VELOCITY = 2.5;
+	private static final double STARTING_FALLING_ACCELERATION = 0.5;
+	private static final double CHANGE_IN_ACCELERATION = 0.015;
 
-	double fallingVelocity = STARTING_FALLING_VELOCITY;
-	double fallingAcceleration = STARTING_FALLING_ACCELERATION;
+	private double fallingVelocity = STARTING_FALLING_VELOCITY;
+	private double fallingAcceleration = STARTING_FALLING_ACCELERATION;
 
-	private static boolean onPlatform = false;
-	private static boolean gravity = true;
+	private boolean onPlatform = false;
+	private boolean gravity = true;
 
 // Variables concerning jumping
 	
 	// setBaseLine is true because we don't know where the player starts
-	private static boolean keepJumping = false;
 	private boolean setBaseLine = true;
-	private static boolean isJumping = false;
+	private boolean keepJumping = false;
+	private boolean isJumping = false;
 
-	private int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // 3.5 tile jump limit
 	private int baseLine;
+	private int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // Jump a maximum of 3.5 blocks high
 
 // Jumping motion Variables
-	final double STARTING_JUMPING_VELOCITY = 6.25; 
-	final double STARTING_JUMPING_DECCELERATION = 0;
-	final double CHANGE_IN_DECLERATION = 0.043; 
+	private static final double STARTING_JUMPING_VELOCITY = 6.25; 
+	private static final double STARTING_JUMPING_DECCELERATION = 0;
+	private static final double CHANGE_IN_DECLERATION = 0.043; 
 
-	double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
-	double jumpingVelocity = STARTING_JUMPING_VELOCITY;
-
+	private double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
+	private double jumpingVelocity = STARTING_JUMPING_VELOCITY;
 
 
 // Animation things
+	
 	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
-	public static boolean facingRight = true;
+
 
 
 	public Player(int x, int y){
@@ -89,12 +89,6 @@ public class Player extends MovingAnimation {
 		boundaryRight = -Data.TILE_SIZE;
 		
 		swirl = new Swirl();
-		
-		// Reset static variables
-		isJumping = false;
-		onPlatform = false;
-		resetJump();
-		lives = maxLives;
 
 	}
 
@@ -104,8 +98,6 @@ public class Player extends MovingAnimation {
 		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
 		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
 		//System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
-
-		// FruitFever.point1.setLocation(swirl.x + Data.TILE_SIZE + spacing, swirl.y);
 
 		// Collisions
 		checkCollisionDetection();
@@ -223,6 +215,7 @@ public class Player extends MovingAnimation {
 	/** Does extra checks for special case(s) **/
 	private void extraCollisionChecks(){
 
+		/** Plays a role in solving issue# 64 **/
 		
 		// Executes only when falling downwards 
 		if (!isJumping && fallingVelocity > STARTING_FALLING_VELOCITY) { // && fallingVelocity > STARTING_FALLING_VELOCITY
@@ -237,7 +230,6 @@ public class Player extends MovingAnimation {
 
 				// If collision 
 				if (southernBlock != null) {
-					System.out.println(y);
 					onPlatform = true; 
 					placePlayerOnBlock(southernBlock);
 					return;
@@ -264,7 +256,6 @@ public class Player extends MovingAnimation {
 	/** Places the player on top of the block he is currently on **/
 	private void placePlayerOnBlock(Block block) {
 		if (onPlatform){
-			// This could be more general if there were different size blocks
 			imageY = block.imageY - block.height;
 			y = block.y - block.height;
 		}
@@ -352,7 +343,7 @@ public class Player extends MovingAnimation {
 
 				// Acceleration effect
 				fallingVelocity += fallingAcceleration;
-				fallingAcceleration += changeInAcceleration;
+				fallingAcceleration += CHANGE_IN_ACCELERATION;
 			
 			} else
 				fallingVelocity = TERMINAL_VELOCITY;
@@ -478,10 +469,9 @@ public class Player extends MovingAnimation {
 
 	private boolean checkForPlayerOutOfBounds(){
 
-		boolean playerOutOfBounds = (x + Data.TILE_SIZE < 0 || x > FruitFever.LEVEL_WIDTH || y + Data.TILE_SIZE < 0 || y - Data.TILE_SIZE > FruitFever.LEVEL_HEIGHT );
+		boolean playerOutOfBounds = (imageX + Data.TILE_SIZE < 0 || imageX > FruitFever.LEVEL_WIDTH || imageY + Data.TILE_SIZE < 0 || imageY - Data.TILE_SIZE > FruitFever.LEVEL_HEIGHT );
 
 		if (playerOutOfBounds) {
-			
 			lives--;		
 			adjustLives(lives);	
 			respawn();
@@ -538,7 +528,7 @@ public class Player extends MovingAnimation {
 
 	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly */
 	private void adjustLives(int livesLeft){
-		for (int i = 0; i < maxLives; i++)
+		for (int i = 0; i < MAX_LIVES; i++)
 			FruitFever.livesImages[i].setVisible(livesLeft > i);
 	}
 
@@ -651,65 +641,9 @@ public class Player extends MovingAnimation {
 	
 	}
 
-
-/*
-
 	public void swirlTeleport(){
 
-		// Remember that the player has a Data.TILE_SIZE of TileSize*3 so we must subtract a tile-size!
-		imageX = (swirl.imageX - Data.TILE_SIZE) + Swirl.SWIRL_IMG_WIDTH / 2;
-		imageY = ((swirl.imageY + Swirl.SWIRL_IMG_HEIGHT / 2) / Data.TILE_SIZE) * Data.TILE_SIZE;
-
-		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) ** /
-		x = swirl.x + Swirl.SWIRL_IMG_WIDTH / 2;
-		y = ((swirl.y + Swirl.SWIRL_IMG_HEIGHT / 2) / Data.TILE_SIZE) * Data.TILE_SIZE;
-
-		// FruitFever.point1.setLocation(imageX, imageY);
-		
-		System.out.printf("Teleport imageX: %d imageY: %d\n", imageX, imageY);
-
-		// Hardcoded Values are to make precision more accurate
-		Block upperRight = Block.getBlock(x, y + 3);
-		Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
-		Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
-		Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
-
-		/** Fixes Issue #42 where player semi teleports into blocks ** /
-
-		if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
-			imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
-			
-			// Takes into account that the player's center is top left
-			if (!facingRight)
-				imageX += Data.TILE_SIZE;
-			
-		}
-
-		/** 
-		* The player is sometimes teleported into a block (because swirl Data.TILE_SIZE varies) and
-		* thus this checks to see if that happened
-		* NOTE: This seems to cause a small bounce when teleporting
-		* /
-		// checkCollisionDetection();
-
-		// Focuses the view on the player placing the player in the center of the screen
-		focusViewOnPlayer(swirl.imageX, swirl.imageY, false);
-
-		System.out.printf("focusViewOnPlayer imageX: %d imageY: %d\n", imageX, imageY);
-
-		// makes sure the player cannot jump directly after teleportation
-		resetJump();
-		// setKeepJumping(false);
-		
-		swirl.resetState();
-		
-	}
-*/
-
-	public void swirlTeleport(){
-
-         /** The '+ Data.TILE_SIZE' comes from the left/right boundary ... **/
-
+        // The '+ Data.TILE_SIZE' comes from the left/right boundary ... 
 		imageX = swirl.imageX - Data.TILE_SIZE;
 		imageY = swirl.imageY ;
 
@@ -863,20 +797,20 @@ public class Player extends MovingAnimation {
 			return new Rectangle(x - currentTongueWidth, y, currentTongueWidth, Data.TILE_SIZE);
 	}
 
-	public static boolean isOnPlatform(){
+	public boolean onPlatform(){
 		return onPlatform;
 	}
 
-	public static boolean isPlayerJumping(){
+	public boolean isJumping(){
 		return isJumping;
 	}
 
-	public void posInfo(){
-		System.out.println("ImageX: " + imageX + "   ImageY: " + imageY + "   X: " + x + "   Y: " + y);
+	public int getLives(){
+		return lives;
 	}
 
 	@Override public String toString(){
-		return "Player: (Image: " + imageX + ", " + imageY + "   W: " + image.getWidth() + ", H: " + image.getHeight() + ") (Bounding Box: " + x + ", " + y + "   W: " + Data.TILE_SIZE + ", H: " + Data.TILE_SIZE + ")"; 
+		return "ImageX: " + imageX + "   ImageY: " + imageY + "   X: " + x + "   Y: " + y ;
 	}
 
 }
