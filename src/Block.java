@@ -250,7 +250,7 @@ public class Block extends Thing {
 
 	}
 
-	public static void updateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnPlatform){
+	public static void updateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface){
 
 
 		// from the players position get the column of blocks below the position
@@ -260,9 +260,9 @@ public class Block extends Thing {
 		int column1 = ((playerX / Data.TILE_SIZE) * Data.TILE_SIZE) + Data.TILE_SIZE;
 		int column2 = column1 + Data.TILE_SIZE;
 
-		Block fallingBlock0 = getLastBlockInColumn(xBlockPositions.get(column0), playerX, playerY, playerOnPlatform);
-		Block fallingBlock1 = getLastBlockInColumn(xBlockPositions.get(column1), playerX, playerY, playerOnPlatform);
-		Block fallingBlock2 = getLastBlockInColumn(xBlockPositions.get(column2), playerX, playerY, playerOnPlatform);
+		Block fallingBlock0 = getLastBlockInColumn(xBlockPositions.get(column0), playerX, playerY, playerOnSurface);
+		Block fallingBlock1 = getLastBlockInColumn(xBlockPositions.get(column1), playerX, playerY, playerOnSurface);
+		Block fallingBlock2 = getLastBlockInColumn(xBlockPositions.get(column2), playerX, playerY, playerOnSurface);
 
 		// found the block we were looking for
 		if (fallingBlock1 != null) {
@@ -283,13 +283,13 @@ public class Block extends Thing {
 	}
 
 	/** Gets the furthest block down below the player **/
-	private static Block getLastBlockInColumn(ArrayList<Block> column, int playerX, int playerY, boolean playerOnPlatform){
+	private static Block getLastBlockInColumn(ArrayList<Block> column, int playerX, int playerY, boolean playerOnSurface){
 
 
 		Block furthestBlockDown = null;
 
 		// list is empty or player is not on platform
-		if (column == null || !playerOnPlatform || column.size() == 0)
+		if (column == null || !playerOnSurface || column.size() == 0)
 			return furthestBlockDown;
 
 		outerLoop:

@@ -23,20 +23,20 @@ public class Player extends MovingAnimation {
 	static final byte MAX_LIVES = 3;
 
 // Swirl related Variables
-	static Swirl swirl;
+	Swirl swirl;
 	private final static byte SWIRL_MOUTH_DISTANCE = 15; 
 
-// Movement Variables
-	static final int HORIZONTAL_VELOCITY = 3; // For release make horizontal velocity 3
-	public byte dx = 0;
-	public boolean facingRight = true;
+// Horizontal Movement Variables
+	static final int HORIZONTAL_VELOCITY = 3; 
+	byte dx = 0;
+	boolean facingRight = true;
 
-// Collision Detection Variables
+// Collision Detection Constants 
 	private static final byte VERTICAL_PX_BUFFER = 2;
 	private static final byte CRACK_SPACING = 3;
 	private static final byte JUMP_SPACING = 3;
 
-// Variables concerning Gravity
+// Gravity/Falling Variables & Constants
 
 	private static final double TERMINAL_VELOCITY = Data.TILE_SIZE - 1;
 	private static final double STARTING_FALLING_VELOCITY = 2.5;
@@ -46,20 +46,24 @@ public class Player extends MovingAnimation {
 	private double fallingVelocity = STARTING_FALLING_VELOCITY;
 	private double fallingAcceleration = STARTING_FALLING_ACCELERATION;
 
-	private boolean onPlatform = false;
 	private boolean gravity = true;
 
-// Variables concerning jumping
+// Jumping Variables 
 	
 	// setBaseLine is true because we don't know where the player starts
 	private boolean setBaseLine = true;
 	private boolean keepJumping = false;
+
+	// onSurface is true if the player is on any surface 
+	private boolean onSurface = false;
 	private boolean isJumping = false;
 
+	// baseLine holds the y value of where the player started when jumping
 	private int baseLine;
 	private int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // Jump a maximum of 3.5 blocks high
 
 // Jumping motion Variables
+
 	private static final double STARTING_JUMPING_VELOCITY = 6.25; 
 	private static final double STARTING_JUMPING_DECCELERATION = 0;
 	private static final double CHANGE_IN_DECLERATION = 0.043; 
@@ -67,10 +71,9 @@ public class Player extends MovingAnimation {
 	private double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 	private double jumpingVelocity = STARTING_JUMPING_VELOCITY;
 
-
 // Animation things
 	
-	GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
+	private GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 
 
 
@@ -201,14 +204,14 @@ public class Player extends MovingAnimation {
 			
 			// System.out.println("Down");
 
-			onPlatform = true;	
+			onSurface = true;	
 
 			// This is what actually stops the fall 
 			if (southEast != null) placePlayerOnBlock(southEast);
 			else placePlayerOnBlock(southWest);
 			
 		} else
-			onPlatform = false;
+			onSurface = false;
 
 	}
 
@@ -230,7 +233,7 @@ public class Player extends MovingAnimation {
 
 				// If collision 
 				if (southernBlock != null) {
-					onPlatform = true; 
+					onSurface = true; 
 					placePlayerOnBlock(southernBlock);
 					return;
 				}
@@ -255,7 +258,7 @@ public class Player extends MovingAnimation {
 
 	/** Places the player on top of the block he is currently on **/
 	private void placePlayerOnBlock(Block block) {
-		if (onPlatform){
+		if (onSurface){
 			imageY = block.imageY - block.height;
 			y = block.y - block.height;
 		}
@@ -318,14 +321,14 @@ public class Player extends MovingAnimation {
 	public void setIsJumping(boolean value){
 
 		// If you are not jumping and are on a platform
-		if (!setBaseLine && onPlatform)
+		if (!setBaseLine && onSurface)
 			isJumping = true;
 	}
 
 	/** Resets players ability to jump if applicable **/
 	private void enableJumping(){
 		
-		if(onPlatform)
+		if(onSurface)
 			setBaseLine = false;
 		
 	}
@@ -334,7 +337,7 @@ public class Player extends MovingAnimation {
 	private void gravityEffect(){
 
 		// Gravity Effect triggered here
-		if (!isJumping && gravity && !onPlatform) {
+		if (!isJumping && gravity && !onSurface) {
 
 			// Move the player's image down
 			imageY += fallingVelocity;
@@ -395,7 +398,7 @@ public class Player extends MovingAnimation {
 				FruitFever.vy = -jumpingVelocity;		
 
 		// Make sure screen doesn't move when player is not jumping or on platform
-		} else if (!isJumping && onPlatform) 
+		} else if (!isJumping && onSurface) 
 			FruitFever.vy = 0;
 		
 		// Stop moving the screen up 
@@ -797,8 +800,8 @@ public class Player extends MovingAnimation {
 			return new Rectangle(x - currentTongueWidth, y, currentTongueWidth, Data.TILE_SIZE);
 	}
 
-	public boolean onPlatform(){
-		return onPlatform;
+	public boolean onSurface(){
+		return onSurface;
 	}
 
 	public boolean isJumping(){
