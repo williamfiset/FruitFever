@@ -20,6 +20,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 /** Level Information/Objects/Lists **/
 	
+	static LevelInformation[] levelInformation = new LevelInformation[100];
 	static int LEVEL_WIDTH, LEVEL_HEIGHT;
 	static String LEVEL_NAME;
 	
