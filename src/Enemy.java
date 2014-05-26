@@ -7,6 +7,7 @@
  **/
 
 import java.awt.*;
+import acm.graphics.*;
 
 public class Enemy extends AdvancedMovingAnimation {
 
@@ -33,7 +34,7 @@ public class Enemy extends AdvancedMovingAnimation {
 		
 		// Re-position and re-calculate health bar
 		healthBar.setLocation(imageX - FruitFever.viewX + 1, imageY - FruitFever.viewY + 1);
-		healthBar.setSize((currentHealth/maxHealth)*(BAR_WIDTH - 2), BAR_HEIGHT);
+		healthBar.setSize((int) ((currentHealth/maxHealth)*(BAR_WIDTH - 2)), BAR_HEIGHT);
 		healthBarBackground.setLocation(imageX - FruitFever.viewX, imageY - FruitFever.viewY);
 		
 	}
