@@ -495,7 +495,7 @@ public abstract class Data{
 					char character = line.charAt(i);
 
 					// Skip if it's a blank
-					if (character == '-' || character == ' ' || character == '#')
+					if (character == '-' || character == ' ' || character == '#' || character == '?')
 						continue;
 						
 					// Read in enemy
@@ -518,16 +518,12 @@ public abstract class Data{
 						String down = findFirstNumber(line, i - characterOffset + currentCharacterOffset);
 						currentCharacterOffset += down.length();
 						
-						// System.out.println(enemyType + " " + enemyColor + " " + left + " " + right + " " + up + " " + down);
-						
-						int x = (i - characterOffset)*TILE_SIZE;
+						int x = (i - characterOffset);
 						characterOffset += currentCharacterOffset;
-						int y = lineNumber*TILE_SIZE;
+						int y = lineNumber;
 						
-						//if(enemyType == 'a')
-							//FruitFever.things.add(new AdvancedMovingAnimation(new int[]{x - Integer.valueOf(left), x + Integer.valueOf(right) + 1}, new int[]{y - Integer.valueOf(up)*TILE_SIZE, y + (Integer.valueOf(down) + 1)*TILE_SIZE}, new GImage[][]{ Data.fuzzyEnemyMoving, Data.fuzzyEnemyMovingH}, true, 2, true, 1, 1));
-						//else if(enemyType == 'b')
-							FruitFever.things.add(new AdvancedMovingAnimation(new int[]{x - Integer.valueOf(left)*TILE_SIZE, x + Integer.valueOf(right)*TILE_SIZE}, new int[]{y - Integer.valueOf(up)*TILE_SIZE, y + Integer.valueOf(down)*TILE_SIZE}, new GImage[][]{ wormEnemyMoving, wormEnemyMovingH}, true, 2, true, 1, 1));
+						// if(enemyType == 'a')
+							FruitFever.things.add(new Enemy(new int[]{(x - Integer.valueOf(left))*TILE_SIZE, (x + Integer.valueOf(right))*TILE_SIZE}, new int[]{(y - Integer.valueOf(up))*TILE_SIZE, (y + Integer.valueOf(down))*TILE_SIZE}, new GImage[][]{ wormEnemyMoving, wormEnemyMovingH}, true, 2, true, 1, 1));
 
 					}
 		
@@ -558,44 +554,39 @@ public abstract class Data{
 		Button tempButton;
 		
 		// Adds main menu buttons to the ArrayLists
-		for(int i = 0; i < 4; i++){
-			tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[i/3].getWidth()/2), 125 + 75*i, i, menuButtons[3*i], menuButtons[3*i + 1], menuButtons[3*i + 2]);
-			FruitFever.buttons.add(tempButton);
-			FruitFever.mainMenuButtons.add(tempButton);
-		}
+		for(int i = 0; i < 4; i++)
+			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[i/3].getWidth()/2), 125 + 75*i, i, menuButtons[3*i], menuButtons[3*i + 1], menuButtons[3*i + 2]), FruitFever.mainMenuButtons);
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
-		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, 4, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]);
-		FruitFever.buttons.add(tempButton);
-		FruitFever.levelSelectionButtons.add(tempButton);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, 4, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]), FruitFever.levelSelectionButtons);
 		
-		tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, 5, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]);
-		FruitFever.buttons.add(tempButton);
-		FruitFever.levelSelectionButtons.add(tempButton);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, 5, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]), FruitFever.levelSelectionButtons);
 		
 		/** Adds back button to the ArrayLists for Level Selection Screen and the In-Game Screen **/
-		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, 8, refreshButton[0], refreshButton[1], refreshButton[2]);
-		FruitFever.buttons.add(tempButton);
-		FruitFever.inGameButtons.add(tempButton);
+		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, 8, refreshButton[0], refreshButton[1], refreshButton[2]), FruitFever.inGameButtons);
 		
 		/** Adds level buttons to the ArrayLists for Level Selection Screen **/
-		for(int i = 0; i < 20; i++){
-			tempButton = new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, 6, levelButton[0], levelButton[1], levelButton[1], i);
-			FruitFever.buttons.add(tempButton);
-			FruitFever.levelSelectionButtons.add(tempButton);
-		}
+		for(int i = 0; i < 20; i++)
+			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, 6, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
 		
 		/** Adds gear button to the ArrayLists for In-Game Screen **/
-		tempButton = new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, 7, gearButton[0], gearButton[1], gearButton[2]);
-		FruitFever.buttons.add(tempButton);
-		FruitFever.inGameButtons.add(tempButton);
+		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, 7, gearButton[0], gearButton[1], gearButton[2]), FruitFever.inGameButtons);
 		
 	}
 	
+	private static void addToButtons(Button button, ArrayList<Button> buttonList) {
+		
+		FruitFever.buttons.add(button);
+		buttonList.add(button);
+	
+	}
+	
 	private static void updateLoadingBar(double percentage){
+	
 		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(percentage)), 20);
 		loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
 		FruitFever.screen.add(loadingScreenBar);
+	
 	}
 	
 	private static String findFirstNumber(String line, int index){

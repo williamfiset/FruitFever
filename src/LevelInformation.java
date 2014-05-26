@@ -5,17 +5,23 @@
  *
  **/
  
- public class LevelInformation {
-	
-	public byte stars;
-	public int number, highScore;
-	public String name;
+ import java.io.*;
  
-	public LevelInformation(int number, String name, int highScore, byte stars) {
-		this.number = number;
+ public class LevelInformation implements Serializable {
+	
+	public String name;
+	public int number, highScore;
+	public byte stars;
+	public boolean locked;
+ 
+	public LevelInformation(String name, int number, int highScore, byte stars, boolean locked) {
+		
 		this.name = name;
+		this.number = number;
 		this.highScore = highScore;
 		this.stars = stars;
+		this.locked = locked;
+	
 	}
  
  }

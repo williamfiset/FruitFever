@@ -59,16 +59,6 @@ BOUNDING BOXES IN THING CLASS:
 		*NOTE: The getters return a double value, so you may need to cast to int.
 _____________________________________________________________________________________________
 
--CURRENT SCREEN VARIABLE:
-
-	0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multiplayer Playing
-
-	The game is currently set to begin at the Main Menu (our final game will likely have a cool splashscreen though)
-
-		public static int currentScreen = 1;
-
-_____________________________________________________________________________________________
-
 -LEVEL FILE STRUCTURE:	
 
 	BLOCKS (each Block also has an associated color/integer value, but this is not used for building the levels):
@@ -209,7 +199,7 @@ ________________________________________________________________________________
 					-Player
 					-Swirl
 					-AdvancedMovingAnimation
-						-Enemy (in progress)
+						-Enemy
 		
 _____________________________________________________________________________________________
 
