@@ -30,6 +30,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	static ArrayList<Block> blocks;
 	static ArrayList<Thing> things, dangerousThings, checkPoints;
+	static ArrayList<Enemy> enemies;
 	static ArrayList<Animation> edibleItems;
 	static ArrayList<TextAnimator> texts;
 
@@ -167,13 +168,24 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 						i--;
 					} else things.get(i).animate();
 				}
+				
+				/** Animate all enemies **/
+				for (int i = 0; i < enemies.size(); i++) {
+					if (!enemies.get(i).active) {
+						remove(enemies.get(i).healthBar);
+						remove(enemies.get(i).healthBarBackground);
+						remove(enemies.get(i).image);
+						enemies.remove(i);
+						i--;
+					} else enemies.get(i).animate();
+				}
+					
 					
 				/** Animate all edible items **/
 				for (Thing item : edibleItems)
 					item.animate();
 
 				Block.drawBlocks();
-
 
 				player.jump();
 				player.motion();
@@ -226,7 +238,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		/** Reset all lists and variables pertaining to the previous played level **/
 		blocks = new ArrayList<Block>();
 		things = new ArrayList<Thing>();
-		edibleItems = new ArrayList<Animation>();;
+		edibleItems = new ArrayList<Animation>();
+		enemies = new ArrayList<Enemy>();
 		dangerousThings = new ArrayList<Thing>();
 		texts = new ArrayList<TextAnimator>();
 		checkPoints = new ArrayList<Thing>();
@@ -333,7 +346,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		/** Adds all blocks, things and fruits to the screen **/
 		
-		for(Block obj : blocks){
+		for (Block obj : blocks){
 			obj.image.setLocation(obj.getX(), obj.getY());
 			add(obj.image);
 		}
@@ -347,20 +360,19 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			item.image.setLocation(item.getX(), item.getY());
 			add(item.image);
 		}
+		
+		for (Enemy enemy : enemies ) {
+			enemy.image.setLocation(enemy.getX(), enemy.getY());
+			add(enemy.image);
+			add(enemy.healthBarBackground);
+			add(enemy.healthBar);
+		}
 
 		placePlayerOnScreen();
 
 		addHearts();
 
 		addToScreen(inGameButtons);
-
-		/** TESTING PURPOSES ONLY **/
-		//addToThings(new MovingAnimation(0, 100, Data.redFruit, true, 2, true, 2, 0, 1));
-		// addToThings(new MovingAnimation(0, 100, Data.wormEnemyMoving, true, 2, true, 1, 0, 1));
-		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, new GImage[][]{ Data.wormEnemyMoving, Data.wormEnemyMovingH}, true, 2, true, 2, 0));
-		// addToThings(new AdvancedMovingAnimation(new int[]{0, 100}, new int[]{50, 50}, Data.wormEnemyMoving, true, 2, true, 2, 0));
-		// addToThings(new Animation(0, 125, Data.fuzzyDiskAnimation, true, 2, true, -1));
-		/** **/
 		
 	}
 
@@ -624,6 +636,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		for (Thing dangerousSprite : FruitFever.dangerousThings)
 			dangerousSprite.naturalAnimate();
+		
+		for (Enemy enemy : FruitFever.enemies)
+			enemy.naturalAnimate();
+			
+		
 
 	}
 
