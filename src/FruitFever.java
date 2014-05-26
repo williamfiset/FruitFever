@@ -5,15 +5,11 @@
  *
  */
 
-// CurrentScreen: -1 = N/A, 0 = Loading Game, 1 = Main Menu, 2 = Level Selection, 3 = Playing, 4 = Controls, 5 = Options, 6 = Multi-player Playing
-
 import acm.graphics.*;
 import acm.program.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
-
-
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
@@ -144,7 +140,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					} else alarms.get(i).execute();
 				}
 				
-			// Playing
 			if(currentScreen == ScreenMode.PLAYING){
 			
 				// Controls if it is time to return to the level selection menu
@@ -434,7 +429,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 	@Override public void keyPressed(KeyEvent key){
 		
-		// If the game mode is PLAYING
 		if (currentScreen == ScreenMode.PLAYING) {
 		
 			int keyCode = key.getKeyCode();
@@ -445,15 +439,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 			// TONGUE
 			} else if (keyCode == KeyEvent.VK_E) {
-				if (tongueButtonReleased && grabbedItem == null){
-					player.eat();
+				if (tongueButtonReleased && grabbedItem == null && player.finishedTongueAnimation){
+					player.finishedTongueAnimation = false;
 					tongueButtonReleased = false;
+					player.eat();
 				}
 
-				// Shoot Swirl
+			// Shoot Swirl
 			} else if (keyCode == KeyEvent.VK_SPACE) {
 				
-				if (swirlButtonReleased) {
+				if (swirlButtonReleased && player.finishedTongueAnimation) {
 				
 					if(player.swirl.reset)
 						player.shootSwirl();
@@ -479,7 +474,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 	@Override public void keyReleased(KeyEvent key){
 		
-		// If the game mode is PLAYING
 		if (currentScreen == ScreenMode.PLAYING) {
 		
 			int keyCode = key.getKeyCode();

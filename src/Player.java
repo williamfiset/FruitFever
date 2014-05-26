@@ -62,7 +62,7 @@ public class Player extends MovingAnimation {
 	private int baseLine;
 	private int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // Jump a maximum of 3.5 blocks high
 
-// Jumping motion Variables
+// Jumping Motion Variables
 
 	private static final double STARTING_JUMPING_VELOCITY = 6.25; 
 	private static final double STARTING_JUMPING_DECCELERATION = 0;
@@ -71,12 +71,11 @@ public class Player extends MovingAnimation {
 	private double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 	private double jumpingVelocity = STARTING_JUMPING_VELOCITY;
 
-// Animation things
+// Animation Things
 	
 	private GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
-
-
-
+	public boolean finishedTongueAnimation = true;
+	
 	public Player(int x, int y){
 
 		super(x, y, Data.playerStill, false, 1, true, 0);
@@ -687,26 +686,30 @@ public class Player extends MovingAnimation {
 	// Overrides MovingAnimation.animate()
 	@Override public void animate(){
 		
-		if(facingRight){
+		if (facingRight) {
 
-			if(images.equals(stillAnimH))
+			if (images.equals(stillAnimH))
 				images = stillAnim;
-			else if(images.equals(shootAnimH))
+			else if (images.equals(shootAnimH))
 				images = shootAnim;
-			else if(images.equals(tongueAnimH))
+			else if (images.equals(tongueAnimH))
 				images = tongueAnim;
 
 		} else {
 
-			if(images.equals(stillAnim))
+			if (images.equals(stillAnim))
 				images = stillAnimH;
-			else if(images.equals(shootAnim))
+			else if (images.equals(shootAnim))
 				images = shootAnimH;
-			else if(images.equals(tongueAnim))
+			else if (images.equals(tongueAnim))
 				images = tongueAnimH;
 		}
 		
-		if(!active){
+		if (!active) {
+			
+			// Fixes Issue #79 which is when the 'e' key is held you eat things automatically, even after the animation is finished
+			if (images.equals(tongueAnim) || images.equals(tongueAnimH))
+				finishedTongueAnimation = true;
 		
 			// Adjust Animation variables
 			repeat = true;
@@ -714,14 +717,15 @@ public class Player extends MovingAnimation {
 			active = true;
 			
 			// Switch animation images
-			if(facingRight)
+			if (facingRight)
 				images = stillAnim;
 			else
 				images = stillAnimH;
 		}
 
-		// Fixes Issue #45 when Animating the swirl before you check the collision
 		super.animate();
+		
+		// Fixes Issue #45 when Animating the swirl before you check the collision
 		swirl.animate();
 
 		// If Swirl goes off screen or hits a block, destroy it
@@ -742,10 +746,10 @@ public class Player extends MovingAnimation {
 			FruitFever.grabbedItem.animate();
 			
 			// Remove item if animation has finished
-			if(!images.equals(tongueAnim) && !images.equals(tongueAnimH)){
+			if (finishedTongueAnimation){
 				FruitFever.screen.remove(FruitFever.grabbedItem.image);
-				for(int i = 0; i < FruitFever.edibleItems.size(); i++)
-					if(FruitFever.edibleItems.get(i).equals(FruitFever.grabbedItem)){
+				for (int i = 0; i < FruitFever.edibleItems.size(); i++)
+					if (FruitFever.edibleItems.get(i).equals(FruitFever.grabbedItem)) {
 						FruitFever.edibleItems.remove(i);
 						break;
 					}
@@ -753,7 +757,7 @@ public class Player extends MovingAnimation {
 			}
 		
 		// Try grabbing item (only eats one at a time because of the break statement)
-		} if (!FruitFever.tongueButtonReleased) {
+		} else if (!finishedTongueAnimation) {
 			for (int i = 0; i < FruitFever.edibleItems.size(); i++)
 				// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
 				if (FruitFever.edibleItems.get(i).intersects(getTongueRectangle())) {

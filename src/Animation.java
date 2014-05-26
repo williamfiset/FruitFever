@@ -11,10 +11,10 @@ import java.awt.*;
 public class Animation extends Thing {
 
 	/** Instance variables **/
-	public int type, counter = 0;
+	protected int type, counter = 0;
 
 	protected GImage[] images;
-	private boolean counterGoingUp = true; 
+	protected boolean counterGoingUp = true; 
 
 	private double delayCounter, delay, delayCounterIncrement = 1;
 	
