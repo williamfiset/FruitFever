@@ -157,7 +157,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 				// Tests for falling blocks
 				// Block.updateFallingBlocksByNaturalDisaster();
-				Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
+				// Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
 				for (int i = 0; i < things.size(); i++) {
@@ -190,12 +190,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			}
 
 			double loopTime = loopTimer.stop();
+			double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - loopTime*1000);
+			// pause(MAIN_LOOP_SPEED);
 
 			try{
-				pause(Math.max(0, MAIN_LOOP_SPEED - loopTime*1000));
+				pause(Math.max(0f, pauseTime));
 			}catch(IllegalArgumentException exception){
 				pause(MAIN_LOOP_SPEED);	
-				System.out.println("MAIN_LOOP_SPEED  =  " + (MAIN_LOOP_SPEED - loopTime*1000) );
+				System.out.println("MAIN_LOOP_SPEED  =  " + pauseTime );
 				exception.printStackTrace();
 			}			
 			

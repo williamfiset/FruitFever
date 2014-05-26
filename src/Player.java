@@ -74,7 +74,7 @@ public class Player extends MovingAnimation {
 // Animation Things
 	
 	private GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
-	public boolean finishedTongueAnimation = true;
+	boolean finishedTongueAnimation = true;
 	
 	public Player(int x, int y){
 
@@ -552,9 +552,9 @@ public class Player extends MovingAnimation {
 
 		// Adjust screen so that player cannot see outside view box
 		FruitFever.viewY = Math.max(FruitFever.viewY, 0);
-		FruitFever.viewX = Math.max(FruitFever.viewX, 0);
-		
 		FruitFever.viewY = Math.min(FruitFever.viewY, FruitFever.LEVEL_HEIGHT - FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE);
+
+		FruitFever.viewX = Math.max(FruitFever.viewX, 0);
 		FruitFever.viewX = Math.min(FruitFever.viewX, FruitFever.LEVEL_WIDTH - FruitFever.SCREEN_WIDTH + Data.TILE_SIZE);
 
 
@@ -673,6 +673,7 @@ public class Player extends MovingAnimation {
 		checkCollisionDetection();
 
 		// Focuses the view on the player placing the player in the center of the screen
+		// Causes a bug which can cause the player to teleport intoblocks
 		focusViewOnPlayer(swirl.imageX, swirl.imageY, false);
 
 		// makes sure the player cannot jump directly after teleportation
