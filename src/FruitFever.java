@@ -37,7 +37,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 /** Player **/
 	static Player player;
 	static int playerStartX, playerStartY, dx;
-	static boolean swirlButtonReleased = true, tongueButtonReleased = true;
+	static boolean swirlButtonReleased = true, tongueButtonReleased = true, shootButtonReleased = true;
 	
 /** Menus/GUI **/
 	
@@ -205,9 +205,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - loopTime*1000);
 			// pause(MAIN_LOOP_SPEED);
 
-			try{
-				pause(Math.max(0f, pauseTime));
-			}catch(IllegalArgumentException exception){
+			try {
+				pause(pauseTime);
+			}
+			catch (IllegalArgumentException exception) {
 				pause(MAIN_LOOP_SPEED);	
 				System.out.println("MAIN_LOOP_SPEED  =  " + pauseTime );
 				exception.printStackTrace();
@@ -257,6 +258,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		dx = 0;
 		vx = 0;
 		vy = 0;
+		
+		shootButtonReleased = true;
+		tongueButtonReleased = true;
+		swirlButtonReleased = true;
 
 		// Loads all objects for the current level
 		Data.loadObjects("levels/levels.txt", currentLevel);
@@ -277,10 +282,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		Block.findNaturalFallingBlockCandidates();
 		
 		currentScreen = ScreenMode.PLAYING;
-
-		/** TEMPORARY for powerup testing, this automatically gives the player a jump powerup at the beginning of the level. eventually he'll have blocks to get this power-up **/
-		// alarms.add(new Alarm (100, 0, 0));
-		/** TEMPORARY **/
 
 	}
 
@@ -452,6 +453,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			if (keyCode == KeyEvent.VK_W) {
 				player.setKeepJumping(true);	
 
+			// SHOOT
+			} if (keyCode == KeyEvent.VK_S) {
+				if (shootButtonReleased)
+					player.shootProjectile();
+
 			// TONGUE
 			} else if (keyCode == KeyEvent.VK_E) {
 				if (tongueButtonReleased && grabbedItem == null && player.finishedTongueAnimation){
@@ -504,6 +510,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				swirlButtonReleased = true;
 			else if (keyCode == KeyEvent.VK_E)
 				tongueButtonReleased = true;
+			else if (keyCode == KeyEvent.VK_S)
+				shootButtonReleased = true;
 			else if (keyCode == KeyEvent.VK_W) 
 				player.setKeepJumping(false);
 			

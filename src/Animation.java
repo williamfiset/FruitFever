@@ -16,7 +16,7 @@ public class Animation extends Thing {
 	protected GImage[] images;
 	protected boolean counterGoingUp = true; 
 
-	private double delayCounter, delay, delayCounterIncrement = 1;
+	private int delayCounter, delay;
 	
 	protected boolean reverse, repeat;
 	
@@ -35,7 +35,6 @@ public class Animation extends Thing {
 	 
 	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type){
 		this(x, y, originalImages, reverse, delay, repeat, type, false);	
-		
 	}
 
 	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type, boolean randomStartingFrame){
@@ -47,7 +46,18 @@ public class Animation extends Thing {
 		if(randomStartingFrame)
 			counter = (int) (Math.random()*(originalImages.length - 1));
 
-		initializeVariables(originalImages, reverse, delay, repeat, type);
+		// Make copy of images
+		this.images = originalImages;
+		
+		// Set these instance variables, now that we know the image
+		super.image = new GImage(images[counter].getImage());
+		super.setSize((int) image.getWidth(), (int) image.getHeight());
+		
+		this.reverse = reverse;
+		this.delay = delay;
+		this.repeat = repeat;
+		
+		this.type = type;
 
 	}
 
@@ -62,31 +72,13 @@ public class Animation extends Thing {
 		super.setSize((int) image.getWidth(), (int) image.getHeight());
 	}
 
-
-	private void initializeVariables(GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type){
-
-		// Make copy of images
-		this.images = originalImages;
-		
-		// Set these instance variables, now that we know the image
-		super.image = new GImage(images[counter].getImage());
-		super.setSize((int) image.getWidth(), (int) image.getHeight());
-		
-		this.reverse = reverse;
-		this.delay = (double) delay;
-		this.repeat = repeat;
-		
-		this.type = type;
-
-	}
-
 	public void animate(){
 	
 		if(active){
 			
 			// Break out of this method if it's not time to change the image yet
 
-			delayCounter += delayCounterIncrement;
+			delayCounter++;
 
 			if (delayCounter < delay) {
 				super.animate();
@@ -128,33 +120,3 @@ public class Animation extends Thing {
 	
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

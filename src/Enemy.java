@@ -13,22 +13,22 @@ public class Enemy extends AdvancedMovingAnimation {
 
 	public GRect healthBar, healthBarBackground;
 	public double currentHealth, maxHealth;
-	private final int BAR_HEIGHT = 8, BAR_WIDTH = 30;
+	private final int VERTICAL_SPACING = 10, BAR_HEIGHT = 3, BAR_WIDTH = 15;
 
-	public Enemy(int[] xPos, int[] yPos, GImage[][] originalImages, boolean reverse, int delay, boolean repeat, int dx, int dy) {
+	public Enemy(int[] xPos, int[] yPos, GImage[][] originalImages, boolean reverse, int delay, boolean repeat, double dx, double dy) {
 	
 		super(xPos, yPos, originalImages, reverse, delay, repeat, dx, dy);
 		
 		maxHealth = 1000;
 		currentHealth = maxHealth;
 		
-		healthBarBackground = new GRect(xPos[0], yPos[0], BAR_WIDTH, BAR_HEIGHT);
+		healthBarBackground = new GRect(xPos[0] + (width - BAR_WIDTH)/2, yPos[0] - VERTICAL_SPACING, BAR_WIDTH, BAR_HEIGHT);
 		healthBarBackground.setFilled(true);
-		healthBarBackground.setColor(Color.white);
+		healthBarBackground.setColor(Color.red.darker());
 		
-		healthBar = new GRect(xPos[0] + 1, yPos[0] + 1, BAR_WIDTH - 2, BAR_HEIGHT - 2);
+		healthBar = new GRect(xPos[0] + (width + BAR_WIDTH)/2, yPos[0] - VERTICAL_SPACING, BAR_WIDTH, BAR_HEIGHT);
 		healthBar.setFilled(true);
-		healthBar.setColor(Color.red);
+		healthBar.setColor(Color.green.darker());
 		
 	}
 	
@@ -45,9 +45,9 @@ public class Enemy extends AdvancedMovingAnimation {
 		/** **/
 		
 		/** Re-position and re-calculate health bar **/
-		healthBar.setLocation(imageX - FruitFever.viewX + 1, imageY - FruitFever.viewY + 1);
-		healthBar.setSize((int) ((currentHealth/maxHealth)*(BAR_WIDTH - 2)), BAR_HEIGHT - 2);
-		healthBarBackground.setLocation(imageX - FruitFever.viewX, imageY - FruitFever.viewY);
+		healthBar.setLocation(imageX - FruitFever.viewX + (width - BAR_WIDTH)/2, imageY - FruitFever.viewY - VERTICAL_SPACING);
+		healthBar.setSize((int) ((currentHealth/maxHealth)*BAR_WIDTH), BAR_HEIGHT);
+		healthBarBackground.setLocation(imageX - FruitFever.viewX + (width - BAR_WIDTH)/2, imageY - FruitFever.viewY- VERTICAL_SPACING);
 		
 	}
 

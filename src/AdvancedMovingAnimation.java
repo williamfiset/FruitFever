@@ -13,11 +13,12 @@ public class AdvancedMovingAnimation extends MovingAnimation{
 
 	/** Public instance variables **/
 	public int[] xPos, yPos;
-	public int currentDestination, currentAnimation = 0, dx, dy;
+	public int currentDestination, currentAnimation = 0;
+	public double dx, dy;
 	public GImage[][] animations;
 
-	public AdvancedMovingAnimation(int[] xPos, int[] yPos, GImage[][] originalImages, boolean reverse, int delay, boolean repeat, int dx, int dy){
-	
+	public AdvancedMovingAnimation(int[] xPos, int[] yPos, GImage[][] originalImages, boolean reverse, int delay, boolean repeat, double dx, double dy){
+
 		super(xPos[0], yPos[0], originalImages[0], reverse, delay, repeat, 1);
 		
 		this.xPos = xPos;

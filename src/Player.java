@@ -810,6 +810,12 @@ public class Player extends MovingAnimation {
 		else
 			return new Rectangle(x - currentTongueWidth, y, currentTongueWidth, Data.TILE_SIZE);
 	}
+	
+	/** Shoots a fireball (work-in-progress) **/
+	public void shootProjectile() {
+	
+	
+	}
 
 	public boolean onSurface(){ return onSurface; }
 	public boolean isJumping(){	return isJumping; }
@@ -822,12 +828,12 @@ public class Player extends MovingAnimation {
 }
 
 	/** A swirl is a projectile shot from the player as a teleportation method  **/
-	class Swirl extends MovingAnimation{
+	class Swirl extends MovingAnimation {
 		
 		static boolean reset = true;
 
 		// Swirl's velocity
-		static final byte dx = 7;
+		static final byte dx = 7; // (Must remain an integer for collision detection to work)
 
 		// This is the location of where the swirl is off screen when it is at rest
 		static final short SWIRL_X_REST_POS = -100;
@@ -865,16 +871,16 @@ public class Player extends MovingAnimation {
 		/** Returns true or false depending on if the swirl has collided with a block **/
 		public boolean collidesWithBlock(){
 
-			Block westNorth = Block.getBlock(x + AIR_SPACING + xSpeed, y + AIR_SPACING ) ;
+			Block westNorth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + AIR_SPACING ) ;
 			if (westNorth != null) return true;
 
-			Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + AIR_SPACING) ;
+			Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + AIR_SPACING) ;
 			if (eastNorth != null) return true;
 
-			Block westSouth = Block.getBlock(x + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING ) ;
+			Block westSouth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING ) ;
 			if (westSouth != null) return true;
 
-			Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING );
+			Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING );
 			if (eastSouth != null) return true;
 
 			return false;
@@ -884,6 +890,19 @@ public class Player extends MovingAnimation {
 		@Override public String toString(){
 			return "Swirl   X: " + x + "  Y: " + y;
 		}
+	}
+	
+	/** A projectile is shot from the player as an attack method (work-in-progress) **/
+	class Projectile extends MovingAnimation {
+	
+		static final byte dx = 10;
+		
+		public Projectile(int x, int y, int xSpeed) {
+			super(x, y, new GImage[]{Data.fireBallSmall}, false, 1, true, xSpeed, 0, -1);
+		}
+		
+		
+		
 	}
 
 
