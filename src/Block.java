@@ -170,12 +170,10 @@ public class Block extends Thing {
 
 		// I got too lazy to check the boundaries so I used a try block which is error proof			
 		} catch(NullPointerException e) {
-
 			// Block coordinates were not found, typically due to air space or out of bounds
 			return null;
 		}
 
-			
 		/* This is the old Block finder method, I'm keeping it just in case we need to go back to it
 
 		for (Block block : FruitFever.blocks)

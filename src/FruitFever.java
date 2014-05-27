@@ -104,27 +104,27 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		/** TEMPORARY **/
 
-		// GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		// GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		// GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
-		// GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3); 
-		// GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
+		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
+		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
+		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3); 
+		GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
 		point1 = new GRect(0,0,2,3);
 		point2 = new GRect(0,0,2,3);
 
-		// leftRect.setFillColor(Color.RED);
-		// rightRect.setFillColor(Color.RED);
-		// upRect.setFillColor(Color.RED);
-		// downRect.setFillColor(Color.RED);
-		// centerRect.setFillColor(Color.RED);
-		point1.setFillColor(Color.RED);
-		point2.setFillColor(Color.RED);
+		leftRect.setFillColor(Color.RED);
+		rightRect.setFillColor(Color.RED);
+		upRect.setFillColor(Color.RED);
+		downRect.setFillColor(Color.RED);
+		centerRect.setFillColor(Color.RED);
+		point1.setFillColor(Color.GREEN);
+		point2.setFillColor(Color.BLUE);
 
-		// leftRect.setFilled(true);
-		// rightRect.setFilled(true);
-		// downRect.setFilled(true);
-		// upRect.setFilled(true);
-		// centerRect.setFilled(true);
+		leftRect.setFilled(true);
+		rightRect.setFilled(true);
+		downRect.setFilled(true);
+		upRect.setFilled(true);
+		centerRect.setFilled(true);
 		point1.setFilled(true);
 		point2.setFilled(true);
 		/** TEMPORARY **/
@@ -193,11 +193,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				
 				add(point1);
 				add(point2);
-				// add(leftRect);
-				// add(rightRect);
-				// add(upRect);
-				// add(downRect);
-				// add(centerRect);
+				add(leftRect);
+				add(rightRect);
+				add(upRect);
+				add(downRect);
+				add(centerRect);
 
 			}
 
@@ -639,8 +639,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 		for (Enemy enemy : FruitFever.enemies)
 			enemy.naturalAnimate();
-			
 		
+		/** Fixes Issue #81 (Teleportation problem) **/
+		player.animate();
 
 	}
 

@@ -38,7 +38,7 @@ public class Player extends MovingAnimation {
 
 // Gravity/Falling Variables & Constants
 
-	private static final double TERMINAL_VELOCITY = Data.TILE_SIZE - 1;
+	private static final double TERMINAL_VELOCITY = Data.TILE_SIZE - VERTICAL_PX_BUFFER - 1;
 	private static final double STARTING_FALLING_VELOCITY = 2.5;
 	private static final double STARTING_FALLING_ACCELERATION = 0.5;
 	private static final double CHANGE_IN_ACCELERATION = 0.015;
@@ -97,9 +97,12 @@ public class Player extends MovingAnimation {
 	/** Calls all the players actions **/
 	public void motion(){
 
+		// Will's debug stash
 		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
 		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
-		//System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
+		// System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
+		// System.out.printf("viewX %d  viewY: %d \n", FruitFever.viewX, FruitFever.viewY);
+		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
 
 		// Collisions
 		checkCollisionDetection();
@@ -121,8 +124,8 @@ public class Player extends MovingAnimation {
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
 
+		downwardsCollision(); // downwardsCollision can make onSurface false, so it is first
 		extraCollisionChecks();
-		downwardsCollision();
 		sidewaysCollision();
 		upwardsCollision();
 
@@ -220,7 +223,7 @@ public class Player extends MovingAnimation {
 		/** Plays a role in solving issue# 64 **/
 		
 		// Executes only when falling downwards 
-		if (!isJumping && fallingVelocity > STARTING_FALLING_VELOCITY) { // && fallingVelocity > STARTING_FALLING_VELOCITY
+		if (!isJumping ) { // && fallingVelocity > STARTING_FALLING_VELOCITY
 
 			for (int horizontalPosition = 3; horizontalPosition <= 22 ; horizontalPosition++){
 
@@ -234,6 +237,7 @@ public class Player extends MovingAnimation {
 				if (southernBlock != null) {
 					onSurface = true; 
 					placePlayerOnBlock(southernBlock);
+					
 					return;
 				}
 			}
@@ -435,7 +439,7 @@ public class Player extends MovingAnimation {
 
 		// This statement kinda looks weird but it's clear and more efficient (I think!)
 		if(checkForPlayerOutOfBounds()){}
-		else if (checkForDangerousSpriteCollisions()) {}
+		// else if (checkForDangerousSpriteCollisions()) {}
 
 	}
 
@@ -546,6 +550,10 @@ public class Player extends MovingAnimation {
 	 */
 	public void focusViewOnPlayer(int newPlayerXPos, int newPlayerYPos, boolean levelRespawn){
 
+		// In case player is falling rapidly this will ensure that the view is not moving
+		FruitFever.vy = 0;
+		FruitFever.vx = 0;
+
 		// Places the player exactly in the middle of the screen
 		FruitFever.viewX = newPlayerXPos - (FruitFever.SCREEN_WIDTH/2) + (Data.TILE_SIZE/2);
 		FruitFever.viewY = newPlayerYPos - (FruitFever.SCREEN_HEIGHT/2) + (Data.TILE_SIZE/2);
@@ -600,7 +608,7 @@ public class Player extends MovingAnimation {
 		if (facingRight) {
 
 			Block westNorth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4 );
-			Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
+			Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4) + (int) (fallingVelocity==STARTING_FALLING_VELOCITY?0:fallingVelocity));
 
 			// If there is not Block in front of player
 			if (westNorth == null && westSouth == null) {
@@ -622,7 +630,7 @@ public class Player extends MovingAnimation {
 		} else {
 
 			Block eastNorth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4);
-			Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4));
+			Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4) + (int) (fallingVelocity==STARTING_FALLING_VELOCITY?0:fallingVelocity));
 
 			// If there is not Block in front of player
 			if (eastSouth == null && eastNorth == null) {
@@ -653,8 +661,6 @@ public class Player extends MovingAnimation {
 		x = swirl.x + Data.TILE_SIZE;
 		y = swirl.y ;
 
-	
-
 		/** Fixes Issue #42  (player semi teleports into blocks) **/
 		Block upperRight = Block.getBlock(x, y + 3);
 		Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
@@ -662,7 +668,7 @@ public class Player extends MovingAnimation {
 		Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
 
 		if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
-			imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
+			// imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
 
 			// Takes into account that the player's center is top left
 			if (!facingRight)
@@ -670,18 +676,18 @@ public class Player extends MovingAnimation {
 			
 		}
 
-		checkCollisionDetection();
-
-		// Focuses the view on the player placing the player in the center of the screen
-		// Causes a bug which can cause the player to teleport intoblocks
-		focusViewOnPlayer(swirl.imageX, swirl.imageY, false);
-
 		// makes sure the player cannot jump directly after teleportation
 		resetJump();
 		setKeepJumping(false);
-		
+
+		// Focuses the view on the player placing the player in the center of the screen
+		focusViewOnPlayer(imageX, imageY, false); 
+
+		// Not sure this does anything
+		checkCollisionDetection();
+
 		swirl.resetState();
-		
+	
 	}
 
 	// Overrides MovingAnimation.animate()
@@ -805,17 +811,9 @@ public class Player extends MovingAnimation {
 			return new Rectangle(x - currentTongueWidth, y, currentTongueWidth, Data.TILE_SIZE);
 	}
 
-	public boolean onSurface(){
-		return onSurface;
-	}
-
-	public boolean isJumping(){
-		return isJumping;
-	}
-
-	public int getLives(){
-		return lives;
-	}
+	public boolean onSurface(){ return onSurface; }
+	public boolean isJumping(){	return isJumping; }
+	public int getLives(){ return lives; }
 
 	@Override public String toString(){
 		return "ImageX: " + imageX + "   ImageY: " + imageY + "   X: " + x + "   Y: " + y ;
@@ -828,8 +826,8 @@ public class Player extends MovingAnimation {
 		
 		static boolean reset = true;
 
-		// Swirls velocity
-		static final byte dx = 6;
+		// Swirl's velocity
+		static final byte dx = 7;
 
 		// This is the location of where the swirl is off screen when it is at rest
 		static final short SWIRL_X_REST_POS = -100;
@@ -887,34 +885,6 @@ public class Player extends MovingAnimation {
 			return "Swirl   X: " + x + "  Y: " + y;
 		}
 	}
-
-
-
-
-
-/*
-
-
-				System.out.println((int)player.fallingVelocity);
-				point1.setLocation( player.imageX + 2, player.imageY + 25 + (int) player.fallingVelocity );
-				point2.setLocation( player.imageX + 23, player.imageY + 25 + (int) player.fallingVelocity);
-
-				add(point1);
-				add(point2);
-
-
-				GRect point1 = new GRect(0 , 0, 3, 3);
-				GRect point2 = new GRect(0 , 0, 3, 3);
-				
-				point1.setFillColor(Color.RED);
-				point2.setFillColor(Color.RED);
-
-				point1.setFilled(true);
-				point2.setFilled(true);
-
-*/
-
-
 
 
 
