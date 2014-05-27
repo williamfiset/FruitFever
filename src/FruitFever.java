@@ -53,6 +53,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		MULTIPLAYER;
 	};
 
+	static boolean pressedRefresh = false;
+
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
 	static ArrayList<Button> inGameButtons = new ArrayList<Button>();
@@ -205,6 +207,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 			double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - loopTime*1000);
 			// pause(MAIN_LOOP_SPEED);
 
+
 			try {
 				pause(pauseTime);
 			}
@@ -212,7 +215,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				pause(MAIN_LOOP_SPEED);	
 				System.out.println("MAIN_LOOP_SPEED  =  " + pauseTime );
 				exception.printStackTrace();
-			}			
+			}
+
+			// Putting this after the pause prevents 'a block flash'  
+			if (pressedRefresh) {
+				loadLevel();
+				pressedRefresh = false;
+			}
+							
 			
 		}
 		
@@ -249,8 +259,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
 
-		viewX = 0;
-		viewY = 0;
+		// ViewX & ViewY are being set to zero in Data.laodObjects
 		greenCheckPoint = null;
 		grabbedItem = null;
 		vortex = null;
@@ -265,7 +274,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		// Loads all objects for the current level
 		Data.loadObjects("levels/levels.txt", currentLevel);
-		
+
 		findScreenDimensions();
 
 		// Clear the screen
@@ -599,7 +608,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				// Refresh Button
 				} else if (clickedOnButton.type == 8) {
 					currentScreen = ScreenMode.NOT_AVAILABLE;
-					loadLevel();
+					pressedRefresh = true;
 				}
 				
 			}

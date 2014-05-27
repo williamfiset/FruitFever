@@ -326,11 +326,14 @@ public abstract class Data{
 		
 		try{
 
+			// I traced issue #80 to here. The view Values change but I don't know why.
 			Scanner sc = new Scanner(new File(fileName));
 			
+			/** Fixes issue #80 by explicitly silencing the Δ in view **/
+			FruitFever.viewX = 0;
+			FruitFever.viewY = 0;
+
 			// Clear ArrayLists
-			FruitFever.blocks.clear();
-			FruitFever.things.clear();
 			Block.resetBlockLists();
 
 			/** Find the correct level **/
