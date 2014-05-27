@@ -35,6 +35,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static ArrayList<TextAnimator> texts;
 
 /** Player **/
+
 	static Player player;
 	static int playerStartX, playerStartY, dx;
 	static boolean swirlButtonReleased = true, tongueButtonReleased = true, shootButtonReleased = true;
@@ -42,8 +43,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 /** Menus/GUI **/
 	
 	// Defines ScreenMode constants	
-	private enum ScreenMode{
-		NOT_AVAILABLE,
+	private enum ScreenMode {
+		LEVEL_REFRESH,
 		LOADING_GAME,
 		MAIN_MENU,
 		LEVEL_SELECTION,
@@ -52,8 +53,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		OPTIONS,
 		MULTIPLAYER;
 	};
-
-	static boolean pressedRefresh = false;
 
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
@@ -111,24 +110,24 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
 		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3); 
 		GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
-		point1 = new GRect(0,0,2,3);
-		point2 = new GRect(0,0,2,3);
+		// point1 = new GRect(0,0,2,3);
+		// point2 = new GRect(0,0,2,3);
 
 		leftRect.setFillColor(Color.RED);
 		rightRect.setFillColor(Color.RED);
 		upRect.setFillColor(Color.RED);
 		downRect.setFillColor(Color.RED);
 		centerRect.setFillColor(Color.RED);
-		point1.setFillColor(Color.GREEN);
-		point2.setFillColor(Color.BLUE);
+		// point1.setFillColor(Color.GREEN);
+		// point2.setFillColor(Color.BLUE);
 
 		leftRect.setFilled(true);
 		rightRect.setFilled(true);
 		downRect.setFilled(true);
 		upRect.setFilled(true);
 		centerRect.setFilled(true);
-		point1.setFilled(true);
-		point2.setFilled(true);
+		// point1.setFilled(true);
+		// point2.setFilled(true);
 		/** TEMPORARY **/
 		
 
@@ -144,10 +143,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 					} else alarms.get(i).execute();
 				}
 				
-			if(currentScreen == ScreenMode.PLAYING){
+			if (currentScreen == ScreenMode.PLAYING) {
 			
 				// Controls if it is time to return to the level selection menu
-				if(levelComplete || player.getLives() <= 0){
+				if (levelComplete || player.getLives() <= 0) {
 					drawLevelSelection();
 					levelComplete = false;
 					continue;
@@ -193,8 +192,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				player.motion();
 				player.animate();
 				
-				add(point1);
-				add(point2);
+				// add(point1);
+				// add(point2);
 				add(leftRect);
 				add(rightRect);
 				add(upRect);
@@ -203,15 +202,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 			}
 
-
 			pauseLoop(loopTimer);
 
-			/** Fixes Issue #83 (Refresh Button causing lists to be emptied) **/
-			// Putting this after the pause prevents 'a block flash'  
-			if (pressedRefresh) {
+			if (currentScreen == ScreenMode.LEVEL_REFRESH)
 				loadLevel();
-				pressedRefresh = false;
-			}
 							
 			
 		}
@@ -273,7 +267,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
 
-		// ViewX & ViewY are being set to zero in Data.laodObjects
+		viewX = 0;
+		viewY = 0;
 		greenCheckPoint = null;
 		grabbedItem = null;
 		vortex = null;
@@ -593,36 +588,35 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				clickedOnButton.setHover();
 				
 				// Play button
-				if (clickedOnButton.type == 0)
+				if (clickedOnButton.type == Button.Type.PLAY)
 					drawLevelSelection();
 				
 				// Level left arrow button
-				else if (clickedOnButton.type == 4) {
+				else if (clickedOnButton.type == Button.Type.LEFT_ARROW) {
 					if (levelSelectionPage > 0) {
 						levelSelectionPage--;
 						shiftLevelLabels(-20);
 					}		
 			
 				// Level right arrow button
-				} else if (clickedOnButton.type == 5) {
+				} else if (clickedOnButton.type == Button.Type.RIGHT_ARROW) {
 					if (levelSelectionPage < 4) {
 						levelSelectionPage++;
 						shiftLevelLabels(20);
 					}
 				
 				// Level button
-				} else if (clickedOnButton.type == 6) {
+				} else if (clickedOnButton.type == Button.Type.LEVEL_BOXES) {
 					currentLevel = clickedOnButton.level + levelSelectionPage*20;
 					loadLevel();
 				
 				// Main Menu Button (Gear)
-				} else if (clickedOnButton.type == 7) {
+				} else if (clickedOnButton.type == Button.Type.GEAR) {
 					drawMainMenu();
 				
 				// Refresh Button
-				} else if (clickedOnButton.type == 8) {
-					currentScreen = ScreenMode.NOT_AVAILABLE;
-					pressedRefresh = true;
+				} else if (clickedOnButton.type == Button.Type.REFRESH) {
+					currentScreen = ScreenMode.LEVEL_REFRESH;
 				}
 				
 			}

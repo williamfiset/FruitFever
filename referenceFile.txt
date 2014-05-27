@@ -193,7 +193,6 @@ ________________________________________________________________________________
 		-Thing
 			-Block
 			-Button
-			-Scenery
 			-Animation
 				-MovingAnimation
 					-Player

@@ -15,9 +15,22 @@ import java.awt.*;
 public class Button extends Thing {
 
 	public GImage defaultImage, hoverImage, clickImage;
-	public int type, level; // level is only used for button type 6
+	public Type type;
+	public int level; // level is only used for button type 6
+	
+	public enum Type {
+		PLAY,
+		CONTROLS,
+		OPTIONS,
+		MULTIPLAYER,
+		LEFT_ARROW,
+		RIGHT_ARROW,
+		LEVEL_BOXES,
+		GEAR,
+		REFRESH;
+	};
 
-	public Button(int x, int y, int type, GImage defaultImg, GImage hoverImg, GImage clickImg){
+	public Button(int x, int y, Type type, GImage defaultImg, GImage hoverImg, GImage clickImg){
 	
 		super(x, y, (int) defaultImg.getWidth(), (int) defaultImg.getHeight(), new GImage(defaultImg.getImage()));
 		
@@ -32,7 +45,7 @@ public class Button extends Thing {
 	}
 	
 	/** Used for button type 5 **/
-	public Button(int x, int y, int type, GImage defaultImg, GImage hoverImg, GImage clickImg, int level){
+	public Button(int x, int y, Type type, GImage defaultImg, GImage hoverImg, GImage clickImg, int level){
 		this(x, y, type, defaultImg, hoverImg, clickImg);
 		this.level = level;
 	}

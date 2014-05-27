@@ -326,12 +326,7 @@ public abstract class Data{
 		
 		try{
 
-			// I traced issue #80 to here. The view Values change but I don't know why.
 			Scanner sc = new Scanner(new File(fileName));
-			
-			/** Fixes issue #80 by explicitly silencing the Δ in view **/
-			FruitFever.viewX = 0;
-			FruitFever.viewY = 0;
 
 			// Clear ArrayLists
 			Block.resetBlockLists();
@@ -480,7 +475,7 @@ public abstract class Data{
 							xOffset = -3;
 
 						// Add Scenery to the ArrayList
-						FruitFever.things.add(new Scenery(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, type, sceneryImages[type]));
+						FruitFever.things.add(new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, sceneryImages[type]));
 
 					} catch(ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("\nSCENERY LAYER contains invalid character: '%c' \n", character);
@@ -563,23 +558,25 @@ public abstract class Data{
 		Button tempButton;
 		
 		// Adds main menu buttons to the ArrayLists
-		for(int i = 0; i < 4; i++)
-			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[i/3].getWidth()/2), 125 + 75*i, i, menuButtons[3*i], menuButtons[3*i + 1], menuButtons[3*i + 2]), FruitFever.mainMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[0].getWidth()/2), 125, Button.Type.PLAY, menuButtons[0], menuButtons[1], menuButtons[2]), FruitFever.mainMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[3].getWidth()/2), 125 + 75, Button.Type.CONTROLS, menuButtons[3], menuButtons[3 + 1], menuButtons[3 + 2]), FruitFever.mainMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[6].getWidth()/2), 125 + 75*2, Button.Type.OPTIONS, menuButtons[3*2], menuButtons[3*2 + 1], menuButtons[3*2 + 2]), FruitFever.mainMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[9].getWidth()/2), 125 + 75*3, Button.Type.MULTIPLAYER, menuButtons[3*3], menuButtons[3*3 + 1], menuButtons[3*3 + 2]), FruitFever.mainMenuButtons);
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, 4, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]), FruitFever.levelSelectionButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]), FruitFever.levelSelectionButtons);
 		
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, 5, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]), FruitFever.levelSelectionButtons);
-		
-		/** Adds back button to the ArrayLists for Level Selection Screen and the In-Game Screen **/
-		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, 8, refreshButton[0], refreshButton[1], refreshButton[2]), FruitFever.inGameButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, Button.Type.RIGHT_ARROW, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]), FruitFever.levelSelectionButtons);
 		
 		/** Adds level buttons to the ArrayLists for Level Selection Screen **/
 		for(int i = 0; i < 20; i++)
-			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, 6, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
+			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, Button.Type.LEVEL_BOXES, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
 		
 		/** Adds gear button to the ArrayLists for In-Game Screen **/
-		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, 7, gearButton[0], gearButton[1], gearButton[2]), FruitFever.inGameButtons);
+		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, Button.Type.GEAR, gearButton[0], gearButton[1], gearButton[2]), FruitFever.inGameButtons);
+		
+		/** Adds refresh button to the ArrayLists for Level Selection Screen and the In-Game Screen **/
+		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.REFRESH, refreshButton[0], refreshButton[1], refreshButton[2]), FruitFever.inGameButtons);
 		
 	}
 	
