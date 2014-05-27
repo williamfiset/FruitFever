@@ -320,12 +320,6 @@ public abstract class Data{
 /** Loads objects from the file **/
 	public static void loadObjects(String fileName, int level){
 		
-		
-		// FruitFever.enemies.add(new Enemy(new int[]{2*TILE_SIZE, 100*TILE_SIZE}, new int[]{TILE_SIZE, TILE_SIZE}, new GImage[][]{ wormEnemyMoving, wormEnemyMovingH}, true, 2, true, 1, 1));
-		// FruitFever.enemies.add(new Enemy(new int[]{2*TILE_SIZE, 100*TILE_SIZE}, new int[]{TILE_SIZE, TILE_SIZE}, new GImage[][]{ wormEnemyMoving, wormEnemyMovingH}, true, 2, true, 1.1, 1.1));
-		// FruitFever.enemies.add(new Enemy(new int[]{2*TILE_SIZE, 100*TILE_SIZE}, new int[]{TILE_SIZE, TILE_SIZE}, new GImage[][]{ wormEnemyMoving, wormEnemyMovingH}, true, 2, true, 1.2, 1.2));
-		// FruitFever.enemies.add(new Enemy(new int[]{2*TILE_SIZE, 100*TILE_SIZE}, new int[]{TILE_SIZE, TILE_SIZE}, new GImage[][]{ wormEnemyMoving, wormEnemyMovingH}, true, 2, true, 2.0, 1.2));
-		
 		try{
 
 			Scanner sc = new Scanner(new File(fileName));

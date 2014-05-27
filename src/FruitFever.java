@@ -38,7 +38,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	static Player player;
 	static int playerStartX, playerStartY, dx;
-	static boolean swirlButtonReleased = true, tongueButtonReleased = true, shootButtonReleased = true;
+	static boolean swirlButtonPressed = false, tongueButtonPressed = false, shootButtonPressed = false;
 	
 /** Menus/GUI **/
 	
@@ -89,10 +89,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	static int earthQuakeMagnitude = 6;
 
 /** TEMPORARY COLLISION DETECTION **/
-	static GRect point1;
-	static GRect point2;
-
-
+	// static GRect point1;
+	// static GRect point2;
 
 	@Override public void init() {
 		screen = this;
@@ -212,11 +210,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 	}
 
-
+	/** Calculates how much to pause the main loop by so that it runs as smoothly as possible **/
 	private void pauseLoop(Timer_ timer){
 
-		double loopTime = timer.stop();
-		double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - loopTime*1000);
+		double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - timer.stop()*1000);
 
 		String strPauseTime  = new Double(pauseTime).toString();
 
@@ -228,12 +225,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		try {
 			pause(milliSeconds);
-		} catch (IllegalArgumentException exception) {
+		}
+		catch (IllegalArgumentException exception) {
 			pause(MAIN_LOOP_SPEED);	
 			System.out.println("MAIN_LOOP_SPEED  =  " + milliSeconds );
 			exception.printStackTrace();
 		}
-
 
 	}
 
@@ -243,15 +240,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		if (viewY%2 == 0) {
 			viewX += (int) (Math.random()*earthQuakeMagnitude);
 			viewY -= (int) (Math.random()*earthQuakeMagnitude);
-		} else {
+		}
+		else {
 			viewX -= (int) (Math.random()*earthQuakeMagnitude);
 			viewY += (int) (Math.random()*earthQuakeMagnitude);
 		}
 
 	}
 
-/** Loads and displays all initial graphics of a level on the screen  **/
-
+	/** Loads and displays all initial graphics of a level on the screen  **/
 	private void loadLevel() {
 	
 		/** Reset all lists and variables pertaining to the previous played level **/
@@ -277,22 +274,20 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		vx = 0;
 		vy = 0;
 		
-		shootButtonReleased = true;
-		tongueButtonReleased = true;
-		swirlButtonReleased = true;
+		shootButtonPressed = false;
+		tongueButtonPressed = false;
+		swirlButtonPressed = false;
 
-		// Loads all objects for the current level
 		Data.loadObjects("levels/levels.txt", currentLevel);
 
 		findScreenDimensions();
 
-		// Clear the screen
+		// Clear the screen and fill it with new images
 		removeAll();
-		
-		// Fill the screen with new images
 		addBackground();
 		addImagesToScreen();
 		
+		// Add animated level title to the screen
 		texts.add(new TextAnimator(SCREEN_WIDTH/2, 50, LEVEL_NAME, 30, Color.WHITE, 800, 5, "center"));
 		add(texts.get(0).label);
 		
@@ -303,68 +298,57 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 	}
 
+	/** Draws the main menu screen **/
 	private void drawMainMenu(){
 		removeAll();
-		addToScreen(mainMenuButtons);
+		addButtonsToScreen(mainMenuButtons);
 		add(Data.fruitFeverTitle);
 		levelSelectionPage = 0;
-
+		
 		currentScreen = ScreenMode.MAIN_MENU;
 	}
 	
+	/** Draws the level selection screen **/
 	private void drawLevelSelection(){
-	
-		/** Remove all images from screen and add the level selection images **/
 		removeAll();
 		add(levelBackDrop.image);
-		addToScreen(levelSelectionButtons);
+		addButtonsToScreen(levelSelectionButtons);
 		
 		for(int i = 0; i < levelNumbers.length; i++)
 			add(levelNumbers[i]);
 			
 		currentScreen = ScreenMode.LEVEL_SELECTION;
-		
 	}
 
-	// Loads the Hearts
+	/** Add heart images to screen **/
 	private void addHearts(){
-		
 		for(int i = 0; i < Player.MAX_LIVES; i++){
 			livesImages[i] = new GImage(Data.heartImage.getImage());
 			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
 			add(livesImages[i]);
 		}
-
 	}
 
+	/** Adds background to screen **/
 	private void addBackground(){
-
 		// Creates a black background on the screen
 		GRect background = new GRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		background.setFillColor(Color.BLACK);
 		background.setFilled(true);
 		add(background);
-
 	}
 
 	/** Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks found horizontally and vertically **/
 	private void findScreenDimensions(){
-	
 		for (Block block : blocks ) {
-			
-			if (block.x > LEVEL_WIDTH)
-				LEVEL_WIDTH = block.x;
-
-			if (block.y > LEVEL_HEIGHT)
-				LEVEL_HEIGHT = block.y;
+			LEVEL_WIDTH = Math.max(LEVEL_WIDTH, block.x);
+			LEVEL_HEIGHT = Math.max(LEVEL_HEIGHT, block.y);
 		}
-		
 	}
 
+	/** Adds all blocks, things and fruits to the screen **/
 	private void addImagesToScreen(){
 
-		/** Adds all blocks, things and fruits to the screen **/
-		
 		for (Block obj : blocks){
 			obj.image.setLocation(obj.getX(), obj.getY());
 			add(obj.image);
@@ -391,11 +375,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 		addHearts();
 
-		addToScreen(inGameButtons);
+		addButtonsToScreen(inGameButtons);
 		
 	}
 
-	// ** Creates and correctly places player on screen **/
+	/** Creates and correctly places player on screen **/
 	private void placePlayerOnScreen(){
 		
 		// Creates the Player class
@@ -409,11 +393,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	}
 	
 	/** Adds a list of buttons to the screen **/
-	public void addToScreen(ArrayList<Button> arr){
+	public void addButtonsToScreen(ArrayList<Button> arr){
 		for(int i = 0; i < arr.size(); i++)
 			add(arr.get(i).image);
 	}
-	
 	
 	/** Checks all buttons in a list, and changes the subimage if it has been clicked on **/
 	public void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse){
@@ -428,15 +411,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 	
 	/** Shifts the labels of the level selection button by a positive or negative integer value **/
 	private void shiftLevelLabels(int shift){
-	
 		for(int i = 0; i < 20; i++){
 			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
 			levelNumbers[i].setLocation((int) (SCREEN_WIDTH/2 - levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
 		}
-			
 	}
 	
-	// Add a Thing to the "things" arrayList, setting its position and adding it to the screen
+	/** Add a Thing to the "things" ArrayList, setting its position and adding it to the screen **/
 	public static void addToThings(Thing obj){
 		things.add(obj);
 		obj.image.setLocation(obj.x - viewX, obj.y - viewY);
@@ -467,47 +448,47 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 			int keyCode = key.getKeyCode();
 
-			// JUMP
+			/** JUMP **/
 			if (keyCode == KeyEvent.VK_W) {
 				player.setKeepJumping(true);	
 
-			// SHOOT
-			} if (keyCode == KeyEvent.VK_S) {
-				if (shootButtonReleased)
+			/** SHOOT **/
+			} else if (keyCode == KeyEvent.VK_S) {
+				if (!shootButtonPressed)
 					player.shootProjectile();
 
-			// TONGUE
-			} else if (keyCode == KeyEvent.VK_E) {
-				if (tongueButtonReleased && grabbedItem == null && player.finishedTongueAnimation){
+			/** TONGUE **/
+			} else if (keyCode == KeyEvent.VK_SHIFT) {
+				if (!tongueButtonPressed && grabbedItem == null && player.finishedTongueAnimation){
 					player.finishedTongueAnimation = false;
-					tongueButtonReleased = false;
+					tongueButtonPressed = true;
 					player.eat();
 				}
 
-			// Shoot Swirl
+			/** Shoot Swirl **/
 			} else if (keyCode == KeyEvent.VK_SPACE) {
 				
-				if (swirlButtonReleased && player.finishedTongueAnimation) {
+				if (!swirlButtonPressed && player.finishedTongueAnimation) {
 				
 					if(player.swirl.reset)
 						player.shootSwirl();
 					else
 						player.swirlTeleport();
 					
-					swirlButtonReleased = false;
+					swirlButtonPressed = true;
 				}
 		
-			// Movement LEFT
+			/** Movement LEFT **/
 			} else if (keyCode == KeyEvent.VK_A) {
 				player.facingRight = false; 
 				dx = -1;
 			
-			// Movement RIGHT
+			/** Movement RIGHT **/
 			} else if (keyCode == KeyEvent.VK_D) {
 				dx = 1;
 				player.facingRight = true;
-				
 			}
+			
 		}
 	}
 	
@@ -525,11 +506,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 				vy = 0;
 			
 			} else if (keyCode == KeyEvent.VK_SPACE)
-				swirlButtonReleased = true;
-			else if (keyCode == KeyEvent.VK_E)
-				tongueButtonReleased = true;
+				swirlButtonPressed = false;
+			else if (keyCode == KeyEvent.VK_SHIFT)
+				tongueButtonPressed = false;
 			else if (keyCode == KeyEvent.VK_S)
-				shootButtonReleased = true;
+				shootButtonPressed = false;
 			else if (keyCode == KeyEvent.VK_W) 
 				player.setKeepJumping(false);
 			
