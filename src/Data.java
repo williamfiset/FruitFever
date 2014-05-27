@@ -35,7 +35,7 @@ public abstract class Data{
 						blueFruit = new GImage[5],
 						yellowFruit = new GImage[6],
 						redFruit = new GImage[7],	
-						purpleFruit = new GImage[10],	
+						purpleFruit = new GImage[20],	
 						
 						gearButton = new GImage[3],
 						fruitRingAnimation = new GImage[6],
@@ -117,17 +117,19 @@ public abstract class Data{
 		/** Fruits **/
 		sheet = DataLoader.loadImage("img/sprites/fruits.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/fruits.png");
 		
-		for(int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++)
 			blueFruit[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
 
-		for(int i = 0; i < 6; i++)
+		for (int i = 0; i < 6; i++)
 			yellowFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
 			
-		for(int i = 0; i < 7; i++)
+		for (int i = 0; i < 7; i++)
 			redFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 			
-		for(int i = 0; i < 10; i++)
+		for (int i = 0; i < 10; i++)
 			purpleFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
+		for (int i = 0; i < 10; i++)
+			purpleFruit[i + 10] = ImageTransformer.horizontalFlip(purpleFruit[i]);
 		
 		updateLoadingBar(0.4);
 		
