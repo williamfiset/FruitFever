@@ -40,7 +40,8 @@ class Timer_{
 	public double stop(boolean printDuration){
 
 		stopTime = System.nanoTime();
-		double duration = (double) ((stopTime - startTime) / 1000000000f);
+		double oneBillion = 1000000000;
+		double duration = (double) ((stopTime - startTime) / oneBillion);
 		
 		stopTime = 0;
 		startTime = 0;
@@ -55,7 +56,8 @@ class Timer_{
 	public double stop(){
 
 		stopTime = System.nanoTime();
-		double duration = (double) ((stopTime - startTime) / 1000000000f);
+		double oneBillion = 1000000000;
+		double duration = (double) ((stopTime - startTime) / oneBillion);
 		
 		stopTime = 0;
 		startTime = 0;

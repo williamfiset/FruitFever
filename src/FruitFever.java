@@ -203,20 +203,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 
 			}
 
-			double loopTime = loopTimer.stop();
-			double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - loopTime*1000);
-			// pause(MAIN_LOOP_SPEED);
 
+			pauseLoop(loopTimer);
 
-			try {
-				pause(pauseTime);
-			}
-			catch (IllegalArgumentException exception) {
-				pause(MAIN_LOOP_SPEED);	
-				System.out.println("MAIN_LOOP_SPEED  =  " + pauseTime );
-				exception.printStackTrace();
-			}
-
+			/** Fixes Issue #83 (Refresh Button causing lists to be emptied) **/
 			// Putting this after the pause prevents 'a block flash'  
 			if (pressedRefresh) {
 				loadLevel();
@@ -228,6 +218,30 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		
 	}
 
+
+	private void pauseLoop(Timer_ timer){
+
+		double loopTime = timer.stop();
+		double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - loopTime*1000);
+
+		String strPauseTime  = new Double(pauseTime).toString();
+
+		// Cut the double to limit it's decimal places
+		if (strPauseTime.length() > 7)
+			strPauseTime = strPauseTime.substring(0, 7);
+
+		double milliSeconds = new Double(strPauseTime).doubleValue();
+
+		try {
+			pause(milliSeconds);
+		} catch (IllegalArgumentException exception) {
+			pause(MAIN_LOOP_SPEED);	
+			System.out.println("MAIN_LOOP_SPEED  =  " + milliSeconds );
+			exception.printStackTrace();
+		}
+
+
+	}
 
 	/** Makes the screen shake violently like an earthquake **/
 	private void earthQuakeEffect(){
