@@ -17,7 +17,7 @@ public class Enemy extends AdvancedMovingAnimation {
 
 	public Enemy(int[] xPos, int[] yPos, GImage[][] originalImages, boolean reverse, int delay, boolean repeat, double dx, double dy) {
 	
-		super(xPos, yPos, originalImages, reverse, delay, repeat, dx, dy);
+		super(xPos, yPos, originalImages, reverse, delay, repeat, dx, dy, Animation.Type.ENEMY);
 		
 		maxHealth = 1000;
 		currentHealth = maxHealth;

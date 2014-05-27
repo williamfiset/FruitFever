@@ -11,7 +11,8 @@ import java.awt.*;
 public class Animation extends Thing {
 
 	/** Instance variables **/
-	protected int type, counter = 0;
+	protected int counter = 0;
+	public Type type;
 
 	protected GImage[] images;
 	protected boolean counterGoingUp = true; 
@@ -19,6 +20,14 @@ public class Animation extends Thing {
 	private int delayCounter, delay;
 	
 	protected boolean reverse, repeat;
+	
+	public enum Type {
+		NOT_AVAILABLE,
+		FRUIT_RING,
+		ENEMY,
+		FRUIT,
+		FIREWORK;
+	};
 	
 	/**
 	 * @param x : default x-position
@@ -33,11 +42,11 @@ public class Animation extends Thing {
 	 *	-If false, the animation is played once
 	 **/
 	 
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type){
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type){
 		this(x, y, originalImages, reverse, delay, repeat, type, false);	
 	}
 
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type, boolean randomStartingFrame){
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type, boolean randomStartingFrame){
 	
 		super(x, y);
 		
@@ -62,7 +71,7 @@ public class Animation extends Thing {
 	}
 
 	public Animation(int x, int y, GImage[] originalImages){
-		this(x, y, originalImages, false, 1, true, -1);
+		this(x, y, originalImages, false, 1, true, Type.NOT_AVAILABLE);
 
 		// Make copy of images
 		this.images = originalImages;

@@ -17,9 +17,9 @@ public class AdvancedMovingAnimation extends MovingAnimation{
 	public double dx, dy;
 	public GImage[][] animations;
 
-	public AdvancedMovingAnimation(int[] xPos, int[] yPos, GImage[][] originalImages, boolean reverse, int delay, boolean repeat, double dx, double dy){
+	public AdvancedMovingAnimation(int[] xPos, int[] yPos, GImage[][] originalImages, boolean reverse, int delay, boolean repeat, double dx, double dy, Type type){
 
-		super(xPos[0], yPos[0], originalImages[0], reverse, delay, repeat, 1);
+		super(xPos[0], yPos[0], originalImages[0], reverse, delay, repeat, type);
 		
 		this.xPos = xPos;
 		this.yPos = yPos;

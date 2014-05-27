@@ -5,33 +5,6 @@ VARIABLE NAMING CONVENTIONS:
 	playerStillH - mirrored horizontally
 	playerStillV - mirrored vertically
 	playerStillHV - mirrored horizontally and vertically
-	
-_____________________________________________________________________________________________
-
-BUTTON TYPES:
-
-	0 - Play
-	1 - Controls
-	2 - Options
-	3 - Multiplayer
-	
-	4 - Left Arrow
-	5 - Right Arrow
-	6 - Level boxes
-	
-	7 - Gear (in-game options)
-	
-	8 - Back Arrow
-_____________________________________________________________________________________________
-
-ANIMATION TYPES:
-
-	-1	-> N/A
-	0	-> Fruit Rings
-	1	-> Enemy
-	2	-> Fruit
-	3	-> Fireworks
-
 _____________________________________________________________________________________________
 
 BOUNDING BOXES IN THING CLASS:

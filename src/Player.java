@@ -78,7 +78,7 @@ public class Player extends MovingAnimation {
 	
 	public Player(int x, int y){
 
-		super(x, y, Data.playerStill, false, 1, true, 0);
+		super(x, y, Data.playerStill, false, 1, true, Animation.Type.NOT_AVAILABLE);
 
 		this.stillAnim = Data.playerStill;
 		this.stillAnimH = Data.playerStillH;
@@ -509,7 +509,7 @@ public class Player extends MovingAnimation {
 						FruitFever.addToThings(new Animation(checkPoint.imageX - 17 + (int) (Math.random()*35),
 						checkPoint.imageY - Data.TILE_SIZE*2 + (int) (Math.random()*35),
 						Data.fireworkAnimation[(int) (Math.random()*3)], false, 2 + (int)(Math.random()*3),
-						false, 3 ));
+						false, Animation.Type.FIREWORK));
 					
 					break;
 					
@@ -848,7 +848,7 @@ public class Player extends MovingAnimation {
 
 		public Swirl(){
 
-			super(SWIRL_X_REST_POS, SWIRL_Y_REST_POS, Data.swirlAnimation, false, 0, true, 0, 0, -1);
+			super(SWIRL_X_REST_POS, SWIRL_Y_REST_POS, Data.swirlAnimation, false, 0, true, 0, 0, Animation.Type.NOT_AVAILABLE);
 			resetState();
 
 		}
@@ -898,7 +898,7 @@ public class Player extends MovingAnimation {
 		static final byte dx = 10;
 		
 		public Projectile(int x, int y, int xSpeed) {
-			super(x, y, new GImage[]{Data.fireBallSmall}, false, 1, true, xSpeed, 0, -1);
+			super(x, y, new GImage[]{Data.fireBallSmall}, false, 1, true, xSpeed, 0, Animation.Type.NOT_AVAILABLE);
 		}
 		
 		

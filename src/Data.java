@@ -366,7 +366,7 @@ public abstract class Data{
 
 					// Vortex (% sorta looks like vortex), readability counts (line 7 of our coding philosophy)
 					if (character == '%') {
-						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, vortexAnimation, false, 2, true, -1, true);
+						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, vortexAnimation, false, 2, true, Animation.Type.NOT_AVAILABLE, true);
 						FruitFever.vortex = vortex;
 						FruitFever.vortex.adjustBoundaries(7, -7, 7, -7);
 						FruitFever.things.add(vortex);
@@ -375,7 +375,7 @@ public abstract class Data{
 					
 					// Fruit Ring
 					if (character == '*') {
-						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruitRingAnimation, true, 3, true, -1, true);
+						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruitRingAnimation, true, 3, true, Animation.Type.FRUIT_RING, true);
 						FruitFever.edibleItems.add(fruitRing);
 						FruitFever.things.add(fruitRing);
 						continue;
@@ -392,13 +392,13 @@ public abstract class Data{
 					// Reads in a fruit
 					if(Character.isDigit(character)){
 						if(character == '0')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, blueFruit, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, blueFruit, true, 3, true, Animation.Type.FRUIT, true));
 						else if(character == '1')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, yellowFruit, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, yellowFruit, true, 3, true, Animation.Type.FRUIT, true));
 						else if(character == '2')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, redFruit, true, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, redFruit, true, 3, true, Animation.Type.FRUIT, true));
 						else if(character == '3')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, purpleFruit, false, 3, true, 2, true));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, purpleFruit, false, 3, true, Animation.Type.FRUIT, true));
 						continue;
 					}		
 

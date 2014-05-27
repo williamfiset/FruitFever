@@ -14,13 +14,13 @@ public class MovingAnimation extends Animation {
 	/** Public instance variables **/
 	public double xSpeed, ySpeed, xLeftover, yLeftover;
 
-	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, double xSpeed, double ySpeed, int type) {
+	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, double xSpeed, double ySpeed, Type type) {
 		super(x, y, originalImages, reverse, delay, repeat, type);
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
 	}
 	
-	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, int type) {
+	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type) {
 		super(x, y, originalImages, reverse, delay, repeat, type);
 	}
 	
