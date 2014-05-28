@@ -45,6 +45,7 @@ def runDaemon():
 
 		if os.name != 'posix':
 			deleteFiles( os.getcwd() + "/src/" , "class" )
+			deleteFiles( os.getcwd() + "/src/levels/" , "ser" )
 			break
 
 		# Sleeps for one second
@@ -52,6 +53,7 @@ def runDaemon():
 
 		if not is_running("GameStarter"):
 			deleteFiles( os.getcwd() + "/src/" , "class" )
+			deleteFiles( os.getcwd() + "/src/levels" , "ser" )
 
 if __name__ == "__main__":
 	runDaemon()
