@@ -15,13 +15,15 @@
 	public boolean locked;
  
 	public LevelInformation(String name, int number, int highScore, byte stars, boolean locked) {
-		
 		this.name = name;
 		this.number = number;
 		this.highScore = highScore;
 		this.stars = stars;
 		this.locked = locked;
+	}
 	
+	public LevelInformation(String name, int number) {		
+		this(name, number, 0, (byte) 0, true);	
 	}
  
  }

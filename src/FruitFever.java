@@ -11,7 +11,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 
-public class FruitFever extends GraphicsProgram implements MouseMotionListener{
+public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 /** Constants **/
 
@@ -430,6 +430,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener{
 		/** Loading screen **/
 		Data.loadingScreen();
 		add(Data.loadingScreenBackground);
+		
+		/** Load level information **/
+		Data.loadLevelInformation();
 		
 		/** Set up keyboard and mouse **/
 		addMouseListeners();

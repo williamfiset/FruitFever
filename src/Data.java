@@ -1,5 +1,5 @@
 /**
-*	Data - Loads images from webserver and stores them as GImages or arrays of GImages.
+*	Data - Loads images from webserver and stores them as GImages, loads level information.
 * 
 * @Author Micah Stairs
 *
@@ -15,11 +15,14 @@ import javax.imageio.ImageIO;
 import java.util.*;
 import java.awt.*;
 
-public abstract class Data{
-
+public abstract class Data {
+	
+	public static double loadingBarProgress = 0.0;
+	
 	public static final int TILE_SIZE = 25;
 
 	public static BufferedImage sheet = null;
+	
 	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
 						heartImage,
 						lavaImage,
@@ -28,6 +31,7 @@ public abstract class Data{
 						moss, thickMoss,
 						music0, music1,
 						bronzeStar, silverStar, goldStar, locked;
+						
 	public static GImage[] blockImages = new GImage[18],
 						   
 						sceneryImages = new GImage[25],
@@ -88,7 +92,7 @@ public abstract class Data{
 		for(int i = 0; i < 18; i++)
 			blockImages[i] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 		
-		updateLoadingBar(0.2);
+		updateLoadingBar(0.1);
 		
 		/** Scenery **/
 		sheet = DataLoader.loadImage("img/sprites/plants.png","https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/plants.png");
@@ -112,7 +116,7 @@ public abstract class Data{
 		moss = makeImage(TILE_SIZE*9, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		thickMoss = makeImage(TILE_SIZE*10, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
-		updateLoadingBar(0.3);
+		updateLoadingBar(0.1);
 		
 		/** Fruits **/
 		sheet = DataLoader.loadImage("img/sprites/fruits.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/fruits.png");
@@ -131,7 +135,7 @@ public abstract class Data{
 		for (int i = 0; i < 10; i++)
 			purpleFruit[i + 10] = ImageTransformer.horizontalFlip(purpleFruit[i]);
 		
-		updateLoadingBar(0.4);
+		updateLoadingBar(0.1);
 		
 		/** Miscellaneous **/
 		sheet = DataLoader.loadImage("img/sprites/miscellaneous.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/miscellaneous.png");
@@ -184,7 +188,7 @@ public abstract class Data{
 		music0 = makeImage(TILE_SIZE*7, TILE_SIZE*1, TILE_SIZE, TILE_SIZE);
 		music1 = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
-		updateLoadingBar(0.5);
+		updateLoadingBar(0.1);
 	
 		/** Projectiles **/
 		sheet = DataLoader.loadImage("img/sprites/projectiles.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/projectiles.png");
@@ -203,7 +207,7 @@ public abstract class Data{
 		fireBallSmall = makeImage(TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
 		fireBallBig = makeImage(TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 
-		updateLoadingBar(0.6);
+		updateLoadingBar(0.1);
 		
 		/** Player **/
 		sheet = DataLoader.loadImage("img/sprites/player.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/player.png");
@@ -220,7 +224,7 @@ public abstract class Data{
 			playerShootH[i] = ImageTransformer.horizontalFlip(playerShoot[i]);	
 		}
 		
-		updateLoadingBar(0.7);
+		updateLoadingBar(0.1);
 		
 		/** Enemies **/
 		sheet = DataLoader.loadImage("img/sprites/enemies.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/enemies.png");
@@ -239,7 +243,7 @@ public abstract class Data{
 			wormEnemyMoving[i] = makeImage(TILE_SIZE*(2*i), TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE); 
 			wormEnemyMovingH[i] = ImageTransformer.horizontalFlip(wormEnemyMoving[i]);
 		}
-		updateLoadingBar(0.8);
+		updateLoadingBar(0.1);
 		
 		// PICK RANDOM COLOR SCHEME
 		
@@ -286,7 +290,7 @@ public abstract class Data{
 			rightArrowButton[i] = makeImage(36, i*33, 36, 31);
 		}
 		
-		updateLoadingBar(0.9);
+		updateLoadingBar(0.1);
 		
 		/** Import level selection background/level button images **/
 		sheet = DataLoader.loadImage("img/LevelSelection/backDrop/" + color + "Level.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/backDrop/"+color+"Level.png");
@@ -303,24 +307,68 @@ public abstract class Data{
 			FruitFever.levelNumbers[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - FruitFever.levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
 		}
 		
-		updateLoadingBar(0.95);
+		updateLoadingBar(0.05);
 
 		/** Add buttons and set locations **/
 		addButtonsToArrayList();
 		
-		updateLoadingBar(1.0);
+		updateLoadingBar(0.05);
 
 	}
 		
-/** Used to help get the sub-images from the sprite-sheet **/
-	private static GImage makeImage(int x, int y, int width, int height){
+	/** Used to help get the sub-images from the sprite-sheet **/
+	private static GImage makeImage(int x, int y, int width, int height) {
 		return new GImage(sheet.getSubimage(x, y, width, height).getScaledInstance(-50, -50, 0));
 	}
-
-/** Loads objects from the file **/
-	public static void loadObjects(String fileName, int level){
+	
+	/** Loads level information from the file **/
+	public static void loadLevelInformation() {
 		
-		try{
+		InformationStorer infoFile = new InformationStorer("levels/levelInformation");
+		
+		// Load level information
+		if (new File("levels/levelInformation.ser").exists()) {
+			for (int i = 0; i < 100; i++)
+				FruitFever.levelInformation[i] = (LevelInformation) infoFile.getItem(String.valueOf(i));
+			System.out.println("loading");
+		}
+		// Generate level information from levels.txt file
+		else {
+			System.out.println("creating");
+			
+			try {
+
+				Scanner sc = new Scanner(new File("levels/levels.txt"));
+				
+				for (int i = 0; i < 100; i++)
+					try {
+						// Navigate to the correct line
+						while(!sc.nextLine().equals(String.valueOf(i))){}
+						
+						FruitFever.levelInformation[i] = new LevelInformation(sc.nextLine(), i);
+						infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
+					}
+					/** Create locked level with no highscore or name or stars since it does not exist **/
+					catch (NoSuchElementException e) {
+						FruitFever.levelInformation[i] = new LevelInformation("", i);
+						infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
+					}
+				
+			}
+			catch (IOException e) {
+				System.out.println("\n IOException \n");
+				e.printStackTrace();
+				System.exit(0);	
+			}
+		
+		}
+		
+	}
+
+	/** Loads objects from the file **/
+	public static void loadObjects(String fileName, int level) {
+		
+		try {
 
 			Scanner sc = new Scanner(new File(fileName));
 
@@ -577,20 +625,18 @@ public abstract class Data{
 	}
 	
 	private static void addToButtons(Button button, ArrayList<Button> buttonList) {
-		
 		FruitFever.buttons.add(button);
 		buttonList.add(button);
-	
 	}
 	
-	private static void updateLoadingBar(double percentage){
-	
-		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(percentage)), 20);
+	private static void updateLoadingBar(double newProgress){
+		loadingBarProgress += newProgress;
+		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(loadingBarProgress)), 20);
 		loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
 		FruitFever.screen.add(loadingScreenBar);
-	
 	}
 	
+	/** Grabs an integer out of an enemy entry in the Enemy block **/
 	private static String findFirstNumber(String line, int index){
 	
 		String str = "";
