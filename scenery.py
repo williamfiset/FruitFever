@@ -6,6 +6,29 @@
 This file changes the characters in a file depending on input.
 ex:
 
+
+	(Change everything to a '#' expect '-'')
+	NOTE: by Default the python script performs this operation
+
+	python charChange.py
+		or
+	python charChange.py '!' '#' '-'
+
+
+	--aa--     --##--
+	-abc12     -###??
+	abbcc- --> #####-
+	---FF|     ---##?
+
+	Special characters such as flags/fruitrings/fruits are turned to '?'s
+	which are ignored by the scenery loader
+
+	--*--|     --?--?
+	----cc     ----## 
+	01---- --> ??----
+	ABC---     ###---
+
+
 	python charChange.py ! W EST
 
 	This will change every character to a W expect E, S and T
