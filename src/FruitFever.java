@@ -61,6 +61,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static Button clickedOnButton = null;
 	
 	static GLabel[] levelNumbers = new GLabel[20];
+	static GImage[] levelLocks = new GImage[20];
 	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	
 	
@@ -314,8 +315,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		add(levelBackDrop.image);
 		addButtonsToScreen(levelSelectionButtons);
 		
-		for(int i = 0; i < levelNumbers.length; i++)
+		for (int i = 0; i < levelNumbers.length; i++) {
+		
 			add(levelNumbers[i]);
+			
+			// if (levelInformation[i].locked)
+				// add(levelLocks[i]);
+		}
 			
 		currentScreen = ScreenMode.LEVEL_SELECTION;
 	}

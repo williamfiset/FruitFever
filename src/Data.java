@@ -613,8 +613,14 @@ public abstract class Data {
 		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, Button.Type.RIGHT_ARROW, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]), FruitFever.levelSelectionButtons);
 		
 		/** Adds level buttons to the ArrayLists for Level Selection Screen **/
-		for(int i = 0; i < 20; i++)
+		for (int i = 0; i < 20; i++)
 			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, Button.Type.LEVEL_BOXES, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
+		
+		/** Adds lock images to array **/
+		for(int i = 0; i < 20; i++) {
+			FruitFever.levelLocks[i] = new GImage(locked.getImage());
+			FruitFever.levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55);
+		}
 		
 		/** Adds gear button to the ArrayLists for In-Game Screen **/
 		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, Button.Type.GEAR, gearButton[0], gearButton[1], gearButton[2]), FruitFever.inGameButtons);
