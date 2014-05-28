@@ -9,7 +9,7 @@ throughout the time you work.
 
 """
 
-import os
+import os, sys
 import time
 import sys
 import signal
@@ -42,8 +42,9 @@ def deleteFiles(directory, extension):
 def runDaemon():
 
 	while True:
-
-		if os.name != 'posix':
+		
+		# Mac's core operating system is called 'darwin'
+		if sys.platform != 'darwin':
 			deleteFiles( os.getcwd() + "/src/" , "class" )
 			deleteFiles( os.getcwd() + "/src/levels/" , "ser" )
 			break
@@ -53,7 +54,7 @@ def runDaemon():
 
 		if not is_running("GameStarter"):
 			deleteFiles( os.getcwd() + "/src/" , "class" )
-			deleteFiles( os.getcwd() + "/src/levels" , "ser" )
+			# deleteFiles( os.getcwd() + "/src/levels" , "ser" )
 
 if __name__ == "__main__":
 	runDaemon()
