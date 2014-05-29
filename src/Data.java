@@ -345,12 +345,12 @@ public abstract class Data {
 						// Navigate to the correct line
 						while(!sc.nextLine().equals(String.valueOf(i))){}
 						
-						FruitFever.levelInformation[i] = new LevelInformation(sc.nextLine(), i);
+						FruitFever.levelInformation[i] = new LevelInformation(sc.nextLine(), i, false);
 						infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
 					}
 					/** Create locked level with no highscore or name or stars since it does not exist **/
 					catch (NoSuchElementException e) {
-						FruitFever.levelInformation[i] = new LevelInformation("", i);
+						FruitFever.levelInformation[i] = new LevelInformation("", i, true);
 						infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
 					}
 				
@@ -607,11 +607,6 @@ public abstract class Data {
 		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[6].getWidth()/2), 125 + 75*2, Button.Type.OPTIONS, menuButtons[3*2], menuButtons[3*2 + 1], menuButtons[3*2 + 2]), FruitFever.mainMenuButtons);
 		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[9].getWidth()/2), 125 + 75*3, Button.Type.MULTIPLAYER, menuButtons[3*3], menuButtons[3*3 + 1], menuButtons[3*3 + 2]), FruitFever.mainMenuButtons);
 		
-		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]), FruitFever.levelSelectionButtons);
-		
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, Button.Type.RIGHT_ARROW, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]), FruitFever.levelSelectionButtons);
-		
 		/** Adds level buttons to the ArrayLists for Level Selection Screen **/
 		for (int i = 0; i < 20; i++)
 			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, Button.Type.LEVEL_BOXES, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
@@ -619,8 +614,14 @@ public abstract class Data {
 		/** Adds lock images to array **/
 		for(int i = 0; i < 20; i++) {
 			FruitFever.levelLocks[i] = new GImage(locked.getImage());
-			FruitFever.levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55);
+			FruitFever.levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
 		}
+		
+		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]), FruitFever.levelSelectionButtons);
+		
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, Button.Type.RIGHT_ARROW, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]), FruitFever.levelSelectionButtons);
+		
 		
 		/** Adds gear button to the ArrayLists for In-Game Screen **/
 		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, Button.Type.GEAR, gearButton[0], gearButton[1], gearButton[2]), FruitFever.inGameButtons);

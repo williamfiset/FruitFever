@@ -17,6 +17,7 @@ public class Button extends Thing {
 	public GImage defaultImage, hoverImage, clickImage;
 	public Type type;
 	public int level; // level is only used for button type 6
+	public boolean active = true;
 	
 	public enum Type {
 		PLAY,

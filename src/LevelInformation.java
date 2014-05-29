@@ -22,8 +22,8 @@
 		this.locked = locked;
 	}
 	
-	public LevelInformation(String name, int number) {		
-		this(name, number, 0, (byte) 0, true);	
+	public LevelInformation(String name, int number, boolean locked) {		
+		this(name, number, 0, (byte) 0, locked);	
 	}
  
  }

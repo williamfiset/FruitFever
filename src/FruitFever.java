@@ -13,6 +13,8 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
+	static ScreenHandler screenHandler;
+
 /** Constants **/
 
 	static GraphicsProgram screen;
@@ -43,7 +45,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Menus/GUI **/
 	
 	// Defines ScreenMode constants	
-	private enum ScreenMode {
+	public enum ScreenMode {
 		LEVEL_REFRESH,
 		LOADING_GAME,
 		MAIN_MENU,
@@ -298,16 +300,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		currentScreen = ScreenMode.PLAYING;
 
 	}
-
-	/** Draws the main menu screen **/
-	private void drawMainMenu(){
-		removeAll();
-		addButtonsToScreen(mainMenuButtons);
-		add(Data.fruitFeverTitle);
-		levelSelectionPage = 0;
-		
-		currentScreen = ScreenMode.MAIN_MENU;
-	}
 	
 	/** Draws the level selection screen **/
 	private void drawLevelSelection(){
@@ -316,12 +308,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		addButtonsToScreen(levelSelectionButtons);
 		
 		for (int i = 0; i < levelNumbers.length; i++) {
-		
-			add(levelNumbers[i]);
-			
-			// if (levelInformation[i].locked)
-				// add(levelLocks[i]);
+			add(levelNumbers[i]);			
+			add(levelLocks[i]);
 		}
+		shiftLevelLabels(0);
 			
 		currentScreen = ScreenMode.LEVEL_SELECTION;
 	}
@@ -408,18 +398,27 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	public void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse){
 		for(Button obj : arr)
 			// Check to see if the mouse is on the button
-			if(obj.checkOverlap(mouse.getX(), mouse.getY())){
+			if(obj.active && obj.checkOverlap(mouse.getX(), mouse.getY())){
 				// Make the image appear to be clicked on
 				obj.setClick();
 				clickedOnButton = obj;
 			}
 	}
 	
-	/** Shifts the labels of the level selection button by a positive or negative integer value **/
+	/** Shifts the level selection screen by a positive or negative integer value **/
 	private void shiftLevelLabels(int shift){
 		for(int i = 0; i < 20; i++){
 			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
 			levelNumbers[i].setLocation((int) (SCREEN_WIDTH/2 - levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
+			
+			int level = Integer.valueOf(levelNumbers[i].getLabel());
+			
+			// Sets visibility of lock and label
+			levelLocks[i].setVisible(levelInformation[level].locked);
+			levelNumbers[i].setVisible(!levelInformation[level].locked);
+			
+			// Set active state of buttons
+			levelSelectionButtons.get(i).active = !levelInformation[level].locked;
 		}
 	}
 	
@@ -432,6 +431,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	
 	/** This code is not in init() since it won't allow us to display anything on the screen during that method **/
 	private void postInit(){
+	
+		screenHandler = new ScreenHandler(this);
 	
 		/** Loading screen **/
 		Data.loadingScreen();
@@ -447,7 +448,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		/** Renders Images in the Data class, and fills the object ArrayLists **/
 		Data.loadImages();
 	
-		drawMainMenu();
+		ScreenHandler.drawMainMenu();
 	
 	}
 	
@@ -527,15 +528,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 	}
 	
+	/** Check to see if the mouse is hovering over any images and sets them accordingly **/
 	@Override public void mouseMoved(MouseEvent mouse) {
 	
-		/** Check to see if the mouse is hovering over any images and sets them accordingly **/
-		
 		for (int i = 0; i < buttons.size(); i++ ) {
 			
 			Button obj = buttons.get(i);
-
-			if(obj.equals(clickedOnButton))
+			
+			if(obj.equals(clickedOnButton) || !obj.active)
 				continue;
 				
 			if(obj.checkOverlap(mouse.getX(), mouse.getY()))
@@ -544,10 +544,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				obj.setDefault();
 		}
 	}
-
+	
+	/** Check to see if the mouse is on the selected button or not and sets the image accordingly **/
 	@Override public void mouseDragged(MouseEvent mouse) {
 	
-		/** Check to see if the mouse is on the selected button or not and sets the image accordingly **/			
+					
 		if(clickedOnButton != null){
 			if(clickedOnButton.checkOverlap(mouse.getX(), mouse.getY()))
 				clickedOnButton.setClick();
@@ -602,7 +603,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				// Main Menu Button (Gear)
 				} else if (clickedOnButton.type == Button.Type.GEAR) {
-					drawMainMenu();
+					ScreenHandler.drawMainMenu();
 				
 				// Refresh Button
 				} else if (clickedOnButton.type == Button.Type.REFRESH) {
