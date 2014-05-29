@@ -30,7 +30,7 @@ public class GameStarter{
 		gameApplet.init();
 
 		// Set Frame default settings
-		// appletFrame.setResizable(false);
+		appletFrame.setResizable(false);
 		appletFrame.setSize(FruitFever.SCREEN_WIDTH , FruitFever.SCREEN_HEIGHT + FRAME_BORDER_HEIGHT);
 		appletFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		appletFrame.setTitle("Fruit Fever - Micah & Will");	

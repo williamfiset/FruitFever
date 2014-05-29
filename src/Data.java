@@ -637,19 +637,19 @@ public abstract class Data {
 		buttonList.add(button);
 	}
 	
-	private static void updateLoadingBar(double newProgress){
+	private static void updateLoadingBar(double newProgress) {
 		loadingBarProgress += newProgress;
 		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(loadingBarProgress)), 20);
 		loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
-		FruitFever.screen.add(loadingScreenBar);
+		FruitFever.screenHandler.add(loadingScreenBar);
 	}
 	
 	/** Grabs an integer out of an enemy entry in the Enemy block **/
-	private static String findFirstNumber(String line, int index){
+	private static String findFirstNumber(String line, int index) {
 	
 		String str = "";
 		
-		while(line.charAt(index) != ',' && line.charAt(index) != '>'){
+		while (line.charAt(index) != ',' && line.charAt(index) != '>') {
 			str += line.charAt(index++);
 		}
 		

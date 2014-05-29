@@ -298,7 +298,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	}
 
 	/** Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks found horizontally and vertically **/
-	private void findScreenDimensions(){
+	private void findScreenDimensions() {
 		for (Block block : blocks ) {
 			LEVEL_WIDTH = Math.max(LEVEL_WIDTH, block.x);
 			LEVEL_HEIGHT = Math.max(LEVEL_HEIGHT, block.y);
@@ -306,10 +306,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	}
 	
 	/** Checks all buttons in a list, and changes the subimage if it has been clicked on **/
-	private void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse){
-		for(Button obj : arr)
+	private void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse) {
+		for (Button obj : arr)
 			// Check to see if the mouse is on the button
-			if(obj.active && obj.checkOverlap(mouse.getX(), mouse.getY())){
+			if (obj.active && obj.checkOverlap(mouse.getX(), mouse.getY())) {
 				// Make the image appear to be clicked on
 				obj.setClick();
 				clickedOnButton = obj;
@@ -441,10 +441,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	
 	/** Check to see if the mouse is on the selected button or not and sets the image accordingly **/
 	@Override public void mouseDragged(MouseEvent mouse) {
-	
-					
-		if(clickedOnButton != null){
-			if(clickedOnButton.checkOverlap(mouse.getX(), mouse.getY()))
+		if (clickedOnButton != null) {
+			if (clickedOnButton.checkOverlap(mouse.getX(), mouse.getY()))
 				clickedOnButton.setClick();
 			else
 				clickedOnButton.setDefault();
@@ -521,7 +519,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	public static void naturalAnimateAll(){
 
-		// avoids double drawing blocks on the screen
+		// Avoids double drawing blocks on the screen
 		Block.resetPerformedNaturalAnimate();
 
 		for (Thing thing : FruitFever.things)
@@ -540,7 +538,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		player.animate();
 
 	}
-
 
 }
 

@@ -141,6 +141,18 @@ public class ScreenHandler {
 		for (int i = 0; i < arr.size(); i++)
 			fruitFever.add(arr.get(i).image);
 	}
+	
+	public void add(GObject obj) {
+		fruitFever.add(obj);
+	}
+	
+	public void remove(GObject obj) {
+		fruitFever.remove(obj);
+	}
+	
+	public void removeAll() {
+		fruitFever.removeAll();
+	}
 
 
 }

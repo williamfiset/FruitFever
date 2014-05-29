@@ -739,7 +739,7 @@ public class Player extends MovingAnimation {
 			
 			// Remove item if animation has finished
 			if (finishedTongueAnimation){
-				FruitFever.screen.remove(FruitFever.grabbedItem.image);
+				FruitFever.screenHandler.remove(FruitFever.grabbedItem.image);
 				for (int i = 0; i < FruitFever.edibleItems.size(); i++)
 					if (FruitFever.edibleItems.get(i).equals(FruitFever.grabbedItem)) {
 						FruitFever.edibleItems.remove(i);
