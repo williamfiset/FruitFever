@@ -26,7 +26,7 @@ public class ScreenHandler {
 	/** Draws the main menu screen **/
 	public void drawMainMenu(){
 		fruitFever.removeAll();
-		fruitFever.addButtonsToScreen(FruitFever.mainMenuButtons);
+		addButtonsToScreen(FruitFever.mainMenuButtons);
 		fruitFever.add(Data.fruitFeverTitle);
 		fruitFever.levelSelectionPage = 0;
 		
@@ -37,7 +37,7 @@ public class ScreenHandler {
 	public void drawLevelSelection(){
 		fruitFever.removeAll();
 		fruitFever.add(Data.levelSelectionBackDrop);
-		fruitFever.addButtonsToScreen(fruitFever.levelSelectionButtons);
+		addButtonsToScreen(fruitFever.levelSelectionButtons);
 		
 		for (int i = 0; i < levelNumbers.length; i++) {
 			fruitFever.add(levelNumbers[i]);			
@@ -98,17 +98,18 @@ public class ScreenHandler {
 			fruitFever.add(enemy.healthBar);
 		}
 
-		fruitFever.placePlayerOnScreen();
+		fruitFever.add(fruitFever.player.image);
+		fruitFever.add(fruitFever.player.swirl.image);
 
 		addHearts();
 
-		fruitFever.addButtonsToScreen(fruitFever.inGameButtons);
+		addButtonsToScreen(fruitFever.inGameButtons);
 		
 	}
 	
 	/** Adds heart images to screen **/
-	public void addHearts(){
-		for(int i = 0; i < Player.MAX_LIVES; i++){
+	public void addHearts() {
+		for (int i = 0; i < Player.MAX_LIVES; i++) {
 			livesImages[i] = new GImage(Data.heartImage.getImage());
 			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
 			fruitFever.add(livesImages[i]);
@@ -116,13 +117,13 @@ public class ScreenHandler {
 	}
 	
 	/** Redraws the hearts according to the amount of lives left */
-	public void adjustHearts(int livesLeft){
+	public void adjustHearts(int livesLeft) {
 		for (int i = 0; i < Player.MAX_LIVES; i++)
 			livesImages[i].setVisible(livesLeft > i);
 	}
 	
 	/** Animates all text in an ArrayList, removing the inactive ones **/
-	public void animateAndRemoveText(ArrayList<TextAnimator> arr){
+	public void animateAndRemoveText(ArrayList<TextAnimator> arr) {
 			
 		for (int i = 0; i < arr.size(); i++)
 			if (arr.get(i).active)
@@ -133,6 +134,12 @@ public class ScreenHandler {
 				i -= 1;
 				continue;
 			}
+	}
+	
+	/** Adds a list of buttons to the screen **/
+	public void addButtonsToScreen(ArrayList<Button> arr) {
+		for (int i = 0; i < arr.size(); i++)
+			fruitFever.add(arr.get(i).image);
 	}
 
 

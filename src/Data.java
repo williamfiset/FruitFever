@@ -386,27 +386,28 @@ public abstract class Data {
 
 			/** BLOCKS (as well as Player, Lava, and Fruits) **/
 
-			while(sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")){
+			while (sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")) {
 
 				// Iterate through each character in the line, instantiating the specified block (if it exists)
-				for(int i = 0; i < line.length(); i++){
+				for (int i = 0; i < line.length(); i++) {
 
 					char character = line.charAt(i);
 
 					// Skip if it's a blank
-					if(character == '-' || character == ' ')
+					if (character == '-' || character == ' ')
 						continue;
 						
 					// Lava
-					if(character == '~'){
+					if (character == '~') {
 						Thing lava = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, lavaImage);
+						lava.boundaryTop = (Data.TILE_SIZE/3);
 						FruitFever.things.add(lava);
 						FruitFever.dangerousThings.add(lava);
 						continue;
 					}
 					
 					// Set the player's start position
-					if(character == '@'){
+					if (character == '@') {
 						FruitFever.playerStartX = i*TILE_SIZE;
 						FruitFever.playerStartY = lineNumber*TILE_SIZE;
 						continue;
@@ -438,30 +439,30 @@ public abstract class Data {
 					}
 
 					// Reads in a fruit
-					if(Character.isDigit(character)){
-						if(character == '0')
+					if (Character.isDigit(character)) {
+						if (character == '0')
 							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, blueFruit, true, 3, true, Animation.Type.FRUIT, true));
-						else if(character == '1')
+						else if (character == '1')
 							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, yellowFruit, true, 3, true, Animation.Type.FRUIT, true));
-						else if(character == '2')
+						else if (character == '2')
 							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, redFruit, true, 3, true, Animation.Type.FRUIT, true));
-						else if(character == '3')
+						else if (character == '3')
 							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, purpleFruit, false, 3, true, Animation.Type.FRUIT, true));
 						continue;
 					}		
 
-					try{
+					try {
 
 						GImage image;
 						int color;
 
 						// Normal Blocks
-						if(character - 'a' >= 0){
+						if (character - 'a' >= 0) {
 							color = character - 'a';
 							image = blockImages[color];
 						}
 						// Capital letters
-						else{
+						else {
 							// We will use capitals for something else later (falling blocks?)
 							continue;
 						}
@@ -470,7 +471,7 @@ public abstract class Data {
 						// Add Block to the ArrayList
 						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, color, image));
 
-					} catch(ArrayIndexOutOfBoundsException e){ 
+					} catch(ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("\nBLOCK LAYER contains invalid character: '%c' \n", character);
 						System.exit(0);
 					}
@@ -484,10 +485,10 @@ public abstract class Data {
 
 			/** SCENERY **/
 
-			while(sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")){
+			while (sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")) {
 
 				// Iterate through each character in the line, instantiating the specified block (if it exists)
-				for(int i = 0; i < line.length(); i++){
+				for (int i = 0; i < line.length(); i++) {
 
 					char character = line.charAt(i);
 
@@ -497,7 +498,7 @@ public abstract class Data {
 					
 					try {
 						// Read in a powerup
-						if(Character.isDigit(character)) {
+						if (Character.isDigit(character)) {
 							FruitFever.addToThings(new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, powerups[Integer.valueOf(String.valueOf(character))]));
 							continue;
 						}
@@ -505,7 +506,6 @@ public abstract class Data {
 						System.out.printf("SCENERY LAYER contains invalid character: '%c' \n", character);
 						System.exit(0);
 					}
-					
 					
 					try {
 
@@ -526,6 +526,7 @@ public abstract class Data {
 						System.exit(0);
 					}	
 				}
+				
 				lineNumber++;
 			}
 			
@@ -612,7 +613,7 @@ public abstract class Data {
 			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, Button.Type.LEVEL_BOXES, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
 		
 		/** Adds lock images to array **/
-		for(int i = 0; i < 20; i++) {
+		for (int i = 0; i < 20; i++) {
 			FruitFever.screenHandler.levelLocks[i] = new GImage(locked.getImage());
 			FruitFever.screenHandler.levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
 		}

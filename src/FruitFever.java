@@ -277,13 +277,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		Data.loadObjects("levels/levels.txt", currentLevel);
 
 		findScreenDimensions();
+		
+		player = new Player(playerStartX, playerStartY);
+		player.focusViewOnPlayer(playerStartX, playerStartY, true);
 
-		// Clear the screen and fill it with new images
+		/** Clear the screen and fill it with new images **/
 		removeAll();
 		screenHandler.addBackground();
 		screenHandler.addImagesToScreen();
-		
-		// Add animated level title to the screen
+	
+		/** Add animated level title to the screen **/
 		levelTexts.add(new TextAnimator(SCREEN_WIDTH/2, 50, LEVEL_NAME, 30, Color.WHITE, 800, 5, "center"));
 		add(levelTexts.get(0).label);
 		
@@ -301,28 +304,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			LEVEL_HEIGHT = Math.max(LEVEL_HEIGHT, block.y);
 		}
 	}
-
-	/** Creates and correctly places player on screen **/
-	public void placePlayerOnScreen(){
-		
-		// Creates the Player class
-		player = new Player(playerStartX, playerStartY);
-		add(player.image);
-
-		player.focusViewOnPlayer(playerStartX, playerStartY, true);
-		
-		add(player.swirl.image);
-
-	}
-	
-	/** Adds a list of buttons to the screen **/
-	public void addButtonsToScreen(ArrayList<Button> arr){
-		for(int i = 0; i < arr.size(); i++)
-			add(arr.get(i).image);
-	}
 	
 	/** Checks all buttons in a list, and changes the subimage if it has been clicked on **/
-	public void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse){
+	private void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse){
 		for(Button obj : arr)
 			// Check to see if the mouse is on the button
 			if(obj.active && obj.checkOverlap(mouse.getX(), mouse.getY())){

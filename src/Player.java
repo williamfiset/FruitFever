@@ -438,8 +438,8 @@ public class Player extends MovingAnimation {
 	private void updateHealth(){
 
 		// This statement kinda looks weird but it's clear and more efficient (I think!)
-		if(checkForPlayerOutOfBounds()){}
-		// else if (checkForDangerousSpriteCollisions()) {}
+		if (checkForPlayerOutOfBounds()) {}
+		else if (checkForDangerousSpriteCollisions()) {}
 
 	}
 
@@ -448,14 +448,8 @@ public class Player extends MovingAnimation {
 
 		boolean collisionOccurred = false;
 
-		// loop through all dangerous sprites
+		// Loop through all dangerous sprites
 		for (Thing dangerousThing : FruitFever.dangerousThings) {
-			
-			/** As we start getting more and more dangerous sprites we will have to
-			  * distinguish between types either by using instanceof or giving each 
-			  * sprite a property **/
-			
-			dangerousThing.boundaryTop = (Data.TILE_SIZE/3);
 
 			if (dangerousThing.intersects(this)) {
 
