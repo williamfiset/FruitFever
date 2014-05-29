@@ -461,8 +461,7 @@ public class Player extends MovingAnimation {
 
 				collisionOccurred = true;
 
-				lives--;		
-				adjustLives(lives);	
+				FruitFever.screenHandler.adjustHearts(--lives);	
 				respawn();
 
 				break;
@@ -478,8 +477,7 @@ public class Player extends MovingAnimation {
 		boolean playerOutOfBounds = (imageX + Data.TILE_SIZE < 0 || imageX > FruitFever.LEVEL_WIDTH || imageY + Data.TILE_SIZE < 0 || imageY - Data.TILE_SIZE > FruitFever.LEVEL_HEIGHT );
 
 		if (playerOutOfBounds) {
-			lives--;		
-			adjustLives(lives);	
+			FruitFever.screenHandler.adjustHearts(--lives);	
 			respawn();
 		}
 
@@ -529,13 +527,6 @@ public class Player extends MovingAnimation {
 		if (FruitFever.vortex != null && this.intersects(FruitFever.vortex))
 			FruitFever.levelComplete = true;
 		
-	}
-
-
-	/** Adjusts the amount of lives that the player has, and redraws the hearts accordingly */
-	private void adjustLives(int livesLeft){
-		for (int i = 0; i < MAX_LIVES; i++)
-			FruitFever.livesImages[i].setVisible(livesLeft > i);
 	}
 
 	/** Adjusts View to place the player in the middle of the screen 

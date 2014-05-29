@@ -298,13 +298,13 @@ public abstract class Data {
 		levelButton[0] = makeImage(0, 139, 51, 45);
 		levelButton[1] = makeImage(0, 93, 50, 44);
 		levelSelectionBackDrop = makeImage(70, 0, 260, 333);
-		FruitFever.levelBackDrop = new Thing((int) (FruitFever.SCREEN_WIDTH/2 - levelSelectionBackDrop.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelSelectionBackDrop.getHeight()/2), levelSelectionBackDrop);
+		levelSelectionBackDrop.setLocation((int) (FruitFever.SCREEN_WIDTH/2 - levelSelectionBackDrop.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelSelectionBackDrop.getHeight()/2));
 
 		// Create numbers to display in the level boxes
 		for(int i = 0; i < 20; i++){
-			FruitFever.levelNumbers[i] = new GLabel(String.valueOf(i));
-			FruitFever.levelNumbers[i].setFont(new Font("Helvetica", Font.BOLD, 30));
-			FruitFever.levelNumbers[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - FruitFever.levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
+			FruitFever.screenHandler.levelNumbers[i] = new GLabel(String.valueOf(i));
+			FruitFever.screenHandler.levelNumbers[i].setFont(new Font("Helvetica", Font.BOLD, 30));
+			FruitFever.screenHandler.levelNumbers[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - FruitFever.screenHandler.levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
 		}
 		
 		updateLoadingBar(0.05);
@@ -613,8 +613,8 @@ public abstract class Data {
 		
 		/** Adds lock images to array **/
 		for(int i = 0; i < 20; i++) {
-			FruitFever.levelLocks[i] = new GImage(locked.getImage());
-			FruitFever.levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
+			FruitFever.screenHandler.levelLocks[i] = new GImage(locked.getImage());
+			FruitFever.screenHandler.levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
 		}
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/

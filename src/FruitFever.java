@@ -34,7 +34,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<Thing> things, dangerousThings, checkPoints;
 	static ArrayList<Enemy> enemies;
 	static ArrayList<Animation> edibleItems;
-	static ArrayList<TextAnimator> texts;
+	static ArrayList<TextAnimator> levelTexts;
 
 /** Player **/
 
@@ -62,15 +62,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other array lists)
 	static Button clickedOnButton = null;
 	
-	static GLabel[] levelNumbers = new GLabel[20];
-	static GImage[] levelLocks = new GImage[20];
-	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
-	
-	
 	static int currentLevel = 1, levelSelectionPage = 0;
 	static ScreenMode currentScreen;
-
-	static Thing levelBackDrop;
 
 	static ArrayList<Alarm>	alarms = new ArrayList<Alarm>();
 	
@@ -146,14 +139,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 			if (currentScreen == ScreenMode.PLAYING) {
 			
-				// Controls if it is time to return to the level selection menu
+				/** Controls if it is time to return to the level selection menu **/
 				if (levelComplete || player.getLives() <= 0) {
-					drawLevelSelection();
+					screenHandler.drawLevelSelection();
 					levelComplete = false;
 					continue;
 				}
 			
-				animateText();
+				screenHandler.animateAndRemoveText(levelTexts);
 				
 				// Activates EarthQuake Effect				
 				// earthQuakeEffect();
@@ -260,7 +253,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		edibleItems = new ArrayList<Animation>();
 		enemies = new ArrayList<Enemy>();
 		dangerousThings = new ArrayList<Thing>();
-		texts = new ArrayList<TextAnimator>();
+		levelTexts = new ArrayList<TextAnimator>();
 		checkPoints = new ArrayList<Thing>();
 
 		LEVEL_NAME = "";
@@ -287,51 +280,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 		// Clear the screen and fill it with new images
 		removeAll();
-		addBackground();
-		addImagesToScreen();
+		screenHandler.addBackground();
+		screenHandler.addImagesToScreen();
 		
 		// Add animated level title to the screen
-		texts.add(new TextAnimator(SCREEN_WIDTH/2, 50, LEVEL_NAME, 30, Color.WHITE, 800, 5, "center"));
-		add(texts.get(0).label);
+		levelTexts.add(new TextAnimator(SCREEN_WIDTH/2, 50, LEVEL_NAME, 30, Color.WHITE, 800, 5, "center"));
+		add(levelTexts.get(0).label);
 		
 		Block.resetPerformedNaturalAnimate();
 		Block.findNaturalFallingBlockCandidates();
 		
 		currentScreen = ScreenMode.PLAYING;
 
-	}
-	
-	/** Draws the level selection screen **/
-	private void drawLevelSelection(){
-		removeAll();
-		add(levelBackDrop.image);
-		addButtonsToScreen(levelSelectionButtons);
-		
-		for (int i = 0; i < levelNumbers.length; i++) {
-			add(levelNumbers[i]);			
-			add(levelLocks[i]);
-		}
-		shiftLevelLabels(0);
-			
-		currentScreen = ScreenMode.LEVEL_SELECTION;
-	}
-
-	/** Add heart images to screen **/
-	private void addHearts(){
-		for(int i = 0; i < Player.MAX_LIVES; i++){
-			livesImages[i] = new GImage(Data.heartImage.getImage());
-			livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
-			add(livesImages[i]);
-		}
-	}
-
-	/** Adds background to screen **/
-	private void addBackground(){
-		// Creates a black background on the screen
-		GRect background = new GRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		background.setFillColor(Color.BLACK);
-		background.setFilled(true);
-		add(background);
 	}
 
 	/** Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks found horizontally and vertically **/
@@ -342,41 +302,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		}
 	}
 
-	/** Adds all blocks, things and fruits to the screen **/
-	private void addImagesToScreen(){
-
-		for (Block obj : blocks){
-			obj.image.setLocation(obj.getX(), obj.getY());
-			add(obj.image);
-		}
-		
-		for (Thing thing : things ) {
-			thing.image.setLocation(thing.getX(), thing.getY());
-			add(thing.image);
-		}
-		
-		for (Thing item : edibleItems ) {
-			item.image.setLocation(item.getX(), item.getY());
-			add(item.image);
-		}
-		
-		for (Enemy enemy : enemies ) {
-			enemy.image.setLocation(enemy.getX(), enemy.getY());
-			add(enemy.image);
-			add(enemy.healthBarBackground);
-			add(enemy.healthBar);
-		}
-
-		placePlayerOnScreen();
-
-		addHearts();
-
-		addButtonsToScreen(inGameButtons);
-		
-	}
-
 	/** Creates and correctly places player on screen **/
-	private void placePlayerOnScreen(){
+	public void placePlayerOnScreen(){
 		
 		// Creates the Player class
 		player = new Player(playerStartX, playerStartY);
@@ -405,23 +332,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			}
 	}
 	
-	/** Shifts the level selection screen by a positive or negative integer value **/
-	private void shiftLevelLabels(int shift){
-		for(int i = 0; i < 20; i++){
-			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
-			levelNumbers[i].setLocation((int) (SCREEN_WIDTH/2 - levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
-			
-			int level = Integer.valueOf(levelNumbers[i].getLabel());
-			
-			// Sets visibility of lock and label
-			levelLocks[i].setVisible(levelInformation[level].locked);
-			levelNumbers[i].setVisible(!levelInformation[level].locked);
-			
-			// Set active state of buttons
-			levelSelectionButtons.get(i).active = !levelInformation[level].locked;
-		}
-	}
-	
 	/** Add a Thing to the "things" ArrayList, setting its position and adding it to the screen **/
 	public static void addToThings(Thing obj){
 		things.add(obj);
@@ -448,7 +358,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		/** Renders Images in the Data class, and fills the object ArrayLists **/
 		Data.loadImages();
 	
-		ScreenHandler.drawMainMenu();
+		screenHandler.drawMainMenu();
 	
 	}
 	
@@ -580,20 +490,20 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				// Play button
 				if (clickedOnButton.type == Button.Type.PLAY)
-					drawLevelSelection();
+					screenHandler.drawLevelSelection();
 				
 				// Level left arrow button
 				else if (clickedOnButton.type == Button.Type.LEFT_ARROW) {
 					if (levelSelectionPage > 0) {
 						levelSelectionPage--;
-						shiftLevelLabels(-20);
+						screenHandler.shiftLevelLabels(-20);
 					}		
 			
 				// Level right arrow button
 				} else if (clickedOnButton.type == Button.Type.RIGHT_ARROW) {
 					if (levelSelectionPage < 4) {
 						levelSelectionPage++;
-						shiftLevelLabels(20);
+						screenHandler.shiftLevelLabels(20);
 					}
 				
 				// Level button
@@ -603,7 +513,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				// Main Menu Button (Gear)
 				} else if (clickedOnButton.type == Button.Type.GEAR) {
-					ScreenHandler.drawMainMenu();
+					screenHandler.drawMainMenu();
 				
 				// Refresh Button
 				} else if (clickedOnButton.type == Button.Type.REFRESH) {
@@ -614,20 +524,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			else clickedOnButton.setDefault();
 		}
 		clickedOnButton = null;
-	}
-	
-	/** Animates all text in the "texts" ArrayList, removing the inactive ones **/
-	private void animateText(){
-			
-		for (int i = 0; i < texts.size(); i++)
-			if (texts.get(i).active)
-				texts.get(i).animate();
-			else {
-				remove(texts.get(i).label);
-				texts.remove(i);
-				i -= 1;
-				continue;
-			}
 	}
 
 	/** This method properly sets the position of everything on the screen 
