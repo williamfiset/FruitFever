@@ -743,6 +743,10 @@ public class Player extends MovingAnimation {
 				FruitFever.screen.remove(FruitFever.grabbedItem.image);
 				for (int i = 0; i < FruitFever.edibleItems.size(); i++)
 					if (FruitFever.edibleItems.get(i).equals(FruitFever.grabbedItem)) {
+						
+						if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT_RING)
+							FruitFever.screenHandler.addFruitRing();
+						
 						FruitFever.edibleItems.remove(i);
 						break;
 					}

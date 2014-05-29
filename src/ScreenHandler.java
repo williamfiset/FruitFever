@@ -15,9 +15,10 @@ public class ScreenHandler {
 	
 	static FruitFever fruitFever;
 	
-	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	static GLabel[] levelNumbers = new GLabel[20];
+	static GLabel numberOfFruitRings = new GLabel(" x 0");
 	static GImage[] levelLocks = new GImage[20];	
+	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	
 	public ScreenHandler(FruitFever fruitFever) {
 		this.fruitFever = fruitFever;
@@ -102,9 +103,20 @@ public class ScreenHandler {
 		fruitFever.add(fruitFever.player.swirl.image);
 
 		addHearts();
-
+		
+		/** Add fruit ring icon at the top of the screen **/
+		Data.fruitRingAnimation[5].setLocation(Data.TILE_SIZE*13, 0);
+		fruitFever.add(Data.fruitRingAnimation[5]);
+		numberOfFruitRings.setColor(Color.white);
+		numberOfFruitRings.setLocation(Data.TILE_SIZE*14, 16);
+		fruitFever.add(numberOfFruitRings);
+		
 		addButtonsToScreen(fruitFever.inGameButtons);
 		
+	}
+	
+	public void addFruitRing() {
+		numberOfFruitRings.setLabel("x " + ++FruitFever.totalFruitRings);
 	}
 	
 	/** Adds heart images to screen **/
