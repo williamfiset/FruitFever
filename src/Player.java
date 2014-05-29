@@ -468,7 +468,8 @@ public class Player extends MovingAnimation {
 
 	private boolean checkForPlayerOutOfBounds(){
 
-		boolean playerOutOfBounds = (imageX + Data.TILE_SIZE < 0 || imageX > FruitFever.LEVEL_WIDTH || imageY + Data.TILE_SIZE < 0 || imageY - Data.TILE_SIZE > FruitFever.LEVEL_HEIGHT );
+		// boolean playerOutOfBounds = (imageX + Data.TILE_SIZE < 0 || imageX > FruitFever.LEVEL_WIDTH || imageY + Data.TILE_SIZE < 0 || imageY - Data.TILE_SIZE > FruitFever.LEVEL_HEIGHT);
+		boolean playerOutOfBounds = imageY - Data.TILE_SIZE > FruitFever.LEVEL_HEIGHT;
 
 		if (playerOutOfBounds) {
 			FruitFever.screenHandler.adjustHearts(--lives);	
@@ -727,7 +728,7 @@ public class Player extends MovingAnimation {
 	}
 	
 	/** Update currently grabbed item or try to grab a item **/
-	private void grabbingItem(){
+	private void grabbingItem() {
 		
 		// If the player already has a grabbbed item
 		if (FruitFever.grabbedItem != null) {
@@ -739,7 +740,7 @@ public class Player extends MovingAnimation {
 			
 			// Remove item if animation has finished
 			if (finishedTongueAnimation){
-				FruitFever.screenHandler.remove(FruitFever.grabbedItem.image);
+				FruitFever.screen.remove(FruitFever.grabbedItem.image);
 				for (int i = 0; i < FruitFever.edibleItems.size(); i++)
 					if (FruitFever.edibleItems.get(i).equals(FruitFever.grabbedItem)) {
 						FruitFever.edibleItems.remove(i);

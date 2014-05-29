@@ -25,7 +25,7 @@ public abstract class Data {
 	
 	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
 						heartImage,
-						lavaImage,
+						lava, spike,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
@@ -153,7 +153,7 @@ public abstract class Data {
 			refreshButton[i] = makeImage(TILE_SIZE*randomButtonColor, TILE_SIZE*(i + 5), TILE_SIZE, TILE_SIZE);	
 			
 		// Lava Image
-		lavaImage = makeImage(TILE_SIZE*7, 0, TILE_SIZE, TILE_SIZE);
+		lava = makeImage(TILE_SIZE*7, 0, TILE_SIZE, TILE_SIZE);
 			
 		// Checkpoint Flags
 		checkpointFlagRed = makeImage(0, TILE_SIZE, TILE_SIZE, TILE_SIZE*2);
@@ -399,10 +399,10 @@ public abstract class Data {
 						
 					// Lava
 					if (character == '~') {
-						Thing lava = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, lavaImage);
-						lava.boundaryTop = (Data.TILE_SIZE/3);
-						FruitFever.things.add(lava);
-						FruitFever.dangerousThings.add(lava);
+						Thing lavaTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, lava);
+						lavaTile.boundaryTop = (Data.TILE_SIZE/3);
+						FruitFever.things.add(lavaTile);
+						FruitFever.dangerousThings.add(lavaTile);
 						continue;
 					}
 					
