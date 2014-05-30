@@ -427,6 +427,7 @@ public abstract class Data {
 						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruitRingAnimation, true, 3, true, Animation.Type.FRUIT_RING, true);
 						FruitFever.edibleItems.add(fruitRing);
 						FruitFever.things.add(fruitRing);
+						FruitFever.totalFruitRings++;
 						continue;
 					}
 
@@ -612,10 +613,17 @@ public abstract class Data {
 		for (int i = 0; i < 20; i++)
 			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, Button.Type.LEVEL_BOXES, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
 		
+		GImage starIcon = ImageTransformer.resize(goldStar, 15, 15);
+		
 		/** Adds lock images to array **/
 		for (int i = 0; i < 20; i++) {
 			FruitFever.screenHandler.levelLocks[i] = new GImage(locked.getImage());
 			FruitFever.screenHandler.levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
+			
+			for (int j = 0; j < 3; j++) {
+				FruitFever.screenHandler.levelStars[i][j] = new GImage(starIcon.getImage());
+				FruitFever.screenHandler.levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60 + 10*j), 100 + (i/4)*55);
+			}
 		}
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/

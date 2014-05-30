@@ -22,7 +22,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 /** Level Information/Objects/Lists **/
 	
-	static int totalFruitRings = 0;
+	static int currentFruitRings, totalFruitRings;
 	static LevelInformation[] levelInformation = new LevelInformation[100];
 	static int LEVEL_WIDTH, LEVEL_HEIGHT;
 	static String LEVEL_NAME;
@@ -272,7 +272,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	/** Loads and displays all initial graphics of a level on the screen  **/
 	private void loadLevel() {
 	
-		/** Reset all lists and variables pertaining to the previous played level **/
+		/** RESET all lists and variables pertaining to the previous played level **/
 		blocks = new ArrayList<Block>();
 		things = new ArrayList<Thing>();
 		edibleItems = new ArrayList<Animation>();
@@ -298,7 +298,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		shootButtonPressed = false;
 		tongueButtonPressed = false;
 		swirlButtonPressed = false;
+		
+		currentFruitRings = 0;
+		totalFruitRings = 0;
 
+		/** LOAD NEW LEVEL**/
+		
 		Data.loadObjects("levels/levels.txt", currentLevel);
 
 		findScreenDimensions();

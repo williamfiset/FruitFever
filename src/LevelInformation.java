@@ -18,7 +18,8 @@
 		this.name = name;
 		this.number = number;
 		this.highScore = highScore;
-		this.stars = stars;
+		this.stars = (byte) (Math.random()*4);
+		// this.stars = stars;
 		this.locked = locked;
 	}
 	

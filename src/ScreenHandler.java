@@ -18,6 +18,7 @@ public class ScreenHandler {
 	static GLabel[] levelNumbers = new GLabel[20];
 	static GLabel numberOfFruitRings = new GLabel(" x 0");
 	static GImage[] levelLocks = new GImage[20];	
+	static GImage[][] levelStars = new GImage[20][3];	
 	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	
 	public ScreenHandler(FruitFever fruitFever) {
@@ -43,6 +44,9 @@ public class ScreenHandler {
 		for (int i = 0; i < levelNumbers.length; i++) {
 			fruitFever.add(levelNumbers[i]);			
 			fruitFever.add(levelLocks[i]);
+			// for (int j = 0; j < 3; j++)
+				// fruitFever.add(levelStars[i][j]);
+			
 		}
 		shiftLevelLabels(0);
 			
@@ -57,12 +61,21 @@ public class ScreenHandler {
 			
 			int level = Integer.valueOf(levelNumbers[i].getLabel());
 			
-			// Sets visibility of lock and label
-			levelLocks[i].setVisible(fruitFever.levelInformation[level].locked);
-			levelNumbers[i].setVisible(!fruitFever.levelInformation[level].locked);
-			
-			// Set active state of buttons
-			fruitFever.levelSelectionButtons.get(i).active = !fruitFever.levelInformation[level].locked;
+			/** Level is locked **/
+			if (fruitFever.levelInformation[level].locked) {
+				levelLocks[i].setVisible(true);
+				levelNumbers[i].setVisible(false);
+				fruitFever.levelSelectionButtons.get(i).active = false;
+				for (int j = 0; j < 3; j++)
+					levelStars[i][j].setVisible(false);
+			/** Level is unlocked **/
+			} else {
+				levelLocks[i].setVisible(false);
+				levelNumbers[i].setVisible(true);
+				fruitFever.levelSelectionButtons.get(i).active = true;
+				for (int j = 0; j < 3; j++)
+					levelStars[i][j].setVisible(fruitFever.levelInformation[level].stars <= j);
+			}
 		}
 	}
 	
@@ -116,7 +129,7 @@ public class ScreenHandler {
 	}
 	
 	public void addFruitRing() {
-		numberOfFruitRings.setLabel("x " + ++FruitFever.totalFruitRings);
+		numberOfFruitRings.setLabel("x " + ++FruitFever.currentFruitRings);
 	}
 	
 	/** Adds heart images to screen **/
