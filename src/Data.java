@@ -615,14 +615,14 @@ public abstract class Data {
 		
 		GImage starIcon = ImageTransformer.resize(goldStar, 15, 15);
 		
-		/** Adds lock images to array **/
+		/** Adds lock and star images to array, setting positions **/
 		for (int i = 0; i < 20; i++) {
 			FruitFever.screenHandler.levelLocks[i] = new GImage(locked.getImage());
 			FruitFever.screenHandler.levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
 			
 			for (int j = 0; j < 3; j++) {
 				FruitFever.screenHandler.levelStars[i][j] = new GImage(starIcon.getImage());
-				FruitFever.screenHandler.levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60 + 10*j), 100 + (i/4)*55);
+				FruitFever.screenHandler.levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 10*j), 128 + (i/4)*55);
 			}
 		}
 		

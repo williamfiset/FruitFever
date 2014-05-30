@@ -44,8 +44,8 @@ public class ScreenHandler {
 		for (int i = 0; i < levelNumbers.length; i++) {
 			fruitFever.add(levelNumbers[i]);			
 			fruitFever.add(levelLocks[i]);
-			// for (int j = 0; j < 3; j++)
-				// fruitFever.add(levelStars[i][j]);
+			for (int j = 0; j < 3; j++)
+				fruitFever.add(levelStars[i][j]);
 			
 		}
 		shiftLevelLabels(0);
@@ -57,7 +57,7 @@ public class ScreenHandler {
 	public void shiftLevelLabels(int shift) {
 		for (int i = 0; i < 20; i++) {
 			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
-			levelNumbers[i].setLocation((int) (fruitFever.SCREEN_WIDTH/2 - levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
+			levelNumbers[i].setLocation((int) (fruitFever.SCREEN_WIDTH/2 - levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 128 + (i/4)*55);
 			
 			int level = Integer.valueOf(levelNumbers[i].getLabel());
 			
@@ -74,7 +74,7 @@ public class ScreenHandler {
 				levelNumbers[i].setVisible(true);
 				fruitFever.levelSelectionButtons.get(i).active = true;
 				for (int j = 0; j < 3; j++)
-					levelStars[i][j].setVisible(fruitFever.levelInformation[level].stars <= j);
+					levelStars[i][j].setVisible(true);// fruitFever.levelInformation[level].stars <= j);
 			}
 		}
 	}
