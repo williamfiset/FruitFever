@@ -19,6 +19,7 @@ public class ScreenHandler {
 	static GLabel numberOfFruitRings = new GLabel(" x 0");
 	static GImage[] levelLocks = new GImage[20];	
 	static GImage[][] levelStars = new GImage[20][3];	
+	static GImage[][] levelNoStars = new GImage[20][3];	
 	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	
 	public ScreenHandler(FruitFever fruitFever) {
@@ -44,8 +45,10 @@ public class ScreenHandler {
 		for (int i = 0; i < levelNumbers.length; i++) {
 			fruitFever.add(levelNumbers[i]);			
 			fruitFever.add(levelLocks[i]);
-			for (int j = 0; j < 3; j++)
+			for (int j = 0; j < 3; j++) {
 				fruitFever.add(levelStars[i][j]);
+				fruitFever.add(levelNoStars[i][j]);
+			}
 			
 		}
 		shiftLevelLabels(0);
@@ -66,15 +69,24 @@ public class ScreenHandler {
 				levelLocks[i].setVisible(true);
 				levelNumbers[i].setVisible(false);
 				fruitFever.levelSelectionButtons.get(i).active = false;
-				for (int j = 0; j < 3; j++)
+				for (int j = 0; j < 3; j++) {
 					levelStars[i][j].setVisible(false);
+					levelNoStars[i][j].setVisible(false);
+				}
 			/** Level is unlocked **/
 			} else {
 				levelLocks[i].setVisible(false);
 				levelNumbers[i].setVisible(true);
 				fruitFever.levelSelectionButtons.get(i).active = true;
-				for (int j = 0; j < 3; j++)
-					levelStars[i][j].setVisible(true);// fruitFever.levelInformation[level].stars <= j);
+				for (int j = 0; j < 3; j++) {
+					if (fruitFever.levelInformation[level].stars > j) {
+						levelStars[i][j].setVisible(true);
+						levelNoStars[i][j].setVisible(false);
+					} else{
+						levelStars[i][j].setVisible(false);
+						levelNoStars[i][j].setVisible(true);
+					}
+				}
 			}
 		}
 	}

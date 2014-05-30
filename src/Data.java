@@ -30,7 +30,7 @@ public abstract class Data {
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
 						music0, music1,
-						bronzeStar, silverStar, goldStar, locked;
+						bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked;
 						
 	public static GImage[] blockImages = new GImage[18],
 						   
@@ -179,7 +179,9 @@ public abstract class Data {
 		// Stars
 		bronzeStar = makeImage(TILE_SIZE*8, 0, TILE_SIZE, TILE_SIZE);
 		silverStar = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE*2);
+		noStarIcon = ImageTransformer.resize(silverStar, 15, 15);
 		goldStar = makeImage(TILE_SIZE*8, TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE*2);
+		starIcon = ImageTransformer.resize(goldStar, 15, 15);
 		
 		// Locked
 		locked = makeImage(TILE_SIZE*10, TILE_SIZE, TILE_SIZE*2, TILE_SIZE*2);
@@ -613,8 +615,6 @@ public abstract class Data {
 		for (int i = 0; i < 20; i++)
 			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, Button.Type.LEVEL_BOXES, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
 		
-		GImage starIcon = ImageTransformer.resize(goldStar, 15, 15);
-		
 		/** Adds lock and star images to array, setting positions **/
 		for (int i = 0; i < 20; i++) {
 			FruitFever.screenHandler.levelLocks[i] = new GImage(locked.getImage());
@@ -622,7 +622,9 @@ public abstract class Data {
 			
 			for (int j = 0; j < 3; j++) {
 				FruitFever.screenHandler.levelStars[i][j] = new GImage(starIcon.getImage());
-				FruitFever.screenHandler.levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 10*j), 128 + (i/4)*55);
+				FruitFever.screenHandler.levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 107 + (i%4)*60 + 10*j), 127 + (i/4)*55);
+				FruitFever.screenHandler.levelNoStars[i][j] = new GImage(noStarIcon.getImage());
+				FruitFever.screenHandler.levelNoStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 107 + (i%4)*60 + 10*j), 127 + (i/4)*55);
 			}
 		}
 		
