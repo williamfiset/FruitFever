@@ -83,7 +83,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 /** Natural Disaster Variables **/
 
-	static int earthQuakeMagnitude = 6;
+	private static int earthQuakeMagnitude = 2;
+	private static int quakeBoundary_x = 0, quakeBoundary_y = 0;
+	final private static int QUAKE_BOUNDARY = 5;
 
 /** TEMPORARY COLLISION DETECTION **/
 	// static GRect point1;
@@ -126,10 +128,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		/** TEMPORARY **/
 		
 
+		// It's a byte an not an int because we're paranoid about saving memory! 
+		// Three bytes saved through this action! 
+		byte loops = Byte.MIN_VALUE;
+		
+
 		while(true){
 		
 			Timer_ loopTimer = new Timer_();
 		
+			// Activates EarthQuake Effect				
+			// earthQuakeEffect();
+
 			// Countdown all of the alarms towards execution
 			for (int i = 0; i < alarms.size(); i++) {
 					if (!alarms.get(i).active) {
@@ -148,13 +158,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				}
 			
 				screenHandler.animateAndRemoveText(levelTexts);
-				
-				// Activates EarthQuake Effect				
-				// earthQuakeEffect();
-
-				// Tests for falling blocks
-				// Block.updateFallingBlocksByNaturalDisaster();
-				// Block.updateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
 				for (int i = 0; i < things.size(); i++) {
@@ -181,6 +184,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				for (Thing item : edibleItems)
 					item.animate();
 
+
+				// Tests for falling blocks
+				// 30 is arbitrary number for how often we want to execute falling block code
+					
+				if (loops % 10 == 0) {
+					Block.updateNaturalFallingBlockCandidates();
+					Block.activateFallingBlocksByNaturalDisaster();	
+				}
+
+				// Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
+
+				Block.motion();	
 				Block.drawBlocks();
 
 				player.jump();
@@ -202,9 +217,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			if (currentScreen == ScreenMode.LEVEL_REFRESH)
 				loadLevel();
 							
-			
+			loops++;
 		}
-		
 	}
 
 	/** Calculates how much to pause the main loop by so that it runs as smoothly as possible **/
@@ -220,12 +234,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 		double milliSeconds = new Double(strPauseTime).doubleValue();
 
-		try {
-			pause(milliSeconds);
-		}
-		catch (IllegalArgumentException exception) {
+		try { pause(milliSeconds); } 
+		catch (IllegalArgumentException exception) 
+		{
 			pause(MAIN_LOOP_SPEED);	
-			System.out.println("MAIN_LOOP_SPEED  =  " + milliSeconds );
+			System.out.println("IllegalArgumentException error. MAIN_LOOP_SPEED  =  " + milliSeconds );
 			exception.printStackTrace();
 		}
 
@@ -234,13 +247,24 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	/** Makes the screen shake violently like an earthquake **/
 	private void earthQuakeEffect(){
 
-		if (viewY%2 == 0) {
-			viewX += (int) (Math.random()*earthQuakeMagnitude);
-			viewY -= (int) (Math.random()*earthQuakeMagnitude);
-		}
-		else {
-			viewX -= (int) (Math.random()*earthQuakeMagnitude);
-			viewY += (int) (Math.random()*earthQuakeMagnitude);
+		// NOTE: NOT WORKING CORRECTLY
+
+		int xShift = (int) (Math.random()*earthQuakeMagnitude);
+		int yShift = (int) (Math.random()*earthQuakeMagnitude);
+
+		if (viewY%2 == 0 && quakeBoundary_x < QUAKE_BOUNDARY && quakeBoundary_y > QUAKE_BOUNDARY) {
+
+			viewX += xShift;
+			viewY -= yShift;
+			quakeBoundary_x += xShift;
+			quakeBoundary_y -= yShift;
+
+		} else {
+
+			viewX -= xShift;
+			viewY += yShift;
+			quakeBoundary_x -= xShift;
+			quakeBoundary_y += yShift;
 		}
 
 	}
@@ -292,8 +316,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		add(levelTexts.get(0).label);
 		
 		Block.resetPerformedNaturalAnimate();
-		Block.findNaturalFallingBlockCandidates();
-		
+		Block.updateNaturalFallingBlockCandidates();
+
 		currentScreen = ScreenMode.PLAYING;
 
 	}

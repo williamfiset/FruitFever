@@ -439,7 +439,7 @@ public class Player extends MovingAnimation {
 
 		// This statement kinda looks weird but it's clear and more efficient (I think!)
 		if (checkForPlayerOutOfBounds()) {}
-		else if (checkForDangerousSpriteCollisions()) {}
+		// else if (checkForDangerousSpriteCollisions()) {}
 
 	}
 

@@ -13,18 +13,23 @@ import java.util.*;
 
 public class Block extends Thing {
 
-	public int color;
+	int color;
+	private boolean motionBlock = false;
 
 	private static HashMap<Integer, ArrayList<Block>> xBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
 	private static HashMap<Integer, ArrayList<Block>> yBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
 
-	static ArrayList<Block> naturalFallingBlockCondidates = new ArrayList<Block>();
+	// The blocks that are in the current process of falling 
 	static ArrayList<Block> fallingBlocks = new ArrayList<Block>();
+
+	// The blocks that have a potential to fall
+	static ArrayList<Block> naturalFallingBlockCondidates = new ArrayList<Block>();
+
 
 	/** To fix issue #41 the first time you draw on the screen you must call naturalAnimate() **/
 	private static boolean performedNaturalAnimate = false;
 
-	private double vx, vy;
+	private double dx, dy;
 
 	/**
  	 * @Param color - defines the color the block is
@@ -145,6 +150,7 @@ public class Block extends Thing {
 	 *
 	 **/
 
+	/** Returns the block contained within a given pair of coordinates **/
 	public static Block getBlock(int xPos, int yPos){
 
 		// Gets both the center row and column containing the block were looking for
@@ -187,15 +193,15 @@ public class Block extends Thing {
 
 	/** Populates the fallingBlockCondidates list to be more effective than looping through all the
 	  * blocks very time you want to make a block fall **/
-	public static void findNaturalFallingBlockCandidates(){
+	public static void updateNaturalFallingBlockCandidates(){
 
 		Block topBlock = null;
 		Block firstBlockDown = null;
 		Block secondBlockDown = null;
 
-
 		/*
  		 * Loops through all the blocks and tests each to see if they meet the criteria to be a natural falling block
+ 		 * This function is made to be called once
  		 *
  		 * Criteria:
  		 * - block must not be alone (stationary platform)
@@ -203,7 +209,7 @@ public class Block extends Thing {
 		 */
 
 		for (Block block : FruitFever.blocks) {
-			
+
 			topBlock = getBlock(block.x + Data.TILE_SIZE/2, block.y - Data.TILE_SIZE/2 );
 			if (topBlock == null) continue;
 
@@ -220,24 +226,32 @@ public class Block extends Thing {
 	}
 
 	/** Selects all the block candidates that are worthy of falling **/
-	public static void updateFallingBlocksByNaturalDisaster(){
+	public static void activateFallingBlocksByNaturalDisaster(){
 
-		// Only loop through the blocks on the screen (with a little buffer)
-		// Select a few worthy falling block candidates
+		// Only loop through the blocks on the screen 
+		// Selects a worthy falling block candidate and activates it
 		// make sure that the block above doesn't start falling 
 
 		int listLength = naturalFallingBlockCondidates.size();
 
-		// very unlikely to select index 0? 
 		if (listLength == 0)
 			return;
 
+		// very unlikely to select index 0? 
 		int randomIndex = (int) (Math.random() * listLength);
 		Block randomlySelectedBlock = naturalFallingBlockCondidates.get(randomIndex);
-		
-		if (randomlySelectedBlock.imageX > 0 && randomlySelectedBlock.imageX < FruitFever.SCREEN_WIDTH)
-			if (randomlySelectedBlock.imageY > 0 && randomlySelectedBlock.imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
-				randomlySelectedBlock.changeImage(Data.blockImages[17]);
+
+		// Makes sure falling block is on the screen when it falls 
+		// Also activates falling blocks
+		if (!randomlySelectedBlock.motionBlock)
+			if (randomlySelectedBlock.imageX > FruitFever.viewX && randomlySelectedBlock.imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
+				if (randomlySelectedBlock.imageY > FruitFever.viewY && randomlySelectedBlock.imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE){
+					
+					randomlySelectedBlock.dy = 1;
+					randomlySelectedBlock.changeImage(Data.blockImages[17]);
+					randomlySelectedBlock.motionBlock = true;
+					fallingBlocks.add(randomlySelectedBlock);
+				}
 
 		// Removing form list should be fine as long as this method is called at an interval
 		// otherwise blocks will be falling very fast as the list gets sorter
@@ -248,7 +262,7 @@ public class Block extends Thing {
 
 	}
 
-	public static void updateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface){
+	public static void activateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface){
 
 
 		// from the players position get the column of blocks below the position
@@ -323,6 +337,24 @@ public class Block extends Thing {
 		}
 		return furthestBlockDown;
 	}
+
+	/** Moves the position of the falling blocks **/
+
+	public static void motion(){
+
+		for (Block fallingBlock : fallingBlocks) {
+			
+			fallingBlock.imageX += fallingBlock.dx;
+			fallingBlock.imageY += fallingBlock.dy;
+			
+			// doesn't seem to be needed
+			// fallingBlock.x += fallingBlock.dx;
+			// fallingBlock.y += fallingBlock.dy;
+			
+		}
+
+	}
+
 }
 
 /*
