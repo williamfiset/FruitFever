@@ -131,7 +131,27 @@ public class DataLoader {
 
     public static BufferedImage loadImage( String imgPath, String urlLink ){
         
+		/** Try loading image with imageIO **/
+	    if (usingImageIO) {
 
+			// Make sure you instantiate a dataloader object to get the class
+	    	if (obj == null) 
+	    		obj = new DataLoader();
+
+	        try {
+
+	        	// Gets absolute path
+				BufferedImage buffImage = null;
+				buffImage = ImageIO.read(obj.getClass().getResource(imgPath));
+				
+				if (buffImage != null)
+					return buffImage;
+				
+	        } catch (IOException e) {
+	        	System.out.printf("Failed to Load imageIO: %s", imgPath);
+	        	usingImageIO = false;
+	        }
+	    }
 
     	/** If using imageIO doesn't work try using toolkit **/ 
     	if (usingToolKitImage) {
@@ -139,56 +159,35 @@ public class DataLoader {
 	        try{
 
 		    	URL imagePath = null;
-		    	try{ imagePath = new File( imgPath ).toURI().toURL();}catch(Exception e){}
+		    	try {
+					imagePath = new File(imgPath).toURI().toURL();
+				}
+				catch(Exception e) { }
 
-	            Image img = Toolkit.getDefaultToolkit().createImage( imagePath );
-	            Method method = img.getClass().getMethod( "getBufferedImage" );
+	            Image img = Toolkit.getDefaultToolkit().createImage(imagePath);
+	            Method method = img.getClass().getMethod("getBufferedImage");
 	            BufferedImage bufferedImage = null;
 	            int counter = 0;
 
-	            // Waits a maximum of 2.5 seconds before quitting
-	            while( bufferedImage == null && counter < 3000 ){
+	            // Waits a few seconds before aborting
+	            while (bufferedImage == null && ++counter < 3000){
 
-	                img.getWidth( null );
-	                bufferedImage = (BufferedImage) method.invoke( img );
-	                try{ Thread.sleep( 10 ); }
-	                catch( InterruptedException e ){ }
-	                counter ++;
-
+	                img.getWidth(null);
+	                bufferedImage = (BufferedImage) method.invoke(img);
+	                try {
+						Thread.sleep(10);
+					}
+	                catch (InterruptedException e) { }
 	            }
 	           
-	            if( bufferedImage != null )
-	                return bufferedImage;
-	            
+				/** WILL, THIS CODE WOULD ALLOW A PARTIAL IMAGE TO BE PASSED THROUGH, WITH THE BOTTOM PART STILL WHITE **/
+	            // if (bufferedImage != null)
+	                // return bufferedImage;
 	            
 	        } catch( Exception e ){
 	        	usingToolKitImage = false;
 	        }
     	}
-
-
-    	/** try loading image with imageIO **/
-	    if (usingImageIO) {
-
-			// Make sure you instantiate a dataloader object to get the class
-	    	if (obj == null) 
-	    		obj = new DataLoader();
-
-	        try{
-
-	        	// Gets absolute path
-				BufferedImage buffImage = null;
-				buffImage = ImageIO.read(obj.getClass().getResource(imgPath) );
-				
-				if (buffImage != null)
-					return buffImage;
-				
-	        } catch( IOException ioe ){
-	        	System.out.printf("Failed to Load imageIO: %s", imgPath);
-	        	usingImageIO = false;
-	        }
-	    }
-
 
 		/** If loading image from the computer fails load it using the web! **/
 	    try{

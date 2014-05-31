@@ -622,9 +622,9 @@ public abstract class Data {
 			
 			for (int j = 0; j < 3; j++) {
 				FruitFever.screenHandler.levelStars[i][j] = new GImage(starIcon.getImage());
-				FruitFever.screenHandler.levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 107 + (i%4)*60 + 10*j), 127 + (i/4)*55);
+				FruitFever.screenHandler.levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
 				FruitFever.screenHandler.levelNoStars[i][j] = new GImage(noStarIcon.getImage());
-				FruitFever.screenHandler.levelNoStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 107 + (i%4)*60 + 10*j), 127 + (i/4)*55);
+				FruitFever.screenHandler.levelNoStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
 			}
 		}
 		
