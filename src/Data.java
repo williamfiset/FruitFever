@@ -257,7 +257,6 @@ public abstract class Data {
 			case 1: color = "Pink"; break;
 			case 2: color = "Red"; break;
 			default: color = "Red"; break;
-
 		}
 		
 		/** Import menu images **/
@@ -287,11 +286,9 @@ public abstract class Data {
 			case 3: color = "brown"; break;
 			default: color = "green"; break; 
 		}
-		System.out.println(color);
 		
 		/** Import level selection arrow images **/
 		sheet = DataLoader.loadImage("img/LevelSelection/arrows/" + color + "Arrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/"+color+"Arrows.png");
-		System.out.println("MAde it");
 		for(int i = 0; i < 3; i++){
 			leftArrowButton[i] = makeImage(0, i*33, 36, 31);
 			rightArrowButton[i] = makeImage(36, i*33, 36, 31);
