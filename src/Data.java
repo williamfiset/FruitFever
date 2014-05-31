@@ -251,12 +251,14 @@ public abstract class Data {
 		
 		String color = "";
 		int randomColor = (int) (Math.random()*3);
-		if(randomColor == 0)
-			color = "Orange";
-		else if(randomColor == 1)
-			color = "Pink";
-		else if(randomColor == 2)
-			color = "Red";
+
+		switch(randomColor){
+			case 0: color = "Orange"; break;
+			case 1: color = "Pink"; break;
+			case 2: color = "Red"; break;
+			default: color = "Red"; break;
+
+		}
 		
 		/** Import menu images **/
 		sheet = DataLoader.loadImage("img/Menu/Menu_" + color + ".png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/Menu_"+color+".png");
@@ -276,17 +278,20 @@ public abstract class Data {
 		// PICK RANDOM COLOR SCHEME
 		
 		color = "";
-		randomColor = (int) (Math.random()*3);
-		if(randomColor == 0)
-			color = "blue";
-		else if(randomColor == 1)
-			color = "green";
-		else if(randomColor == 2)
-			color = "purple";
+		randomColor = (int) (Math.random()*4);
+
+		switch(randomColor){
+			case 0: color = "blue"; break;
+			case 1: color = "green";break;
+			case 2: color = "purple";break;
+			case 3: color = "brown"; break;
+			default: color = "green"; break; 
+		}
+		System.out.println(color);
 		
 		/** Import level selection arrow images **/
 		sheet = DataLoader.loadImage("img/LevelSelection/arrows/" + color + "Arrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/"+color+"Arrows.png");
-		
+		System.out.println("MAde it");
 		for(int i = 0; i < 3; i++){
 			leftArrowButton[i] = makeImage(0, i*33, 36, 31);
 			rightArrowButton[i] = makeImage(36, i*33, 36, 31);

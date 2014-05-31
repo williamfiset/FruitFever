@@ -188,10 +188,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				// Tests for falling blocks
 				// 30 is arbitrary number for how often we want to execute falling block code
 					
-				if (loops % 10 == 0) {
-					Block.updateNaturalFallingBlockCandidates();
-					Block.activateFallingBlocksByNaturalDisaster();	
-				}
+				Block.updateNaturalFallingBlockCandidates();
+				Block.activateFallingBlocksByNaturalDisaster();	
 
 				// Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
 

@@ -208,20 +208,33 @@ public class Block extends Thing {
  		 * - block must have two empty blocks directly below itself (so that when they fall they do not clog a tunnel)
 		 */
 
-		for (Block block : FruitFever.blocks) {
+		if (naturalFallingBlockCondidates.size() == 0) {
 
-			topBlock = getBlock(block.x + Data.TILE_SIZE/2, block.y - Data.TILE_SIZE/2 );
-			if (topBlock == null) continue;
 
-			firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
-			if (firstBlockDown != null) continue;
-			
-			secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
-			if (secondBlockDown != null) continue;
+			for (Block block : FruitFever.blocks) {
 
-			naturalFallingBlockCondidates.add(block);
+				topBlock = getBlock(block.x + Data.TILE_SIZE/2, block.y - Data.TILE_SIZE/2 );
+				if (topBlock == null) continue;
 
+				firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
+				if (firstBlockDown != null) continue;
+				
+				secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
+				if (secondBlockDown != null) continue;
+
+				naturalFallingBlockCondidates.add(block);
+
+			}
+
+			if (naturalFallingBlockCondidates.size() == 0) 
+				for (Block block : FruitFever.blocks ) 
+					naturalFallingBlockCondidates.add(block);
+				
 		}
+
+
+			
+		
 
 	}
 
@@ -236,7 +249,8 @@ public class Block extends Thing {
 
 		if (listLength == 0)
 			return;
-
+		
+		System.out.println(listLength);
 		// very unlikely to select index 0? 
 		int randomIndex = (int) (Math.random() * listLength);
 		Block randomlySelectedBlock = naturalFallingBlockCondidates.get(randomIndex);
@@ -251,11 +265,12 @@ public class Block extends Thing {
 					randomlySelectedBlock.changeImage(Data.blockImages[17]);
 					randomlySelectedBlock.motionBlock = true;
 					fallingBlocks.add(randomlySelectedBlock);
+					naturalFallingBlockCondidates.remove(randomlySelectedBlock);
 				}
 
 		// Removing form list should be fine as long as this method is called at an interval
 		// otherwise blocks will be falling very fast as the list gets sorter
-		naturalFallingBlockCondidates.remove(randomlySelectedBlock);
+		// naturalFallingBlockCondidates.remove(randomlySelectedBlock);
 		
 		// FruitFever.blocks.remove(randomlySelectedBlock);
 

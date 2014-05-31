@@ -50,7 +50,7 @@ public class GameStarter{
 		// The code within this will execute when the program exits for good
     	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() { public void run() {
 
-    		// Thing you want to do before quiting FruitFever (save?)
+    		// Things you want to do before quiting FruitFever (save?)
 
 		 }}));
 	}
