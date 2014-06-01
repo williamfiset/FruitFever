@@ -19,8 +19,8 @@ public class Player extends MovingAnimation {
 
 /** ! DO NOT CHANGE PLAYER ENCAPSULATION SPECIFIERS ! **/
 
-	private byte lives = 3;
-	static final byte MAX_LIVES = 3;
+	private int lives = 8;
+	static final int MAX_LIVES = 8;
 
 // Swirl related Variables
 	Swirl swirl;
