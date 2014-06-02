@@ -72,7 +72,8 @@ public abstract class Data {
 						rightArrowButton = new GImage[3],
 						levelButton = new GImage[2];
 
-	public static GImage[][] fireworkAnimation = new GImage[3][5];	
+	public static GImage[][] fireworkAnimation = new GImage[3][5],
+							torches = new GImage[3][3];
 
 	/** Loads the images required for the loading screen **/
 	public static void loadingScreen(){
@@ -182,6 +183,11 @@ public abstract class Data {
 		for (int n = 0; n < 3; n++) 
 			for (int i = 0; i < 5; i++) 
 				fireworkAnimation[n][i] = makeImage(TILE_SIZE*(i + 2), TILE_SIZE*(n + 1), TILE_SIZE, TILE_SIZE);
+		
+		// Torches
+		for (int n = 0; n < 3; n++) 
+			for (int i = 0; i < 3; i++) 
+				torches[n][i] = makeImage(TILE_SIZE*(n + 10), TILE_SIZE*(i + 5), TILE_SIZE*2, TILE_SIZE);
 				
 		// Stars
 		bronzeStar = makeImage(TILE_SIZE*8, 0, TILE_SIZE, TILE_SIZE);

@@ -197,7 +197,7 @@ public class ScreenHandler {
 	public static void adjustHearts(int livesLeft) {
 		for (int i = 0; i < Player.MAX_LIVES; i++) {
 			livesImages[i].setVisible(livesLeft > i);
-			livesImages[i].setLocation(((double)i/(double)livesLeft)*HEART_AREA_WIDTH, 0);
+			livesImages[i].setLocation(((double)i/(double)Math.max(livesLeft, 3))*HEART_AREA_WIDTH, 0);
 		}
 	}
 	

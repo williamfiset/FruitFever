@@ -161,7 +161,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 						if (totalFruitRings == 0)
 							levelInformation[currentLevel].stars = 3;
 						else
-							levelInformation[currentLevel].stars = (byte) Math.min(levelInformation[currentLevel].stars, (((double) currentFruitRings / (double) totalFruitRings)*3.0));
+							levelInformation[currentLevel].stars = (byte) Math.max(levelInformation[currentLevel].stars, (((double) currentFruitRings / (double) totalFruitRings)*3.0));
 							
 						Data.updateLevelInformation(currentLevel);
 						levelComplete = false;
@@ -313,6 +313,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		currentFruitRings = 0;
 		totalFruitRings = 0;
+		screenHandler.numberOfFruitRings.setLabel(" x 0");
 
 		/** LOAD NEW LEVEL**/
 		
