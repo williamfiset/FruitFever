@@ -101,7 +101,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		postInit();
 		
 		/** TEMPORARY **/
-
 		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
 		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
 		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
