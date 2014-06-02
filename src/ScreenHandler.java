@@ -154,7 +154,7 @@ public class ScreenHandler {
 	}
 	
 	/** Redraws the hearts according to the amount of lives left */
-	public void adjustHearts(int livesLeft) {
+	public static void adjustHearts(int livesLeft) {
 		for (int i = 0; i < Player.MAX_LIVES; i++)
 			livesImages[i].setVisible(livesLeft > i);
 	}

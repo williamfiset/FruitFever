@@ -108,6 +108,7 @@ public class Player extends MovingAnimation {
 		checkCollisionDetection();
 		objectCollisions();
 
+		// View Movement
 		relativisticScreenMovement();
 	
 		// These methods control the movement of the player 
@@ -115,6 +116,7 @@ public class Player extends MovingAnimation {
 		gravityEffect();
 		imageX += dx;
 
+		// Other needed functions
 		enableJumping();
 		updateHealth();
 		grabbingItem();

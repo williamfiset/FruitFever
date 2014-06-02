@@ -134,7 +134,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 
 		while(true){
-		
+
+			// Paused the main loop until the screen is refocused
+			// This is where the pause screen is the be implemented
+			while( !GameStarter.frame.isFocused() ){ }
+
 			Timer_ loopTimer = new Timer_();
 		
 			// Activates EarthQuake Effect				
@@ -198,6 +202,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				player.jump();
 				player.motion();
 				player.animate();
+				ScreenHandler.adjustHearts(player.getLives());
 				
 				// add(point1);
 				// add(point2);

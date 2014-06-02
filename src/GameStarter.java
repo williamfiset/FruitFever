@@ -13,12 +13,13 @@ public class GameStarter{
 
 	// Used PhotoShop to calculate the Border Height
 	final static int FRAME_BORDER_HEIGHT = 22;
+	static JFrame frame;
 
 	public static void main(String[] args) {	
 		
 		FruitFever gameApplet = new FruitFever();
 		JFrame appletFrame = new JFrame();
-
+		frame = appletFrame;
 		// Center Frame to the middle of screen on start
 		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenStartX = screenDimension.width/2 - appletFrame.getSize().width/2;
