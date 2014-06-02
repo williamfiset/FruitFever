@@ -57,8 +57,7 @@ public class DataLoader {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	
 	/* Saves an image from the web to a location specified on the computer
 	 * NOTE: this only seems to works with images without alpha channels */
