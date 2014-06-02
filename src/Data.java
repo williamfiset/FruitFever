@@ -37,7 +37,7 @@ public abstract class Data {
 						
 	public static GImage[] blockImages = new GImage[18],
 						   
-						sceneryImages = new GImage[25],
+						sceneryImages = new GImage[28],
 						   
 						blueFruit = new GImage[5],
 						yellowFruit = new GImage[6],
@@ -100,20 +100,24 @@ public abstract class Data {
 		/** Scenery **/
 		sheet = DataLoader.loadImage("img/sprites/plants.png","https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/plants.png");
 
-		// Scenery (Top Row in sheet)
+		// Scenery (Row 1)
 		sceneryImages[0] = makeImage(0, TILE_SIZE, TILE_SIZE*2, TILE_SIZE);
 		for (int i = 2; i < 7; i++)
 			sceneryImages[i - 1] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		sceneryImages[6] = makeImage(TILE_SIZE*7, TILE_SIZE - 2, TILE_SIZE + 5, TILE_SIZE + 2);
 
-		// Scenery (Middle Row in sheet)
+		// Scenery (Row 2)
 		for (int i = 0; i < 9; i++)
 			sceneryImages[i + 7] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 
-		// Scenery (Bottom Row in sheet)
+		// Scenery (Row 3)
 		for (int i = 0; i < 9; i++)
 			sceneryImages[i + 16] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
 		sceneryImages[24] = makeImage(TILE_SIZE*8, TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE);
+		
+		// Scenery (Row 4)
+		for (int i = 0; i < 3; i++)
+			sceneryImages[i + 25] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 		
 		// Moss for blocks (Off to the right)
 		moss = makeImage(TILE_SIZE*9, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
@@ -147,7 +151,7 @@ public abstract class Data {
 		heartImage = makeImage(0, 0, TILE_SIZE, TILE_SIZE);
 		
 		// Gear Button Images
-		for(int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 			gearButton[i] = makeImage(TILE_SIZE*(i + 1), 0, TILE_SIZE, TILE_SIZE);
 			
 		// Back Button Images
@@ -255,10 +259,9 @@ public abstract class Data {
 		
 		String color = "";
 
-		switch ((int) (Math.random()*4)) {
+		switch ((int) (Math.random()*3)) {
 			case 0: color = "Orange"; break;
 			case 1: color = "Pink"; break;
-			case 2: color = "Red"; break;
 			default: color = "Red"; break;
 		}
 		
@@ -509,18 +512,27 @@ public abstract class Data {
 					}
 					
 					try {
+					
+						// Normal Blocks
+						if (character - 'a' >= 0) {
+							int type = character - 'a';
+							int xOffset = 0, yOffset = 0;
 
-						int type = character - 'a';
-						int xOffset = 0, yOffset = 0;
+							// Hard-Coded Exceptions (origin adjustments)
+							if (type == 0)
+								xOffset = -TILE_SIZE/2;
+							else if (type == 6)
+								xOffset = -3;
 
-						// Hard-Coded Exceptions
-						if (type == 0)
-							xOffset = -TILE_SIZE/2;
-						else if (type == 6)
-							xOffset = -3;
-
-						// Add Scenery to the ArrayList
-						FruitFever.things.add(new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, sceneryImages[type]));
+							// Add Scenery to the ArrayList
+							FruitFever.things.add(new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, sceneryImages[type]));
+						}
+						// Capital letters
+						else {
+							int type = character - 'A';
+							// Add Scenery to the ArrayList
+							FruitFever.things.add(new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, sceneryImages[26 + type]));
+						}
 
 					} catch(ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("\nSCENERY LAYER contains invalid character: '%c' \n", character);
