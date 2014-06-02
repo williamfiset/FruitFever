@@ -103,7 +103,11 @@ ________________________________________________________________________________
 		Spiderweb (top-right)	(22) --> w
 		Pink Flower				(23) --> x
 		Piranha Plant			(24) --> y
-
+		
+		-ROW 4:
+		Unknown Plant 1			(25) --> z
+		Unknown Plant 2			(26) --> A
+		Unknown Plant 3			(27) --> B
 
 		POWERUPS:
 
@@ -152,7 +156,7 @@ ________________________________________________________________________________
 	
 	-Data 
 	
-	-Downloader
+	-DataLoader
 	
 	-Timer_
 	
@@ -177,8 +181,8 @@ HELPFUL NOTES BY MICAH:
 
 	1. Since we have many different classes in our ArrayList<Thing>, we need some way of checking to see what type of object we are dealing with. Here's an example of an easy way to do that:
 
-		for(Thing obj : things)
-			if(obj instanceof MovingAnimation)
+		for (Thing obj : things)
+			if (obj instanceof MovingAnimation)
 				System.out.println("This is either a MovingAnimation or one of its subclasses.");
 				
 	2. viewX and viewY are the variables used to store the current view of the screen. The following code fragment would move the entire view to the right 10 pixels and up 5 pixels;
