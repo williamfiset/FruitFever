@@ -6,6 +6,7 @@
 **/
 
 // To-do : Make Fruit Rings appear on top of scenery 
+// Make Fruit Rings spin at different spins
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
@@ -16,6 +17,8 @@ import java.util.*;
 import java.awt.*;
 
 public abstract class Data {
+	
+	public static InformationStorer infoFile;
 	
 	public static double loadingBarProgress = 0.0;
 	
@@ -250,7 +253,7 @@ public abstract class Data {
 		// PICK RANDOM COLOR SCHEME
 		
 		String color = "";
-		int randomColor = (int) (Math.random()*3);
+		int randomColor = (int) (Math.random()*4);
 
 		switch(randomColor){
 			case 0: color = "Orange"; break;
@@ -277,7 +280,7 @@ public abstract class Data {
 		// PICK RANDOM COLOR SCHEME
 		
 		color = "";
-		randomColor = (int) (Math.random()*4);
+		randomColor = (int) (Math.random()*5);
 
 		switch(randomColor){
 			case 0: color = "blue"; break;
@@ -325,10 +328,17 @@ public abstract class Data {
 		return new GImage(sheet.getSubimage(x, y, width, height).getScaledInstance(-50, -50, 0));
 	}
 	
+	/** Updates level information from the file **/
+	public static void updateLevelInformation(int level) {
+	
+		infoFile.addItem(String.valueOf(level), FruitFever.levelInformation[level]);
+	
+	}
+	
 	/** Loads level information from the file **/
 	public static void loadLevelInformation() {
 		
-		InformationStorer infoFile = new InformationStorer("levels/levelInformation");
+		infoFile = new InformationStorer("levels/levelInformation");
 		
 		// Load level information
 		if (new File("levels/levelInformation.ser").exists()) {

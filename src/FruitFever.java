@@ -155,8 +155,19 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			
 				/** Controls if it is time to return to the level selection menu **/
 				if (levelComplete || player.getLives() <= 0) {
+					
+					if (levelComplete) {
+						
+						if (totalFruitRings == 0)
+							levelInformation[currentLevel].stars = 3;
+						else
+							levelInformation[currentLevel].stars = (byte) Math.min(levelInformation[currentLevel].stars, (((double) currentFruitRings / (double) totalFruitRings)*3.0));
+							
+						Data.updateLevelInformation(currentLevel);
+						levelComplete = false;
+					}
+					
 					screenHandler.drawLevelSelection();
-					levelComplete = false;
 					continue;
 				}
 			
