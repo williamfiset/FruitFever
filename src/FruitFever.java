@@ -383,6 +383,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		/** Renders Images in the Data class, and fills the object ArrayLists **/
 		Data.loadImages();
+		
+		screenHandler.setStartingLocations();
 	
 		screenHandler.drawMainMenu();
 	

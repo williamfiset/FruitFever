@@ -92,7 +92,7 @@ public abstract class Data {
 		/** Blocks **/
 		sheet = DataLoader.loadImage("img/sprites/blocks.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/blocks.png");
 	
-		for(int i = 0; i < 18; i++)
+		for (int i = 0; i < 18; i++)
 			blockImages[i] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 		
 		updateLoadingBar(0.1);
@@ -152,7 +152,7 @@ public abstract class Data {
 			
 		// Back Button Images
 		int randomButtonColor = (int) (Math.random()*4);
-		for(int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 			refreshButton[i] = makeImage(TILE_SIZE*randomButtonColor, TILE_SIZE*(i + 5), TILE_SIZE, TILE_SIZE);	
 			
 		// Lava Image
@@ -199,11 +199,11 @@ public abstract class Data {
 		sheet = DataLoader.loadImage("img/sprites/projectiles.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/projectiles.png");
 	
 		// Fuzzy Projectile Animation Images
-		for(int i = 0; i < 8; i++)
+		for (int i = 0; i < 8; i++)
 			fuzzyShot[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
 			
 		// Swirl Animation Images
-		for(int i = 0; i < 6; i++)
+		for (int i = 0; i < 6; i++)
 			swirlAnimation[i] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		
 		// Fireball and Purple Ball Images
@@ -220,11 +220,12 @@ public abstract class Data {
 		playerStill[0] = makeImage(0, 0, TILE_SIZE*3, TILE_SIZE);
 		playerStillH[0] = ImageTransformer.horizontalFlip(playerStill[0]);
 		
-		for(int i = 0; i < 9; i+=2){
+		for (int i = 0; i < 9; i += 2) {
 			playerTongue[i/2] = makeImage(0, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE);
 			playerTongueH[i/2] = ImageTransformer.horizontalFlip(playerTongue[i/2]);
 		}
-		for(int i = 0; i < 6; i++){
+		
+		for (int i = 0; i < 6; i++) {
 			playerShoot[i] = makeImage(TILE_SIZE*3, TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE); 
 			playerShootH[i] = ImageTransformer.horizontalFlip(playerShoot[i]);	
 		}
@@ -234,17 +235,17 @@ public abstract class Data {
 		/** Enemies **/
 		sheet = DataLoader.loadImage("img/sprites/enemies.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/enemies.png");
 		
-		for(int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			fuzzyEnemyAttack[i] = makeImage(TILE_SIZE*(2*i), 0, TILE_SIZE*2, TILE_SIZE); 
 			fuzzyEnemyAttackH[i] = ImageTransformer.horizontalFlip(fuzzyEnemyAttack[i]);	
 		}
 		
-		for(int i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++) {
 			fuzzyEnemyMoving[i] = makeImage(TILE_SIZE*(2*i), TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE); 
 			fuzzyEnemyMovingH[i] = ImageTransformer.horizontalFlip(fuzzyEnemyMoving[i]);	
 		}
 		
-		for(int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			wormEnemyMoving[i] = makeImage(TILE_SIZE*(2*i), TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE); 
 			wormEnemyMovingH[i] = ImageTransformer.horizontalFlip(wormEnemyMoving[i]);
 		}
@@ -253,9 +254,8 @@ public abstract class Data {
 		// PICK RANDOM COLOR SCHEME
 		
 		String color = "";
-		int randomColor = (int) (Math.random()*4);
 
-		switch(randomColor){
+		switch ((int) (Math.random()*4)) {
 			case 0: color = "Orange"; break;
 			case 1: color = "Pink"; break;
 			case 2: color = "Red"; break;
@@ -263,36 +263,29 @@ public abstract class Data {
 		}
 		
 		/** Import menu images **/
-		sheet = DataLoader.loadImage("img/Menu/Menu_" + color + ".png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/Menu_"+color+".png");
+		sheet = DataLoader.loadImage("img/Menu/Menu_" + color + ".png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/Menu_" + color + ".png");
 		
 		// Menu Button Images
-		for(int i = 0; i < 12; i++)
+		for (int i = 0; i < 12; i++)
 			menuButtons[i] = makeImage(0, i*69, 266, 69);
 			
 		// Fruit Fever Title
-		if (color == "Orange")
-			fruitFeverTitle = makeImage(267, 212, 351, 36);
-		else
-			fruitFeverTitle = makeImage(267, 338, 351, 36);
-			
+		fruitFeverTitle = makeImage(267, color == "Orange" ? 212 : 338, 351, 36);
 		fruitFeverTitle.setLocation(FruitFever.SCREEN_WIDTH/2 - (int)fruitFeverTitle.getWidth()/2, 50);
 			
 		// PICK RANDOM COLOR SCHEME
 		
-		color = "";
-		randomColor = (int) (Math.random()*5);
-
-		switch(randomColor){
+		switch ((int) (Math.random()*5)) {
 			case 0: color = "blue"; break;
-			case 1: color = "green";break;
-			case 2: color = "purple";break;
+			case 1: color = "green"; break;
+			case 2: color = "purple"; break;
 			case 3: color = "brown"; break;
 			default: color = "green"; break; 
 		}
 		
 		/** Import level selection arrow images **/
 		sheet = DataLoader.loadImage("img/LevelSelection/arrows/" + color + "Arrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/"+color+"Arrows.png");
-		for(int i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++) {
 			leftArrowButton[i] = makeImage(0, i*33, 36, 31);
 			rightArrowButton[i] = makeImage(36, i*33, 36, 31);
 		}
@@ -300,19 +293,12 @@ public abstract class Data {
 		updateLoadingBar(0.1);
 		
 		/** Import level selection background/level button images **/
-		sheet = DataLoader.loadImage("img/LevelSelection/backDrop/" + color + "Level.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/backDrop/"+color+"Level.png");
+		sheet = DataLoader.loadImage("img/LevelSelection/backDrop/" + color + "Level.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/backDrop/" + color + "Level.png");
 		
 		levelButton[0] = makeImage(0, 139, 51, 45);
 		levelButton[1] = makeImage(0, 93, 50, 44);
-		levelSelectionBackDrop = makeImage(70, 0, 260, 333);
+		levelSelectionBackDrop = makeImage(70, 0, 260, 334);
 		levelSelectionBackDrop.setLocation((int) (FruitFever.SCREEN_WIDTH/2 - levelSelectionBackDrop.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelSelectionBackDrop.getHeight()/2));
-
-		// Create numbers to display in the level boxes
-		for(int i = 0; i < 20; i++){
-			FruitFever.screenHandler.levelNumbers[i] = new GLabel(String.valueOf(i));
-			FruitFever.screenHandler.levelNumbers[i].setFont(new Font("Helvetica", Font.BOLD, 30));
-			FruitFever.screenHandler.levelNumbers[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - FruitFever.screenHandler.levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 132 + (i/4)*55);
-		}
 		
 		updateLoadingBar(0.05);
 
@@ -623,22 +609,9 @@ public abstract class Data {
 		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[6].getWidth()/2), 125 + 75*2, Button.Type.OPTIONS, menuButtons[3*2], menuButtons[3*2 + 1], menuButtons[3*2 + 2]), FruitFever.mainMenuButtons);
 		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[9].getWidth()/2), 125 + 75*3, Button.Type.MULTIPLAYER, menuButtons[3*3], menuButtons[3*3 + 1], menuButtons[3*3 + 2]), FruitFever.mainMenuButtons);
 		
-		/** Adds level buttons to the ArrayLists for Level Selection Screen **/
+		/** Adds level box buttons to the ArrayLists for Level Selection Screen **/
 		for (int i = 0; i < 20; i++)
 			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, Button.Type.LEVEL_BOXES, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
-		
-		/** Adds lock and star images to array, setting positions **/
-		for (int i = 0; i < 20; i++) {
-			FruitFever.screenHandler.levelLocks[i] = new GImage(locked.getImage());
-			FruitFever.screenHandler.levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
-			
-			for (int j = 0; j < 3; j++) {
-				FruitFever.screenHandler.levelStars[i][j] = new GImage(starIcon.getImage());
-				FruitFever.screenHandler.levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
-				FruitFever.screenHandler.levelNoStars[i][j] = new GImage(noStarIcon.getImage());
-				FruitFever.screenHandler.levelNoStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
-			}
-		}
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
 		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]), FruitFever.levelSelectionButtons);
