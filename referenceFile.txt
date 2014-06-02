@@ -73,7 +73,7 @@ ________________________________________________________________________________
 
 	SCENERY (each Scenery object also has an associated type/integer value, but this is not used for building the levels):
 	
-		-TOP ROW:
+		-ROW 1:
 		Wide Plant (V-Shaped)	(0)  --> a
 		Sunflower				(1)  --> b
 		Yellow Flower			(2)  --> c
@@ -82,7 +82,7 @@ ________________________________________________________________________________
 		Tree (No Blossoms)		(5)  --> f
 		Tree (Blossoms)			(6)  --> g
 		
-		-MIDDLE ROW:
+		-ROW 2:
 		Orange flower			(7)	 --> h
 		Tree Trunk				(8)  --> i
 		Grass					(9)  --> j
@@ -93,7 +93,7 @@ ________________________________________________________________________________
 		Mushroom (Medium)		(14) --> o
 		Mushroom (Large)		(15) --> p
 		
-		-BOTTOM ROW:
+		-ROW 3:
 		Tall Thin Grass			(16) --> q
 		Tall Thick Grass		(17) --> r
 		Spiderweb				(18) --> s
@@ -126,7 +126,7 @@ ________________________________________________________________________________
 		Examples:
 
 		------
-		--<ab4,12,0,0>---
+		--<ab4,12,0,0,0>---
 		------
 
 		^^^creates an enemy of type 'a' (triangle) of Color/Race 'b' (yellow) that
@@ -150,9 +150,7 @@ ________________________________________________________________________________
 	
 	-GameStarter
 	
-	-WebData
-	
-	-Data (Discontinued - replaced by WebData)
+	-Data 
 	
 	-Downloader
 	
