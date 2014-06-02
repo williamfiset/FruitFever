@@ -303,13 +303,6 @@ public class Player extends MovingAnimation {
 		isJumping = false;
 	}
 
-
-	public void setKeepJumping(boolean keepJumping){
-
-		this.keepJumping = keepJumping;	
-				
-	}
-
 	/** triggers the variables that make the player jump **/
 	public void jump(){
 
@@ -809,9 +802,11 @@ public class Player extends MovingAnimation {
 	
 	}
 
+	public void setKeepJumping(boolean keepJumping){ this.keepJumping = keepJumping; }
 	public boolean onSurface(){ return onSurface; }
 	public boolean isJumping(){	return isJumping; }
 	public int getLives(){ return lives; }
+
 
 	@Override public String toString(){
 		return "ImageX: " + imageX + "   ImageY: " + imageY + "   X: " + x + "   Y: " + y ;
