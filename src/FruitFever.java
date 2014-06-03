@@ -18,14 +18,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Constants **/
 
 	static GraphicsProgram screen;
-	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, TOP_OF_SCREEN_SPACING = 30, MAIN_LOOP_SPEED = 30;
+	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
 
 /** Level Information/Objects/Lists **/
 	
 	static int currentFruitRings, totalFruitRings;
 	static LevelInformation[] levelInformation = new LevelInformation[100];
 	static int LEVEL_WIDTH, LEVEL_HEIGHT;
-	static String LEVEL_NAME;
 	
 	static Animation vortex, grabbedItem;
 	static Thing greenCheckPoint;
@@ -293,7 +292,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		levelTexts = new ArrayList<TextAnimator>();
 		checkPoints = new ArrayList<Thing>();
 
-		LEVEL_NAME = "";
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
 
@@ -313,12 +311,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		currentFruitRings = 0;
 		totalFruitRings = 0;
-		screenHandler.numberOfFruitRings.setLabel(" x 0");
 
 		/** LOAD NEW LEVEL**/
 		
 		Data.loadObjects("levels/levels.txt", currentLevel);
-
+		
+		screenHandler.updateFruitRingDisplay(0);
+		
+		if (vortex == null)
+			System.out.println("Umm.. so sorry to break it to you, but the person who programmed this level forgot to make a vortex.. so you do not have any way to beat this level!");
+			
 		findScreenDimensions();
 		
 		player = new Player(playerStartX, playerStartY);
@@ -330,7 +332,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		screenHandler.addImagesToScreen();
 	
 		/** Add animated level title to the screen **/
-		levelTexts.add(new TextAnimator(SCREEN_WIDTH/2, 50, LEVEL_NAME, 30, Color.WHITE, 800, 5, "center"));
+		levelTexts.add(new TextAnimator(SCREEN_WIDTH/2, 50, levelInformation[currentLevel].name, 30, Color.WHITE, 800, 5, "center"));
 		add(levelTexts.get(0).label);
 		
 		Block.resetPerformedNaturalAnimate();
@@ -385,7 +387,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		/** Renders Images in the Data class, and fills the object ArrayLists **/
 		Data.loadImages();
 		
-		screenHandler.setStartingLocations();
+		screenHandler.init();
 	
 		screenHandler.drawMainMenu();
 	

@@ -387,8 +387,7 @@ public abstract class Data {
 			/** Find the correct level **/
 			while(!sc.nextLine().equals(String.valueOf(level))){}
 			
-			// Get the name of the level
-			FruitFever.LEVEL_NAME = sc.nextLine();
+			sc.nextLine();
 
 			int lineNumber = 0;
 			String line = "";

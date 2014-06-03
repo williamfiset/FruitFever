@@ -19,8 +19,8 @@ public class Player extends MovingAnimation {
 
 /** ! DO NOT CHANGE PLAYER ENCAPSULATION SPECIFIERS ! **/
 
-	private int lives = 8;
-	static final int MAX_LIVES = 8;
+	private int lives = 12;
+	static final int MAX_LIVES = 12;
 
 // Swirl related Variables
 	Swirl swirl;
@@ -740,7 +740,7 @@ public class Player extends MovingAnimation {
 					if (FruitFever.edibleItems.get(i).equals(FruitFever.grabbedItem)) {
 						
 						if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT_RING)
-							FruitFever.screenHandler.addFruitRing();
+							FruitFever.screenHandler.updateFruitRingDisplay(1);
 						
 						FruitFever.edibleItems.remove(i);
 						break;

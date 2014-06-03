@@ -23,7 +23,8 @@ public class ScreenHandler {
 	static String[] levelSelectionPages = new String[]{"0-19", "20-39", "40-59", "60-79", "80-99"};
 	static GLabel levelRange = new GLabel(levelSelectionPages[0]);
 	
-	static GLabel numberOfFruitRings = new GLabel(" x 0");
+	static GLabel numberOfFruitRings = new GLabel("");
+	static GLabel numberOfLives = new GLabel("");
 	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	static int HEART_AREA_WIDTH = 3*Data.TILE_SIZE;
 	
@@ -31,8 +32,8 @@ public class ScreenHandler {
 		this.fruitFever = fruitFever;
 	}
 	
-	/** Set starting positions **/
-	public void setStartingLocations() {
+	/** Set images starting positions **/
+	public void init() {
 		
 		/** Adds lock and star images to array, setting positions **/
 		for (int i = 0; i < 20; i++) {
@@ -173,31 +174,59 @@ public class ScreenHandler {
 		fruitFever.add(Data.fruitRingAnimation[5]);
 		numberOfFruitRings.setColor(Color.white);
 		numberOfFruitRings.setLocation(Data.TILE_SIZE*14, 16);
+		numberOfLives.setColor(Color.white);
+		numberOfLives.setLocation(Data.TILE_SIZE, 16);
 		fruitFever.add(numberOfFruitRings);
+		fruitFever.add(numberOfLives);
 		
 		addButtonsToScreen(fruitFever.inGameButtons);
 		
 	}
 	
-	public void addFruitRing() {
-		numberOfFruitRings.setLabel("x " + ++FruitFever.currentFruitRings);
+	public void updateFruitRingDisplay(int newFruitRings) {
+		FruitFever.currentFruitRings += newFruitRings;
+		numberOfFruitRings.setLabel("x " + FruitFever.currentFruitRings + "/" + FruitFever.totalFruitRings);
 	}
 	
 	/** Adds heart images to screen **/
 	public void addHearts() {
+	
+		if (Player.MAX_LIVES > 10) 
+			numberOfLives.setLabel("x " + Player.MAX_LIVES);
+		
 		for (int i = 0; i < Player.MAX_LIVES; i++) {
+			
 			livesImages[i] = new GImage(Data.heartImage.getImage());
+		
+			livesImages[i].setVisible((i == 0 && Player.MAX_LIVES > 10) || (Player.MAX_LIVES <= 10));
+			
 			livesImages[i].setLocation(((double)i/(double)Player.MAX_LIVES)*HEART_AREA_WIDTH, 0);
-			// livesImages[i].setLocation(i*Data.TILE_SIZE, 0);
+			
 			fruitFever.add(livesImages[i]);
 		}
 	}
 	
 	/** Redraws the hearts according to the amount of lives left */
 	public static void adjustHearts(int livesLeft) {
+	
+		numberOfLives.setVisible(livesLeft > 10);
+		
+		if (livesLeft > 10)
+			redrawLivesLabel(livesLeft, Player.MAX_LIVES);
+		
 		for (int i = 0; i < Player.MAX_LIVES; i++) {
 			livesImages[i].setVisible(livesLeft > i);
 			livesImages[i].setLocation(((double)i/(double)Math.max(livesLeft, 3))*HEART_AREA_WIDTH, 0);
+		}
+	}
+	
+	public static void redrawLivesLabel(int current, int max) {
+	
+		numberOfLives.setLabel("x " + current);
+			
+		for (int i = 0; i < max; i++) {
+			livesImages[i].setVisible(i < 1);
+			livesImages[i].setLocation(0, 0);
 		}
 	}
 	
