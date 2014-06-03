@@ -117,4 +117,8 @@ abstract class ImageTransformer {
      	return new GImage(arr2);
 	}
 	
+	public static GImage cropWithoutResize(GImage img, int width){
+		return cropWithoutResize(img, width, (int) img.getWidth());
+	}
+	
 }
