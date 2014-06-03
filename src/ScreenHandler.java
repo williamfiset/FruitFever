@@ -175,7 +175,7 @@ public class ScreenHandler {
 		numberOfFruitRings.setColor(Color.white);
 		numberOfFruitRings.setLocation(Data.TILE_SIZE*14, 16);
 		numberOfLives.setColor(Color.white);
-		numberOfLives.setLocation(Data.TILE_SIZE, 16);
+		numberOfLives.setLocation(Data.TILE_SIZE + 3, 16);
 		fruitFever.add(numberOfFruitRings);
 		fruitFever.add(numberOfLives);
 		
@@ -190,18 +190,9 @@ public class ScreenHandler {
 	
 	/** Adds heart images to screen **/
 	public void addHearts() {
-	
-		if (Player.MAX_LIVES > 10) 
-			numberOfLives.setLabel("x " + Player.MAX_LIVES);
 		
 		for (int i = 0; i < Player.MAX_LIVES; i++) {
-			
 			livesImages[i] = new GImage(Data.heartImage.getImage());
-		
-			livesImages[i].setVisible((i == 0 && Player.MAX_LIVES > 10) || (Player.MAX_LIVES <= 10));
-			
-			livesImages[i].setLocation(((double)i/(double)Player.MAX_LIVES)*HEART_AREA_WIDTH, 0);
-			
 			fruitFever.add(livesImages[i]);
 		}
 	}
@@ -215,7 +206,7 @@ public class ScreenHandler {
 			redrawLivesLabel(livesLeft, Player.MAX_LIVES);
 		
 		for (int i = 0; i < Player.MAX_LIVES; i++) {
-			livesImages[i].setVisible(livesLeft > i);
+			livesImages[i].setVisible((i == 0 && livesLeft > 10) || (livesLeft <= 10 && i < livesLeft));
 			livesImages[i].setLocation(((double)i/(double)Math.max(livesLeft, 3))*HEART_AREA_WIDTH, 0);
 		}
 	}
