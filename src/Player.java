@@ -80,11 +80,11 @@ public class Player extends MovingAnimation {
 
 		super(x, y, Data.playerStill, false, 1, true, Animation.Type.NOT_AVAILABLE);
 
-		this.stillAnim = Data.playerStill;
-		this.stillAnimH = Data.playerStillH;
-		this.shootAnim = Data.playerShoot;
-		this.shootAnimH = Data.playerShootH;
-		this.tongueAnim = Data.playerTongue;
+		this.stillAnim   = Data.playerStill;
+		this.stillAnimH  = Data.playerStillH;
+		this.shootAnim   = Data.playerShoot;
+		this.shootAnimH  = Data.playerShootH;
+		this.tongueAnim  = Data.playerTongue;
 		this.tongueAnimH = Data.playerTongueH;
 
 		boundaryLeft = Data.TILE_SIZE;
@@ -434,7 +434,7 @@ public class Player extends MovingAnimation {
 
 		// This statement kinda looks weird but it's clear and more efficient (I think!)
 		if (checkForPlayerOutOfBounds()) {}
-		// else if (checkForDangerousSpriteCollisions()) {}
+		else if (checkForDangerousSpriteCollisions()) {}
 
 	}
 
