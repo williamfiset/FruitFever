@@ -104,5 +104,17 @@ abstract class ImageTransformer {
 		else
 			return img;
 	}
+	/** Crops a GImage without resizing **/
+	public static GImage cropWithoutResize(GImage img, int width, int height){
+	
+		int[][] arr = img.getPixelArray();
+		int[][] arr2 = new int[height][width];
+
+		for (int i = 0; i < height; i++)
+			for (int j = 0; j < width; j++)
+				arr2[i][j] = arr[i][j];
+     
+     	return new GImage(arr2);
+	}
 	
 }
