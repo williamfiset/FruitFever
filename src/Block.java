@@ -210,26 +210,43 @@ public class Block extends Thing {
 
 		if (naturalFallingBlockCondidates.size() == 0) {
 
-
 			for (Block block : FruitFever.blocks) {
-
-				topBlock = getBlock(block.x + Data.TILE_SIZE/2, block.y - Data.TILE_SIZE/2 );
-				if (topBlock == null) continue;
-
-				firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
-				if (firstBlockDown != null) continue;
 				
-				secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
-				if (secondBlockDown != null) continue;
+				if (block.imageX > 0 && block.imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE){
+					if (block.imageY > 0 && block.imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE){
 
-				naturalFallingBlockCondidates.add(block);
+						topBlock = getBlock(block.x + Data.TILE_SIZE/2, block.y - Data.TILE_SIZE/2 );
+						if (topBlock == null) continue;
 
+						firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
+						if (firstBlockDown != null) continue;
+
+						secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
+						if (secondBlockDown != null) continue;
+
+						naturalFallingBlockCondidates.add(block);
+					}
+				}
 			}
 
+			// If there are no more blocks that are valid candidates to fall then pick any of the remaining blocks given 
+			// there is not two blocks below them
 			if (naturalFallingBlockCondidates.size() == 0) 
-				for (Block block : FruitFever.blocks ) 
-					naturalFallingBlockCondidates.add(block);
-				
+				for (Block block : FruitFever.blocks ) {
+
+					if (block.imageX > 0 && block.imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE){
+						if (block.imageY > 0 && block.imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE){
+
+						firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
+						if (firstBlockDown != null) continue;
+
+						secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
+						if (secondBlockDown != null) continue;
+
+						naturalFallingBlockCondidates.add(block);
+					}
+				}
+			}	
 		}
 
 
@@ -250,7 +267,7 @@ public class Block extends Thing {
 		if (listLength == 0)
 			return;
 		
-		System.out.println(listLength);
+		// System.out.println(listLength);
 		// very unlikely to select index 0? 
 		int randomIndex = (int) (Math.random() * listLength);
 		Block randomlySelectedBlock = naturalFallingBlockCondidates.get(randomIndex);
