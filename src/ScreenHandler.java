@@ -15,7 +15,7 @@ public class ScreenHandler {
 	
 	static FruitFever fruitFever;
 	
-	/** Level selection screen**/
+	/** Level Selection Screen**/
 	static GLabel[] levelNumbers = new GLabel[20];
 	static GImage[] levelLocks = new GImage[20];	
 	static GImage[][] levelStars = new GImage[20][3];	
@@ -23,11 +23,14 @@ public class ScreenHandler {
 	static String[] levelSelectionPages = new String[]{"0-19", "20-39", "40-59", "60-79", "80-99"};
 	static GLabel levelRange = new GLabel(levelSelectionPages[0]);
 	
+	/** In-Game **/
 	static GLabel numberOfFruitRings = new GLabel("");
 	static GLabel numberOfLives = new GLabel("");
 	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	static int HEART_AREA_WIDTH = 3*Data.TILE_SIZE;
+	static GImage currentHealthBar, currentEnergyBar;
 	
+	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
 		this.fruitFever = fruitFever;
 	}
@@ -57,6 +60,19 @@ public class ScreenHandler {
 			levelNumbers[i].setFont(new Font("Helvetica", Font.BOLD, 30));
 		}
 		
+		Data.healthBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
+		currentHealthBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
+		Data.energyBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
+		currentEnergyBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
+		
+		Data.fruitRingAnimation[5].setLocation(Data.TILE_SIZE*4, 0);
+		numberOfFruitRings.setColor(Color.white);
+		numberOfFruitRings.setLocation(Data.TILE_SIZE*5, 16);
+		numberOfLives.setColor(Color.white);
+		numberOfLives.setLocation(Data.TILE_SIZE + 3, 16);
+		for (int i = 0; i < Player.MAX_LIVES; i++)
+			livesImages[i] = new GImage(Data.heartImage.getImage());
+		
 	}
 	
 	/** Draws the main menu screen **/
@@ -82,7 +98,6 @@ public class ScreenHandler {
 				fruitFever.add(levelStars[i][j]);
 				fruitFever.add(levelNoStars[i][j]);
 			}
-			
 		}
 		
 		fruitFever.add(levelRange);
@@ -122,7 +137,7 @@ public class ScreenHandler {
 					if (fruitFever.levelInformation[level].stars > j) {
 						levelStars[i][j].setVisible(true);
 						levelNoStars[i][j].setVisible(false);
-					} else{
+					} else {
 						levelStars[i][j].setVisible(false);
 						levelNoStars[i][j].setVisible(true);
 					}
@@ -132,17 +147,17 @@ public class ScreenHandler {
 	}
 	
 	/** Adds a black background to screen **/
-	public void addBackground(){
+	public void addBackground() {
 		GRect background = new GRect(0,0, FruitFever.SCREEN_WIDTH, FruitFever.SCREEN_HEIGHT);
 		background.setFillColor(Color.BLACK);
 		background.setFilled(true);
 		fruitFever.add(background);
 	}
 	
-	/** Adds all blocks, things, fruits, and enemies to the screen **/
-	public void addImagesToScreen(){
+	/** Adds all images including blocks, things, fruits, and enemies to the screen **/
+	public void addImagesToScreen() {
 
-		for (Block obj : fruitFever.blocks){
+		for (Block obj : fruitFever.blocks) {
 			obj.image.setLocation(obj.getX(), obj.getY());
 			fruitFever.add(obj.image);
 		}
@@ -167,17 +182,15 @@ public class ScreenHandler {
 		fruitFever.add(fruitFever.player.image);
 		fruitFever.add(fruitFever.player.swirl.image);
 
-		addHearts();
-		
-		/** Add fruit ring icon at the top of the screen **/
-		Data.fruitRingAnimation[5].setLocation(Data.TILE_SIZE*13, 0);
 		fruitFever.add(Data.fruitRingAnimation[5]);
-		numberOfFruitRings.setColor(Color.white);
-		numberOfFruitRings.setLocation(Data.TILE_SIZE*14, 16);
-		numberOfLives.setColor(Color.white);
-		numberOfLives.setLocation(Data.TILE_SIZE + 3, 16);
 		fruitFever.add(numberOfFruitRings);
 		fruitFever.add(numberOfLives);
+		fruitFever.add(Data.healthBarBackground);
+		fruitFever.add(currentHealthBar);
+		fruitFever.add(Data.energyBarBackground);
+		fruitFever.add(currentEnergyBar);
+		for (int i = 0; i < Player.MAX_LIVES; i++)
+			fruitFever.add(livesImages[i]);
 		
 		addButtonsToScreen(fruitFever.inGameButtons);
 		
@@ -186,15 +199,6 @@ public class ScreenHandler {
 	public void updateFruitRingDisplay(int newFruitRings) {
 		FruitFever.currentFruitRings += newFruitRings;
 		numberOfFruitRings.setLabel("x " + FruitFever.currentFruitRings + "/" + FruitFever.totalFruitRings);
-	}
-	
-	/** Adds heart images to screen **/
-	public void addHearts() {
-		
-		for (int i = 0; i < Player.MAX_LIVES; i++) {
-			livesImages[i] = new GImage(Data.heartImage.getImage());
-			fruitFever.add(livesImages[i]);
-		}
 	}
 	
 	/** Redraws the hearts according to the amount of lives left */
@@ -206,9 +210,17 @@ public class ScreenHandler {
 			redrawLivesLabel(livesLeft, Player.MAX_LIVES);
 		
 		for (int i = 0; i < Player.MAX_LIVES; i++) {
-			livesImages[i].setVisible((i == 0 && livesLeft > 10) || (livesLeft <= 10 && i < livesLeft));
+			livesImages[i].setVisible((i == 0 && livesLeft > 10) || (livesLeft <= 10 && i < livesLeft));	
 			livesImages[i].setLocation(((double)i/(double)Math.max(livesLeft, 3))*HEART_AREA_WIDTH, 0);
 		}
+	}
+	
+	public static void adjustEnergyBar(double percentage) {
+		currentEnergyBar.setImage(ImageTransformer.crop(Data.energyBar, percentage*Data.energyBar.getWidth()).getImage());
+	}
+	
+	public static void adjustHealthBar(double percentage) {
+		currentHealthBar.setImage(ImageTransformer.crop(Data.healthBar, percentage*Data.healthBar.getWidth()).getImage());
 	}
 	
 	public static void redrawLivesLabel(int current, int max) {
@@ -252,6 +264,5 @@ public class ScreenHandler {
 	public void removeAll() {
 		fruitFever.removeAll();
 	}
-
 
 }

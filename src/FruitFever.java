@@ -23,6 +23,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Level Information/Objects/Lists **/
 	
 	static int currentFruitRings, totalFruitRings;
+	static double currentEnergy, maxEnergy = 1000;
 	static LevelInformation[] levelInformation = new LevelInformation[100];
 	static int LEVEL_WIDTH, LEVEL_HEIGHT;
 	
@@ -213,6 +214,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				player.animate();
 				ScreenHandler.adjustHearts(player.getLives());
 				
+				/** Adjust energy bar **/
+				currentEnergy -= 0.1;
+				screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
+				
 				// add(point1);
 				// add(point2);
 				add(leftRect);
@@ -311,6 +316,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		currentFruitRings = 0;
 		totalFruitRings = 0;
+		
+		currentEnergy = maxEnergy;
 
 		/** LOAD NEW LEVEL**/
 		
@@ -421,8 +428,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				if (!swirlButtonPressed && player.finishedTongueAnimation) {
 				
-					if(player.swirl.reset)
-						player.shootSwirl();
+					if (player.swirl.reset) {
+						if (currentEnergy - Swirl.energyRequired >= 0) {
+							player.shootSwirl();
+							currentEnergy -= Swirl.energyRequired;
+							screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
+						}
+					}
 					else
 						player.swirlTeleport();
 					

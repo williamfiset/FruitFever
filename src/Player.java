@@ -816,7 +816,8 @@ public class Player extends MovingAnimation {
 
 	/** A swirl is a projectile shot from the player as a teleportation method  **/
 	class Swirl extends MovingAnimation {
-		
+	
+		static final int energyRequired = 50;		
 		static boolean reset = true;
 
 		// Swirl's velocity

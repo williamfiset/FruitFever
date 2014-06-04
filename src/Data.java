@@ -7,6 +7,7 @@
 
 // To-do : Make Fruit Rings appear on top of scenery 
 // Make Fruit Rings spin at different spins
+// Make buttons in level selection screen inactive when you can no longer change pages
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
@@ -33,7 +34,8 @@ public abstract class Data {
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
 						music0, music1,
-						bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked;
+						bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
+						energyBar, energyBarBackground, healthBar, healthBarBackground;
 						
 	public static GImage[] blockImages = new GImage[18],
 						   
@@ -203,6 +205,14 @@ public abstract class Data {
 		music0 = makeImage(TILE_SIZE*7, TILE_SIZE*1, TILE_SIZE, TILE_SIZE);
 		music1 = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
+		// Energy and Health Bars for Player
+		healthBar = makeImage(116, 176, 122, 11);
+		healthBarBackground = makeImage(116, 188, 122, 11);
+		FruitFever.screenHandler.currentHealthBar = new GImage(healthBar.getImage());
+		energyBar = makeImage(116, 152, 122, 11);
+		energyBarBackground = makeImage(116, 164, 122, 11);
+		FruitFever.screenHandler.currentEnergyBar = new GImage(energyBar.getImage());
+		
 		updateLoadingBar(0.1);
 	
 		/** Projectiles **/
@@ -339,11 +349,9 @@ public abstract class Data {
 		if (new File("levels/levelInformation.ser").exists()) {
 			for (int i = 0; i < 100; i++)
 				FruitFever.levelInformation[i] = (LevelInformation) infoFile.getItem(String.valueOf(i));
-			System.out.println("loading");
 		}
 		// Generate level information from levels.txt file
 		else {
-			System.out.println("creating");
 			
 			try {
 
