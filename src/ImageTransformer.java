@@ -108,7 +108,7 @@ abstract class ImageTransformer {
 	public static GImage crop(GImage img, int width, int height){
 	
 		int[][] arr = img.getPixelArray();
-		int[][] arr2 = new int[height][width];
+		int[][] arr2 = new int[Math.max(height, 0)][Math.max(width, 0)];
 
 		for (int i = 0; i < height; i++)
 			for (int j = 0; j < width; j++)

@@ -429,16 +429,19 @@ public class Player extends MovingAnimation {
 		
 	}
 
-	/** Updates the players health  **/
+	/** Updates the players health/hearts  **/
 	private void updateHealth(){
 
 		// This statement kinda looks weird but it's clear and more efficient (I think!)
 		if (checkForPlayerOutOfBounds()) {}
-		else if (checkForDangerousSpriteCollisions()) {}
+		else if (FruitFever.currentEnergy <= 0 || FruitFever.currentHealth <= 0) {
+			FruitFever.screenHandler.adjustHearts(--lives);	
+			respawn();
+		} else if (checkForDangerousSpriteCollisions()) {}
 
 	}
 
-	/** checks if player touched any dangerous sprites (aka lava)**/
+	/** Checks if player touched any dangerous sprites (aka lava)**/
 	private boolean checkForDangerousSpriteCollisions(){
 
 		boolean collisionOccurred = false;
@@ -573,6 +576,10 @@ public class Player extends MovingAnimation {
 
 		// Focus view on the player
 		focusViewOnPlayer(FruitFever.playerStartX, FruitFever.playerStartY, true);
+		
+		/** Reset health and energy bars **/
+		FruitFever.screenHandler.resetEnergyBar();
+		FruitFever.screenHandler.resetHealthBar();
 
 	}
 
@@ -741,6 +748,10 @@ public class Player extends MovingAnimation {
 						
 						if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT_RING)
 							FruitFever.screenHandler.updateFruitRingDisplay(1);
+						else if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT) {
+							FruitFever.currentEnergy = Math.min(FruitFever.currentEnergy + 300, FruitFever.maxEnergy);
+							FruitFever.screenHandler.adjustEnergyBar(FruitFever.currentEnergy/FruitFever.maxEnergy);
+						}
 						
 						FruitFever.edibleItems.remove(i);
 						break;

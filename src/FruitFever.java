@@ -13,6 +13,8 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
+	final static boolean debugMode = false;
+
 	static ScreenHandler screenHandler;
 
 /** Constants **/
@@ -23,7 +25,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Level Information/Objects/Lists **/
 	
 	static int currentFruitRings, totalFruitRings;
-	static double currentEnergy, maxEnergy = 1000;
+	static double currentEnergy, maxEnergy = 1000, currentHealth, maxHealth = 1000;
 	static LevelInformation[] levelInformation = new LevelInformation[100];
 	static int LEVEL_WIDTH, LEVEL_HEIGHT;
 	
@@ -87,9 +89,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	private static int quakeBoundary_x = 0, quakeBoundary_y = 0;
 	final private static int QUAKE_BOUNDARY = 5;
 
-/** TEMPORARY COLLISION DETECTION **/
-	// static GRect point1;
-	// static GRect point2;
+/** BUG TESTING COLLISION DETECTION **/
+	static GRect point1;
+	static GRect point2;
 
 	@Override public void init() {
 		screen = this;
@@ -100,38 +102,36 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		postInit();
 		
-		/** TEMPORARY **/
+		/** Temporary **/
 		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
 		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
 		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
 		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3); 
 		GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
-		// point1 = new GRect(0,0,2,3);
-		// point2 = new GRect(0,0,2,3);
-
-		leftRect.setFillColor(Color.RED);
-		rightRect.setFillColor(Color.RED);
-		upRect.setFillColor(Color.RED);
-		downRect.setFillColor(Color.RED);
-		centerRect.setFillColor(Color.RED);
-		// point1.setFillColor(Color.GREEN);
-		// point2.setFillColor(Color.BLUE);
-
-		leftRect.setFilled(true);
-		rightRect.setFilled(true);
-		downRect.setFilled(true);
-		upRect.setFilled(true);
-		centerRect.setFilled(true);
-		// point1.setFilled(true);
-		// point2.setFilled(true);
-		/** TEMPORARY **/
 		
+		if (debugMode) {
+			point1 = new GRect(0,0,2,3);
+			point2 = new GRect(0,0,2,3);
+			leftRect.setFillColor(Color.RED);
+			rightRect.setFillColor(Color.RED);
+			upRect.setFillColor(Color.RED);
+			downRect.setFillColor(Color.RED);
+			centerRect.setFillColor(Color.RED);
+			point1.setFillColor(Color.GREEN);
+			point2.setFillColor(Color.BLUE);
+			leftRect.setFilled(true);
+			rightRect.setFilled(true);
+			downRect.setFilled(true);
+			upRect.setFilled(true);
+			centerRect.setFilled(true);
+			point1.setFilled(true);
+			point2.setFilled(true);
+		}		
 
 		// It's a byte an not an int because we're paranoid about saving memory! 
 		// Three bytes saved through this action! 
 		byte loops = Byte.MIN_VALUE;
 		
-
 		while(true){
 
 			// Paused the main loop until the screen is refocused
@@ -198,9 +198,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				for (Thing item : edibleItems)
 					item.animate();
 
-
 				// Tests for falling blocks
-					
 				Block.updateNaturalFallingBlockCandidates();
 				Block.activateFallingBlocksByNaturalDisaster();	
 
@@ -214,16 +212,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				ScreenHandler.adjustHearts(player.getLives());
 				
 				/** Adjust energy bar **/
-				currentEnergy -= 0.1;
+				currentEnergy = Math.max(currentEnergy - 0.1, 0);
 				screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
 				
-				// add(point1);
-				// add(point2);
-				add(leftRect);
-				add(rightRect);
-				add(upRect);
-				add(downRect);
-				add(centerRect);
+				if (debugMode) {
+					add(point1);
+					add(point2);
+					add(leftRect);
+					add(rightRect);
+					add(upRect);
+					add(downRect);
+					add(centerRect);
+				}
 
 			}
 
@@ -428,14 +428,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				if (!swirlButtonPressed && player.finishedTongueAnimation) {
 				
 					if (player.swirl.reset) {
-						if (currentEnergy - Swirl.energyRequired >= 0) {
+						if (currentEnergy - Swirl.energyRequired >= 0)
 							player.shootSwirl();
-							currentEnergy -= Swirl.energyRequired;
-							screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
-						}
 					}
-					else
+					else {
+						currentEnergy = Math.max(currentEnergy - Swirl.energyRequired, 0);
+						screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
 						player.swirlTeleport();
+					}
 					
 					swirlButtonPressed = true;
 				}
@@ -583,8 +583,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		for (Thing thing : FruitFever.things)
 			thing.naturalAnimate();
 		
-		for (Animation fruit : FruitFever.edibleItems)
-			fruit.naturalAnimate();
+		for (Animation item : FruitFever.edibleItems)
+			item.naturalAnimate();
 		
 		for (Thing dangerousSprite : FruitFever.dangerousThings)
 			dangerousSprite.naturalAnimate();

@@ -29,6 +29,8 @@ public class ScreenHandler {
 	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	static int HEART_AREA_WIDTH = 3*Data.TILE_SIZE;
 	static GImage currentHealthBar, currentEnergyBar;
+	static GLabel healthLabel = new GLabel("Health");
+	static GLabel energyLabel = new GLabel("Energy");
 	
 	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
@@ -72,6 +74,11 @@ public class ScreenHandler {
 		numberOfLives.setLocation(Data.TILE_SIZE + 3, 16);
 		for (int i = 0; i < Player.MAX_LIVES; i++)
 			livesImages[i] = new GImage(Data.heartImage.getImage());
+			
+		healthLabel.setColor(Color.white);
+		healthLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (healthLabel.getWidth()/2), 10);
+		energyLabel.setColor(Color.white);
+		energyLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (energyLabel.getWidth()/2), 22);
 		
 	}
 	
@@ -192,6 +199,9 @@ public class ScreenHandler {
 		for (int i = 0; i < Player.MAX_LIVES; i++)
 			fruitFever.add(livesImages[i]);
 		
+		// fruitFever.add(healthLabel);
+		// fruitFever.add(energyLabel);
+		
 		addButtonsToScreen(fruitFever.inGameButtons);
 		
 	}
@@ -219,8 +229,18 @@ public class ScreenHandler {
 		currentEnergyBar.setImage(ImageTransformer.crop(Data.energyBar, percentage*Data.energyBar.getWidth()).getImage());
 	}
 	
+	public static void resetEnergyBar() {
+		FruitFever.currentEnergy = FruitFever.maxEnergy;
+		adjustEnergyBar(1.0);
+	}
+	
 	public static void adjustHealthBar(double percentage) {
 		currentHealthBar.setImage(ImageTransformer.crop(Data.healthBar, percentage*Data.healthBar.getWidth()).getImage());
+	}
+	
+	public static void resetHealthBar() {
+		FruitFever.currentHealth = FruitFever.maxHealth;
+		adjustHealthBar(1.0);
 	}
 	
 	public static void redrawLivesLabel(int current, int max) {
