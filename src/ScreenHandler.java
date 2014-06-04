@@ -37,19 +37,40 @@ public class ScreenHandler {
 		this.fruitFever = fruitFever;
 	}
 	
-	/** Set images starting positions **/
-	public void init() {
-		
-		/** Adds lock and star images to array, setting positions **/
+	private void setLocations() {
+	
+		/** Lock and Star images **/
 		for (int i = 0; i < 20; i++) {
-			levelLocks[i] = new GImage(Data.locked.getImage());
 			levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
 			
 			for (int j = 0; j < 3; j++) {
-				levelStars[i][j] = new GImage(Data.starIcon.getImage());
 				levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
-				levelNoStars[i][j] = new GImage(Data.noStarIcon.getImage());
 				levelNoStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
+			}
+		}
+		
+		Data.healthBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
+		currentHealthBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
+		Data.energyBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
+		currentEnergyBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
+		Data.fruitRingAnimation[5].setLocation(Data.TILE_SIZE*4, 0);
+		numberOfFruitRings.setLocation(Data.TILE_SIZE*5, 16);
+		numberOfLives.setLocation(Data.TILE_SIZE + 3, 16);
+		healthLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (healthLabel.getWidth()/2), 10);
+		energyLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (energyLabel.getWidth()/2), 22);
+		
+	}
+	
+	/** Set images and their starting positions **/
+	public void init() {
+		
+		/** Adds lock and star images to array **/
+		for (int i = 0; i < 20; i++) {
+			levelLocks[i] = new GImage(Data.locked.getImage());
+
+			for (int j = 0; j < 3; j++) {
+				levelStars[i][j] = new GImage(Data.starIcon.getImage());
+				levelNoStars[i][j] = new GImage(Data.noStarIcon.getImage());
 			}
 		}
 		
@@ -63,22 +84,18 @@ public class ScreenHandler {
 		}
 		
 		Data.healthBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
-		currentHealthBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
 		Data.energyBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
-		currentEnergyBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
 		
 		Data.fruitRingAnimation[5].setLocation(Data.TILE_SIZE*4, 0);
 		numberOfFruitRings.setColor(Color.white);
-		numberOfFruitRings.setLocation(Data.TILE_SIZE*5, 16);
 		numberOfLives.setColor(Color.white);
-		numberOfLives.setLocation(Data.TILE_SIZE + 3, 16);
 		for (int i = 0; i < Player.MAX_LIVES; i++)
 			livesImages[i] = new GImage(Data.heartImage.getImage());
 			
 		healthLabel.setColor(Color.white);
-		healthLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (healthLabel.getWidth()/2), 10);
 		energyLabel.setColor(Color.white);
-		energyLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (energyLabel.getWidth()/2), 22);
+		
+		setLocations();
 		
 	}
 	
