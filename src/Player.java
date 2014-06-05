@@ -99,7 +99,9 @@ public class Player extends MovingAnimation {
 	
 	public void startJumpPowerup() {
 	
-		System.out.println("Executed startJumpPower");
+		if (FruitFever.debugMode)
+			System.out.println("Executed startJumpPower");
+			
 		startingJumpingVelocity = 9;
 		maxJumpHeight = (int)(5.5*Data.TILE_SIZE);
 		horizontalVelocity = 4;
@@ -107,19 +109,20 @@ public class Player extends MovingAnimation {
 	
 	public void stopJumpPowerup() {
 	
-		System.out.println("stopped startJumpPower");
+		if (FruitFever.debugMode)
+			System.out.println("stopped startJumpPower");
+		
 		maxJumpHeight = (int)(3.5*Data.TILE_SIZE);
 		startingJumpingVelocity = 6.25;
 		horizontalVelocity = 3;
 	}
 
 	public void startSpeedPowerup(){
-
 		horizontalVelocity = 5;
 		System.out.println("started startSpeedPowerup");
 	}
 
-	public void stopSpeedPowerUp(){
+	public void stopSpeedPowerup(){
 		horizontalVelocity = 3;
 		System.out.println("stopped stopSpeedPowerUp");
 	}
@@ -595,6 +598,8 @@ public class Player extends MovingAnimation {
 
 	/** These are all the settings that need to be reset when the player respawns **/
 	private void respawn(){
+		
+		FruitFever.powerupAlarms.clear();
 
 		horizontalVelocity = ORIGINAL_STARTING_HORIZONTAL_VELOCITY;
 		startingJumpingVelocity = 6.25;
@@ -799,7 +804,7 @@ public class Player extends MovingAnimation {
 
 							startJumpPowerup();
 							try {
-								FruitFever.alarms.add(new Alarm(300, Player.class.getMethod("stopJumpPowerup"), this));
+								FruitFever.powerupAlarms.add(new Alarm(300, Player.class.getMethod("stopJumpPowerup"), this));
 							} catch (NoSuchMethodException e) {
 								System.out.println("JumpPower alarm could not be created!");
 								e.printStackTrace();
@@ -810,9 +815,9 @@ public class Player extends MovingAnimation {
 
 							startSpeedPowerup();
 							try {
-								FruitFever.alarms.add(new Alarm(300, Player.class.getMethod("stopSpeedPowerup"), this));
+								FruitFever.powerupAlarms.add(new Alarm(300, Player.class.getMethod("stopSpeedPowerup"), this));
 							} catch (NoSuchMethodException e) {
-								System.out.println("JumpPower alarm could not be created!");
+								System.out.println("SpeedPower alarm could not be created!");
 								e.printStackTrace();
 							}
 						}

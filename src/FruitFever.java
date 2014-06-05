@@ -68,7 +68,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static int currentLevel = 1, levelSelectionPage = 0;
 	static ScreenMode currentScreen;
 
-	static ArrayList<Alarm>	alarms = new ArrayList<Alarm>();
+	static ArrayList<Alarm>	powerupAlarms = new ArrayList<Alarm>();
 	
 /** Screen View Variables **/
 
@@ -144,11 +144,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			// earthQuakeEffect();
 
 			// Countdown all of the alarms towards execution
-			for (int i = 0; i < alarms.size(); i++) {	
-				if (!alarms.get(i).active) {
-					alarms.remove(i);
+			for (int i = 0; i < powerupAlarms.size(); i++) {	
+				if (!powerupAlarms.get(i).active) {
+					powerupAlarms.remove(i);
 					i--;
-				} else alarms.get(i).execute();
+				} else powerupAlarms.get(i).execute();
 			}
 				
 			if (currentScreen == ScreenMode.PLAYING) {
