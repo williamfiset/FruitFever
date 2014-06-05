@@ -17,10 +17,8 @@ import java.awt.*;
 public class Player extends MovingAnimation {
 
 
-/** ! DO NOT CHANGE PLAYER ENCAPSULATION SPECIFIERS ! **/
-
-	private int lives = 12;
-	static final int MAX_LIVES = 12;
+	private int lives = 11;
+	static final int MAX_LIVES = 11;
 
 // Swirl related Variables
 	Swirl swirl;
