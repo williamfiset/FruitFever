@@ -26,7 +26,10 @@ public class Animation extends Thing {
 		FRUIT_RING,
 		ENEMY,
 		FRUIT,
-		FIREWORK;
+		FIREWORK,
+		JUMP,
+		SPEED,
+		ATTACK;
 	};
 	
 	/**

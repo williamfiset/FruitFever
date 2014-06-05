@@ -101,9 +101,9 @@ public class ScreenHandler {
 	
 	/** Draws the main menu screen **/
 	public void drawMainMenu() {
-		fruitFever.removeAll();
+		removeAll();
 		addButtonsToScreen(FruitFever.mainMenuButtons);
-		fruitFever.add(Data.fruitFeverTitle);
+		add(Data.fruitFeverTitle);
 		fruitFever.levelSelectionPage = 0;
 		
 		fruitFever.currentScreen = FruitFever.ScreenMode.MAIN_MENU;
@@ -111,18 +111,22 @@ public class ScreenHandler {
 	
 	/** Draws the level selection screen **/
 	public void drawLevelSelection() {
-		fruitFever.removeAll();
-		fruitFever.add(Data.levelSelectionBackDrop);
+		removeAll();
+		add(Data.levelSelectionBackDrop);
 		addButtonsToScreen(fruitFever.levelSelectionButtons);
 		
-		for (int i = 0; i < levelNumbers.length; i++) {
-			fruitFever.add(levelNumbers[i]);			
-			fruitFever.add(levelLocks[i]);
-			for (int j = 0; j < 3; j++) {
-				fruitFever.add(levelStars[i][j]);
-				fruitFever.add(levelNoStars[i][j]);
-			}
-		}
+		add(levelNumbers, levelLocks);
+		add(levelStars, levelNoStars);
+
+		// add(levelNoStars);
+		// for (int i = 0; i < levelNumbers.length; i++) {
+			// add(levelNumbers[i]);			
+			// add(levelLocks[i]);
+			// for (int j = 0; j < 3; j++) {
+				// add(levelStars[i][j]);
+				// add(levelNoStars[i][j]);
+			// }
+		// }
 		
 		fruitFever.add(levelRange);
 		
@@ -175,7 +179,7 @@ public class ScreenHandler {
 		GRect background = new GRect(0,0, FruitFever.SCREEN_WIDTH, FruitFever.SCREEN_HEIGHT);
 		background.setFillColor(Color.BLACK);
 		background.setFilled(true);
-		fruitFever.add(background);
+		add(background);
 	}
 	
 	/** Adds all images including blocks, things, fruits, and enemies to the screen **/
@@ -183,41 +187,31 @@ public class ScreenHandler {
 
 		for (Block obj : fruitFever.blocks) {
 			obj.image.setLocation(obj.getX(), obj.getY());
-			fruitFever.add(obj.image);
+			add(obj.image);
 		}
 		
 		for (Thing thing : fruitFever.things) {
 			thing.image.setLocation(thing.getX(), thing.getY());
-			fruitFever.add(thing.image);
+			add(thing.image);
 		}
 		
 		for (Thing item : fruitFever.edibleItems) {
 			item.image.setLocation(item.getX(), item.getY());
-			fruitFever.add(item.image);
+			add(item.image);
 		}
 		
 		for (Enemy enemy : fruitFever.enemies) {
 			enemy.image.setLocation(enemy.getX(), enemy.getY());
-			fruitFever.add(enemy.image);
-			fruitFever.add(enemy.healthBarBackground);
-			fruitFever.add(enemy.healthBar);
+			add(enemy.image, enemy.healthBarBackground, enemy.healthBar);
 		}
 
-		fruitFever.add(fruitFever.player.image);
-		fruitFever.add(fruitFever.player.swirl.image);
+		add(fruitFever.player.image, fruitFever.player.swirl.image);
 
-		fruitFever.add(Data.fruitRingAnimation[5]);
-		fruitFever.add(numberOfFruitRings);
-		fruitFever.add(numberOfLives);
-		fruitFever.add(Data.healthBarBackground);
-		fruitFever.add(currentHealthBar);
-		fruitFever.add(Data.energyBarBackground);
-		fruitFever.add(currentEnergyBar);
-		for (int i = 0; i < Player.MAX_LIVES; i++)
-			fruitFever.add(livesImages[i]);
+		add(Data.fruitRingAnimation[5], numberOfFruitRings, numberOfLives);
+		add(Data.healthBarBackground, currentHealthBar, Data.energyBarBackground, currentEnergyBar);
+		add(livesImages);
 		
-		// fruitFever.add(healthLabel);
-		// fruitFever.add(energyLabel);
+		// fruitFever.add(healthLabel, energyLabel);
 		
 		addButtonsToScreen(fruitFever.inGameButtons);
 		
@@ -277,7 +271,7 @@ public class ScreenHandler {
 			if (arr.get(i).active)
 				arr.get(i).animate();
 			else {
-				fruitFever.remove(arr.get(i).label);
+				remove(arr.get(i).label);
 				arr.remove(i);
 				i -= 1;
 				continue;
@@ -290,8 +284,19 @@ public class ScreenHandler {
 			fruitFever.add(arr.get(i).image);
 	}
 	
-	public void add(GObject obj) {
-		fruitFever.add(obj);
+	public void add(GObject... objects) {
+		for (GObject obj : objects)
+			fruitFever.add(obj);
+	}
+	
+	public void add(GObject[]... arrays) {
+		for (GObject[] array : arrays)
+			add(array);
+	}
+	
+	public void add(GObject[][]... setOfArrays) {
+		for (GObject[][] arraySet : setOfArrays)
+			add(arraySet);
 	}
 	
 	public void remove(GObject obj) {

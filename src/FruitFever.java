@@ -195,7 +195,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					
 					
 				/** Animate all edible items **/
-				for (Thing item : edibleItems)
+				for (Animation item : edibleItems)
 					item.animate();
 
 				// Tests for falling blocks

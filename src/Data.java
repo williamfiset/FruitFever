@@ -515,7 +515,12 @@ public abstract class Data {
 					try {
 						// Read in a powerup
 						if (Character.isDigit(character)) {
-							FruitFever.addToThings(new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, powerups[Integer.valueOf(String.valueOf(character))]));
+							if (character == '0')
+								FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, new GImage[]{powerups[Integer.valueOf(String.valueOf(character))]}, false, 0, true, Animation.Type.JUMP));
+							else if (character == '1')
+								FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, new GImage[]{powerups[Integer.valueOf(String.valueOf(character))]}, false, 0, true,Animation.Type.SPEED));
+							else if (character == '2')
+								FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, new GImage[]{powerups[Integer.valueOf(String.valueOf(character))]}, false, 0, true,Animation.Type.ATTACK));
 							continue;
 						}
 					} catch(ArrayIndexOutOfBoundsException e) { 

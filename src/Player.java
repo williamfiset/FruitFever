@@ -13,6 +13,7 @@ import acm.program.*;
 import java.util.*;
 import java.awt.Color.*;
 import java.awt.*;
+import java.lang.reflect.*;
 
 public class Player extends MovingAnimation {
 
@@ -90,6 +91,18 @@ public class Player extends MovingAnimation {
 		
 		swirl = new Swirl();
 
+	}
+	
+	public void startJumpPowerup() {
+	
+	
+	
+	}
+	
+	public void stopJumpPowerup() {
+	
+	
+	
 	}
 
 	/** Calls all the players actions **/
@@ -749,6 +762,13 @@ public class Player extends MovingAnimation {
 						else if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT) {
 							FruitFever.currentEnergy = Math.min(FruitFever.currentEnergy + 300, FruitFever.maxEnergy);
 							FruitFever.screenHandler.adjustEnergyBar(FruitFever.currentEnergy/FruitFever.maxEnergy);
+						}
+						else if (FruitFever.edibleItems.get(i).type == Animation.Type.JUMP) {
+							startJumpPowerup();
+							try {
+								FruitFever.alarms.add(new Alarm(50, Player.class.getMethod("endJumpPowerup"), this));
+							}
+							catch (NoSuchMethodException e) { }
 						}
 						
 						FruitFever.edibleItems.remove(i);

@@ -1,51 +1,37 @@
-
 /**
  *	Alarm - This class is given a starting value to decrement from each time the main loop gets executed.
- *			It can excute a peice of code at the beginning, and another at the end.
+ *			It executes a method once it has finished counting to 0.
  *
  * @author Micah Stairs
  *
  */
 
+ import java.lang.reflect.*;
+ 
 class Alarm {
 	
 	public boolean active;
-	private int counter, endCode;
+	private int counter;
+	private Method method;
+	private Object object;
 
-	public Alarm (int counter, int startCode, int endCode) {
+	public Alarm(int counter, Method method, Object object) {
 	
 		active = true;
 		this.counter = counter;
-		this.endCode = endCode;
-		
-		switch (startCode) {
-				
-				case 0: break;
-				case 1: break;
-				case 2: break;
-				// ...
-				
-			}
+		this.method = method;
+		this.object = object;
 		
 	}
 
 	public void execute() {
 		
-		if (active && --counter <= 0) {
-		
-			switch (endCode) {
-				
-				case 0: break;
-				case 1: break;
-				case 2: break;
-				// ...
-				
+		if (active && --counter <= 0)
+			try {
+				method.invoke(object);
 			}
-			
-			active = false;
-		
-		}
-	
+			catch (IllegalAccessException e) { }
+			catch (InvocationTargetException e) { }
 	}
 	
 }
