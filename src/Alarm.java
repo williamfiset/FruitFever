@@ -26,12 +26,15 @@ class Alarm {
 
 	public void execute() {
 		
-		if (active && --counter <= 0)
+		if (active && --counter <= 0) {
 			try {
 				method.invoke(object);
 			}
-			catch (IllegalAccessException e) { }
-			catch (InvocationTargetException e) { }
+			catch (IllegalAccessException e) { System.out.println("The alarm's method couldn't be called!"); }
+			catch (InvocationTargetException e) { System.out.println("The alarm's method couldn't be called!"); }
+			active = false;
+			System.out.println("Alarm (Powerup) has finished!");
+		}
 	}
 	
 }

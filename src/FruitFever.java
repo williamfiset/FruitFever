@@ -144,12 +144,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			// earthQuakeEffect();
 
 			// Countdown all of the alarms towards execution
-			for (int i = 0; i < alarms.size(); i++) {
-					if (!alarms.get(i).active) {
-						alarms.remove(i);
-						i--;
-					} else alarms.get(i).execute();
-				}
+			for (int i = 0; i < alarms.size(); i++) {	
+				if (!alarms.get(i).active) {
+					alarms.remove(i);
+					i--;
+				} else alarms.get(i).execute();
+			}
 				
 			if (currentScreen == ScreenMode.PLAYING) {
 			

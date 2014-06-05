@@ -4,8 +4,6 @@
  *
  * @Author William Fiset, Micah Stairs
  * 
- *
- *
  **/
 
 import acm.graphics.*;
@@ -112,13 +110,14 @@ public class Player extends MovingAnimation {
 	/** Calls all the players actions **/
 	public void motion(){
 
-		// Will's debug stash
-		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
-		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
-		// System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
-		// System.out.printf("viewX %d  viewY: %d \n", FruitFever.viewX, FruitFever.viewY);
-		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
-		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
+		if (FruitFever.debugMode) {
+			System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
+			System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
+			System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
+			System.out.printf("viewX %d  viewY: %d \n", FruitFever.viewX, FruitFever.viewY);
+			System.out.printf("Falling Velocity: %f\n", fallingVelocity);
+			System.out.println(maxJumpHeight + " " + maxJumpHeight);
+		}
 		
 		// Collisions
 		checkCollisionDetection();
@@ -771,9 +770,12 @@ public class Player extends MovingAnimation {
 						else if (FruitFever.edibleItems.get(i).type == Animation.Type.JUMP) {
 							startJumpPowerup();
 							try {
-								FruitFever.alarms.add(new Alarm(50, Player.class.getMethod("endJumpPowerup"), this));
+								FruitFever.alarms.add(new Alarm(300, Player.class.getMethod("stopJumpPowerup"), this));
 							}
-							catch (NoSuchMethodException e) { }
+							catch (NoSuchMethodException e) {
+								System.out.println("The alarm couldn't be created!");
+								e.printStackTrace();
+							}
 						}
 						
 						FruitFever.edibleItems.remove(i);
