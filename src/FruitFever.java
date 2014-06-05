@@ -42,13 +42,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Player **/
 
 	static Player player;
-	static int playerStartX, playerStartY, dx;
+	static int playerStartX, playerStartY;
 	static boolean swirlButtonPressed = false, tongueButtonPressed = false, shootButtonPressed = false;
 	
 /** Menus/GUI **/
 	
 	// Defines ScreenMode constants	
-	public enum ScreenMode {
+	public static enum ScreenMode {
 		LEVEL_REFRESH,
 		LOADING_GAME,
 		MAIN_MENU,
@@ -299,25 +299,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
 
-		viewX = 0;
-		viewY = 0;
-		greenCheckPoint = null;
-		grabbedItem = null;
-		vortex = null;
-		levelComplete = false;
-		dx = 0;
-		vx = 0;
-		vy = 0;
-		
-		shootButtonPressed = false;
-		tongueButtonPressed = false;
-		swirlButtonPressed = false;
-		
-		currentFruitRings = 0;
-		totalFruitRings = 0;
-		
-		currentEnergy = maxEnergy;
-
 		/** LOAD NEW LEVEL**/
 		
 		Data.loadObjects("levels/levels.txt", currentLevel);
@@ -345,6 +326,27 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		Block.updateNaturalFallingBlockCandidates();
 
 		currentScreen = ScreenMode.PLAYING;
+
+
+		viewX = 0;
+		viewY = 0;
+		greenCheckPoint = null;
+		grabbedItem = null;
+		vortex = null;
+		levelComplete = false;
+		player.setMovementDirection(Player.MovementDirection.NONE);
+		vx = 0;
+		vy = 0;
+		
+		shootButtonPressed = false;
+		tongueButtonPressed = false;
+		swirlButtonPressed = false;
+		
+		currentFruitRings = 0;
+		totalFruitRings = 0;
+		
+		currentEnergy = maxEnergy;
+
 
 	}
 
@@ -443,12 +445,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			/** Movement LEFT **/
 			} else if (keyCode == KeyEvent.VK_A) {
 				player.facingRight = false; 
-				dx = -1;
+				player.setMovementDirection(Player.MovementDirection.LEFT);
 			
 			/** Movement RIGHT **/
 			} else if (keyCode == KeyEvent.VK_D) {
-				dx = 1;
 				player.facingRight = true;
+				player.setMovementDirection(Player.MovementDirection.RIGHT);
 			}
 			
 		}
@@ -462,7 +464,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
 			
-				dx = 0;
+				player.setMovementDirection(Player.MovementDirection.NONE);
 				player.dx = 0;
 				vx = 0;
 				vy = 0;

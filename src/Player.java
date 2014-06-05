@@ -15,7 +15,6 @@ import java.lang.reflect.*;
 
 public class Player extends MovingAnimation {
 
-
 	private int lives = 11;
 	static final int MAX_LIVES = 11;
 
@@ -24,7 +23,12 @@ public class Player extends MovingAnimation {
 	private final static byte SWIRL_MOUTH_DISTANCE = 15; 
 
 // Horizontal Movement Variables
-	static int HORIZONTAL_VELOCITY = 3; 
+
+	static enum MovementDirection { LEFT, RIGHT, NONE }	
+	private MovementDirection movementDirection = MovementDirection.NONE;
+
+	static int ORIGINAL_STARTING_HORIZONTAL_VELOCITY = 3;
+	static int horizontalVelocity = ORIGINAL_STARTING_HORIZONTAL_VELOCITY; 
 	int dx = 0;
 	boolean facingRight = true;
 
@@ -61,12 +65,14 @@ public class Player extends MovingAnimation {
 
 // Jumping Motion Variables
 
-	private static double starting_jumping_velocity = 6.25; 
+	
+	private static final double ORIGINAL_STARTING_JUMPING_VELOCITY = 6.25;
 	private static final double STARTING_JUMPING_DECCELERATION = 0;
 	private static final double CHANGE_IN_DECLERATION = 0.043; 
+	private static double startingJumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY; 
 
 	private double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
-	private double jumpingVelocity = starting_jumping_velocity;
+	private double jumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY;
 
 // Animation Things
 	
@@ -77,47 +83,59 @@ public class Player extends MovingAnimation {
 
 		super(x, y, Data.playerStill, false, 1, true, Animation.Type.NOT_AVAILABLE);
 
-		this.stillAnim   = Data.playerStill;
-		this.stillAnimH  = Data.playerStillH;
-		this.shootAnim   = Data.playerShoot;
-		this.shootAnimH  = Data.playerShootH;
-		this.tongueAnim  = Data.playerTongue;
-		this.tongueAnimH = Data.playerTongueH;
+		stillAnim   = Data.playerStill;
+		stillAnimH  = Data.playerStillH;
+		shootAnim   = Data.playerShoot;
+		shootAnimH  = Data.playerShootH;
+		tongueAnim  = Data.playerTongue;
+		tongueAnimH = Data.playerTongueH;
 
 		boundaryLeft = Data.TILE_SIZE;
 		boundaryRight = -Data.TILE_SIZE;
-		
+
 		swirl = new Swirl();
 
 	}
 	
 	public void startJumpPowerup() {
 	
-		System.out.println("Jump Power");
-		starting_jumping_velocity = 9;
+		System.out.println("Executed startJumpPower");
+		startingJumpingVelocity = 9;
 		maxJumpHeight = (int)(5.5*Data.TILE_SIZE);
-		HORIZONTAL_VELOCITY = 4;
+		horizontalVelocity = 4;
 	}
 	
 	public void stopJumpPowerup() {
 	
-		System.out.println("Stop Jump Power");
+		System.out.println("stopped startJumpPower");
 		maxJumpHeight = (int)(3.5*Data.TILE_SIZE);
-		starting_jumping_velocity = 6.25;
-		HORIZONTAL_VELOCITY = 3;
+		startingJumpingVelocity = 6.25;
+		horizontalVelocity = 3;
+	}
+
+	public void startSpeedPowerup(){
+
+		horizontalVelocity = 5;
+		System.out.println("started startSpeedPowerup");
+	}
+
+	public void stopSpeedPowerUp(){
+		horizontalVelocity = 3;
+		System.out.println("stopped stopSpeedPowerUp");
 	}
 
 	/** Calls all the players actions **/
 	public void motion(){
 
-		if (FruitFever.debugMode) {
-			System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
-			System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
-			System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
-			System.out.printf("viewX %d  viewY: %d \n", FruitFever.viewX, FruitFever.viewY);
-			System.out.printf("Falling Velocity: %f\n", fallingVelocity);
-			System.out.println(maxJumpHeight + " " + maxJumpHeight);
-		}
+
+		// No need to attach this to debug mode because I only want one of them to be printed at a time
+		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
+		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
+		// System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
+		// System.out.printf("viewX %d  viewY: %d \n", FruitFever.viewX, FruitFever.viewY);
+		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
+		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
+		// System.out.printf("horizontalVelocity: %d\n", horizontalVelocity);
 		
 		// Collisions
 		checkCollisionDetection();
@@ -154,7 +172,7 @@ public class Player extends MovingAnimation {
 		boolean collision = false;
 
 		// Player is moving EAST
-		if (FruitFever.dx == 1) {
+		if (movementDirection == MovementDirection.RIGHT) {
 
 			Block eastNorth;
 			Block eastSouth;
@@ -166,7 +184,7 @@ public class Player extends MovingAnimation {
 			// No block right of player
 			if (eastSouth == null && eastNorth == null) {
 				// System.out.println("Side");
-				dx = HORIZONTAL_VELOCITY;
+				dx = horizontalVelocity;
 				collision = true;
 			} else {
 
@@ -176,7 +194,7 @@ public class Player extends MovingAnimation {
 			}
 
 		// Player is moving WEST
-		} else if (FruitFever.dx == -1) {
+		} else if (movementDirection == MovementDirection.LEFT) {
 			
 			
 			Block westNorth = Block.getBlock(x, y + VERTICAL_PX_BUFFER); 
@@ -185,7 +203,7 @@ public class Player extends MovingAnimation {
 			// No block left of player
 			if (westNorth == null && westSouth == null){
 				// System.out.println("Side");
-				dx = -HORIZONTAL_VELOCITY;
+				dx = -horizontalVelocity;
 				collision = true;
 			} else {
 				
@@ -312,7 +330,7 @@ public class Player extends MovingAnimation {
 
 	private void resetJump(){
 
-		jumpingVelocity = starting_jumping_velocity;
+		jumpingVelocity = startingJumpingVelocity;
 		jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 
 		isJumping = false;
@@ -406,8 +424,8 @@ public class Player extends MovingAnimation {
 		// UPPER bound
 		else if (y < FruitFever.UP_BOUNDARY && FruitFever.viewY >= 0) {
 			
-			// When jump gets and starts falling jumpingVelocity = starting_jumping_velocity
-			if (jumpingVelocity != starting_jumping_velocity)
+			// When jump gets and starts falling jumpingVelocity = startingJumpingVelocity
+			if (jumpingVelocity != startingJumpingVelocity)
 				FruitFever.vy = -jumpingVelocity;		
 
 		// Make sure screen doesn't move when player is not jumping or on platform
@@ -577,6 +595,9 @@ public class Player extends MovingAnimation {
 
 	/** These are all the settings that need to be reset when the player respawns **/
 	private void respawn(){
+
+		horizontalVelocity = ORIGINAL_STARTING_HORIZONTAL_VELOCITY;
+		startingJumpingVelocity = 6.25;
 
 		// Reset falling speed
 		fallingVelocity = STARTING_FALLING_VELOCITY;
@@ -758,29 +779,49 @@ public class Player extends MovingAnimation {
 			// Remove item if animation has finished
 			if (finishedTongueAnimation){
 				FruitFever.screen.remove(FruitFever.grabbedItem.image);
+
 				for (int i = 0; i < FruitFever.edibleItems.size(); i++)
+
 					if (FruitFever.edibleItems.get(i).equals(FruitFever.grabbedItem)) {
 						
+						// Grabs FruitRing
 						if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT_RING)
 							FruitFever.screenHandler.updateFruitRingDisplay(1);
+
+						// Grabs Fruit
 						else if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT) {
+
 							FruitFever.currentEnergy = Math.min(FruitFever.currentEnergy + 300, FruitFever.maxEnergy);
 							FruitFever.screenHandler.adjustEnergyBar(FruitFever.currentEnergy/FruitFever.maxEnergy);
-						}
-						else if (FruitFever.edibleItems.get(i).type == Animation.Type.JUMP) {
+
+						// Grabs JumpPowerUp
+						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.JUMP) {
+
 							startJumpPowerup();
 							try {
 								FruitFever.alarms.add(new Alarm(300, Player.class.getMethod("stopJumpPowerup"), this));
+							} catch (NoSuchMethodException e) {
+								System.out.println("JumpPower alarm could not be created!");
+								e.printStackTrace();
 							}
-							catch (NoSuchMethodException e) {
-								System.out.println("The alarm couldn't be created!");
+						
+						// Grabs speed powerup
+						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.SPEED) {
+
+							startSpeedPowerup();
+							try {
+								FruitFever.alarms.add(new Alarm(300, Player.class.getMethod("stopSpeedPowerup"), this));
+							} catch (NoSuchMethodException e) {
+								System.out.println("JumpPower alarm could not be created!");
 								e.printStackTrace();
 							}
 						}
-						
+
+
 						FruitFever.edibleItems.remove(i);
 						break;
 					}
+
 				FruitFever.grabbedItem = null;
 			}
 		
@@ -842,7 +883,7 @@ public class Player extends MovingAnimation {
 	public boolean onSurface(){ return onSurface; }
 	public boolean isJumping(){	return isJumping; }
 	public int getLives(){ return lives; }
-
+	public void setMovementDirection(MovementDirection direction){ this.movementDirection = direction; }
 
 	@Override public String toString(){
 		return "ImageX: " + imageX + "   ImageY: " + imageY + "   X: " + x + "   Y: " + y ;
