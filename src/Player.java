@@ -26,8 +26,8 @@ public class Player extends MovingAnimation {
 	private final static byte SWIRL_MOUTH_DISTANCE = 15; 
 
 // Horizontal Movement Variables
-	static final int HORIZONTAL_VELOCITY = 3; 
-	byte dx = 0;
+	static int HORIZONTAL_VELOCITY = 3; 
+	int dx = 0;
 	boolean facingRight = true;
 
 // Collision Detection Constants 
@@ -63,12 +63,12 @@ public class Player extends MovingAnimation {
 
 // Jumping Motion Variables
 
-	private static final double STARTING_JUMPING_VELOCITY = 6.25; 
+	private static double starting_jumping_velocity = 6.25; 
 	private static final double STARTING_JUMPING_DECCELERATION = 0;
 	private static final double CHANGE_IN_DECLERATION = 0.043; 
 
 	private double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
-	private double jumpingVelocity = STARTING_JUMPING_VELOCITY;
+	private double jumpingVelocity = starting_jumping_velocity;
 
 // Animation Things
 	
@@ -95,14 +95,18 @@ public class Player extends MovingAnimation {
 	
 	public void startJumpPowerup() {
 	
-	
-	
+		System.out.println("Jump Power");
+		starting_jumping_velocity = 9;
+		maxJumpHeight = (int)(5.5*Data.TILE_SIZE);
+		HORIZONTAL_VELOCITY = 4;
 	}
 	
 	public void stopJumpPowerup() {
 	
-	
-	
+		System.out.println("Stop Jump Power");
+		maxJumpHeight = (int)(3.5*Data.TILE_SIZE);
+		starting_jumping_velocity = 6.25;
+		HORIZONTAL_VELOCITY = 3;
 	}
 
 	/** Calls all the players actions **/
@@ -114,7 +118,8 @@ public class Player extends MovingAnimation {
 		// System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
 		// System.out.printf("viewX %d  viewY: %d \n", FruitFever.viewX, FruitFever.viewY);
 		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
-
+		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
+		
 		// Collisions
 		checkCollisionDetection();
 		objectCollisions();
@@ -308,7 +313,7 @@ public class Player extends MovingAnimation {
 
 	private void resetJump(){
 
-		jumpingVelocity = STARTING_JUMPING_VELOCITY;
+		jumpingVelocity = starting_jumping_velocity;
 		jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 
 		isJumping = false;
@@ -402,8 +407,8 @@ public class Player extends MovingAnimation {
 		// UPPER bound
 		else if (y < FruitFever.UP_BOUNDARY && FruitFever.viewY >= 0) {
 			
-			// When jump gets and starts falling jumpingVelocity = STARTING_JUMPING_VELOCITY
-			if (jumpingVelocity != STARTING_JUMPING_VELOCITY)
+			// When jump gets and starts falling jumpingVelocity = starting_jumping_velocity
+			if (jumpingVelocity != starting_jumping_velocity)
 				FruitFever.vy = -jumpingVelocity;		
 
 		// Make sure screen doesn't move when player is not jumping or on platform
