@@ -30,6 +30,7 @@ public class Animation extends Thing {
 		JUMP_POWERUP,
 		SPEED_POWERUP,
 		ATTACK_POWERUP;
+
 	};
 	
 	public static Type[] powerupTypes = new Type[]{Type.JUMP_POWERUP, Type.SPEED_POWERUP, Type.ATTACK_POWERUP};
