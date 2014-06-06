@@ -22,6 +22,7 @@ public class Animation extends Thing {
 	protected boolean reverse, repeat;
 	
 	public enum Type {
+
 		NOT_AVAILABLE,
 		FRUIT_RING,
 		ENEMY,
@@ -31,7 +32,23 @@ public class Animation extends Thing {
 		SPEED_POWERUP,
 		ATTACK_POWERUP;
 
-	};
+		public int getNumber(){
+
+			switch (this){
+				case NOT_AVAILABLE : return -1;
+				case FRUIT_RING : return 1;
+				case ENEMY : return 2;
+				case FRUIT : return 3;
+				case FIREWORK : return 4;
+				case JUMP_POWERUP : return 5;
+				case SPEED_POWERUP : return 6;
+				case ATTACK_POWERUP : return 7;
+				default: return -1;
+
+			}
+		}
+		
+		};
 	
 	public static Type[] powerupTypes = new Type[]{Type.JUMP_POWERUP, Type.SPEED_POWERUP, Type.ATTACK_POWERUP};
 	
