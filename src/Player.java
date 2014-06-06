@@ -100,12 +100,9 @@ public class Player extends MovingAnimation {
 	
 	public void startJumpPowerup() {
 	
-<<<<<<< HEAD
-=======
 		if (FruitFever.debugMode)
 			System.out.println("Executed startJumpPower");
 			
->>>>>>> FETCH_HEAD
 		startingJumpingVelocity = 9;
 		maxJumpHeight = (int)(5.5*Data.TILE_SIZE);
 
@@ -113,12 +110,9 @@ public class Player extends MovingAnimation {
 	
 	public void stopJumpPowerup() {
 	
-<<<<<<< HEAD
-=======
 		if (FruitFever.debugMode)
 			System.out.println("stopped startJumpPower");
 		
->>>>>>> FETCH_HEAD
 		maxJumpHeight = (int)(3.5*Data.TILE_SIZE);
 		startingJumpingVelocity = 6.25;
 
@@ -128,12 +122,7 @@ public class Player extends MovingAnimation {
 		horizontalVelocity = 5;
 	}
 
-<<<<<<< HEAD
-	public void stopSpeedPowerUp(){
-
-=======
 	public void stopSpeedPowerup(){
->>>>>>> FETCH_HEAD
 		horizontalVelocity = 3;
 	}
 
@@ -807,7 +796,7 @@ public class Player extends MovingAnimation {
 							FruitFever.screenHandler.adjustEnergyBar(FruitFever.currentEnergy/FruitFever.maxEnergy);
 
 						// Grabs JumpPowerUp
-						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.JUMP) {
+						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.JUMP_POWERUP) {
 
 							startJumpPowerup();
 							try {
@@ -818,7 +807,7 @@ public class Player extends MovingAnimation {
 							}
 						
 						// Grabs speed powerup
-						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.SPEED) {
+						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.SPEED_POWERUP) {
 
 							startSpeedPowerup();
 							try {

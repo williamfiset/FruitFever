@@ -7,7 +7,6 @@
 
 import acm.graphics.*;
 import java.awt.*;
-import java.util.*;
 
 public class Animation extends Thing {
 
@@ -28,14 +27,12 @@ public class Animation extends Thing {
 		ENEMY,
 		FRUIT,
 		FIREWORK,
-		JUMP,
-		SPEED,
-		ATTACK;
+		JUMP_POWERUP,
+		SPEED_POWERUP,
+		ATTACK_POWERUP;
 	};
 	
-	// public EnumMap<Type, Integer> powerupTypes = new EnumMap<Type, Integer>(Type.class);
-	
-	// { powerupTypes.put(Type.JUMP, 0); powerupTypes.put(Type.SPEED, 1); powerupTypes.put(Type.ATTACK, 2);}
+	public static Type[] powerupTypes = new Type[]{Type.JUMP_POWERUP, Type.SPEED_POWERUP, Type.ATTACK_POWERUP};
 	
 	/**
 	 * @param x : default x-position
