@@ -79,6 +79,7 @@ public class Player extends MovingAnimation {
 	private GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	boolean finishedTongueAnimation = true;
 	
+
 	public Player(int x, int y){
 
 		super(x, y, Data.playerStill, false, 1, true, Animation.Type.NOT_AVAILABLE);
@@ -99,32 +100,41 @@ public class Player extends MovingAnimation {
 	
 	public void startJumpPowerup() {
 	
+<<<<<<< HEAD
+=======
 		if (FruitFever.debugMode)
 			System.out.println("Executed startJumpPower");
 			
+>>>>>>> FETCH_HEAD
 		startingJumpingVelocity = 9;
 		maxJumpHeight = (int)(5.5*Data.TILE_SIZE);
-		horizontalVelocity = 4;
+
 	}
 	
 	public void stopJumpPowerup() {
 	
+<<<<<<< HEAD
+=======
 		if (FruitFever.debugMode)
 			System.out.println("stopped startJumpPower");
 		
+>>>>>>> FETCH_HEAD
 		maxJumpHeight = (int)(3.5*Data.TILE_SIZE);
 		startingJumpingVelocity = 6.25;
-		horizontalVelocity = 3;
+
 	}
 
 	public void startSpeedPowerup(){
 		horizontalVelocity = 5;
-		System.out.println("started startSpeedPowerup");
 	}
 
+<<<<<<< HEAD
+	public void stopSpeedPowerUp(){
+
+=======
 	public void stopSpeedPowerup(){
+>>>>>>> FETCH_HEAD
 		horizontalVelocity = 3;
-		System.out.println("stopped stopSpeedPowerUp");
 	}
 
 	/** Calls all the players actions **/
@@ -151,6 +161,7 @@ public class Player extends MovingAnimation {
 		jumpingEffect();
 		gravityEffect();
 		imageX += dx;
+		
 
 		// Other needed functions
 		enableJumping();
@@ -170,9 +181,8 @@ public class Player extends MovingAnimation {
 	}
 
 	/** Side Collisions **/
-	private boolean sidewaysCollision(){
+	private void sidewaysCollision(){
 
-		boolean collision = false;
 
 		// Player is moving EAST
 		if (movementDirection == MovementDirection.RIGHT) {
@@ -181,14 +191,14 @@ public class Player extends MovingAnimation {
 			Block eastSouth;
 
 			// When not on platform
-			eastNorth = Block.getBlock(x + Data.TILE_SIZE, y + VERTICAL_PX_BUFFER); 
-			eastSouth = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - VERTICAL_PX_BUFFER);
+			eastNorth = Block.getBlock(x + Data.TILE_SIZE + horizontalVelocity, y + VERTICAL_PX_BUFFER); 
+			eastSouth = Block.getBlock(x + Data.TILE_SIZE + horizontalVelocity, y + Data.TILE_SIZE - VERTICAL_PX_BUFFER);
 
 			// No block right of player
 			if (eastSouth == null && eastNorth == null) {
 				// System.out.println("Side");
 				dx = horizontalVelocity;
-				collision = true;
+
 			} else {
 
 				// Stop viewX from moving as well as player
@@ -200,14 +210,14 @@ public class Player extends MovingAnimation {
 		} else if (movementDirection == MovementDirection.LEFT) {
 			
 			
-			Block westNorth = Block.getBlock(x, y + VERTICAL_PX_BUFFER); 
-			Block westSouth = Block.getBlock(x, y + Data.TILE_SIZE - VERTICAL_PX_BUFFER);
+			Block westNorth = Block.getBlock(x - horizontalVelocity, y + VERTICAL_PX_BUFFER); 
+			Block westSouth = Block.getBlock(x - horizontalVelocity, y + Data.TILE_SIZE - VERTICAL_PX_BUFFER);
 
 			// No block left of player
 			if (westNorth == null && westSouth == null){
 				// System.out.println("Side");
 				dx = -horizontalVelocity;
-				collision = true;
+
 			} else {
 				
 				// Stop viewX from moving as well as player
@@ -215,9 +225,6 @@ public class Player extends MovingAnimation {
 				FruitFever.vx = 0;
 			}
 		}
-
-		return collision;
-
 	}
 
 	/** Test if player is going to hit a platform while falling **/
