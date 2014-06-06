@@ -515,6 +515,7 @@ public abstract class Data {
 					try {
 						// Read in a powerup
 						if (Character.isDigit(character)) {
+							
 							if (character == '0')
 								FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, new GImage[]{powerups[Integer.valueOf(String.valueOf(character))]}, false, 0, true, Animation.Type.JUMP));
 							else if (character == '1')
