@@ -33,7 +33,9 @@ class Alarm {
 			catch (IllegalAccessException e) { System.out.println("The alarm's method couldn't be called!"); }
 			catch (InvocationTargetException e) { System.out.println("The alarm's method couldn't be called!"); }
 			active = false;
-			System.out.println("Alarm (Powerup) has finished!");
+			
+			if (FruitFever.debugMode)
+				System.out.println("Alarm (Powerup) has finished!");
 		}
 	}
 	

@@ -100,6 +100,12 @@ public class Player extends MovingAnimation {
 	
 	public void startJumpPowerup() {
 	
+<<<<<<< HEAD
+=======
+		if (FruitFever.debugMode)
+			System.out.println("Executed startJumpPower");
+			
+>>>>>>> FETCH_HEAD
 		startingJumpingVelocity = 9;
 		maxJumpHeight = (int)(5.5*Data.TILE_SIZE);
 
@@ -107,18 +113,27 @@ public class Player extends MovingAnimation {
 	
 	public void stopJumpPowerup() {
 	
+<<<<<<< HEAD
+=======
+		if (FruitFever.debugMode)
+			System.out.println("stopped startJumpPower");
+		
+>>>>>>> FETCH_HEAD
 		maxJumpHeight = (int)(3.5*Data.TILE_SIZE);
 		startingJumpingVelocity = 6.25;
 
 	}
 
 	public void startSpeedPowerup(){
-
 		horizontalVelocity = 5;
 	}
 
+<<<<<<< HEAD
 	public void stopSpeedPowerUp(){
 
+=======
+	public void stopSpeedPowerup(){
+>>>>>>> FETCH_HEAD
 		horizontalVelocity = 3;
 	}
 
@@ -590,6 +605,8 @@ public class Player extends MovingAnimation {
 
 	/** These are all the settings that need to be reset when the player respawns **/
 	private void respawn(){
+		
+		FruitFever.powerupAlarms.clear();
 
 		horizontalVelocity = ORIGINAL_STARTING_HORIZONTAL_VELOCITY;
 		startingJumpingVelocity = 6.25;
@@ -794,7 +811,7 @@ public class Player extends MovingAnimation {
 
 							startJumpPowerup();
 							try {
-								FruitFever.alarms.add(new Alarm(300, Player.class.getMethod("stopJumpPowerup"), this));
+								FruitFever.powerupAlarms.add(new Alarm(300, Player.class.getMethod("stopJumpPowerup"), this));
 							} catch (NoSuchMethodException e) {
 								System.out.println("JumpPower alarm could not be created!");
 								e.printStackTrace();
@@ -805,9 +822,9 @@ public class Player extends MovingAnimation {
 
 							startSpeedPowerup();
 							try {
-								FruitFever.alarms.add(new Alarm(300, Player.class.getMethod("stopSpeedPowerup"), this));
+								FruitFever.powerupAlarms.add(new Alarm(300, Player.class.getMethod("stopSpeedPowerup"), this));
 							} catch (NoSuchMethodException e) {
-								System.out.println("JumpPower alarm could not be created!");
+								System.out.println("SpeedPower alarm could not be created!");
 								e.printStackTrace();
 							}
 						}

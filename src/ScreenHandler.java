@@ -117,16 +117,6 @@ public class ScreenHandler {
 		
 		add(levelNumbers, levelLocks);
 		add(levelStars, levelNoStars);
-
-		// add(levelNoStars);
-		// for (int i = 0; i < levelNumbers.length; i++) {
-			// add(levelNumbers[i]);			
-			// add(levelLocks[i]);
-			// for (int j = 0; j < 3; j++) {
-				// add(levelStars[i][j]);
-				// add(levelNoStars[i][j]);
-			// }
-		// }
 		
 		fruitFever.add(levelRange);
 		
