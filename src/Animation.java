@@ -142,7 +142,14 @@ public class Animation extends Thing {
 			}
 			
 			// Switch the GImage to the correct index, and adjust the width and height of the Rectangle
-			changeImage(images[counter]);
+			// Fixed issue #51 
+			try {
+				changeImage(images[counter]);
+			} catch(ArrayIndexOutOfBoundsException e){
+				counter = 0;
+				changeImage(images[counter]);
+			}
+			
 			setSize((int) image.getWidth(), (int) image.getHeight());
 		
 		}

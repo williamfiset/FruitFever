@@ -79,6 +79,8 @@ public class Player extends MovingAnimation {
 	private GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	boolean finishedTongueAnimation = true;
 	
+	boolean executedFacingThisDirection = false;
+	boolean sideCollision = false;
 
 	public Player(int x, int y){
 
@@ -97,6 +99,43 @@ public class Player extends MovingAnimation {
 		swirl = new Swirl();
 
 	}
+
+	/** Calls all the players actions **/
+	public void motion(){
+
+
+		// No need to attach this to debug mode because I only want one of them to be printed at a time
+		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
+		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
+		// System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
+		// System.out.printf("viewX %d  viewY: %d \n", FruitFever.viewX, FruitFever.viewY);
+		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
+		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
+		// System.out.printf("horizontalVelocity: %d\n", horizontalVelocity);
+
+		// Collisions
+		checkCollisionDetection();
+		objectCollisions();
+
+		// View Movement
+		relativisticScreenMovement();
+	
+		// These methods control the movement of the player 
+		jumpingEffect();
+		gravityEffect();
+		imageX += dx;
+
+		System.out.printf("sideCollision: %b\n", sideCollision);
+
+		if (sideCollision) imageX += dx;
+		sideCollision = false;
+
+		// Other needed functions
+		enableJumping();
+		updateHealth();
+		grabbingItem();
+	}
+	
 	
 	public void startJumpPowerup() {
 	
@@ -126,38 +165,6 @@ public class Player extends MovingAnimation {
 		horizontalVelocity = 3;
 	}
 
-	/** Calls all the players actions **/
-	public void motion(){
-
-
-		// No need to attach this to debug mode because I only want one of them to be printed at a time
-		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
-		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
-		// System.out.printf("imageX: %d imageY: %d X: %d Y: %d\n", imageX, imageY, x, y);
-		// System.out.printf("viewX %d  viewY: %d \n", FruitFever.viewX, FruitFever.viewY);
-		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
-		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
-		// System.out.printf("horizontalVelocity: %d\n", horizontalVelocity);
-		
-		// Collisions
-		checkCollisionDetection();
-		objectCollisions();
-
-		// View Movement
-		relativisticScreenMovement();
-	
-		// These methods control the movement of the player 
-		jumpingEffect();
-		gravityEffect();
-		imageX += dx;
-		
-
-		// Other needed functions
-		enableJumping();
-		updateHealth();
-		grabbingItem();
-	}
-	
 
 	/** Responds accordingly to collision detection **/
 	private void checkCollisionDetection(){
@@ -188,9 +195,11 @@ public class Player extends MovingAnimation {
 				// System.out.println("Side");
 				dx = horizontalVelocity;
 
+			// Collision has occurred while the player was moving right
 			} else {
 
-				// Stop viewX from moving as well as player
+				// System.out.println("right");
+				sideCollision = true;
 				dx = 0; 
 				FruitFever.vx = 0;
 			}
@@ -204,12 +213,13 @@ public class Player extends MovingAnimation {
 
 			// No block left of player
 			if (westNorth == null && westSouth == null){
-				// System.out.println("Side");
 				dx = -horizontalVelocity;
 
+			// Collision has occurred while the player was moving left
 			} else {
-				
-				// Stop viewX from moving as well as player
+
+				// System.out.println("left");
+				sideCollision = true;
 				dx = 0; 
 				FruitFever.vx = 0;
 			}
