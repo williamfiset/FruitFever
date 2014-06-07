@@ -557,6 +557,9 @@ public class Player extends MovingAnimation {
 			if (checkPoint == FruitFever.greenCheckPoint) continue;
 			checkPoint.changeImage(Data.checkpointFlagRed);
 		}
+		
+		if (FruitFever.vortex != null)
+			System.out.println(FruitFever.vortex.toString());
 
 		// Reset Level if player touches vortex
 		if (FruitFever.vortex != null && this.intersects(FruitFever.vortex))

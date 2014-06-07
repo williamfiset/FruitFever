@@ -298,6 +298,25 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
+		
+		viewX = 0;
+		viewY = 0;
+		greenCheckPoint = null;
+		grabbedItem = null;
+		vortex = null;
+		levelComplete = false;
+		vx = 0;
+		vy = 0;
+		
+		shootButtonPressed = false;
+		tongueButtonPressed = false;
+		swirlButtonPressed = false;
+		
+		currentFruitRings = 0;
+		totalFruitRings = 0;
+		
+		currentEnergy = maxEnergy;
+		currentHealth = maxHealth;
 
 		/** LOAD NEW LEVEL**/
 		
@@ -312,6 +331,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		player = new Player(playerStartX, playerStartY);
 		player.focusViewOnPlayer(playerStartX, playerStartY, true);
+		player.setMovementDirection(Player.MovementDirection.NONE);
 
 		/** Clear the screen and fill it with new images **/
 		removeAll();
@@ -326,27 +346,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		Block.updateNaturalFallingBlockCandidates();
 
 		currentScreen = ScreenMode.PLAYING;
-
-
-		viewX = 0;
-		viewY = 0;
-		greenCheckPoint = null;
-		grabbedItem = null;
-		vortex = null;
-		levelComplete = false;
-		player.setMovementDirection(Player.MovementDirection.NONE);
-		vx = 0;
-		vy = 0;
-		
-		shootButtonPressed = false;
-		tongueButtonPressed = false;
-		swirlButtonPressed = false;
-		
-		currentFruitRings = 0;
-		totalFruitRings = 0;
-		
-		currentEnergy = maxEnergy;
-
 
 	}
 
