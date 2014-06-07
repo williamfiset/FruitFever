@@ -49,6 +49,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	
 	// Defines ScreenMode constants	
 	public static enum ScreenMode {
+
 		LEVEL_REFRESH,
 		LOADING_GAME,
 		MAIN_MENU,
@@ -57,6 +58,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		CONTROLS,
 		OPTIONS,
 		MULTIPLAYER;
+
 	};
 
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
@@ -267,7 +269,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		int xShift = (int) (Math.random()*earthQuakeMagnitude);
 		int yShift = (int) (Math.random()*earthQuakeMagnitude);
 
-		if (viewY%2 == 0 && quakeBoundary_x < QUAKE_BOUNDARY && quakeBoundary_y > QUAKE_BOUNDARY) {
+		if (viewY % 2 == 0 && quakeBoundary_x < QUAKE_BOUNDARY && quakeBoundary_y > QUAKE_BOUNDARY) {
 
 			viewX += xShift;
 			viewY -= yShift;
@@ -332,6 +334,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		player = new Player(playerStartX, playerStartY);
 		player.focusViewOnPlayer(playerStartX, playerStartY, true);
 		player.setMovementDirection(Player.MovementDirection.NONE);
+		// player.respawn();
 
 		/** Clear the screen and fill it with new images **/
 		removeAll();

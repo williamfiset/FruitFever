@@ -79,8 +79,8 @@ public class Player extends MovingAnimation {
 	private GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	boolean finishedTongueAnimation = true;
 	
-	boolean executedFacingThisDirection = false;
-	boolean sideCollision = false;
+	private boolean sideCollisionFacingLeft = false, sideCollisionFacingRight = false ;
+	private boolean sideCollision = false;
 
 	public Player(int x, int y){
 
@@ -103,7 +103,6 @@ public class Player extends MovingAnimation {
 	/** Calls all the players actions **/
 	public void motion(){
 
-
 		// No need to attach this to debug mode because I only want one of them to be printed at a time
 		// System.out.printf("jumpingVelocity: %f isJumping: %b \n", jumpingVelocity, isJumping);
 		// System.out.printf("fallingVelocity: %f  imageY: %d  imageX: %d \n", fallingVelocity, imageY, imageX);
@@ -124,11 +123,7 @@ public class Player extends MovingAnimation {
 		jumpingEffect();
 		gravityEffect();
 		imageX += dx;
-
-		System.out.printf("sideCollision: %b\n", sideCollision);
-
-		if (sideCollision) imageX += dx;
-		sideCollision = false;
+		extraHorizontalMovement();
 
 		// Other needed functions
 		enableJumping();
@@ -136,7 +131,72 @@ public class Player extends MovingAnimation {
 		grabbingItem();
 	}
 	
-	
+	/** This method pushes the player up close to the wall when there's a side collision.
+		This method fixes issue # 94 concerning different player speeds 
+	**/
+	private void extraHorizontalMovement(){
+
+		if (sideCollision){
+			
+			// Moving Right
+			if (movementDirection == MovementDirection.RIGHT ) {
+				if (!sideCollisionFacingRight) {
+
+					Block rightCollision1 = null, rightCollision2 = null;
+					int hv = horizontalVelocity;
+
+					// While horizontalVelocity is greater than zero find the optimal distance 
+					while (hv > 0 ){
+
+						rightCollision1 = Block.getBlock(x + hv + Data.TILE_SIZE, y + VERTICAL_PX_BUFFER);
+						rightCollision2 = Block.getBlock(x + hv + Data.TILE_SIZE, y + Data.TILE_SIZE - VERTICAL_PX_BUFFER);
+
+						if (rightCollision1 == null && rightCollision2 == null) {
+							imageX += hv;	
+							break;
+						} else
+							hv--;
+					}
+				}
+
+			// Moving Left
+			} else if (movementDirection == MovementDirection.LEFT) {
+
+				if (!sideCollisionFacingLeft) {
+
+					Block leftCollision1 = null, leftCollision2 = null;
+					int hv = horizontalVelocity;
+
+					// While horizontalVelocity is greater than zero find the optimal distance 
+					while (hv > 0 ){
+
+						leftCollision1 = Block.getBlock(x - hv , y + VERTICAL_PX_BUFFER);
+						leftCollision2 = Block.getBlock(x - hv, y + Data.TILE_SIZE - VERTICAL_PX_BUFFER);
+
+						if (leftCollision1 == null && leftCollision2 == null) {
+							imageX -= hv;
+							break;
+						} else
+							hv--;
+						
+					}
+				} 
+
+			} else if (movementDirection == MovementDirection.NONE) {
+
+				sideCollisionFacingRight = true;
+				sideCollisionFacingLeft = true;
+
+			}
+		} 
+
+		if (facingRight) sideCollisionFacingLeft = false;
+		else sideCollisionFacingRight = false;
+
+		sideCollision = false;
+
+	}
+
 	public void startJumpPowerup() {
 	
 		if (FruitFever.debugMode)
@@ -558,8 +618,8 @@ public class Player extends MovingAnimation {
 			checkPoint.changeImage(Data.checkpointFlagRed);
 		}
 		
-		if (FruitFever.vortex != null)
-			System.out.println(FruitFever.vortex.toString());
+		// if (FruitFever.vortex != null)
+		// 	System.out.println(FruitFever.vortex.toString());
 
 		// Reset Level if player touches vortex
 		if (FruitFever.vortex != null && this.intersects(FruitFever.vortex))
@@ -606,7 +666,7 @@ public class Player extends MovingAnimation {
 	}
 
 	/** These are all the settings that need to be reset when the player respawns **/
-	private void respawn(){
+	public void respawn(){
 		
 		FruitFever.powerupAlarms.clear();
 

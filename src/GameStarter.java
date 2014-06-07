@@ -1,4 +1,4 @@
- /** 
+/** 
   * GameStarter - Starts the application by putting the Applet into a JFrame.
   * 
   * @Author William Fiset
