@@ -17,6 +17,9 @@ public class GameStarter{
 
 	public static void main(String[] args) {	
 		
+		if (args.length > 0)
+			FruitFever.MAIN_LOOP_SPEED = Integer.valueOf(args[0]);
+		
 		FruitFever gameApplet = new FruitFever();
 		JFrame appletFrame = new JFrame();
 		frame = appletFrame;
