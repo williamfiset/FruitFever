@@ -106,15 +106,37 @@ abstract class ImageTransformer {
 	}
 	/** Crops a GImage **/
 	public static GImage crop(GImage img, int width, int height){
-	
-		int[][] arr = img.getPixelArray();
-		int[][] arr2 = new int[Math.max(height, 0)][Math.max(width, 0)];
+		try {
+			int[][] arr = img.getPixelArray();
+			int[][] arr2 = new int[Math.max(height, 0)][Math.max(width, 0)];
 
-		for (int i = 0; i < height; i++)
-			for (int j = 0; j < width; j++)
-				arr2[i][j] = arr[i][j];
-     
-     	return new GImage(arr2);
+			for (int i = 0; i < height; i++)
+				for (int j = 0; j < width; j++)
+					arr2[i][j] = arr[i][j];
+		 
+			return new GImage(arr2);
+		}
+		/** Very uncommon exception, not completely sure where it came from
+			Exception in thread "Thread-2" java.lang.NullPointerException
+			at java.awt.image.FilteredImageSource.startProduction(Unknown Source)
+			at java.awt.image.PixelGrabber.grabPixels(Unknown Source)
+			at java.awt.image.PixelGrabber.grabPixels(Unknown Source)
+			at acm.util.MediaTools.getPixelArray(MediaTools.java:337)
+			at acm.graphics.GImage.getPixelArray(GImage.java:368)
+			at ImageTransformer.crop(ImageTransformer.java:110)
+			at ImageTransformer.crop(ImageTransformer.java:121)
+			at ImageTransformer.crop(ImageTransformer.java:125)
+			at ScreenHandler.adjustEnergyBar(ScreenHandler.java:230)
+			at FruitFever.run(FruitFever.java:219)
+			at acm.program.Program.runHook(Program.java:1568)
+			at acm.program.Program.startRun(Program.java:1557)
+			at acm.program.AppletStarter.run(Program.java:1895)
+			at java.lang.Thread.run(Unknown Source)
+		**/
+		catch (NullPointerException e) {
+			System.out.println("Weird null pointer exception in ImageTransformer.java");
+			return img;
+		}
 	}
 	
 	public static GImage crop(GImage img, int width){

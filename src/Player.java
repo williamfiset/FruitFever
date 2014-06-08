@@ -522,7 +522,6 @@ public class Player extends MovingAnimation {
 
 		// Adjust Animation variables		
 		repeat = false;
-		active = true;
 
 		// Switch animation images
 		if(facingRight)
@@ -818,7 +817,6 @@ public class Player extends MovingAnimation {
 		
 			// Adjust Animation variables
 			repeat = true;
-			active = true;
 			
 			// Switch animation images
 			if (facingRight)

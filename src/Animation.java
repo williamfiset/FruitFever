@@ -147,6 +147,7 @@ public class Animation extends Thing {
 		images = newImages;
 		counter = -1;
 		counterGoingUp = true;
+		active = true;
 	}
 
 }
