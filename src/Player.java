@@ -1026,7 +1026,7 @@ public class Player extends MovingAnimation {
 		}
 
 		@Override public String toString(){
-			return "Swirl   X: " + x + "  Y: " + y;
+			return "Swirl   X: " + x + "  Y: " + y + " ImageX: " + imageX + " ImageY: " + imageY;
 		}
 	}
 	
