@@ -516,7 +516,7 @@ public class Player extends MovingAnimation {
 	public void eat(){
 		
 		// Makes sure you finish a cycle of images before starting a new one
-		if(!images.equals(tongueAnim) && !images.equals(tongueAnimH))
+		if (!images.equals(tongueAnim) && !images.equals(tongueAnimH))
 			counter = -1;
 
 		// Adjust Animation variables		
@@ -524,10 +524,10 @@ public class Player extends MovingAnimation {
 		active = true;
 
 		// Switch animation images
-		if(facingRight)
-			images = tongueAnim;
-		else
-			images = tongueAnimH;
+		// if(facingRight)
+			// images = tongueAnim;
+		// else
+			// images = tongueAnimH;
 		
 	}
 
@@ -696,7 +696,7 @@ public class Player extends MovingAnimation {
 	public void shootSwirl(){
 
 		// Makes sure you finish a cycle of images before starting a new one
-		if(!images.equals(shootAnim) && !images.equals(shootAnimH))
+		if (!images.equals(shootAnim) && !images.equals(shootAnimH))
 			counter = -1;
 
 		// Adjust Animation variable
@@ -722,7 +722,7 @@ public class Player extends MovingAnimation {
 			
 			// If there is a block in front of the player, don't do swirl animation
 			} else
-				images = stillAnim;
+				setNewAnimation(stillAnim);
 
 		// Facing left
 		} else {
@@ -743,13 +743,14 @@ public class Player extends MovingAnimation {
 				images = shootAnimH;
 				
 			// If there is a block in front of the player, don't do swirl animation
-			} else images = stillAnim;
+			} else
+				setNewAnimation(stillAnim);
 
 		}
 	
 	}
 
-	public void swirlTeleport(){
+	public void swirlTeleport() {
 
         // The '+ Data.TILE_SIZE' comes from the left/right boundary ... 
 		imageX = swirl.imageX - Data.TILE_SIZE;
@@ -818,14 +819,13 @@ public class Player extends MovingAnimation {
 		
 			// Adjust Animation variables
 			repeat = true;
-			counter = -1;
 			active = true;
 			
 			// Switch animation images
 			if (facingRight)
-				images = stillAnim;
+				setNewAnimation(stillAnim);
 			else
-				images = stillAnimH;
+				setNewAnimation(stillAnimH);
 		}
 
 		super.animate();

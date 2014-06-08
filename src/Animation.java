@@ -23,32 +23,16 @@ public class Animation extends Thing {
 	
 	public enum Type {
 
+		JUMP_POWERUP,
+		SPEED_POWERUP,
+		ATTACK_POWERUP,
 		NOT_AVAILABLE,
 		FRUIT_RING,
 		ENEMY,
 		FRUIT,
-		FIREWORK,
-		JUMP_POWERUP,
-		SPEED_POWERUP,
-		ATTACK_POWERUP;
-
-		public int getNumber(){
-
-			switch (this){
-				case NOT_AVAILABLE : return -1;
-				case FRUIT_RING : return 1;
-				case ENEMY : return 2;
-				case FRUIT : return 3;
-				case FIREWORK : return 4;
-				case JUMP_POWERUP : return 5;
-				case SPEED_POWERUP : return 6;
-				case ATTACK_POWERUP : return 7;
-				default: return -1;
-
-			}
-		}
+		FIREWORK;
 		
-		};
+	};
 	
 	public static Type[] powerupTypes = new Type[]{Type.JUMP_POWERUP, Type.SPEED_POWERUP, Type.ATTACK_POWERUP};
 	
@@ -118,7 +102,6 @@ public class Animation extends Thing {
 			} else
 				delayCounter = 0;
 			
-			
 			// Adjust the counter in the correct direction
 			if (counterGoingUp)
 				counter++;
@@ -127,26 +110,27 @@ public class Animation extends Thing {
 			
 			/** Determine if the counter needs to switch directions **/
 			if (reverse) {
-				if (counter == images.length - 1)
+				if (counter >= images.length - 1)
 					counterGoingUp = false;
-				else if (counter == 0) {
+				else if (counter <= 0) {
 					if (!repeat)
 						active = false;
 					else
 						counterGoingUp = true;
 				}
-			} else if (counter == images.length)  {
+			} else if (counter >= images.length) {
 				if (!repeat)
 					active = false;
 				counter = 0;
 			}
 			
 			// Switch the GImage to the correct index, and adjust the width and height of the Rectangle
-			// Fixed issue #51 
+			// Fixed issue #51
 			try {
 				changeImage(images[counter]);
-			} catch(ArrayIndexOutOfBoundsException e){
+			} catch(ArrayIndexOutOfBoundsException e) {
 				counter = 0;
+				counterGoingUp = true;
 				changeImage(images[counter]);
 			}
 			
@@ -158,4 +142,11 @@ public class Animation extends Thing {
 		super.animate();
 	
 	}
+	
+	public void setNewAnimation(GImage[] newImages) {
+		images = newImages;
+		counter = -1;
+		counterGoingUp = true;
+	}
+
 }
