@@ -525,10 +525,10 @@ public class Player extends MovingAnimation {
 		active = true;
 
 		// Switch animation images
-		// if(facingRight)
-			// images = tongueAnim;
-		// else
-			// images = tongueAnimH;
+		if(facingRight)
+			setNewAnimation(tongueAnim);
+		else
+			setNewAnimation(tongueAnimH);
 		
 	}
 
