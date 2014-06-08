@@ -28,7 +28,7 @@ public abstract class Data {
 	public static BufferedImage sheet = null;
 	
 	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
-						heartImage, lava, spike,
+						heartImage, lava, spike, hintSign,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
@@ -201,8 +201,11 @@ public abstract class Data {
 		locked = makeImage(TILE_SIZE*10, TILE_SIZE, TILE_SIZE*2, TILE_SIZE*2);
 		
 		// Notes
-		music0 = makeImage(TILE_SIZE*7, TILE_SIZE*1, TILE_SIZE, TILE_SIZE);
+		music0 = makeImage(TILE_SIZE*7, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		music1 = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		
+		// Hint Sign
+		// hintSign = makeImage(TILE_SIZE*7, TILE_SIZE*1, TILE_SIZE, TILE_SIZE);
 		
 		// Energy and Health Bars for Player
 		healthBar = makeImage(116, 176, 122, 11);

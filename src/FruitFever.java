@@ -20,7 +20,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Constants **/
 
 	static GraphicsProgram screen;
+<<<<<<< HEAD
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 400;
+=======
+	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 100;
+>>>>>>> FETCH_HEAD
 
 /** Level Information/Objects/Lists **/
 	
