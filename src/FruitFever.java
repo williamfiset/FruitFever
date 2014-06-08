@@ -20,7 +20,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Constants **/
 
 	static GraphicsProgram screen;
-	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 30;
+	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500, MAIN_LOOP_SPEED = 400;
 
 /** Level Information/Objects/Lists **/
 	
@@ -453,6 +453,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			} else if (keyCode == KeyEvent.VK_D) {
 				player.facingRight = true;
 				player.setMovementDirection(Player.MovementDirection.RIGHT);
+
+			/** Reload level **/
+			}else if (keyCode == KeyEvent.VK_R){
+				currentScreen = ScreenMode.LEVEL_REFRESH;								
 			}
 			
 		}

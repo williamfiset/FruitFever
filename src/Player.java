@@ -111,6 +111,7 @@ public class Player extends MovingAnimation {
 		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
 		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
 		// System.out.printf("horizontalVelocity: %d\n", horizontalVelocity);
+		System.out.println(swirl );
 
 		// Collisions
 		checkCollisionDetection();
@@ -781,8 +782,6 @@ public class Player extends MovingAnimation {
 		// Focuses the view on the player placing the player in the center of the screen
 		focusViewOnPlayer(imageX, imageY, false); 
 
-		// Not sure this does anything
-		checkCollisionDetection();
 
 		swirl.resetState();
 	
