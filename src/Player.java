@@ -39,8 +39,8 @@ public class Player extends MovingAnimation {
 
 // Gravity/Falling Variables & Constants
 
+	static final double STARTING_FALLING_VELOCITY = 2.5;
 	private static final double TERMINAL_VELOCITY = Data.TILE_SIZE - VERTICAL_PX_BUFFER - 1;
-	private static final double STARTING_FALLING_VELOCITY = 2.5;
 	private static final double STARTING_FALLING_ACCELERATION = 0.5;
 	private static final double CHANGE_IN_ACCELERATION = 0.015;
 
@@ -702,11 +702,13 @@ public class Player extends MovingAnimation {
 		// Adjust Animation variable
 		repeat = false;
 		
+		int fv =  fallingVelocity <= Player.STARTING_FALLING_VELOCITY ? 0 : (int) fallingVelocity;
+
 		/** Check if there's a Block in front/in back of the player before he shoots **/
 		if (facingRight) {
 
-			Block westNorth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4 );
-			Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4) + (int) (fallingVelocity==STARTING_FALLING_VELOCITY?0:fallingVelocity));
+			Block westNorth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/5 );
+			Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv);
 
 			// If there is not Block in front of player
 			if (westNorth == null && westSouth == null) {
@@ -727,8 +729,8 @@ public class Player extends MovingAnimation {
 		// Facing left
 		} else {
 
-			Block eastNorth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/4);
-			Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/4) + (int) (fallingVelocity==STARTING_FALLING_VELOCITY?0:fallingVelocity));
+			Block eastNorth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/5);
+			Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv );
 
 			// If there is not Block in front of player
 			if (eastSouth == null && eastNorth == null) {
@@ -831,7 +833,7 @@ public class Player extends MovingAnimation {
 		swirl.animate();
 
 		// If Swirl goes off screen or hits a block, destroy it
-		if(swirl.imageX + Swirl.SWIRL_IMG_WIDTH < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock())
+		if(swirl.imageX + Swirl.SWIRL_IMG_WIDTH < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock(fallingVelocity))
 			swirl.resetState();
 
 	}
@@ -1005,18 +1007,21 @@ public class Player extends MovingAnimation {
 		}
 
 		/** Returns true or false depending on if the swirl has collided with a block **/
-		public boolean collidesWithBlock(){
+		public boolean collidesWithBlock(double fallingSpeed){
 
-			Block westNorth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + AIR_SPACING ) ;
+
+			int fallingVelocity =  fallingSpeed <= Player.STARTING_FALLING_VELOCITY ? 0 : (int) fallingSpeed;
+
+			Block westNorth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + AIR_SPACING - fallingVelocity ) ;
 			if (westNorth != null) return true;
 
-			Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + AIR_SPACING) ;
+			Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + AIR_SPACING - fallingVelocity) ;
 			if (eastNorth != null) return true;
 
-			Block westSouth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING ) ;
+			Block westSouth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING - fallingVelocity ) ;
 			if (westSouth != null) return true;
 
-			Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING );
+			Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING - fallingVelocity);
 			if (eastSouth != null) return true;
 
 			return false;
