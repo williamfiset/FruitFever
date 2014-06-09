@@ -28,7 +28,7 @@ public abstract class Data {
 	public static BufferedImage sheet = null;
 	
 	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
-						heartImage, lava, spike, hintSign,
+						heartImage, lava, spike,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
@@ -67,6 +67,7 @@ public abstract class Data {
 						fuzzyShot = new GImage[8],
 						swirlAnimation = new GImage[6],
 						
+						hintSign = new GImage[3],
 						refreshButton = new GImage[3],
 						menuButtons = new GImage[12],
 						leftArrowButton = new GImage[3],
@@ -204,8 +205,9 @@ public abstract class Data {
 		music0 = makeImage(TILE_SIZE*7, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		music1 = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
-		// Hint Sign
-		// hintSign = makeImage(TILE_SIZE*7, TILE_SIZE*1, TILE_SIZE, TILE_SIZE);
+		// Hint Sign (3 colors)
+		for (int i = 0; i < 3; i++)
+			hintSign[i] = makeImage(TILE_SIZE*i, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
 		
 		// Energy and Health Bars for Player
 		healthBar = makeImage(116, 176, 122, 11);
