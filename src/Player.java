@@ -111,7 +111,7 @@ public class Player extends MovingAnimation {
 		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
 		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
 		// System.out.printf("horizontalVelocity: %d\n", horizontalVelocity);
-		System.out.println(swirl );
+		// System.out.println(swirl );
 
 		// Collisions
 		checkCollisionDetection();
@@ -755,8 +755,25 @@ public class Player extends MovingAnimation {
 	public void swirlTeleport() {
 
         // The '+ Data.TILE_SIZE' comes from the left/right boundary ... 
+		// 
 		imageX = swirl.imageX - Data.TILE_SIZE;
-		imageY = swirl.imageY ;
+		// imageY = swirl.imageY ;
+
+		// imageX = (swirl.imageX/Data.TILE_SIZE) * Data.TILE_SIZE;
+		imageY = (swirl.imageY/Data.TILE_SIZE) * Data.TILE_SIZE;
+
+		// green
+		FruitFever.point1.setLocation( ( (swirl.x + Data.TILE_SIZE) / 25)*25 , swirl.y );
+
+		// blue
+		FruitFever.point2.setLocation( imageX - FruitFever.viewX, imageY - FruitFever.viewY );
+ 
+
+		/*
+		implement collision detection for blocks here
+		*/
+
+
 
 		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) **/
 		x = swirl.x + Data.TILE_SIZE;

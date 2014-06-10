@@ -13,7 +13,7 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
-	final static boolean debugMode = false;
+	final static boolean debugMode = true;
 
 	static ScreenHandler screenHandler;
 
