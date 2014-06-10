@@ -21,7 +21,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	static GraphicsProgram screen;
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500;
-	static int MAIN_LOOP_SPEED = 400;
+	static int MAIN_LOOP_SPEED = 30;
 
 /** Level Information/Objects/Lists **/
 	
@@ -228,6 +228,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				Block.motion();	
 				Block.drawBlocks();
 
+				player.animateProjectiles();
+					
 				player.jump();
 				player.motion();
 				player.animate();

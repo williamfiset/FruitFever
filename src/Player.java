@@ -15,8 +15,10 @@ import java.lang.reflect.*;
 
 public class Player extends MovingAnimation {
 
-	private int lives = 11;
+	static ArrayList<Projectile> projectiles = new ArrayList<>();
+
 	static final int MAX_LIVES = 11;
+	private int lives = MAX_LIVES;
 
 // Swirl related Variables
 	Swirl swirl;
@@ -971,10 +973,19 @@ public class Player extends MovingAnimation {
 			return new Rectangle(x - currentTongueWidth, y, currentTongueWidth, Data.TILE_SIZE);
 	}
 	
+	public void animateProjectiles() {
+		
+		for (Projectile obj : projectiles)
+			obj.animate();
+	
+	}
+	
 	/** Shoots a fireball (work-in-progress) **/
 	public void shootProjectile() {
-	
-	
+		Projectile obj = new Projectile(imageX + Data.TILE_SIZE, imageY, facingRight ? Projectile.dx : -Projectile.dx);
+		projectiles.add(obj);
+		FruitFever.screen.add(obj.image);
+		
 	}
 
 	public void setKeepJumping(boolean keepJumping){ this.keepJumping = keepJumping; }
@@ -1058,7 +1069,7 @@ public class Player extends MovingAnimation {
 	/** A projectile is shot from the player as an attack method (work-in-progress) **/
 	class Projectile extends MovingAnimation {
 	
-		static final byte dx = 10;
+		static final byte dx = 5;
 		
 		public Projectile(int x, int y, int xSpeed) {
 			super(x, y, new GImage[]{Data.fireBallSmall}, false, 1, true, xSpeed, 0, Animation.Type.NOT_AVAILABLE);
