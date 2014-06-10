@@ -21,7 +21,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	static GraphicsProgram screen;
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500;
-	static int MAIN_LOOP_SPEED = 30;
+	static int MAIN_LOOP_SPEED = 400;
 
 /** Level Information/Objects/Lists **/
 	
@@ -95,6 +95,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** BUG TESTING COLLISION DETECTION **/
 	static GRect point1;
 	static GRect point2;
+	static GRect point3;
+	static GRect point4;
+	static GRect point5;
+	static GRect point6;
 
 	@Override public void init() {
 		screen = this;
@@ -113,8 +117,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
 		
 		if (debugMode) {
+			
 			point1 = new GRect(0,0,2,3);
 			point2 = new GRect(0,0,2,3);
+			point3 = new GRect(0,0,2,3);
+			point4 = new GRect(0,0,2,3);
+			point5 = new GRect(0,0,2,3);
+			point6 = new GRect(0,0,2,3);
+
 			leftRect.setFillColor(Color.RED);
 			rightRect.setFillColor(Color.RED);
 			upRect.setFillColor(Color.RED);
@@ -122,6 +132,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			centerRect.setFillColor(Color.RED);
 			point1.setFillColor(Color.GREEN);
 			point2.setFillColor(Color.BLUE);
+			point3.setFillColor(Color.ORANGE);
+			point4.setFillColor(Color.YELLOW);
+			point5.setFillColor(Color.RED);
+			point6.setFillColor(Color.MAGENTA);
+
 			leftRect.setFilled(true);
 			rightRect.setFilled(true);
 			downRect.setFilled(true);
@@ -129,6 +144,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			centerRect.setFilled(true);
 			point1.setFilled(true);
 			point2.setFilled(true);
+			point3.setFilled(true);
+			point4.setFilled(true);
+			point5.setFilled(true);
+			point6.setFilled(true);
 		}		
 
 		// It's a byte an not an int because we're paranoid about saving memory! 
@@ -219,8 +238,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
 				
 				if (debugMode) {
+
 					add(point1);
 					add(point2);
+					add(point3);
+					add(point4);
+					add(point5);
+					add(point6);
+
 					add(leftRect);
 					add(rightRect);
 					add(upRect);

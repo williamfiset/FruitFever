@@ -153,6 +153,8 @@ public class Block extends Thing {
 	/** Returns the block contained within a given pair of coordinates **/
 	public static Block getBlock(int xPos, int yPos){
 
+		/*
+
 		// Gets both the center row and column containing the block were looking for
 		int rowNumber = ( (xPos + FruitFever.viewX) / Data.TILE_SIZE) * Data.TILE_SIZE;
 		int columnNumber = ( (yPos + FruitFever.viewY) / Data.TILE_SIZE) * Data.TILE_SIZE;
@@ -179,13 +181,15 @@ public class Block extends Thing {
 			// Block coordinates were not found, typically due to air space or out of bounds
 			return null;
 		}
+		
+		*/
 
-		/* This is the old Block finder method, I'm keeping it just in case we need to go back to it
-
+		// This is the old Block finder method, I'm keeping it just in case we need to go back to it
+		
 		for (Block block : FruitFever.blocks)
 			if (block.contains(xPos, yPos)) // From java.awt.Rectangle.contains(x,y) 
 				return block;
-		*/
+		
 
 		// Block coordinates were not found, typically due to air space or out of bounds
 		return null;
