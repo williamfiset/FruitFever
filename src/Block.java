@@ -11,6 +11,7 @@
 import acm.graphics.*;
 import java.util.*;
 
+
 public class Block extends Thing {
 
 	int color;
@@ -37,10 +38,7 @@ public class Block extends Thing {
 
 	public Block(int x, int y, int width, int height, int color, GImage image){
 
-		/** To improve the rotation couldn't we simply generate the four rotations and then pick one 
-		    Randomly instead of running the filter each time? This doesn't matter because we have 
-		    few blocks atm but this could save us a lot of time **/
-		super(x, y, width, height, ImageTransformer.rotateRandomly(image));
+		super(x, y, width, height, image );
 
 		// Search if row exists within HashMap
 		if (xBlockPositions.containsKey(x)) {
@@ -157,13 +155,25 @@ public class Block extends Thing {
 
 		// Gets both the center row and column containing the block were looking for
 		int rowNumber = ( (xPos + FruitFever.viewX) / Data.TILE_SIZE) * Data.TILE_SIZE;
-		int columnNumber = ( (yPos + FruitFever.viewY) / Data.TILE_SIZE) * Data.TILE_SIZE;
+		int rowNumber2 = ( (xPos + FruitFever.viewX) / Data.TILE_SIZE) * Data.TILE_SIZE - Data.TILE_SIZE;
+		int rowNumber3 = ( (xPos + FruitFever.viewX) / Data.TILE_SIZE) * Data.TILE_SIZE + Data.TILE_SIZE;
 
-		try{
+		int columnNumber = ( (yPos + FruitFever.viewY) / Data.TILE_SIZE) * Data.TILE_SIZE;
+		int columnNumber2 = ( (yPos + FruitFever.viewY) / Data.TILE_SIZE) * Data.TILE_SIZE - Data.TILE_SIZE;
+		int columnNumber3 = ( (yPos + FruitFever.viewY) / Data.TILE_SIZE) * Data.TILE_SIZE + Data.TILE_SIZE;
+
+		try {
 
 			// Defines center row & Column
-			ArrayList <Block> row = xBlockPositions.get(rowNumber);
-			ArrayList <Block> column = yBlockPositions.get(columnNumber);
+			ArrayList <Block> row = new ArrayList <Block> (); // xBlockPositions.get(rowNumber);
+			ArrayList <Block> column = new ArrayList <Block> (); //yBlockPositions.get(columnNumber);
+
+			if (isWithinRange(rowNumber , true) ) row.addAll(xBlockPositions.get(rowNumber)) ;
+			if (isWithinRange(rowNumber2 , true) ) row.addAll(xBlockPositions.get(rowNumber2)) ;
+			if (isWithinRange(rowNumber3 , true) ) row.addAll(xBlockPositions.get(rowNumber3)) ;
+			if (isWithinRange(columnNumber , false) ) column.addAll(yBlockPositions.get(columnNumber)) ;
+			if (isWithinRange(columnNumber2 , false) ) column.addAll(yBlockPositions.get(columnNumber2)) ;
+			if (isWithinRange(columnNumber3 , false) ) column.addAll(yBlockPositions.get(columnNumber3)) ;
 
 			for (Block xBlock : row) {
 				for (Block yBlock : column) {
@@ -184,12 +194,14 @@ public class Block extends Thing {
 		
 		*/
 
+
 		// This is the old Block finder method, I'm keeping it just in case we need to go back to it
 		
 		for (Block block : FruitFever.blocks)
 			if (block.contains(xPos, yPos)) // From java.awt.Rectangle.contains(x,y) 
 				return block;
 		
+
 
 		// Block coordinates were not found, typically due to air space or out of bounds
 		return null;
@@ -280,10 +292,10 @@ public class Block extends Thing {
 		// Also activates falling blocks
 		if (!randomlySelectedBlock.motionBlock)
 			if (randomlySelectedBlock.imageX > FruitFever.viewX && randomlySelectedBlock.imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
-				if (randomlySelectedBlock.imageY > FruitFever.viewY && randomlySelectedBlock.imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE){
+				if (randomlySelectedBlock.imageY > FruitFever.viewY && randomlySelectedBlock.imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) {
 					
 					randomlySelectedBlock.dy = 1;
-					randomlySelectedBlock.changeImage(Data.blockImages[17]);
+					randomlySelectedBlock.changeImage(Data.blockImages[17][0]);
 					randomlySelectedBlock.motionBlock = true;
 					fallingBlocks.add(randomlySelectedBlock);
 					naturalFallingBlockCondidates.remove(randomlySelectedBlock);
@@ -315,17 +327,17 @@ public class Block extends Thing {
 		// found the block we were looking for
 		if (fallingBlock1 != null) {
 			fallingBlocks.add(fallingBlock1);
-			fallingBlock1.changeImage(Data.blockImages[16]);
+			fallingBlock1.changeImage(Data.blockImages[16][0]);
 		}
 
 		if (fallingBlock2 != null) {
 			fallingBlocks.add(fallingBlock2);
-			fallingBlock2.changeImage(Data.blockImages[16]);
+			fallingBlock2.changeImage(Data.blockImages[16][0]);
 		}
 
 		if (fallingBlock0 != null) {
 			fallingBlocks.add(fallingBlock0);
-			fallingBlock0.changeImage(Data.blockImages[16]);	
+			fallingBlock0.changeImage(Data.blockImages[16][0]);	
 		}
 
 	}
@@ -383,11 +395,18 @@ public class Block extends Thing {
 			fallingBlock.imageX += fallingBlock.dx;
 			fallingBlock.imageY += fallingBlock.dy;
 			
+			// You only need to change th eimagex and imagey because the bounding box automatically takes care of the 
 			// doesn't seem to be needed
 			// fallingBlock.x += fallingBlock.dx;
 			// fallingBlock.y += fallingBlock.dy;
 			
 		}
+
+	}
+
+	private static boolean isWithinRange (int num, boolean x) {
+
+		return x ? (num >= 0 && num < FruitFever.LEVEL_WIDTH ) : (num >= 0 && num < FruitFever.LEVEL_HEIGHT );
 
 	}
 
