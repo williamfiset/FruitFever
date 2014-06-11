@@ -38,9 +38,7 @@ public abstract class Data {
 						bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
 						energyBar, energyBarBackground, healthBar, healthBarBackground;
 						
-	public static GImage[] blockImages = new GImage[18],
-						   
-						sceneryImages = new GImage[28],
+	public static GImage[] sceneryImages = new GImage[28],
 						   
 						blueFruit = new GImage[5],
 						yellowFruit = new GImage[6],
@@ -77,7 +75,8 @@ public abstract class Data {
 						levelButton = new GImage[2];
 
 	public static GImage[][] fireworkAnimation = new GImage[3][5],
-							torches = new GImage[3][3];
+							torches = new GImage[3][3],
+							blockImages = new GImage[18][4];
 
 	/** Loads the images required for the loading screen **/
 	public static void loadingScreen(){
@@ -97,8 +96,11 @@ public abstract class Data {
 		/** Blocks **/
 		sheet = DataLoader.loadImage("img/sprites/blocks.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/blocks.png");
 	
-		for (int i = 0; i < 18; i++)
-			blockImages[i] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
+		for (int i = 0; i < 18; i++) {
+			blockImages[i][0] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
+			for (int j = 1; j < 4; j++)
+				blockImages[i][j] = ImageTransformer.rotateCounterClockwise(blockImages[i][j - 1]);
+		}
 		
 		updateLoadingBar(0.1);
 		
@@ -482,7 +484,7 @@ public abstract class Data {
 						// Normal Blocks
 						if (character - 'a' >= 0) {
 							color = character - 'a';
-							image = blockImages[color];
+							image = blockImages[color][(int) (Math.random()*4)];
 						}
 						// Capital letters
 						else {

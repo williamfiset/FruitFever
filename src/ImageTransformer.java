@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 abstract class ImageTransformer {
 
 	/** Rotates a GImage vertically **/
-	public static GImage verticalFlip(GImage img){
+	public static GImage verticalFlip(GImage img) {
 	
 		int[][] arr = img.getPixelArray();
 		int[][] arr2 = new int[arr.length][arr[0].length];
@@ -30,7 +30,7 @@ abstract class ImageTransformer {
     }
 	
 	/** Rotates a GImage horizontally **/
-	public static GImage horizontalFlip(GImage img){
+	public static GImage horizontalFlip(GImage img) {
 	
 		int[][] arr = img.getPixelArray();
 		int[][] arr2 = new int[arr.length][arr[0].length];
@@ -44,8 +44,8 @@ abstract class ImageTransformer {
     }
 	
 	/** Rotates a GImage counter-clockwise **/
-	public static GImage rotateCounterClockwise(GImage img){
-		
+	public static GImage rotateCounterClockwise(GImage img) {
+	
 		int[][] arr = img.getPixelArray();
 		int[][] arr2 = new int[arr[0].length][arr.length];
 
@@ -58,7 +58,7 @@ abstract class ImageTransformer {
     }
 	
 	/** Resizes (shrinks/stretches) a GImage **/
-	public static GImage resize(GImage img, int newWidth, int newHeight){
+	public static GImage resize(GImage img, int newWidth, int newHeight) {
 		
 		int[][] arr = img.getPixelArray();
 		int[][] arr2 = new int[newHeight][newWidth];
@@ -78,17 +78,17 @@ abstract class ImageTransformer {
     }
 	
 	/** Rotates a GImage clockwise **/
-	public static GImage rotateClockwise(GImage img){
+	public static GImage rotateClockwise(GImage img) {
      	return rotateCounterClockwise(rotateCounterClockwise(rotateCounterClockwise(img)));
     }
 	
 	/** Rotates a GImage 180 degrees **/
-	public static GImage rotate180(GImage img){
+	public static GImage rotate180(GImage img) {
      	return rotateCounterClockwise(rotateCounterClockwise(img));
     }
 	
 	/** Randomly rotates a GImage **/
-	public static GImage rotateRandomly(GImage img){
+	public static GImage rotateRandomly(GImage img) {
 		int rotations = (int) (Math.random()*4);
 		
 		for(int i = 0; i < rotations; i++)
@@ -98,14 +98,14 @@ abstract class ImageTransformer {
 	}
 	
 	/** Randomly mirrors a GImage horizontally **/
-	public static GImage mirrorRandomly(GImage img){
-		if(Math.random() < 0.5)
+	public static GImage mirrorRandomly(GImage img) {
+		if (Math.random() < 0.5)
 			return horizontalFlip(img);
 		else
 			return img;
 	}
 	/** Crops a GImage **/
-	public static GImage crop(GImage img, int width, int height){
+	public static GImage crop(GImage img, int width, int height) {
 		try {
 			int[][] arr = img.getPixelArray();
 			int[][] arr2 = new int[Math.max(height, 0)][Math.max(width, 0)];
@@ -139,11 +139,11 @@ abstract class ImageTransformer {
 		}
 	}
 	
-	public static GImage crop(GImage img, int width){
+	public static GImage crop(GImage img, int width) {
 		return crop(img, width, (int) img.getHeight());
 	}
 	
-	public static GImage crop(GImage img, double width){
+	public static GImage crop(GImage img, double width) {
 		return crop(img, (int) width);
 	}
 	
