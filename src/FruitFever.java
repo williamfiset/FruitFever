@@ -26,7 +26,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Level Information/Objects/Lists **/
 	
 	static int currentFruitRings, totalFruitRings;
-	static double currentEnergy, maxEnergy = 1000, currentHealth, maxHealth = 1000;
+	static double currentEnergy, maxEnergy = 100000, currentHealth, maxHealth = 1000;
 	static LevelInformation[] levelInformation = new LevelInformation[100];
 	static int LEVEL_WIDTH, LEVEL_HEIGHT;
 	

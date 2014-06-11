@@ -769,20 +769,13 @@ public class Player extends MovingAnimation {
 
 	public void swirlTeleport() {
 
-        // The '+ Data.TILE_SIZE' comes from the left/right boundary ... 
-		// 
+        // The '+ Data.TILE_SIZE' comes where the player's image starts ... 
+		
 		imageX = swirl.imageX - Data.TILE_SIZE;
-		// imageY = swirl.imageY ;
+		imageY = swirl.imageY ;
 
 		// imageX = (swirl.imageX/Data.TILE_SIZE) * Data.TILE_SIZE;
-		imageY = (swirl.imageY/Data.TILE_SIZE) * Data.TILE_SIZE;
-
-
-
-		/*
-		implement collision detection for blocks here
-		*/
-
+		// imageY = (swirl.imageY/Data.TILE_SIZE) * Data.TILE_SIZE;
 
 
 		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) **/
