@@ -8,6 +8,7 @@
 // To-do : Make Fruit Rings appear on top of scenery 
 // Make Fruit Rings spin at different spins
 // Make buttons in level selection screen inactive when you can no longer change pages
+// Player does not need to extend MovingAnimation? It doesn't use xSpeed or ySpeed
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
@@ -428,8 +429,8 @@ public abstract class Data {
 					
 					// Set the player's start position
 					if (character == '@') {
-						FruitFever.playerStartX = i*TILE_SIZE;
-						FruitFever.playerStartY = lineNumber*TILE_SIZE;
+						Player.startX = i*TILE_SIZE;
+						Player.startY = lineNumber*TILE_SIZE;
 						continue;
 					}
 

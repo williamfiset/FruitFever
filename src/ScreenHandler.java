@@ -231,7 +231,7 @@ public class ScreenHandler {
 	}
 	
 	public static void resetEnergyBar() {
-		FruitFever.currentEnergy = FruitFever.maxEnergy;
+		FruitFever.player.currentEnergy = FruitFever.player.maxEnergy;
 		adjustEnergyBar(1.0);
 	}
 	
@@ -240,7 +240,7 @@ public class ScreenHandler {
 	}
 	
 	public static void resetHealthBar() {
-		FruitFever.currentHealth = FruitFever.maxHealth;
+		FruitFever.player.currentHealth = FruitFever.player.maxHealth;
 		adjustHealthBar(1.0);
 	}
 	

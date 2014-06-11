@@ -26,7 +26,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Level Information/Objects/Lists **/
 	
 	static int currentFruitRings, totalFruitRings;
-	static double currentEnergy, maxEnergy = 100000, currentHealth, maxHealth = 1000;
 	static LevelInformation[] levelInformation = new LevelInformation[100];
 	static int LEVEL_WIDTH, LEVEL_HEIGHT;
 	
@@ -43,8 +42,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Player **/
 
 	static Player player;
-	static int playerStartX, playerStartY;
 	static boolean swirlButtonPressed = false, tongueButtonPressed = false, shootButtonPressed = false;
+	
+	// These variables are used to help deal with multi-threading, it allows us to control when the events occur during the main loop
+	static boolean swirlEventInvoked = false, tongueEventInvoked = false, shootEventInvoked = false;
 	
 /** Menus/GUI **/
 	
@@ -118,36 +119,21 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		if (debugMode) {
 			
-			point1 = new GRect(0,0,2,3);
-			point2 = new GRect(0,0,2,3);
-			point3 = new GRect(0,0,2,3);
-			point4 = new GRect(0,0,2,3);
-			point5 = new GRect(0,0,2,3);
-			point6 = new GRect(0,0,2,3);
+			point1 = new GRect(0,0,2,3); point2 = new GRect(0,0,2,3);
+			point3 = new GRect(0,0,2,3); point4 = new GRect(0,0,2,3);
+			point5 = new GRect(0,0,2,3); point6 = new GRect(0,0,2,3);
 
-			leftRect.setFillColor(Color.RED);
-			rightRect.setFillColor(Color.RED);
-			upRect.setFillColor(Color.RED);
-			downRect.setFillColor(Color.RED);
-			centerRect.setFillColor(Color.RED);
-			point1.setFillColor(Color.GREEN);
-			point2.setFillColor(Color.BLUE);
-			point3.setFillColor(Color.ORANGE);
-			point4.setFillColor(Color.YELLOW);
-			point5.setFillColor(Color.RED);
-			point6.setFillColor(Color.MAGENTA);
+			leftRect.setFillColor(Color.RED); rightRect.setFillColor(Color.RED); upRect.setFillColor(Color.RED);
+			downRect.setFillColor(Color.RED); centerRect.setFillColor(Color.RED);
+			point1.setFillColor(Color.GREEN); point2.setFillColor(Color.BLUE);
+			point3.setFillColor(Color.ORANGE); point4.setFillColor(Color.YELLOW);
+			point5.setFillColor(Color.RED);	point6.setFillColor(Color.MAGENTA);
 
-			leftRect.setFilled(true);
-			rightRect.setFilled(true);
-			downRect.setFilled(true);
-			upRect.setFilled(true);
-			centerRect.setFilled(true);
-			point1.setFilled(true);
-			point2.setFilled(true);
-			point3.setFilled(true);
-			point4.setFilled(true);
-			point5.setFilled(true);
-			point6.setFilled(true);
+			leftRect.setFilled(true); rightRect.setFilled(true); downRect.setFilled(true);
+			upRect.setFilled(true);	centerRect.setFilled(true);
+			point1.setFilled(true);	point2.setFilled(true);
+			point3.setFilled(true);	point4.setFilled(true);
+			point5.setFilled(true);	point6.setFilled(true);
 		}		
 
 		// It's a byte an not an int because we're paranoid about saving memory! 
@@ -219,6 +205,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				/** Animate all edible items **/
 				for (Animation item : edibleItems)
 					item.animate();
+				
+				if (swirlEventInvoked)		
+					swirlEvent();
+				if (tongueEventInvoked)		
+					tongueEvent();
+				if (shootEventInvoked)		
+					shootEvent();
 
 				// Tests for falling blocks
 				// Block.updateNaturalFallingBlockCandidates();
@@ -227,33 +220,22 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				// Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
 				Block.motion();	
 				Block.drawBlocks();
-
-				player.animateProjectiles();
-					
-				player.jump();
+				
+				player.swirl.animate();
+				
 				player.motion();
 				player.animate();
+				
+				player.animateProjectiles();
+				
 				ScreenHandler.adjustHearts(player.getLives());
 				
 				/** Adjust energy bar **/
-				currentEnergy = Math.max(currentEnergy - 0.1, 0);
-				screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
+				player.currentEnergy = Math.max(player.currentEnergy - 0.1, 0);
+				screenHandler.adjustEnergyBar(player.currentEnergy/player.maxEnergy);
 				
-				if (debugMode) {
-
-					add(point1);
-					add(point2);
-					add(point3);
-					add(point4);
-					add(point5);
-					add(point6);
-
-					add(leftRect);
-					add(rightRect);
-					add(upRect);
-					add(downRect);
-					add(centerRect);
-				}
+				if (debugMode)
+					screenHandler.add(point1, point2, point3, point4, point5, point6, leftRect, rightRect, upRect, downRect, centerRect);
 
 			}
 
@@ -344,9 +326,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		currentFruitRings = 0;
 		totalFruitRings = 0;
-		
-		currentEnergy = maxEnergy;
-		currentHealth = maxHealth;
 
 		/** LOAD NEW LEVEL**/
 		
@@ -359,8 +338,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			
 		findScreenDimensions();
 		
-		player = new Player(playerStartX, playerStartY);
-		player.focusViewOnPlayer(playerStartX, playerStartY, true);
+		player = new Player();
+		player.focusViewOnPlayer(Player.startX, Player.startY, true);
 		player.setMovementDirection(Player.MovementDirection.NONE);
 		// player.respawn();
 
@@ -430,92 +409,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		screenHandler.drawMainMenu();
 	
 	}
-	
-	@Override public void keyPressed(KeyEvent key){
-		
-		if (currentScreen == ScreenMode.PLAYING) {
-		
-			int keyCode = key.getKeyCode();
 
-			/** JUMP **/
-			if (keyCode == KeyEvent.VK_W) {
-				player.setKeepJumping(true);	
-
-			/** SHOOT **/
-			} else if (keyCode == KeyEvent.VK_S) {
-				if (!shootButtonPressed)
-					player.shootProjectile();
-
-			/** TONGUE **/
-			} else if (keyCode == KeyEvent.VK_SHIFT) {
-				if (!tongueButtonPressed && grabbedItem == null && player.finishedTongueAnimation){
-					player.finishedTongueAnimation = false;
-					tongueButtonPressed = true;
-					player.eat();
-				}
-
-			/** Shoot Swirl **/
-			} else if (keyCode == KeyEvent.VK_SPACE) {
-				
-				if (!swirlButtonPressed && player.finishedTongueAnimation) {
-				
-					if (player.swirl.reset) {
-						if (currentEnergy - Swirl.energyRequired >= 0)
-							player.shootSwirl();
-					}
-					else {
-						currentEnergy = Math.max(currentEnergy - Swirl.energyRequired, 0);
-						screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
-						player.swirlTeleport();
-					}
-					
-					swirlButtonPressed = true;
-				}
-		
-			/** Movement LEFT **/
-			} else if (keyCode == KeyEvent.VK_A) {
-				player.facingRight = false; 
-				player.setMovementDirection(Player.MovementDirection.LEFT);
-			
-			/** Movement RIGHT **/
-			} else if (keyCode == KeyEvent.VK_D) {
-				player.facingRight = true;
-				player.setMovementDirection(Player.MovementDirection.RIGHT);
-
-			/** Reload level **/
-			}else if (keyCode == KeyEvent.VK_R){
-				currentScreen = ScreenMode.LEVEL_REFRESH;								
-			}
-			
-		}
-	}
-	
-	@Override public void keyReleased(KeyEvent key){
-		
-		if (currentScreen == ScreenMode.PLAYING) {
-		
-			int keyCode = key.getKeyCode();
-
-			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
-			
-				player.setMovementDirection(Player.MovementDirection.NONE);
-				player.dx = 0;
-				vx = 0;
-				vy = 0;
-			
-			} else if (keyCode == KeyEvent.VK_SPACE)
-				swirlButtonPressed = false;
-			else if (keyCode == KeyEvent.VK_SHIFT)
-				tongueButtonPressed = false;
-			else if (keyCode == KeyEvent.VK_S)
-				shootButtonPressed = false;
-			else if (keyCode == KeyEvent.VK_W) 
-				player.setKeepJumping(false);
-			
-		}
-		
-	}
-	
 	/** Check to see if the mouse is hovering over any images and sets them accordingly **/
 	@Override public void mouseMoved(MouseEvent mouse) {
 	
@@ -523,10 +417,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			
 			Button obj = buttons.get(i);
 			
-			if(obj.equals(clickedOnButton) || !obj.active)
+			if (obj.equals(clickedOnButton) || !obj.active)
 				continue;
 				
-			if(obj.checkOverlap(mouse.getX(), mouse.getY()))
+			if (obj.checkOverlap(mouse.getX(), mouse.getY()))
 				obj.setHover();
 			else
 				obj.setDefault();
@@ -631,6 +525,120 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		/** Fixes Issue #81 (Teleportation problem) **/
 		player.animate();
 
+	}
+	
+		@Override public void keyPressed(KeyEvent key){
+		
+		if (currentScreen == ScreenMode.PLAYING) {
+		
+			int keyCode = key.getKeyCode();
+
+			/** JUMP **/
+			if (keyCode == KeyEvent.VK_W) {
+				player.setKeepJumping(true);	
+
+			/** SHOOT **/
+			} else if (keyCode == KeyEvent.VK_S) {
+				shootEventInvoked = true;
+
+			/** TONGUE **/
+			} else if (keyCode == KeyEvent.VK_SHIFT) {
+				tongueEventInvoked = true;
+
+			/** SWIRL **/
+			} else if (keyCode == KeyEvent.VK_SPACE) {
+				swirlEventInvoked = true;
+		
+			/** Movement LEFT **/
+			} else if (keyCode == KeyEvent.VK_A) {
+				player.facingRight = false; 
+				player.setMovementDirection(Player.MovementDirection.LEFT);
+			
+			/** Movement RIGHT **/
+			} else if (keyCode == KeyEvent.VK_D) {
+				player.facingRight = true;
+				player.setMovementDirection(Player.MovementDirection.RIGHT);
+
+			/** Reload level **/
+			} else if (keyCode == KeyEvent.VK_R){
+				currentScreen = ScreenMode.LEVEL_REFRESH;								
+			}
+			
+		}
+	}
+	
+	@Override public void keyReleased(KeyEvent key){
+		
+		if (currentScreen == ScreenMode.PLAYING) {
+		
+			int keyCode = key.getKeyCode();
+
+			if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_A) {
+			
+				player.setMovementDirection(Player.MovementDirection.NONE);
+				player.dx = 0;
+				vx = 0;
+				vy = 0;
+			
+			} else if (keyCode == KeyEvent.VK_SPACE) {
+				swirlButtonPressed = false;
+				swirlEventInvoked = false;
+			} else if (keyCode == KeyEvent.VK_SHIFT) {
+				tongueButtonPressed = false;
+				tongueEventInvoked = false;
+			} else if (keyCode == KeyEvent.VK_S) {
+				shootButtonPressed = false;
+				shootEventInvoked = false;
+			} else if (keyCode == KeyEvent.VK_W) 
+				player.setKeepJumping(false);
+			
+		}
+		
+	}
+	
+	
+	private void shootEvent() {
+		
+		if (!shootButtonPressed) {
+			shootButtonPressed = true;
+			player.shootProjectile();
+		}
+		
+		shootEventInvoked = false;
+	
+	}
+	
+	private void tongueEvent() {
+		
+		if (!tongueButtonPressed && grabbedItem == null && player.finishedTongueAnimation){
+			player.finishedTongueAnimation = false;
+			tongueButtonPressed = true;
+			player.eat();
+		}
+		
+		tongueEventInvoked = false;
+	
+	}
+	
+	private void swirlEvent() {
+		
+		if (!swirlButtonPressed && player.finishedTongueAnimation) {
+					
+			if (player.swirl.reset) {
+				if (player.currentEnergy - Swirl.energyRequired >= 0)
+					player.shootSwirl();
+			}
+			else {
+				player.currentEnergy = Math.max(player.currentEnergy - Swirl.energyRequired, 0);
+				screenHandler.adjustEnergyBar(player.currentEnergy/player.maxEnergy);
+				player.swirlTeleport();
+			}
+			
+			swirlButtonPressed = true;
+		}
+		
+		swirlEventInvoked = false;
+	
 	}
 
 }

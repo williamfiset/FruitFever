@@ -15,10 +15,14 @@ import java.lang.reflect.*;
 
 public class Player extends MovingAnimation {
 
-	static ArrayList<Projectile> projectiles = new ArrayList<>();
+	static int startX, startY;
 
+	static ArrayList<Projectile> projectiles = new ArrayList<>();
+	
+// Player Stats
 	static final int MAX_LIVES = 11;
 	private int lives = MAX_LIVES;
+	public double maxEnergy = 100000, currentEnergy = maxEnergy, maxHealth = 1000, currentHealth = maxHealth;
 
 // Swirl related Variables
 	Swirl swirl;
@@ -84,9 +88,9 @@ public class Player extends MovingAnimation {
 	private boolean sideCollisionFacingLeft = false, sideCollisionFacingRight = false ;
 	private boolean sideCollision = false;
 
-	public Player(int x, int y){
+	public Player(){
 
-		super(x, y, Data.playerStill, false, 1, true, Animation.Type.NOT_AVAILABLE);
+		super(startX, startY, Data.playerStill, false, 1, true, Animation.Type.NOT_AVAILABLE);
 
 		stillAnim   = Data.playerStill;
 		stillAnimH  = Data.playerStillH;
@@ -115,6 +119,8 @@ public class Player extends MovingAnimation {
 		// System.out.printf("horizontalVelocity: %d\n", horizontalVelocity);
 		// System.out.println(swirl );
 
+		jump();
+		
 		// Collisions
 		checkCollisionDetection();
 		objectCollisions();
@@ -538,7 +544,7 @@ public class Player extends MovingAnimation {
 
 		// This statement kinda looks weird but it's clear and more efficient (I think!)
 		if (checkForPlayerOutOfBounds()) {}
-		else if (FruitFever.currentEnergy <= 0 || FruitFever.currentHealth <= 0) {
+		else if (currentEnergy <= 0 || currentHealth <= 0) {
 			FruitFever.screenHandler.adjustHearts(--lives);	
 			respawn();
 		} else if (checkForDangerousSpriteCollisions()) {}
@@ -597,8 +603,8 @@ public class Player extends MovingAnimation {
 				
 					checkPoint.changeImage(Data.checkpointFlagGreen);
 					FruitFever.greenCheckPoint = checkPoint;
-					FruitFever.playerStartX = checkPoint.imageX;
-					FruitFever.playerStartY = checkPoint.imageY + Data.TILE_SIZE;
+					startX = checkPoint.imageX;
+					startY = checkPoint.imageY + Data.TILE_SIZE;
 
 					for(int i = 0; i < 7; i++)
 						FruitFever.addToThings(new Animation(checkPoint.imageX - 17 + (int) (Math.random()*35),
@@ -680,14 +686,14 @@ public class Player extends MovingAnimation {
 		fallingAcceleration = STARTING_FALLING_ACCELERATION;
 
 		// Load player in the correct spot 
-		imageX = FruitFever.playerStartX;
-		imageY = FruitFever.playerStartY;			
+		imageX = startX;
+		imageY = startY;			
 
 		// Resetswirl
 		swirl.resetState();
 
 		// Focus view on the player
-		focusViewOnPlayer(FruitFever.playerStartX, FruitFever.playerStartY, true);
+		focusViewOnPlayer(startX, startY, true);
 		
 		/** Reset health and energy bars **/
 		FruitFever.screenHandler.resetEnergyBar();
@@ -848,13 +854,6 @@ public class Player extends MovingAnimation {
 		}
 
 		super.animate();
-		
-		// Fixes Issue #45 when Animating the swirl before you check the collision
-		swirl.animate();
-
-		// If Swirl goes off screen or hits a block, destroy it
-		if(swirl.imageX + Swirl.SWIRL_IMG_WIDTH < 0 || swirl.imageX > FruitFever.LEVEL_WIDTH || swirl.collidesWithBlock())
-			swirl.resetState();
 
 	}
 	
@@ -884,8 +883,8 @@ public class Player extends MovingAnimation {
 						// Grabs Fruit
 						else if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT) {
 
-							FruitFever.currentEnergy = Math.min(FruitFever.currentEnergy + 300, FruitFever.maxEnergy);
-							FruitFever.screenHandler.adjustEnergyBar(FruitFever.currentEnergy/FruitFever.maxEnergy);
+							currentEnergy = Math.min(currentEnergy + 300, maxEnergy);
+							FruitFever.screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
 
 						// Grabs JumpPowerUp
 						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.JUMP_POWERUP) {
@@ -993,84 +992,94 @@ public class Player extends MovingAnimation {
 
 }
 
-	/** A swirl is a projectile shot from the player as a teleportation method  **/
-	class Swirl extends MovingAnimation {
+/** A swirl is a projectile shot from the player as a teleportation method  **/
+class Swirl extends MovingAnimation {
+
+	static final int energyRequired = 50;		
+	static boolean reset = true;
+
+	// Swirl's velocity
+	static final byte dx = 7; // (Must remain an integer for collision detection to work)
+
+	// This is the location of where the swirl is off screen when it is at rest
+	static final short SWIRL_X_REST_POS = -100;
+	static final short SWIRL_Y_REST_POS = -100;
+
+	// These values are the actual image dimensions not the Data.TILE_SIZE Data.TILE_SIZE and Data.TILE_SIZE
+	static final byte SWIRL_IMG_WIDTH = 14; 
+	static final byte SWIRL_IMG_HEIGHT = 14; 
+
+	// Since the swirl is a circle the collision buffer makes collision much more accurate 
+	static final byte AIR_SPACING = 6;
+
+	public Swirl() {
+
+		super(SWIRL_X_REST_POS, SWIRL_Y_REST_POS, Data.swirlAnimation, false, 0, true, 0, 0, Animation.Type.NOT_AVAILABLE);
+		resetState();
+
+	}
 	
-		static final int energyRequired = 50;		
-		static boolean reset = true;
+	public void animate() {
+	
+		super.animate();
 
-		// Swirl's velocity
-		static final byte dx = 7; // (Must remain an integer for collision detection to work)
-
-		// This is the location of where the swirl is off screen when it is at rest
-		static final short SWIRL_X_REST_POS = -100;
-		static final short SWIRL_Y_REST_POS = -100;
-
-		// These values are the actual image dimensions not the Data.TILE_SIZE Data.TILE_SIZE and Data.TILE_SIZE
-		static final byte SWIRL_IMG_WIDTH = 14; 
-		static final byte SWIRL_IMG_HEIGHT = 14; 
-
-		// Since the swirl is a circle the collision buffer makes collision much more accurate 
-		static final byte AIR_SPACING = 6;
-
-		public Swirl(){
-
-			super(SWIRL_X_REST_POS, SWIRL_Y_REST_POS, Data.swirlAnimation, false, 0, true, 0, 0, Animation.Type.NOT_AVAILABLE);
+		// If Swirl goes off screen or hits a block, destroy it
+		if (imageX + SWIRL_IMG_WIDTH < 0 || imageX > FruitFever.LEVEL_WIDTH || collidesWithBlock())
 			resetState();
+	
+	}
 
-		}
+	public void resetState(){	
 
-		public void resetState(){	
+		imageX = SWIRL_X_REST_POS;
+		imageY = SWIRL_Y_REST_POS;
 
-			imageX = SWIRL_X_REST_POS;
-			imageY = SWIRL_Y_REST_POS;
+		x = SWIRL_X_REST_POS;
+		y = SWIRL_Y_REST_POS;
 
-			x = SWIRL_X_REST_POS;
-			y = SWIRL_Y_REST_POS;
+		xSpeed = 0;
+		ySpeed = 0;
 
-			xSpeed = 0;
-			ySpeed = 0;
+		reset = true;
 
-			reset = true;
+	}
 
-		}
+	/** Returns true or false depending on if the swirl has collided with a block **/
+	public boolean collidesWithBlock(){
 
-		/** Returns true or false depending on if the swirl has collided with a block **/
-		public boolean collidesWithBlock(){
+		Block westNorth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + AIR_SPACING) ;
+		if (westNorth != null) return true;
 
-			Block westNorth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + AIR_SPACING) ;
-			if (westNorth != null) return true;
+		Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + AIR_SPACING) ;
+		if (eastNorth != null) return true;
 
-			Block eastNorth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + AIR_SPACING) ;
-			if (eastNorth != null) return true;
+		Block westSouth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING) ;
+		if (westSouth != null) return true;
 
-			Block westSouth = Block.getBlock(x + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING) ;
-			if (westSouth != null) return true;
+		Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING);
+		if (eastSouth != null) return true;
 
-			Block eastSouth = Block.getBlock(x + SWIRL_IMG_WIDTH + AIR_SPACING + (int) xSpeed, y + SWIRL_IMG_HEIGHT + AIR_SPACING);
-			if (eastSouth != null) return true;
+		return false;
 
-			return false;
+	}
 
-		}
+	@Override public String toString(){
+		return "Swirl   X: " + x + "  Y: " + y + " ImageX: " + imageX + " ImageY: " + imageY;
+	}
+}
 
-		@Override public String toString(){
-			return "Swirl   X: " + x + "  Y: " + y + " ImageX: " + imageX + " ImageY: " + imageY;
-		}
+/** A projectile is shot from the player as an attack method (work-in-progress) **/
+class Projectile extends MovingAnimation {
+
+	static final byte dx = 5;
+	
+	public Projectile(int x, int y, int xSpeed) {
+		super(x, y, new GImage[]{Data.fireBallSmall}, false, 1, true, xSpeed, 0, Animation.Type.NOT_AVAILABLE);
 	}
 	
-	/** A projectile is shot from the player as an attack method (work-in-progress) **/
-	class Projectile extends MovingAnimation {
 	
-		static final byte dx = 5;
-		
-		public Projectile(int x, int y, int xSpeed) {
-			super(x, y, new GImage[]{Data.fireBallSmall}, false, 1, true, xSpeed, 0, Animation.Type.NOT_AVAILABLE);
-		}
-		
-		
-		
-	}
+	
+}
 
 
 
