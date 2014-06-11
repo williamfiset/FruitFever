@@ -29,7 +29,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static LevelInformation[] levelInformation = new LevelInformation[100];
 	static int LEVEL_WIDTH, LEVEL_HEIGHT;
 	
-	static Animation vortex, grabbedItem;
+	static Animation vortex;
 	static Thing greenCheckPoint;
 	static boolean levelComplete;
 
@@ -61,7 +61,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		OPTIONS,
 		MULTIPLAYER;
 
-	};
+	}
 
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
@@ -94,12 +94,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	final private static int QUAKE_BOUNDARY = 5;
 
 /** BUG TESTING COLLISION DETECTION **/
-	static GRect point1;
-	static GRect point2;
-	static GRect point3;
-	static GRect point4;
-	static GRect point5;
-	static GRect point6;
+	static GRect point1, point2, point3, point4, point5, point6;
 
 	@Override public void init() {
 		screen = this;
@@ -119,7 +114,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		if (debugMode) {
 			
-			point1 = new GRect(0,0,2,3); point2 = new GRect(0,0,2,3);
+			point1 = new GRect(0,0,2,3); point2 = new GRect(0,0,2,3); 
 			point3 = new GRect(0,0,2,3); point4 = new GRect(0,0,2,3);
 			point5 = new GRect(0,0,2,3); point6 = new GRect(0,0,2,3);
 
@@ -130,10 +125,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			point5.setFillColor(Color.RED);	point6.setFillColor(Color.MAGENTA);
 
 			leftRect.setFilled(true); rightRect.setFilled(true); downRect.setFilled(true);
-			upRect.setFilled(true);	centerRect.setFilled(true);
-			point1.setFilled(true);	point2.setFilled(true);
-			point3.setFilled(true);	point4.setFilled(true);
-			point5.setFilled(true);	point6.setFilled(true);
+			upRect.setFilled(true);	centerRect.setFilled(true); point1.setFilled(true);	point2.setFilled(true);
+			point3.setFilled(true);	point4.setFilled(true); point5.setFilled(true);	point6.setFilled(true);
 		}		
 
 		// It's a byte an not an int because we're paranoid about saving memory! 
@@ -142,16 +135,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		while(true){
 
-			// Paused the main loop until the screen is refocused
-			// This is where the pause screen is the be implemented
-			while( !GameStarter.frame.isFocused() ){ }
+			/** Pauses the main loop until the screen is refocused **/
+			while (!GameStarter.frame.isFocused()) { }
 
 			Timer_ loopTimer = new Timer_();
 		
 			// Activates EarthQuake Effect				
 			// earthQuakeEffect();
 
-			// Countdown all of the alarms towards execution
+			/** Countdown all of the alarms towards execution **/
 			for (int i = 0; i < powerupAlarms.size(); i++) {	
 				if (!powerupAlarms.get(i).active) {
 					powerupAlarms.remove(i);
@@ -261,9 +253,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 		double milliSeconds = new Double(strPauseTime).doubleValue();
 
-		try { pause(milliSeconds); } 
-		catch (IllegalArgumentException exception) 
-		{
+		try {
+			pause(milliSeconds);
+		} 
+		catch (IllegalArgumentException exception) {
 			pause(MAIN_LOOP_SPEED);	
 			System.out.println("IllegalArgumentException error. MAIN_LOOP_SPEED  =  " + milliSeconds );
 			exception.printStackTrace();
@@ -285,9 +278,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			viewY -= yShift;
 			quakeBoundary_x += xShift;
 			quakeBoundary_y -= yShift;
-
 		} else {
-
 			viewX -= xShift;
 			viewY += yShift;
 			quakeBoundary_x -= xShift;
@@ -314,7 +305,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		viewX = 0;
 		viewY = 0;
 		greenCheckPoint = null;
-		grabbedItem = null;
 		vortex = null;
 		levelComplete = false;
 		vx = 0;
@@ -610,7 +600,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	
 	private void tongueEvent() {
 		
-		if (!tongueButtonPressed && grabbedItem == null && player.finishedTongueAnimation){
+		if (!tongueButtonPressed && player.grabbedItem == null && player.finishedTongueAnimation){
 			player.finishedTongueAnimation = false;
 			tongueButtonPressed = true;
 			player.eat();

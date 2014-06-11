@@ -15,7 +15,9 @@ import java.lang.reflect.*;
 
 public class Player extends MovingAnimation {
 
-	static int startX, startY;
+	public static int startX, startY;
+	
+	public Animation grabbedItem = null;
 
 	static ArrayList<Projectile> projectiles = new ArrayList<>();
 	
@@ -861,20 +863,20 @@ public class Player extends MovingAnimation {
 	private void grabbingItem() {
 		
 		// If the player already has a grabbbed item
-		if (FruitFever.grabbedItem != null) {
+		if (grabbedItem != null) {
 			
-			// Reset item's position based on 
-			FruitFever.grabbedItem.imageX = getTonguePosition().x - Data.TILE_SIZE/2;
-			FruitFever.grabbedItem.imageY = getTonguePosition().y - Data.TILE_SIZE/2;
-			FruitFever.grabbedItem.animate();
+			// Reset item's position based on tongue's position
+			grabbedItem.imageX = getTonguePosition().x - Data.TILE_SIZE/2;
+			grabbedItem.imageY = getTonguePosition().y - Data.TILE_SIZE/2;
+			grabbedItem.animate();
 			
 			// Remove item if animation has finished
 			if (finishedTongueAnimation){
-				FruitFever.screen.remove(FruitFever.grabbedItem.image);
+				FruitFever.screen.remove(grabbedItem.image);
 
 				for (int i = 0; i < FruitFever.edibleItems.size(); i++)
 
-					if (FruitFever.edibleItems.get(i).equals(FruitFever.grabbedItem)) {
+					if (FruitFever.edibleItems.get(i).equals(grabbedItem)) {
 						
 						// Grabs FruitRing
 						if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT_RING)
@@ -914,7 +916,7 @@ public class Player extends MovingAnimation {
 						break;
 					}
 
-				FruitFever.grabbedItem = null;
+				grabbedItem = null;
 			}
 		
 		// Try grabbing item (only eats one at a time because of the break statement)
@@ -922,7 +924,7 @@ public class Player extends MovingAnimation {
 			for (int i = 0; i < FruitFever.edibleItems.size(); i++)
 				// Check tongue's intersection with the fruit and make it the grabbed fruit if it collides
 				if (FruitFever.edibleItems.get(i).intersects(getTongueRectangle())) {
-					FruitFever.grabbedItem = FruitFever.edibleItems.get(i);
+					grabbedItem = FruitFever.edibleItems.get(i);
 					break;
 				}
 		
