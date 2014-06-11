@@ -133,7 +133,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		// Three bytes saved through this action! 
 		byte loops = Byte.MIN_VALUE;
 		
-		while(true){
+		while (true) {
 
 			/** Pauses the main loop until the screen is refocused **/
 			while (!GameStarter.frame.isFocused()) { }
@@ -218,7 +218,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				player.motion();
 				player.animate();
 				
-				player.animateProjectiles();
+				// player.animateProjectiles();
 				
 				ScreenHandler.adjustHearts(player.getLives());
 				
@@ -237,6 +237,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				loadLevel();
 							
 			loops++;
+			
 		}
 	}
 
