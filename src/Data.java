@@ -13,7 +13,6 @@
 // Rename MAX_LIVES to STARTING_LIVES in Player
 // Comment out all enemy code
 // Add support for console to take in "debug" parameter to turn on debugging mode
-// Add support for spikes to automatically detect the orientation
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
@@ -34,7 +33,7 @@ public abstract class Data {
 	public static BufferedImage sheet = null;
 	
 	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
-						heartImage, lava, spikes,
+						heartImage, lava, spikes, spikesV,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
@@ -204,6 +203,7 @@ public abstract class Data {
 				
 		// Spikes
 		spikes = makeImage(TILE_SIZE*4, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
+		spikesV = ImageTransformer.verticalFlip(spikes);
 				
 		// Stars
 		bronzeStar = makeImage(TILE_SIZE*8, 0, TILE_SIZE, TILE_SIZE);
@@ -450,8 +450,17 @@ public abstract class Data {
 					
 					// Spike
 					if (character == '^') {
-						Thing spikesTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes);
-						spikesTile.boundaryTop = 15;
+					
+						Thing spikesTile;
+						
+						if (Block.getBlock(i*TILE_SIZE, lineNumber*TILE_SIZE - Data.TILE_SIZE) == null) {
+							spikesTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes);
+							spikesTile.boundaryTop = 15;
+						} else {
+							spikesTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesV);
+							spikesTile.boundaryBottom = 15;
+						}
+						
 						FruitFever.things.add(spikesTile);
 						FruitFever.dangerousThings.add(spikesTile);
 						continue;
