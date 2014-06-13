@@ -194,10 +194,12 @@ public class ScreenHandler {
 			enemy.image.setLocation(enemy.getX(), enemy.getY());
 			add(enemy.image, enemy.healthBarBackground, enemy.healthBar);
 		}
-
+		
+		/** Player Images **/
 		add(fruitFever.player.image, fruitFever.player.swirl.image);
 
-		add(Data.fruitRingAnimation[5], numberOfFruitRings, numberOfLives);
+		/** GUI **/
+		add(Data.iconBackgroundBar, Data.fruitRingAnimation[5], numberOfFruitRings, numberOfLives);
 		add(Data.healthBarBackground, currentHealthBar, Data.energyBarBackground, currentEnergyBar);
 		add(livesImages);
 		
@@ -256,16 +258,30 @@ public class ScreenHandler {
 	
 	/** Animates all text in an ArrayList, removing the inactive ones **/
 	public void animateAndRemoveText(ArrayList<TextAnimator> arr) {
-			
 		for (int i = 0; i < arr.size(); i++)
-			if (arr.get(i).active)
-				arr.get(i).animate();
-			else {
+			if (!animateText(arr.get(i))) {
 				remove(arr.get(i).label);
 				arr.remove(i);
-				i -= 1;
-				continue;
+				i--;
 			}
+	}
+	
+	/** Animates a text returning true if active **/
+	public boolean animateText(TextAnimator obj) {
+		if (obj.active)
+			obj.animate();
+		
+		return obj.active;
+	}
+	
+	public void setHint(TextAnimator obj) {
+		
+		if (FruitFever.hintText != null)
+			remove(FruitFever.hintText.label);
+			
+		FruitFever.hintText = obj;
+		add(obj.label);
+	
 	}
 	
 	/** Adds a list of buttons to the screen **/

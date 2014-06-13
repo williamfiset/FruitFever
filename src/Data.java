@@ -12,7 +12,8 @@
 // Add FPS and #Images readings to debug mode
 // Rename MAX_LIVES to STARTING_LIVES in Player
 // Comment out all enemy code
-// Fix all the  http://www.pym.org/calendar/files/2013/08/ThreadSpoolsRed.jpg   issues
+// Add support for console to take in "debug" parameter to turn on debugging mode
+// Fix all the http://www.pym.org/calendar/files/2013/08/ThreadSpoolsRed.jpg issues
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
@@ -33,13 +34,14 @@ public abstract class Data {
 	public static BufferedImage sheet = null;
 	
 	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
-						heartImage, lava, spike,
+						heartImage, lava, spikes,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
 						music0, music1,
 						bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
-						energyBar, energyBarBackground, healthBar, healthBarBackground;
+						energyBar, energyBarBackground, healthBar, healthBarBackground,
+						iconBackgroundBar;
 						
 	public static GImage[] sceneryImages = new GImage[28],
 						   
@@ -60,15 +62,17 @@ public abstract class Data {
 						playerShoot = new GImage[6],
 						playerShootH = new GImage[6],
 						  
-						fuzzyEnemyAttack = new GImage[4],
-						fuzzyEnemyAttackH = new GImage[4],
-						fuzzyEnemyMoving = new GImage[3],
-						fuzzyEnemyMovingH = new GImage[3],
-						wormEnemyMoving = new GImage[4],
-						wormEnemyMovingH = new GImage[4],
+						// fuzzyEnemyAttack = new GImage[4],
+						// fuzzyEnemyAttackH = new GImage[4],
+						// fuzzyEnemyMoving = new GImage[3],
+						// fuzzyEnemyMovingH = new GImage[3],
+						// fuzzyShot = new GImage[8],
+						// wormEnemyMoving = new GImage[4],
+						// wormEnemyMovingH = new GImage[4],
 						   
-						fuzzyShot = new GImage[8],
 						swirlAnimation = new GImage[6],
+						
+						gasBubbles = new GImage[4],
 						
 						hintSign = new GImage[3],
 						refreshButton = new GImage[3],
@@ -230,8 +234,8 @@ public abstract class Data {
 		sheet = DataLoader.loadImage("img/sprites/projectiles.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/projectiles.png");
 	
 		// Fuzzy Projectile Animation Images
-		for (int i = 0; i < 8; i++)
-			fuzzyShot[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
+		// for (int i = 0; i < 8; i++)
+			// fuzzyShot[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
 			
 		// Swirl Animation Images
 		for (int i = 0; i < 6; i++)
@@ -263,7 +267,7 @@ public abstract class Data {
 		
 		updateLoadingBar(0.1);
 		
-		/** Enemies **/
+		/** Enemies
 		sheet = DataLoader.loadImage("img/sprites/enemies.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/enemies.png");
 		
 		for (int i = 0; i < 4; i++) {
@@ -280,17 +284,19 @@ public abstract class Data {
 			wormEnemyMoving[i] = makeImage(TILE_SIZE*(2*i), TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE); 
 			wormEnemyMovingH[i] = ImageTransformer.horizontalFlip(wormEnemyMoving[i]);
 		}
+		**/
+		
 		updateLoadingBar(0.1);
 		
 		// PICK RANDOM COLOR SCHEME
 		
-		String color = "";
+		String color = "Red";
 
-		switch ((int) (Math.random()*3)) {
-			case 0: color = "Orange"; break;
-			case 1: color = "Pink"; break;
-			default: color = "Red"; break;
-		}
+		// switch ((int) (Math.random()*3)) {
+			// case 0: color = "Orange"; break;
+			// case 1: color = "Pink"; break;
+			// default: color = "Red"; break;
+		// }
 		
 		/** Import menu images **/
 		sheet = DataLoader.loadImage("img/Menu/Menu_" + color + ".png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/Menu_" + color + ".png");
@@ -301,7 +307,10 @@ public abstract class Data {
 			
 		// Fruit Fever Title
 		fruitFeverTitle = makeImage(267, color == "Orange" ? 212 : 338, 351, 36);
-		fruitFeverTitle.setLocation(FruitFever.SCREEN_WIDTH/2 - (int)fruitFeverTitle.getWidth()/2, 50);
+		fruitFeverTitle.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (fruitFeverTitle.getWidth()/2), 50);
+		
+		// Icon Background Bar
+		iconBackgroundBar = makeImage(0, Data.TILE_SIZE*34, Data.TILE_SIZE*28, Data.TILE_SIZE);
 			
 		// PICK RANDOM COLOR SCHEME
 		
@@ -433,6 +442,23 @@ public abstract class Data {
 						continue;
 					}
 					
+					// Spike
+					if (character == '^') {
+						Thing spikesTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes);
+						// spikesTile.boundaryTop = (Data.TILE_SIZE/3);
+						FruitFever.things.add(spikesTile);
+						FruitFever.dangerousThings.add(spikesTile);
+						continue;
+					}
+					
+					// Hint Sign
+					if (character == '?') {
+						Hint sign = new Hint(i*TILE_SIZE, lineNumber*TILE_SIZE);
+						FruitFever.things.add(sign);
+						FruitFever.hints.add(sign);
+						continue;
+					}
+					
 					// Set the player's start position
 					if (character == '@') {
 						Player.startX = i*TILE_SIZE;
@@ -440,7 +466,7 @@ public abstract class Data {
 						continue;
 					}
 
-					// Vortex (% sorta looks like vortex), readability counts (line 7 of our coding philosophy)
+					// Vortex
 					if (character == '%') {
 						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, vortexAnimation, false, 2, true, Animation.Type.NOT_AVAILABLE, true);
 						FruitFever.vortex = vortex;
@@ -570,7 +596,12 @@ public abstract class Data {
 			
 			lineNumber = 0;
 			
-			/** ENEMIES **/
+			/** HINTS **/
+
+			for (int i = 0; i < FruitFever.hints.size(); i++)
+				FruitFever.hints.get(i).hint = sc.nextLine();
+			
+			/** ENEMIES
 
 			while (sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")) {
 				
@@ -619,6 +650,8 @@ public abstract class Data {
 				lineNumber++;
 
 			}
+			
+			**/
 
 			sc.close();
 		

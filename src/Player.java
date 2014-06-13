@@ -131,6 +131,7 @@ public class Player extends Animation {
 		enableJumping();
 		updateHealth();
 		grabbingItem();
+		checkCollisionWithHintSigns();
 	}
 	
 	/** This method pushes the player up close to the wall when there's a side collision.
@@ -706,7 +707,6 @@ public class Player extends Animation {
 			Block westMiddle = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) );
 			Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv);
 
-
 			FruitFever.point1.setLocation( x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE , y + Data.TILE_SIZE/5 );
 			FruitFever.point2.setLocation( x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE , y + Data.TILE_SIZE - (Data.TILE_SIZE/5) );
 			FruitFever.point3.setLocation( x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE , y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv );
@@ -790,9 +790,21 @@ public class Player extends Animation {
 		swirl.resetState();
 	
 	}
+	
+	private void checkCollisionWithHintSigns() {
+		for (int i = 0; i < FruitFever.hints.size(); i++) {
+			if (this.intersects(FruitFever.hints.get(i)))
+				if (!FruitFever.hints.get(i).visiting) {
+					FruitFever.hints.get(i).setVisited();
+					FruitFever.screenHandler.setHint(new TextAnimator(FruitFever.SCREEN_WIDTH/2, FruitFever.SCREEN_HEIGHT - 50, FruitFever.hints.get(i).hint, 20, Color.WHITE, 0.8, 5, 100, "center"));
+				}
+			else
+				FruitFever.hints.get(i).visiting = false;
+		}
+	}
 
 	// Overrides MovingAnimation.animate()
-	@Override public void animate(){
+	@Override public void animate() {
 		
 		if (facingRight) {
 

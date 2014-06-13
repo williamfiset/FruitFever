@@ -13,7 +13,7 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
-	final static boolean debugMode = true;
+	final static boolean debugMode = false;
 
 	static ScreenHandler screenHandler;
 
@@ -35,9 +35,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	static ArrayList<Block> blocks;
 	static ArrayList<Thing> things, dangerousThings, checkPoints;
+	static ArrayList<Hint> hints;
 	static ArrayList<Enemy> enemies;
 	static ArrayList<Animation> edibleItems;
 	static ArrayList<TextAnimator> levelTexts;
+	static TextAnimator hintText;
 
 /** Player **/
 
@@ -112,12 +114,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3); 
 		GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
 		
-		if (debugMode) {
-			
-			point1 = new GRect(0,0,2,3); point2 = new GRect(0,0,2,3); 
-			point3 = new GRect(0,0,2,3); point4 = new GRect(0,0,2,3);
-			point5 = new GRect(0,0,2,3); point6 = new GRect(0,0,2,3);
+		point1 = new GRect(0,0,2,3); point2 = new GRect(0,0,2,3); 
+		point3 = new GRect(0,0,2,3); point4 = new GRect(0,0,2,3);
+		point5 = new GRect(0,0,2,3); point6 = new GRect(0,0,2,3);
 
+		if (debugMode) {
 			leftRect.setFillColor(Color.RED); rightRect.setFillColor(Color.RED); upRect.setFillColor(Color.RED);
 			downRect.setFillColor(Color.RED); centerRect.setFillColor(Color.RED);
 			point1.setFillColor(Color.GREEN); point2.setFillColor(Color.BLUE);
@@ -172,6 +173,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				}
 			
 				screenHandler.animateAndRemoveText(levelTexts);
+				
+				if (hintText != null) {
+					if (!screenHandler.animateText(hintText)){
+						remove(hintText.label);
+						hintText = null;
+						System.out.println("reset");
+					}
+				}
 
 				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
 				for (int i = 0; i < things.size(); i++) {
@@ -299,6 +308,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		dangerousThings = new ArrayList<Thing>();
 		levelTexts = new ArrayList<TextAnimator>();
 		checkPoints = new ArrayList<Thing>();
+		hints = new ArrayList<Hint>();
 
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
@@ -310,6 +320,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		levelComplete = false;
 		vx = 0;
 		vy = 0;
+		hintText = null;
 		
 		shootButtonPressed = false;
 		tongueButtonPressed = false;
@@ -340,8 +351,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		screenHandler.addImagesToScreen();
 	
 		/** Add animated level title to the screen **/
-		levelTexts.add(new TextAnimator(SCREEN_WIDTH/2, 50, levelInformation[currentLevel].name, 30, Color.WHITE, 800, 5, "center"));
-		add(levelTexts.get(0).label);
+		addToTexts(new TextAnimator(SCREEN_WIDTH/2, 50, levelInformation[currentLevel].name, 30, Color.WHITE, 1.0, 5, 50, "center"), levelTexts);
 		
 		Block.resetPerformedNaturalAnimate();
 		Block.updateNaturalFallingBlockCandidates();
@@ -630,6 +640,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		swirlEventInvoked = false;
 	
+	}
+	
+	public static void addToTexts(TextAnimator obj, ArrayList<TextAnimator> textList) {
+		textList.add(obj);
+		screen.add(obj.label);
 	}
 
 }

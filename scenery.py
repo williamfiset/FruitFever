@@ -117,8 +117,8 @@ def changeCharacters(hasExclamation, letter, characters):
 			myFile.write(line + "\n")
 
 
-	except Exception, e:
-		print "\n Could not find characterChangeFile.txt \n"
+	except Exception as e:
+		print("\n Could not find characterChangeFile.txt \n")
 		raise e
 
 	finally:
@@ -142,7 +142,7 @@ if __name__ == '__main__':
 		changeCharacters(True, "#", '-?')
 
 	elif len(args) == 1:
-		print "Please provide at least one more argument"		
+		print("Please provide at least one more argument")		
 
 	else:
 
