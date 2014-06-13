@@ -1,3 +1,8 @@
+
+/*
+ * @author Micah Stairs
+*/
+
 import acm.graphics.*;
 import java.awt.*;
 

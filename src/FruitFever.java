@@ -133,7 +133,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		// It's a byte an not an int because we're paranoid about saving memory! 
 		// Three bytes saved through this action! 
 		byte loops = Byte.MIN_VALUE;
-		
+
 		while (true) {
 
 			/** Pauses the main loop until the screen is refocused **/

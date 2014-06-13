@@ -1,6 +1,7 @@
 
 /*
  * @author William Fiset
+ *
  * This class allow you to:
  *   - Download images from the web and save them somewhere on your computer 
  *   - Load images from your computer to memory
