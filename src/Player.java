@@ -18,7 +18,7 @@ public class Player extends Animation {
 	
 	public Animation grabbedItem = null;
 
-	static ArrayList<Projectile> projectiles = new ArrayList<>();
+	// static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	
 // Player Stats
 	static final int MAX_LIVES = 11;
