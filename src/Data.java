@@ -459,13 +459,13 @@ public abstract class Data {
 					
 					// Gas Bubbles
 					if (character == ':') {
-						FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.NOT_AVAILABLE));
+						FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.NOT_AVAILABLE, true));
 						continue;
 					}
 					
 					// Torches
 					if (character == '&') {
-						FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torches[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE));
+						FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torches[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true));
 						continue;
 					}
 					
