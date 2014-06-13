@@ -458,7 +458,7 @@ public abstract class Data {
 							spikesTile.boundaryTop = 15;
 						} else {
 							spikesTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesV);
-							spikesTile.boundaryBottom = 15;
+							spikesTile.boundaryBottom = -15;
 						}
 						
 						FruitFever.things.add(spikesTile);
