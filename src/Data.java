@@ -12,6 +12,7 @@
 // Add FPS and #Images readings to debug mode
 // Rename MAX_LIVES to STARTING_LIVES in Player
 // Comment out all enemy code
+// Fix all the  http://www.pym.org/calendar/files/2013/08/ThreadSpoolsRed.jpg   issues
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
