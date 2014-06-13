@@ -44,10 +44,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Player **/
 
 	static Player player;
-	static boolean swirlButtonPressed = false, tongueButtonPressed = false, shootButtonPressed = false;
+	static boolean swirlButtonPressed = false, tongueButtonPressed = false;
 	
 	// These variables are used to help deal with multi-threading, it allows us to control when the events occur during the main loop
-	static boolean swirlEventInvoked = false, tongueEventInvoked = false, shootEventInvoked = false;
+	static boolean swirlEventInvoked = false, tongueEventInvoked = false;
 	
 /** Menus/GUI **/
 	
@@ -172,13 +172,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					continue;
 				}
 			
+				/** Animate all text **/
 				screenHandler.animateAndRemoveText(levelTexts);
-				
 				if (hintText != null) {
 					if (!screenHandler.animateText(hintText)){
 						remove(hintText.label);
 						hintText = null;
-						System.out.println("reset");
 					}
 				}
 
@@ -211,8 +210,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					swirlEvent();
 				if (tongueEventInvoked)		
 					tongueEvent();
-				if (shootEventInvoked)		
-					shootEvent();
 
 				// Tests for falling blocks
 				// Block.updateNaturalFallingBlockCandidates();
@@ -227,7 +224,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				player.motion();
 				player.animate();
 				
-				// player.animateProjectiles();
+				// player.animateProjectiles(); // (Deprecated)
 				
 				ScreenHandler.adjustHearts(player.getLives());
 				
@@ -322,7 +319,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		vy = 0;
 		hintText = null;
 		
-		shootButtonPressed = false;
 		tongueButtonPressed = false;
 		swirlButtonPressed = false;
 		
@@ -537,11 +533,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			/** JUMP **/
 			if (keyCode == KeyEvent.VK_W) {
 				player.setKeepJumping(true);	
-
-			/** SHOOT **/
-			} else if (keyCode == KeyEvent.VK_S) {
-				shootEventInvoked = true;
-
+				
 			/** TONGUE **/
 			} else if (keyCode == KeyEvent.VK_SHIFT) {
 				tongueEventInvoked = true;
@@ -587,26 +579,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			} else if (keyCode == KeyEvent.VK_SHIFT) {
 				tongueButtonPressed = false;
 				tongueEventInvoked = false;
-			} else if (keyCode == KeyEvent.VK_S) {
-				shootButtonPressed = false;
-				shootEventInvoked = false;
 			} else if (keyCode == KeyEvent.VK_W) 
 				player.setKeepJumping(false);
 			
 		}
 		
-	}
-	
-	
-	private void shootEvent() {
-		
-		if (!shootButtonPressed) {
-			shootButtonPressed = true;
-			player.shootProjectile();
-		}
-		
-		shootEventInvoked = false;
-	
 	}
 	
 	private void tongueEvent() {
@@ -646,6 +623,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		textList.add(obj);
 		screen.add(obj.label);
 	}
+	
+	/** (Deprecated)
+	private void shootEvent() {
+		if (!shootButtonPressed) {
+			shootButtonPressed = true;
+			player.shootProjectile();
+		}
+		shootEventInvoked = false;
+	}
+	**/
 
 }
 

@@ -952,21 +952,6 @@ public class Player extends Animation {
 		else
 			return new Rectangle(x - currentTongueWidth, y, currentTongueWidth, Data.TILE_SIZE);
 	}
-	
-	public void animateProjectiles() {
-		
-		for (Projectile obj : projectiles)
-			obj.animate();
-	
-	}
-	
-	/** Shoots a fireball (work-in-progress) **/
-	public void shootProjectile() {
-		Projectile obj = new Projectile(imageX + Data.TILE_SIZE, imageY, facingRight ? Projectile.dx : -Projectile.dx);
-		projectiles.add(obj);
-		FruitFever.screen.add(obj.image);
-		
-	}
 
 	public void setKeepJumping(boolean keepJumping){ this.keepJumping = keepJumping; }
 	public boolean onSurface(){ return onSurface; }
@@ -977,7 +962,23 @@ public class Player extends Animation {
 	@Override public String toString(){
 		return "ImageX: " + imageX + "   ImageY: " + imageY + "   X: " + x + "   Y: " + y ;
 	}
-
+	
+	/** (Deprecated) 
+	public void animateProjectiles() {
+		
+		for (Projectile obj : projectiles)
+			obj.animate();
+	
+	} **/
+	
+	/** Shoots a fireball (Deprecated) 
+	public void shootProjectile() {
+		Projectile obj = new Projectile(imageX + Data.TILE_SIZE, imageY, facingRight ? Projectile.dx : -Projectile.dx);
+		projectiles.add(obj);
+		FruitFever.screen.add(obj.image);
+		
+	}
+	**/
 }
 
 /** A swirl is a projectile shot from the player as a teleportation method  **/
@@ -1053,7 +1054,7 @@ class Swirl extends MovingAnimation {
 	}
 }
 
-/** A projectile is shot from the player as an attack method (work-in-progress) **/
+/** A projectile is shot from the player as an attack method (Deprecated) 
 class Projectile extends MovingAnimation {
 
 	static final byte dx = 5;
@@ -1061,10 +1062,8 @@ class Projectile extends MovingAnimation {
 	public Projectile(int x, int y, int xSpeed) {
 		super(x, y, new GImage[]{Data.fireBallSmall}, false, 1, true, xSpeed, 0, Animation.Type.NOT_AVAILABLE);
 	}
-	
-	
-	
 }
+**/
 
 
 

@@ -13,7 +13,7 @@
 // Rename MAX_LIVES to STARTING_LIVES in Player
 // Comment out all enemy code
 // Add support for console to take in "debug" parameter to turn on debugging mode
-// Fix all the http://www.pym.org/calendar/files/2013/08/ThreadSpoolsRed.jpg issues
+// Add support for spikes to automatically detect the orientation
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
@@ -200,7 +200,10 @@ public abstract class Data {
 		// Torches
 		for (int n = 0; n < 3; n++) 
 			for (int i = 0; i < 3; i++) 
-				torches[n][i] = makeImage(TILE_SIZE*(n + 10), TILE_SIZE*(i + 5), TILE_SIZE*2, TILE_SIZE);
+				torches[n][i] = makeImage(TILE_SIZE*(n*2 + 10), TILE_SIZE*(i + 5), TILE_SIZE*2, TILE_SIZE);
+				
+		// Spikes
+		spikes = makeImage(TILE_SIZE*4, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
 				
 		// Stars
 		bronzeStar = makeImage(TILE_SIZE*8, 0, TILE_SIZE, TILE_SIZE);
@@ -219,6 +222,10 @@ public abstract class Data {
 		// Hint Sign (3 colors)
 		for (int i = 0; i < 3; i++)
 			hintSign[i] = makeImage(TILE_SIZE*i, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+			
+		// Gas Bubbles
+		for (int i = 0; i < 4; i++)
+			gasBubbles[i] = makeImage(TILE_SIZE*(i + 3), TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
 		
 		// Energy and Health Bars for Player
 		healthBar = makeImage(116, 176, 122, 11);
@@ -314,12 +321,11 @@ public abstract class Data {
 			
 		// PICK RANDOM COLOR SCHEME
 		
-		switch ((int) (Math.random()*5)) {
+		switch ((int) (Math.random()*4)) {
 			case 0: color = "blue"; break;
 			case 1: color = "green"; break;
 			case 2: color = "purple"; break;
 			case 3: color = "brown"; break;
-			default: color = "green"; break; 
 		}
 		
 		/** Import level selection arrow images **/
@@ -445,9 +451,21 @@ public abstract class Data {
 					// Spike
 					if (character == '^') {
 						Thing spikesTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes);
-						// spikesTile.boundaryTop = (Data.TILE_SIZE/3);
+						spikesTile.boundaryTop = 15;
 						FruitFever.things.add(spikesTile);
 						FruitFever.dangerousThings.add(spikesTile);
+						continue;
+					}
+					
+					// Gas Bubbles
+					if (character == ':') {
+						FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.NOT_AVAILABLE));
+						continue;
+					}
+					
+					// Torches
+					if (character == '&') {
+						FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torches[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE));
 						continue;
 					}
 					
