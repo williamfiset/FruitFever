@@ -61,7 +61,7 @@ public class ScreenHandler {
 		
 	}
 	
-	/** Set images and their starting positions **/
+	/** Create the images and set their starting locations **/
 	public void init() {
 		
 		/** Adds lock and star images to array **/
@@ -212,7 +212,7 @@ public class ScreenHandler {
 		numberOfFruitRings.setLabel("x " + FruitFever.currentFruitRings + "/" + FruitFever.totalFruitRings);
 	}
 	
-	/** Redraws the hearts according to the amount of lives left */
+	/** Magical code that redraws the hearts according to the amount of lives left */
 	public static void adjustHearts(int livesLeft) {
 	
 		numberOfLives.setVisible(livesLeft > 10);

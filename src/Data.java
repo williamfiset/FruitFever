@@ -8,10 +8,10 @@
 // To-do : Make Fruit Rings appear on top of scenery 
 // Make Fruit Rings spin at different spins
 // Make buttons in level selection screen inactive when you can no longer change pages
-// Player does not need to extend MovingAnimation? It doesn't use xSpeed or ySpeed
 // Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
 // Add FPS and #Images readings to debug mode
 // Rename MAX_LIVES to STARTING_LIVES in Player
+// Comment out all enemy code
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
