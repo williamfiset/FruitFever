@@ -23,14 +23,15 @@ public class Animation extends Thing {
 	
 	public enum Type {
 
-		JUMP_POWERUP,
-		SPEED_POWERUP,
-		ATTACK_POWERUP,
+		JUMP_POWERUP, SPEED_POWERUP, ATTACK_POWERUP,
+
 		NOT_AVAILABLE,
 		FRUIT_RING,
 		ENEMY,
 		FRUIT,
-		FIREWORK;
+		FIREWORK,
+
+		SPIKES, GAS_BUBBLES, LAVA;
 		
 	};
 	

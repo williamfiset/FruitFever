@@ -453,6 +453,7 @@ public abstract class Data {
 					
 						Thing spikesTile;
 						
+						// Creates spikes as things and sets thier boundary of collision
 						if (Block.getBlock(i*TILE_SIZE, lineNumber*TILE_SIZE - Data.TILE_SIZE) == null) {
 							spikesTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes);
 							spikesTile.boundaryTop = 15;
