@@ -138,7 +138,7 @@ if __name__ == '__main__':
 		
 		# changes all the characters @012~&| to dashes
 		# This needs to be updated all the time as we add more and more symbols
-		changeCharacters(False, "?", "@012~%|*")
+		changeCharacters(False, "?", "@0123456789&%|*^:?")
 
 		#
 		changeCharacters(True, "#", '-?')
