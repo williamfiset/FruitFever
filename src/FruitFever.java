@@ -13,7 +13,7 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
-	final static boolean debugMode = true;
+	static boolean debugMode = true;
 
 	static ScreenHandler screenHandler;
 
@@ -46,7 +46,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static Player player;
 	static boolean swirlButtonPressed = false, tongueButtonPressed = false;
 	
-	// These variables are used to help deal with multi-threading, it allows us to control when the events occur during the main loop
+	// These variables are used to help deal with multi-threading, it allows us to control when the events occur during the main loop (this hasn't been implemented for simple events like a user pressing A, D, or W)
 	static boolean swirlEventInvoked = false, tongueEventInvoked = false;
 	
 /** Menus/GUI **/

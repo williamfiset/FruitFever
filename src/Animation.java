@@ -95,7 +95,7 @@ public class Animation extends Thing {
 	
 	// Convenience constructor 
 	public Animation (int x, int y, GImage originalImages[], Type type){
-		this (x, y, originalImages, false, 1, false, type, false);
+		this (x, y, originalImages, false, 1, true, type, false);
 
 		// Make copy of images
 		this.images = originalImages;
@@ -147,7 +147,7 @@ public class Animation extends Thing {
 			// Fixed issue #51
 			try {
 				changeImage(images[counter]);
-			} catch(ArrayIndexOutOfBoundsException e) {
+			} catch (ArrayIndexOutOfBoundsException e) {
 				counter = 0;
 				counterGoingUp = true;
 				changeImage(images[counter]);

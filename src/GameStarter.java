@@ -17,8 +17,12 @@ public class GameStarter{
 
 	public static void main(String[] args) {	
 		
-		if (args.length > 0)
-			FruitFever.MAIN_LOOP_SPEED = Integer.valueOf(args[0]);
+		for (int i = 0; i < args.length; i++)
+			switch (args[0]) {
+				case "debug": FruitFever.debugMode = true; break;
+				case "!debug": FruitFever.debugMode = false; break;
+				default: FruitFever.MAIN_LOOP_SPEED = Integer.valueOf(args[0]);
+			}
 		
 		FruitFever gameApplet = new FruitFever();
 		JFrame appletFrame = new JFrame();
