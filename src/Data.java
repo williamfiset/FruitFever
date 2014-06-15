@@ -85,6 +85,7 @@ public abstract class Data {
 
 	public static GImage[][] fireworkAnimation = new GImage[3][5],
 							torches = new GImage[3][3],
+							torchesH = new GImage[3][3],
 							blockImages = new GImage[18][4];
 
 	/** Loads the images required for the loading screen **/
@@ -201,8 +202,10 @@ public abstract class Data {
 		
 		// Torches
 		for (int n = 0; n < 3; n++) 
-			for (int i = 0; i < 3; i++) 
-				torches[n][i] = makeImage(TILE_SIZE*(n*2 + 10), TILE_SIZE*(i + 5), TILE_SIZE*2, TILE_SIZE);
+			for (int i = 0; i < 3; i++) {
+				torches[n][i] = makeImage(TILE_SIZE*(n*2 + 10), TILE_SIZE*(i + 5), TILE_SIZE, TILE_SIZE);
+				torchesH[n][i] = ImageTransformer.horizontalFlip(torches[n][i]);
+			}
 				
 		// Spikes
 		spikes[0] = makeImage(TILE_SIZE*4, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
@@ -456,11 +459,10 @@ public abstract class Data {
 					
 						Animation obj;
 
-						// Creates spikes as things and sets thier boundary of collision
+						// Creates spikes by using block detection to determine orientation
 						if (Block.getBlock(i*TILE_SIZE, lineNumber*TILE_SIZE - Data.TILE_SIZE) == null) {
 							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes, Animation.Type.SPIKES);
 							obj.boundaryTop = 15;
-
 						} else {
 							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesV, Animation.Type.SPIKES);
 							obj.boundaryBottom = -15;
@@ -481,7 +483,10 @@ public abstract class Data {
 					
 					// Torches
 					if (character == '&') {
-						FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torches[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true));
+						if (Block.getBlock(i*TILE_SIZE - Data.TILE_SIZE, lineNumber*TILE_SIZE) == null)
+							FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torches[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true));
+						else 
+							FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torchesH[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true));
 						continue;
 					}
 					
