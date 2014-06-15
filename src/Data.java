@@ -33,7 +33,7 @@ public abstract class Data {
 	public static BufferedImage sheet = null;
 	
 	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
-						heartImage, lava, spikes, spikesV,
+						heartImage,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
@@ -72,6 +72,9 @@ public abstract class Data {
 						swirlAnimation = new GImage[6],
 						
 						gasBubbles = new GImage[4],
+						lava = new GImage[1],
+						spikes = new GImage[1],
+						spikesV = new GImage[1],
 						
 						hintSign = new GImage[3],
 						refreshButton = new GImage[3],
@@ -173,7 +176,7 @@ public abstract class Data {
 			refreshButton[i] = makeImage(TILE_SIZE*randomButtonColor, TILE_SIZE*(i + 5), TILE_SIZE, TILE_SIZE);	
 			
 		// Lava Image
-		lava = makeImage(TILE_SIZE*7, 0, TILE_SIZE, TILE_SIZE);
+		lava[0] = makeImage(TILE_SIZE*7, 0, TILE_SIZE, TILE_SIZE);
 			
 		// Checkpoint Flags
 		checkpointFlagRed = makeImage(0, TILE_SIZE, TILE_SIZE, TILE_SIZE*2);
@@ -202,8 +205,8 @@ public abstract class Data {
 				torches[n][i] = makeImage(TILE_SIZE*(n*2 + 10), TILE_SIZE*(i + 5), TILE_SIZE*2, TILE_SIZE);
 				
 		// Spikes
-		spikes = makeImage(TILE_SIZE*4, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
-		spikesV = ImageTransformer.verticalFlip(spikes);
+		spikes[0] = makeImage(TILE_SIZE*4, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
+		spikesV[0] = ImageTransformer.verticalFlip(spikes[0]);
 				
 		// Stars
 		bronzeStar = makeImage(TILE_SIZE*8, 0, TILE_SIZE, TILE_SIZE);
@@ -426,7 +429,7 @@ public abstract class Data {
 			int lineNumber = 0;
 			String line = "";
 
-			/** BLOCKS (as well as Player, Lava, and Fruits) **/
+			/** BLOCKS (as well as Player, Lava, and Fruits, etc.) **/
 
 			while (sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")) {
 
@@ -441,47 +444,38 @@ public abstract class Data {
 						
 					// Lava
 					if (character == '~') {
-
-						GImage [] lavaImage = { lava };
-
-						Animation lavaTile = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, lavaImage, Animation.Type.LAVA);
-						lavaTile.boundaryTop = (Data.TILE_SIZE/3);
-						FruitFever.things.add(lavaTile);
-						FruitFever.dangerousThings.add(lavaTile);
+						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, lava, Animation.Type.LAVA);
+						obj.boundaryTop = (Data.TILE_SIZE/3);
+						FruitFever.things.add(obj);
+						FruitFever.dangerousThings.add(obj);
 						continue;
 					}
 					
 					// Spike
 					if (character == '^') {
 					
-						Animation spikesTile;
-						GImage [] spikesImage = new GImage[1];
-
+						Animation obj;
 
 						// Creates spikes as things and sets thier boundary of collision
 						if (Block.getBlock(i*TILE_SIZE, lineNumber*TILE_SIZE - Data.TILE_SIZE) == null) {
-
-							spikesImage[0] = spikes;
-
-							spikesTile = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesImage, Animation.Type.SPIKES);
-							spikesTile.boundaryTop = 15;
+							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes, Animation.Type.SPIKES);
+							obj.boundaryTop = 15;
 
 						} else {
-
-							spikesImage[0] = spikesV;
-
-							spikesTile = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesImage, Animation.Type.SPIKES);
-							spikesTile.boundaryBottom = -15;
+							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesV, Animation.Type.SPIKES);
+							obj.boundaryBottom = -15;
 						}
 						
-						FruitFever.things.add(spikesTile);
-						FruitFever.dangerousThings.add(spikesTile);
+						FruitFever.things.add(obj);
+						FruitFever.dangerousThings.add(obj);
 						continue;
 					}
 					
 					// Gas Bubbles
 					if (character == ':') {
-						FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.NOT_AVAILABLE, true));
+						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.NOT_AVAILABLE, true);
+						FruitFever.things.add(obj);
+						FruitFever.dangerousThings.add(obj);
 						continue;
 					}
 					
