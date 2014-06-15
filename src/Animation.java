@@ -49,11 +49,9 @@ public class Animation extends Thing {
 	 *	-If true, the animation is played over and over
 	 *	-If false, the animation is played once
 	 **/
-	 
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type){
-		this(x, y, originalImages, reverse, delay, repeat, type, false);	
-	}
+	
 
+	// Designated constructor 
 	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type, boolean randomStartingFrame){
 	
 		super(x, y);
@@ -78,6 +76,12 @@ public class Animation extends Thing {
 
 	}
 
+	// Convenience constructor 
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type){
+		this(x, y, originalImages, reverse, delay, repeat, type, false);	
+	}
+
+	// Convenience constructor 
 	public Animation(int x, int y, GImage[] originalImages){
 		this(x, y, originalImages, false, 1, true, Type.NOT_AVAILABLE);
 
@@ -88,6 +92,20 @@ public class Animation extends Thing {
 		super.image = new GImage(images[counter].getImage());
 		super.setSize((int) image.getWidth(), (int) image.getHeight());
 	}
+	
+	// Convenience constructor 
+	public Animation (int x, int y, GImage originalImages[], Type type){
+		this (x, y, originalImages, false, 1, false, type, false);
+
+		// Make copy of images
+		this.images = originalImages;
+
+		// Set these instance variables, now that we know the image
+		super.image = new GImage(images[counter].getImage());
+		super.setSize((int) image.getWidth(), (int) image.getHeight());
+	}
+
+
 
 	public void animate(){
 	

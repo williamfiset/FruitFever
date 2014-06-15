@@ -441,7 +441,10 @@ public abstract class Data {
 						
 					// Lava
 					if (character == '~') {
-						Thing lavaTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, lava);
+
+						GImage [] lavaImage = { lava };
+
+						Animation lavaTile = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, lavaImage, Animation.Type.LAVA);
 						lavaTile.boundaryTop = (Data.TILE_SIZE/3);
 						FruitFever.things.add(lavaTile);
 						FruitFever.dangerousThings.add(lavaTile);
@@ -451,14 +454,23 @@ public abstract class Data {
 					// Spike
 					if (character == '^') {
 					
-						Thing spikesTile;
-						
+						Animation spikesTile;
+						GImage [] spikesImage = new GImage[1];
+
+
 						// Creates spikes as things and sets thier boundary of collision
 						if (Block.getBlock(i*TILE_SIZE, lineNumber*TILE_SIZE - Data.TILE_SIZE) == null) {
-							spikesTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes);
+
+							spikesImage[0] = spikes;
+
+							spikesTile = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesImage, Animation.Type.SPIKES);
 							spikesTile.boundaryTop = 15;
+
 						} else {
-							spikesTile = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesV);
+
+							spikesImage[0] = spikesV;
+
+							spikesTile = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesImage, Animation.Type.SPIKES);
 							spikesTile.boundaryBottom = -15;
 						}
 						

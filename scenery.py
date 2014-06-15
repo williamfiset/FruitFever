@@ -135,7 +135,9 @@ if __name__ == '__main__':
 	args = commandLineArguments
 
 	if len(args) == 0:
+		
 		# changes all the characters @012~&| to dashes
+		# This needs to be updated all the time as we add more and more symbols
 		changeCharacters(False, "?", "@012~%|*")
 
 		#
