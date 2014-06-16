@@ -12,15 +12,15 @@ import java.awt.*;
 import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener {
-	
-	static boolean debugMode = true;
-
-	static ScreenHandler screenHandler;
 
 /** Constants **/
 
 	static GraphicsProgram screen;
+	static ScreenHandler screenHandler;
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500;
+	
+	// Cannot be made final since they can be modified through GameStarter
+	static boolean debugMode = true;
 	static int MAIN_LOOP_SPEED = 30;
 
 /** Level Information/Objects/Lists **/
@@ -36,7 +36,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<Block> blocks;
 	static ArrayList<Thing> things, checkPoints;
 	static ArrayList<Hint> hints;
-	static ArrayList<Enemy> enemies;
+	// static ArrayList<Enemy> enemies;
 	static ArrayList<Animation> edibleItems, dangerousThings;
 	static ArrayList<TextAnimator> levelTexts;
 	static TextAnimator hintText;
@@ -59,6 +59,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		MAIN_MENU,
 		LEVEL_SELECTION,
 		PLAYING,
+		PAUSED,
 		CONTROLS,
 		OPTIONS,
 		MULTIPLAYER;
@@ -68,7 +69,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
 	static ArrayList<Button> inGameButtons = new ArrayList<Button>();
-	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other array lists)
+	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other ArrayLists)
 	static Button clickedOnButton = null;
 	
 	static int currentLevel = 1, levelSelectionPage = 0;
@@ -78,8 +79,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	
 /** Screen View Variables **/
 
-	// This value seems to be optimal for screen view 	
-	final static double viewBoxSpacing = 0.29;
+	final static double viewBoxSpacing = 0.29; // (This value seems to be optimal for screen view)
 	final static int LEFT_BOUNDARY = (int) (SCREEN_WIDTH * viewBoxSpacing);
 	final static int RIGHT_BOUNDARY = (int) (SCREEN_WIDTH * (1.0 - viewBoxSpacing));
 	final static int UP_BOUNDARY = (int) (SCREEN_HEIGHT * viewBoxSpacing);
@@ -91,8 +91,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 /** Natural Disaster Variables **/
 
-	private static int earthQuakeMagnitude = 2;
-	private static int quakeBoundary_x = 0, quakeBoundary_y = 0;
+	private static int earthQuakeMagnitude = 2, quakeBoundary_x = 0, quakeBoundary_y = 0;
 	final private static int QUAKE_BOUNDARY = 5;
 
 /** BUG TESTING COLLISION DETECTION **/
@@ -143,14 +142,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 			// Activates EarthQuake Effect				
 			// earthQuakeEffect();
-
-			/** Countdown all of the alarms towards execution **/
-			for (int i = 0; i < powerupAlarms.size(); i++) {	
-				if (!powerupAlarms.get(i).active) {
-					powerupAlarms.remove(i);
-					i--;
-				} else powerupAlarms.get(i).execute();
-			}
 				
 			if (currentScreen == ScreenMode.PLAYING) {
 			
@@ -171,17 +162,25 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					screenHandler.drawLevelSelection();
 					continue;
 				}
+				
+				/** Countdown all of the alarms towards execution **/
+				for (int i = 0; i < powerupAlarms.size(); i++) {	
+					if (!powerupAlarms.get(i).active) {
+						powerupAlarms.remove(i);
+						i--;
+					} else powerupAlarms.get(i).execute();
+				}
 			
 				/** Animate all text **/
 				screenHandler.animateAndRemoveText(levelTexts);
 				if (hintText != null) {
-					if (!screenHandler.animateText(hintText)){
+					if (!screenHandler.animateText(hintText)) {
 						remove(hintText.label);
 						hintText = null;
 					}
 				}
 
-				/** Animate all objects (Scenery, Animation, MovingAnimation, Swirl, etc..) **/
+				/** Animate all objects **/
 				for (int i = 0; i < things.size(); i++) {
 					if (!things.get(i).active) {
 						remove(things.get(i).image);
@@ -190,7 +189,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					} else things.get(i).animate();
 				}
 				
-				/** Animate all enemies **/
+				/** Animate all enemies 
 				for (int i = 0; i < enemies.size(); i++) {
 					if (!enemies.get(i).active) {
 						remove(enemies.get(i).healthBar);
@@ -199,7 +198,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 						enemies.remove(i);
 						i--;
 					} else enemies.get(i).animate();
-				}
+				} **/
 					
 					
 				/** Animate all edible items **/
@@ -307,7 +306,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		blocks = new ArrayList<>();
 		things = new ArrayList<>();
 		edibleItems = new ArrayList<>();
-		enemies = new ArrayList<>();
+		// enemies = new ArrayList<>();
 		dangerousThings = new ArrayList<>();
 		levelTexts = new ArrayList<>();
 		checkPoints = new ArrayList<>();
@@ -449,7 +448,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			checkAndSetClick(mainMenuButtons, mouse);
 		else if (currentScreen == ScreenMode.LEVEL_SELECTION)
 			checkAndSetClick(levelSelectionButtons, mouse);
-		else if (currentScreen == ScreenMode.PLAYING)
+		else if (currentScreen == ScreenMode.PLAYING || currentScreen == ScreenMode.PAUSED)
 			checkAndSetClick(inGameButtons, mouse);
 			
 	}
@@ -487,7 +486,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				// Main Menu Button (Gear)
 				} else if (clickedOnButton.type == Button.Type.GEAR) {
-					screenHandler.drawMainMenu();
+					if (currentScreen != ScreenMode.PAUSED) {
+						currentScreen = ScreenMode.PAUSED;
+						screenHandler.drawPauseMenu();
+					} else {
+						currentScreen = ScreenMode.PLAYING;
+						screenHandler.removePauseMenu();
+					}
 				
 				// Refresh Button
 				} else if (clickedOnButton.type == Button.Type.REFRESH) {
@@ -520,11 +525,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		for (Animation item : FruitFever.edibleItems)
 			item.naturalAnimate();
 		
-		for (Animation dangerousSprite : FruitFever.dangerousThings)
-			dangerousSprite.naturalAnimate();
-		
-		for (Enemy enemy : FruitFever.enemies)
-			enemy.naturalAnimate();
+		// for (Enemy enemy : FruitFever.enemies)
+			// enemy.naturalAnimate();
 		
 		/** Fixes Issue #81 (Teleportation problem) **/
 		player.animate();

@@ -117,7 +117,7 @@ public class Player extends Animation {
 		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
 		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
 		// System.out.printf("horizontalVelocity: %d\n", horizontalVelocity);
-		// System.out.println(swirl );
+		// System.out.println(swirl);
 
 		jump();
 		
@@ -1030,8 +1030,7 @@ class Swirl extends MovingAnimation {
 	static final short SWIRL_Y_REST_POS = -100;
 
 	// These values are the actual image dimensions not the Data.TILE_SIZE Data.TILE_SIZE and Data.TILE_SIZE
-	static final byte SWIRL_IMG_WIDTH = 14; 
-	static final byte SWIRL_IMG_HEIGHT = 14; 
+	static final byte SWIRL_IMG_WIDTH = 14, SWIRL_IMG_HEIGHT = 14; 
 
 	// Since the swirl is a circle the collision buffer makes collision much more accurate 
 	static final byte AIR_SPACING = 6;

@@ -9,10 +9,9 @@
 // Make Fruit Rings spin at different spins
 // Make buttons in level selection screen inactive when you can no longer change pages
 // Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
-// Add FPS and #Images readings to debug mode
+// Add FPS to debug mode
 // Rename MAX_LIVES to STARTING_LIVES in Player
-// Comment out all enemy code
-// Add support for console to take in "debug" parameter to turn on debugging mode
+// rename Data.levelSelectionBackDrop since it is used in the pause menu too
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;

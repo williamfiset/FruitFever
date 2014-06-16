@@ -138,6 +138,14 @@ public class ScreenHandler {
 		fruitFever.currentScreen = FruitFever.ScreenMode.LEVEL_SELECTION;
 	}
 	
+	public void drawPauseMenu() {
+		add(Data.levelSelectionBackDrop);
+	}
+	
+	public void removePauseMenu() {
+		remove(Data.levelSelectionBackDrop);
+	}
+	
 	/** Shifts the level selection screen by a positive or negative integer value **/
 	public void shiftLevelLabels(int shift) {
 	
@@ -203,10 +211,10 @@ public class ScreenHandler {
 			add(item.image);
 		}
 		
-		for (Enemy enemy : fruitFever.enemies) {
-			enemy.image.setLocation(enemy.getX(), enemy.getY());
-			add(enemy.image, enemy.healthBarBackground, enemy.healthBar);
-		}
+		// for (Enemy enemy : fruitFever.enemies) {
+			// enemy.image.setLocation(enemy.getX(), enemy.getY());
+			// add(enemy.image, enemy.healthBarBackground, enemy.healthBar);
+		// }
 		
 		/** Player Images **/
 		add(fruitFever.player.image, fruitFever.player.swirl.image);
