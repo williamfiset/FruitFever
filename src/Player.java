@@ -148,7 +148,7 @@ public class Player extends Animation {
 		if (sideCollision) {
 			
 			// Moving Right
-			if (movementDirection == MovementDirection.RIGHT ) {
+			if (movementDirection == MovementDirection.RIGHT) {
 				if (!sideCollisionFacingRight) {
 
 					Block rightCollision1 = null, rightCollision2 = null;
