@@ -1,5 +1,5 @@
 /**
- * ScreenHandler - Helps the main class of the game manage the images displayed on the screen.
+ * ScreenHandler - Helps the FruitFever class manage the images displayed on the screen.
  *
  * @Author Micah Stairs, William Fiset
  *
@@ -20,7 +20,7 @@ public class ScreenHandler {
 	static GImage[] levelLocks = new GImage[20];	
 	static GImage[][] levelStars = new GImage[20][3];	
 	static GImage[][] levelNoStars = new GImage[20][3];
-	static String[] levelSelectionPages = new String[]{"0-19", "20-39", "40-59", "60-79", "80-99"};
+	static String[] levelSelectionPages = new String[] {"0-19", "20-39", "40-59", "60-79", "80-99"};
 	static GLabel levelRange = new GLabel(levelSelectionPages[0]);
 	
 	/** In-Game **/

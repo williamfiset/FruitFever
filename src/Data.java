@@ -475,7 +475,7 @@ public abstract class Data {
 					
 					// Gas Bubbles
 					if (character == ':') {
-						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.NOT_AVAILABLE, true);
+						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.GAS_BUBBLES, true);
 						FruitFever.things.add(obj);
 						FruitFever.dangerousThings.add(obj);
 						continue;

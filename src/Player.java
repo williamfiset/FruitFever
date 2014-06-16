@@ -24,6 +24,8 @@ public class Player extends Animation {
 	static final int MAX_LIVES = 11;
 	private int lives = MAX_LIVES;
 	public double maxEnergy = 100000, currentEnergy = maxEnergy, maxHealth = 1000, currentHealth = maxHealth;
+	private boolean poisoned = false;
+	private int poisonLeft = 0;
 
 // Swirl related Variables
 
@@ -199,6 +201,16 @@ public class Player extends Animation {
 
 		sideCollision = false;
 
+	}
+	
+	public void poison() {
+		if (poisoned) {
+			FruitFever.screenHandler.adjustHealthBar(--currentHealth/maxHealth);
+			poisonLeft--;
+			if (poisonLeft <= 0)
+				poisoned = false;
+		}
+	
 	}
 
 	public void startJumpPowerup() {
@@ -540,24 +552,26 @@ public class Player extends Animation {
 
 	}
 
-	/** Checks if player touched any dangerous sprites (aka lava)**/
-	private boolean checkForDangerousSpriteCollisions(){
+	/** Checks if player touched any dangerous sprites **/
+	private boolean checkForDangerousSpriteCollisions() {
 
 		boolean collisionOccurred = false;
 
-		// Loop through all dangerous sprites
-		for (Thing dangerousThing : FruitFever.dangerousThings) {
+		/** Loop through all dangerous sprites **/
+		for (Animation obj : FruitFever.dangerousThings)
+			if (obj.intersects(this)) {
+				if (obj.type == Animation.Type.GAS_BUBBLES) {
+					poisoned  = true;
+					poisonLeft = 50;
+				} else {
+					collisionOccurred = true;
+					
+					FruitFever.screenHandler.adjustHearts(--lives);	
+					respawn();
 
-			if (dangerousThing.intersects(this)) {
-
-				collisionOccurred = true;
-
-				FruitFever.screenHandler.adjustHearts(--lives);	
-				respawn();
-
-				break;
+					break;
+				}
 			}
-		}
 
 		return collisionOccurred;
 

@@ -34,10 +34,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static boolean levelComplete;
 
 	static ArrayList<Block> blocks;
-	static ArrayList<Thing> things, dangerousThings, checkPoints;
+	static ArrayList<Thing> things, checkPoints;
 	static ArrayList<Hint> hints;
 	static ArrayList<Enemy> enemies;
-	static ArrayList<Animation> edibleItems;
+	static ArrayList<Animation> edibleItems, dangerousThings;
 	static ArrayList<TextAnimator> levelTexts;
 	static TextAnimator hintText;
 
@@ -220,7 +220,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				Block.drawBlocks();
 				
 				player.swirl.animate();
-				
+				player.poison();
 				player.motion();
 				player.animate();
 				
@@ -302,14 +302,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	private void loadLevel() {
 	
 		/** RESET all lists and variables pertaining to the previous played level **/
-		blocks = new ArrayList<Block>();
-		things = new ArrayList<Thing>();
-		edibleItems = new ArrayList<Animation>();
-		enemies = new ArrayList<Enemy>();
-		dangerousThings = new ArrayList<Thing>();
-		levelTexts = new ArrayList<TextAnimator>();
-		checkPoints = new ArrayList<Thing>();
-		hints = new ArrayList<Hint>();
+		blocks = new ArrayList<>();
+		things = new ArrayList<>();
+		edibleItems = new ArrayList<>();
+		enemies = new ArrayList<>();
+		dangerousThings = new ArrayList<>();
+		levelTexts = new ArrayList<>();
+		checkPoints = new ArrayList<>();
+		hints = new ArrayList<>();
 
 		LEVEL_WIDTH = 0;
 		LEVEL_HEIGHT = 0;
@@ -517,7 +517,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		for (Animation item : FruitFever.edibleItems)
 			item.naturalAnimate();
 		
-		for (Thing dangerousSprite : FruitFever.dangerousThings)
+		for (Animation dangerousSprite : FruitFever.dangerousThings)
 			dangerousSprite.naturalAnimate();
 		
 		for (Enemy enemy : FruitFever.enemies)
