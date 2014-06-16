@@ -220,8 +220,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				Block.drawBlocks();
 				
 				player.swirl.animate();
-				player.poison();
 				player.motion();
+				player.poison();
 				player.animate();
 				
 				// player.animateProjectiles(); // (Deprecated)
@@ -351,6 +351,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		removeAll();
 		screenHandler.addBackground();
 		screenHandler.addImagesToScreen();
+		add(player.poisonAnimation.image); 
 	
 		/** Add animated level title to the screen **/
 		addToTexts(new TextAnimator(SCREEN_WIDTH/2, 50, levelInformation[currentLevel].name, 30, Color.WHITE, 1.0, 5, 50, "center"), levelTexts);

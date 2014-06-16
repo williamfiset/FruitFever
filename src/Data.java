@@ -72,6 +72,7 @@ public abstract class Data {
 						swirlAnimation = new GImage[6],
 						
 						gasBubbles = new GImage[4],
+						playerGasBubbles = new GImage[4],
 						lava = new GImage[1],
 						spikes = new GImage[1],
 						spikesV = new GImage[1],
@@ -230,8 +231,10 @@ public abstract class Data {
 			hintSign[i] = makeImage(TILE_SIZE*i, TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
 			
 		// Gas Bubbles
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			gasBubbles[i] = makeImage(TILE_SIZE*(i + 3), TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+			playerGasBubbles[i] = makeImage(TILE_SIZE*(i + 7), TILE_SIZE*8, TILE_SIZE, TILE_SIZE);
+		}
 		
 		// Energy and Health Bars for Player
 		healthBar = makeImage(116, 176, 122, 11);

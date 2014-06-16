@@ -16,6 +16,8 @@ public class Player extends Animation {
 
 	public static int startX, startY;
 	
+	public static Animation poisonAnimation;
+	
 	public Animation grabbedItem = null;
 
 	// static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
@@ -96,6 +98,9 @@ public class Player extends Animation {
 		tongueAnim = Data.playerTongue; tongueAnimH = Data.playerTongueH;
 
 		boundaryLeft = Data.TILE_SIZE; boundaryRight = -Data.TILE_SIZE;
+		
+		poisonAnimation = new Animation(x, y, Data.playerGasBubbles);
+		poisonAnimation.image.setVisible(false);
 
 		swirl = new Swirl();
 
@@ -206,9 +211,12 @@ public class Player extends Animation {
 	public void poison() {
 		if (poisoned) {
 			FruitFever.screenHandler.adjustHealthBar(--currentHealth/maxHealth);
+			poisonAnimation.image.setLocation(x, y);
 			poisonLeft--;
-			if (poisonLeft <= 0)
+			if (poisonLeft <= 0) {
 				poisoned = false;
+				poisonAnimation.image.setVisible(false);
+			}
 		}
 	
 	}
@@ -351,7 +359,7 @@ public class Player extends Animation {
 
 				// If collision 
 				if (southernBlock != null) {
-					onSurface = true; 
+					onSurface = true;
 					placePlayerOnBlock(southernBlock);
 					
 					return;
@@ -569,7 +577,9 @@ public class Player extends Animation {
 				// GAS BUBBLES 
 				if (obj.type == Animation.Type.GAS_BUBBLES) {
 					poisoned  = true;
-					poisonLeft = 300; 
+					poisonLeft = 300;
+					poisonAnimation.image.setVisible(true);
+					poisonAnimation.image.setLocation(x, y);
 
 				// Instant death 
 				} else {
@@ -793,10 +803,10 @@ public class Player extends Animation {
 		// y = swirl.y ;
 
 		/** Fixes Issue #42  (player semi teleports into blocks) **/
-		Block upperRight = Block.getBlock(x, y + 3);
-		Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
-		Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
-		Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
+		// Block upperRight = Block.getBlock(x, y + 3);
+		// Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
+		// Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
+		// Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
 
 		// if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
 			// imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
@@ -805,7 +815,7 @@ public class Player extends Animation {
 				// imageX += Data.TILE_SIZE;
 		// }
 
-		// makes sure the player cannot jump directly after teleportation
+		// Makes sure the player cannot jump directly after teleportation
 		resetJump();
 		setKeepJumping(false);
 
