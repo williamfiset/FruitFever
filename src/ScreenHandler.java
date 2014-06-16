@@ -15,6 +15,10 @@ public class ScreenHandler {
 	
 	static FruitFever fruitFever;
 	
+	/** Debug mode **/
+	static GLabel nodes = new GLabel("Nodes:");
+	static GRect nodesBackground = new GRect(0, FruitFever.SCREEN_HEIGHT - (int)nodes.getHeight() - 7, (int)nodes.getWidth() + 4, (int)nodes.getHeight());
+	
 	/** Level Selection Screen**/
 	static GLabel[] levelNumbers = new GLabel[20];
 	static GImage[] levelLocks = new GImage[20];	
@@ -53,11 +57,17 @@ public class ScreenHandler {
 		currentHealthBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
 		Data.energyBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
 		currentEnergyBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
+		
 		Data.fruitRingAnimation[5].setLocation(Data.TILE_SIZE*4, 0);
+		
 		numberOfFruitRings.setLocation(Data.TILE_SIZE*5, 16);
+		
 		numberOfLives.setLocation(Data.TILE_SIZE + 3, 16);
-		healthLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (healthLabel.getWidth()/2), 10);
-		energyLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (energyLabel.getWidth()/2), 22);
+		
+		// healthLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (healthLabel.getWidth()/2), 10);
+		// energyLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (energyLabel.getWidth()/2), 22);
+		
+		nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
 		
 	}
 	
@@ -94,6 +104,9 @@ public class ScreenHandler {
 			
 		healthLabel.setColor(Color.white);
 		energyLabel.setColor(Color.white);
+		
+		nodes.setColor(Color.white);
+		nodesBackground.setFilled(true);
 		
 		setLocations();
 		
@@ -212,6 +225,12 @@ public class ScreenHandler {
 	public void updateFruitRingDisplay(int newFruitRings) {
 		FruitFever.currentFruitRings += newFruitRings;
 		numberOfFruitRings.setLabel("x " + FruitFever.currentFruitRings + "/" + FruitFever.totalFruitRings);
+	}
+	
+	public void updateDebugModeDisplay() {
+		nodes.setLabel("Nodes: " + fruitFever.getElementCount());
+		nodesBackground.setSize((int)nodes.getWidth() + 4, (int)nodes.getHeight());
+		nodesBackground.setLocation(0, FruitFever.SCREEN_HEIGHT - (int)nodes.getHeight() - 7);
 	}
 	
 	/** Magical code that redraws the hearts according to the amount of lives left */

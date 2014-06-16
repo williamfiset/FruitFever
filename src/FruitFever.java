@@ -12,7 +12,7 @@ import java.awt.*;
 import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener {
-
+	
 	static boolean debugMode = true;
 
 	static ScreenHandler screenHandler;
@@ -232,13 +232,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				player.currentEnergy = Math.max(player.currentEnergy - 0.1, 0);
 				screenHandler.adjustEnergyBar(player.currentEnergy/player.maxEnergy);
 				
-				if (debugMode){
-					screenHandler.add(point1, point2, point3, point4, point5, point6, leftRect, rightRect, upRect, downRect, centerRect);
-					System.out.printf( "Level contains:  %d images\n", this.getElementCount() );
-				}
+				if (debugMode)
+					screenHandler.add(point1, point2, point3, point4, point5, point6, leftRect, rightRect, upRect, downRect, centerRect);		
 
-				
-
+			}
+			
+			if (debugMode) {
+				screenHandler.updateDebugModeDisplay();
+				add(screenHandler.nodesBackground);
+				add(screenHandler.nodes);
 			}
 
 			pauseLoop(loopTimer);
