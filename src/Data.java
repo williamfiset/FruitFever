@@ -52,7 +52,7 @@ public abstract class Data {
 						gearButton = new GImage[3],
 						fruitRingAnimation = new GImage[6],
 						vortexAnimation = new GImage[5],
-						powerups = new GImage[3],
+						powerups = new GImage[2],
 						   
 						playerStill = new GImage[1],
 						playerStillH = new GImage[1],
@@ -193,7 +193,7 @@ public abstract class Data {
 			vortexAnimation[i] = makeImage(TILE_SIZE*14, TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE);
 		
 		// Powerup Blocks
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 2; i++)
 			powerups[i] = makeImage(TILE_SIZE*(i + 11), 0, TILE_SIZE, TILE_SIZE);
 	
 		// Fireworks

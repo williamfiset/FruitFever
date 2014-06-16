@@ -23,7 +23,7 @@ public class Animation extends Thing {
 	
 	public enum Type {
 
-		JUMP_POWERUP, SPEED_POWERUP, ATTACK_POWERUP,
+		JUMP_POWERUP, SPEED_POWERUP,
 
 		NOT_AVAILABLE,
 		FRUIT_RING,
@@ -35,7 +35,7 @@ public class Animation extends Thing {
 		
 	};
 	
-	public static Type[] powerupTypes = new Type[]{Type.JUMP_POWERUP, Type.SPEED_POWERUP, Type.ATTACK_POWERUP};
+	public static final Type[] powerupTypes = new Type[]{Type.JUMP_POWERUP, Type.SPEED_POWERUP};
 	
 	/**
 	 * @param x : default x-position
