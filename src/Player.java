@@ -594,6 +594,7 @@ public class Player extends Animation {
 					startX = checkPoint.imageX;
 					startY = checkPoint.imageY + Data.TILE_SIZE;
 
+					// Create seven fireworks once you reach a new checkpoint
 					for(int i = 0; i < 7; i++)
 						FruitFever.addToThings(new Animation(checkPoint.imageX - 17 + (int) (Math.random()*35),
 						checkPoint.imageY - Data.TILE_SIZE*2 + (int) (Math.random()*35),
