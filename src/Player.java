@@ -23,7 +23,7 @@ public class Player extends Animation {
 // Player Stats
 	static final int MAX_LIVES = 11;
 	private int lives = MAX_LIVES;
-	public double maxEnergy = 100000, currentEnergy = maxEnergy, maxHealth = 1000, currentHealth = maxHealth;
+	public double maxEnergy = 1000, currentEnergy = maxEnergy, maxHealth = 1000, currentHealth = maxHealth;
 	private boolean poisoned = false;
 	private int poisonLeft = 0;
 
@@ -545,9 +545,13 @@ public class Player extends Animation {
 
 		// This statement kinda looks weird but it's clear and more efficient (I think!)
 		if (checkForPlayerOutOfBounds()) { }
+
+		// You die if you have no more energy or health
 		else if (currentEnergy <= 0 || currentHealth <= 0) {
 			FruitFever.screenHandler.adjustHearts(--lives);	
 			respawn();
+
+		// Check for dangerous collisions	
 		} else if (checkForDangerousSpriteCollisions()) { }
 
 	}
@@ -558,20 +562,26 @@ public class Player extends Animation {
 		boolean collisionOccurred = false;
 
 		/** Loop through all dangerous sprites **/
-		for (Animation obj : FruitFever.dangerousThings)
+		for (Animation obj : FruitFever.dangerousThings){
+
 			if (obj.intersects(this)) {
+				
+				// GAS BUBBLES 
 				if (obj.type == Animation.Type.GAS_BUBBLES) {
 					poisoned  = true;
-					poisonLeft = 50;
+					poisonLeft = 300; 
+
+				// Instant death 
 				} else {
+
 					collisionOccurred = true;
-					
 					FruitFever.screenHandler.adjustHearts(--lives);	
 					respawn();
 
 					break;
 				}
 			}
+		}
 
 		return collisionOccurred;
 
