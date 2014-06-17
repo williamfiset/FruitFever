@@ -69,6 +69,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
 	static ArrayList<Button> inGameButtons = new ArrayList<Button>();
+	static ArrayList<Button> pauseMenuButtons = new ArrayList<Button>();
 	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other ArrayLists)
 	static Button clickedOnButton = null;
 	

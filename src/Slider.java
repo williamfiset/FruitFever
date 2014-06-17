@@ -1,72 +1,40 @@
-
-
 /*
 *
-* @Author William Fiset
-*
-* Monday, June 16, 2014
+* @Author William Fiset, Micah Stairs
 *
 */
 
+import acm.graphics.*;
+// import java.awt.*;
 
-public class Slider {
-
-	public Button button;
-	private Thing bar;
+public class Slider extends Button {
 
 	// Designated constructor
-	Slider (Thing bar, Button button) {
-
-		// Check if the button and the bar x positions look like those of a slider 
-		if (!isASlider(bar, button)) 
-			throw new IllegalArgumentException("\nThe X coordinates of the bar and the button do not match those of a slider\n");
-
-		this.bar = bar;
-		this.button = button;
-
+	public Slider(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage bar) {
+		super(x, y, defaultImg, hoverImg, clickImg, bar);
 	}
 
-
-	// Add Slider to the screen
-	public static void add() {
-
-		// ScreenHandler.fruitFever.add(button);
-		// ScreenHandler.fruitFever.add(bar);
-
-		// ScreenHandler.addButtonsToScreen(button);
-	}
-
-	/* Places the position of the button to where the mouse is*/
+	/** Places the position of the button to where the mouse is (if allowed) **/
 	public void slideButton(int mouseXPos) {
 
-		// new mouseXPos is on the slider
-		if (mouseXPos > button.x && mouseXPos < button.x + button.width) {
+		// New mouseXPos is on the slider
+		if (mouseXPos >= bar.getX() && mouseXPos <= bar.getX() + bar.getWidth()) {
 
 			// Need to adjust for middle of button
-			button.x = mouseXPos;
+			x = mouseXPos;
 		}
 
 	}
 
-	/* @return: a percentage from 0 - 1 on where the progression of the slider is*/
+	/** @return: a percentage from 0 - 1 on where the progression of the slider is **/
 	public double getPercentage() {
 
 		try {
-			return (button.x + button.width / 2 - bar.x) / bar.width;
-		} catch(ArithmeticException zeroDivision){
+			return (x - bar.getX())/bar.getWidth();
+		} catch (ArithmeticException zeroDivision) {
 			return 0.0;
 		}
 		
 	}
 
-	// checks if the button and the bars x positions look like those of a slider 
-	private boolean isASlider(Thing bar, Button button){
-		return ( button.x > bar.x && button.x + button.width < bar.x + bar.width  );
-	}
-
 }
-
-
-
-
-

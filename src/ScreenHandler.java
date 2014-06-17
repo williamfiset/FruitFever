@@ -18,6 +18,8 @@ public class ScreenHandler {
 	/** Debug mode **/
 	static GLabel nodes = new GLabel("Nodes:");
 	static GRect nodesBackground = new GRect(0, FruitFever.SCREEN_HEIGHT - (int)nodes.getHeight() - 7, (int)nodes.getWidth() + 4, (int)nodes.getHeight());
+	static GLabel speed = new GLabel("Speed:");
+	static GRect speedBackground = new GRect(0, FruitFever.SCREEN_HEIGHT - (int)speed.getHeight() - 7, (int)speed.getWidth() + 4, (int)speed.getHeight());
 	
 	/** Level Selection Screen**/
 	static GLabel[] levelNumbers = new GLabel[20];
@@ -140,10 +142,12 @@ public class ScreenHandler {
 	
 	public void drawPauseMenu() {
 		add(Data.levelSelectionBackDrop);
+		addButtonsToScreen(FruitFever.pauseMenuButtons);
 	}
 	
 	public void removePauseMenu() {
 		remove(Data.levelSelectionBackDrop);
+		removeButtonsFromScreen(FruitFever.pauseMenuButtons);
 	}
 	
 	/** Shifts the level selection screen by a positive or negative integer value **/
@@ -313,8 +317,20 @@ public class ScreenHandler {
 	
 	/** Adds a list of buttons to the screen **/
 	public static void addButtonsToScreen(ArrayList<Button> arr) {
-		for (int i = 0; i < arr.size(); i++)
+		for (int i = 0; i < arr.size(); i++) {
 			fruitFever.add(arr.get(i).image);
+			if (arr.get(i).type == Button.Type.SLIDER)
+				fruitFever.add(arr.get(i).bar);
+		}
+	}
+	
+	/** Removes a list of buttons from the screen **/
+	public static void removeButtonsFromScreen(ArrayList<Button> arr) {
+		for (int i = 0; i < arr.size(); i++) {
+			fruitFever.remove(arr.get(i).image);
+			if (arr.get(i).type == Button.Type.SLIDER)
+				fruitFever.remove(arr.get(i).bar);
+		}
 	}
 	
 	public void add(GObject... objects) {
