@@ -434,7 +434,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	/** Check to see if the mouse is on the selected button or not and sets the image accordingly **/
 	@Override public void mouseDragged(MouseEvent mouse) {
 		if (clickedOnButton != null) {
-			if (clickedOnButton.checkOverlap(mouse.getX(), mouse.getY()))
+			/** SLIDER buttons work differently **/
+			if (clickedOnButton.type == Button.Type.SLIDER) {
+				clickedOnButton.slideButton(mouse.getX());
+			/** Other button types **/
+			} else if (clickedOnButton.checkOverlap(mouse.getX(), mouse.getY()))
 				clickedOnButton.setClick();
 			else
 				clickedOnButton.setDefault();
@@ -449,8 +453,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			checkAndSetClick(mainMenuButtons, mouse);
 		else if (currentScreen == ScreenMode.LEVEL_SELECTION)
 			checkAndSetClick(levelSelectionButtons, mouse);
-		else if (currentScreen == ScreenMode.PLAYING || currentScreen == ScreenMode.PAUSED)
+		else if (currentScreen == ScreenMode.PLAYING)
 			checkAndSetClick(inGameButtons, mouse);
+		else if (currentScreen == ScreenMode.PAUSED) {
+			checkAndSetClick(pauseMenuButtons, mouse);
+			checkAndSetClick(inGameButtons, mouse);
+		}
 			
 	}
 	
@@ -462,30 +470,30 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			if (clickedOnButton.contains(mouse.getX(), mouse.getY())) {
 				clickedOnButton.setHover();
 				
-				// Play button
+				/** Play button **/
 				if (clickedOnButton.type == Button.Type.PLAY)
 					screenHandler.drawLevelSelection();
 				
-				// Level left arrow button
+				/** Level left arrow button **/
 				else if (clickedOnButton.type == Button.Type.LEFT_ARROW) {
 					if (levelSelectionPage > 0) {
 						levelSelectionPage--;
 						screenHandler.shiftLevelLabels(-20);
 					}		
 			
-				// Level right arrow button
+				/** Level right arrow button **/
 				} else if (clickedOnButton.type == Button.Type.RIGHT_ARROW) {
 					if (levelSelectionPage < 4) {
 						levelSelectionPage++;
 						screenHandler.shiftLevelLabels(20);
 					}
 				
-				// Level button
+				/** Level box button **/
 				} else if (clickedOnButton.type == Button.Type.LEVEL_BOXES) {
 					currentLevel = clickedOnButton.level + levelSelectionPage*20;
 					loadLevel();
 				
-				// Main Menu Button (Gear)
+				/** Pause Menu Button (Gear) **/
 				} else if (clickedOnButton.type == Button.Type.GEAR) {
 					if (currentScreen != ScreenMode.PAUSED) {
 						currentScreen = ScreenMode.PAUSED;
@@ -495,7 +503,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 						screenHandler.removePauseMenu();
 					}
 				
-				// Refresh Button
+				/** Slider button **/
+				} else if (clickedOnButton.type == Button.Type.SLIDER) {
+					clickedOnButton.slideButton(mouse.getX());
+				
+				/** Refresh Button **/
 				} else if (clickedOnButton.type == Button.Type.REFRESH) {
 					currentScreen = ScreenMode.LEVEL_REFRESH;
 				}

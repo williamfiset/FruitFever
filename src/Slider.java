@@ -20,10 +20,10 @@ public class Slider extends Button {
 		// New mouseXPos is on the slider
 		if (mouseXPos >= bar.getX() && mouseXPos <= bar.getX() + bar.getWidth()) {
 
-			// Need to adjust for middle of button
-			x = mouseXPos;
+			imageX = mouseXPos - (width/2) + FruitFever.viewX;
+			super.animate();
 		}
-
+		
 	}
 
 	/** @return: a percentage from 0 - 1 on where the progression of the slider is **/

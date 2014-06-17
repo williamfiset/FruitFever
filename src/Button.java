@@ -60,6 +60,8 @@ public class Button extends Thing {
 		this.bar = new GImage(bar.getImage());
 		this.bar.setLocation(x, y);
 	}
+	/** Empty method to be overidden by Slider.slideButton() **/
+	public void slideButton(int mouseXPos) { }
 
 /** Checks to see if the given coordinates are on the button **/
 	public boolean checkOverlap(int xPos, int yPos) {

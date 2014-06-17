@@ -12,6 +12,7 @@
 // Add FPS to debug mode
 // Rename MAX_LIVES to STARTING_LIVES in Player
 // rename Data.levelSelectionBackDrop since it is used in the pause menu too
+// make iconBackgroundBar not slide when viewX is moved 
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
@@ -738,7 +739,7 @@ public abstract class Data {
 		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.REFRESH, refreshButton[0], refreshButton[1], refreshButton[2]), FruitFever.inGameButtons);
 		
 		/** Adds slider button to the ArrayList for Pause Menu Screen **/
-		addToButtons(new Slider((int) (FruitFever.SCREEN_WIDTH/2), 100, refreshButton[0], refreshButton[1], refreshButton[2], refreshButton[0]), FruitFever.pauseMenuButtons);
+		addToButtons(new Slider((int) (FruitFever.SCREEN_WIDTH/2), 100, refreshButton[0], refreshButton[1], refreshButton[2], fruitFeverTitle), FruitFever.pauseMenuButtons);
 		
 	}
 	
@@ -754,7 +755,7 @@ public abstract class Data {
 		FruitFever.screenHandler.add(loadingScreenBar);
 	}
 	
-	/** Grabs an integer out of an enemy entry in the Enemy block **/
+	/** Grabs an integer out of an enemy entry in the Enemy block 
 	private static String findFirstNumber(String line, int index) {
 	
 		String str = "";
@@ -764,6 +765,6 @@ public abstract class Data {
 		}
 		
 		return str;
-	}
+	} **/
 	
 }
