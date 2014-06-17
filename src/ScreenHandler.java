@@ -312,7 +312,7 @@ public class ScreenHandler {
 	}
 	
 	/** Adds a list of buttons to the screen **/
-	public void addButtonsToScreen(ArrayList<Button> arr) {
+	public static void addButtonsToScreen(ArrayList<Button> arr) {
 		for (int i = 0; i < arr.size(); i++)
 			fruitFever.add(arr.get(i).image);
 	}
