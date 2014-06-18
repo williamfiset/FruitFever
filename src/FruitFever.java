@@ -548,7 +548,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	
 		@Override public void keyPressed(KeyEvent key){
 		
-		if (currentScreen == ScreenMode.PLAYING) {
+		if (currentScreen == ScreenMode.PLAYING || currentScreen == ScreenMode.PAUSED) {
 		
 			int keyCode = key.getKeyCode();
 
@@ -584,7 +584,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	
 	@Override public void keyReleased(KeyEvent key){
 		
-		if (currentScreen == ScreenMode.PLAYING) {
+		if (currentScreen == ScreenMode.PLAYING || currentScreen == ScreenMode.PAUSED) {
 		
 			int keyCode = key.getKeyCode();
 
