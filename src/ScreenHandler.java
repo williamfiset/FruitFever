@@ -133,7 +133,7 @@ public class ScreenHandler {
 	/** Draws the level selection screen **/
 	public void drawLevelSelection() {
 		removeAll();
-		add(Data.levelSelectionBackDrop);
+		add(Data.windowBorder);
 		addButtonsToScreen(fruitFever.levelSelectionButtons);
 		
 		add(levelNumbers, levelLocks);
@@ -147,12 +147,12 @@ public class ScreenHandler {
 	}
 	
 	public void drawPauseMenu() {
-		add(Data.levelSelectionBackDrop);
+		add(Data.windowBorder);
 		addButtonsToScreen(FruitFever.pauseMenuButtons);
 	}
 	
 	public void removePauseMenu() {
-		remove(Data.levelSelectionBackDrop);
+		remove(Data.windowBorder);
 		removeButtonsFromScreen(FruitFever.pauseMenuButtons);
 	}
 	

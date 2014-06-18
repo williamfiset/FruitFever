@@ -5,11 +5,11 @@
  *
  **/
 
-// To-do : Make Fruit Rings appear on top of scenery 
-// Make Fruit Rings spin at different spins
-// Make buttons in level selection screen inactive when you can no longer change pages
-// Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
-// rename Data.levelSelectionBackDrop since it is used in the pause menu too
+/** To-do List 
+	-Make Fruit Rings spin at different spins
+	-Make buttons in level selection screen inactive when you can no longer change pages
+	-Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
+**/
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
@@ -29,7 +29,7 @@ public abstract class Data {
 
 	public static BufferedImage sheet = null;
 	
-	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
+	public static GImage loadingScreenBackground, loadingScreenBar, windowBorder, fruitFeverTitle,
 						heartImage, sliderCircle, sliderCirclePressed, sliderBar,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
@@ -357,8 +357,8 @@ public abstract class Data {
 		
 		levelButton[0] = makeImage(0, 139, 51, 45);
 		levelButton[1] = makeImage(0, 93, 50, 44);
-		levelSelectionBackDrop = makeImage(70, 0, 260, 334);
-		levelSelectionBackDrop.setLocation((int) (FruitFever.SCREEN_WIDTH/2 - levelSelectionBackDrop.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - levelSelectionBackDrop.getHeight()/2));
+		windowBorder = makeImage(70, 0, 260, 334);
+		windowBorder.setLocation((int) (FruitFever.SCREEN_WIDTH/2 - windowBorder.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - windowBorder.getHeight()/2));
 		
 		updateLoadingBar(0.05);
 
