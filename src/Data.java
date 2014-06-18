@@ -37,7 +37,6 @@ public abstract class Data {
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
-						music0, music1,
 						bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
 						energyBar, energyBarBackground, healthBar, healthBarBackground,
 						iconBackgroundBar;
@@ -76,7 +75,8 @@ public abstract class Data {
 						lava = new GImage[1],
 						spikes = new GImage[1],
 						spikesV = new GImage[1],
-						
+						musicButton = new GImage[2],
+						soundEffectsButton = new GImage[2],
 						hintSign = new GImage[3],
 						refreshButton = new GImage[3],
 						menuButtons = new GImage[12],
@@ -223,8 +223,10 @@ public abstract class Data {
 		locked = makeImage(TILE_SIZE*10, TILE_SIZE, TILE_SIZE*2, TILE_SIZE*2);
 		
 		// Notes
-		music0 = makeImage(TILE_SIZE*7, TILE_SIZE, TILE_SIZE, TILE_SIZE);
-		music1 = makeImage(TILE_SIZE*7, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		for (int i = 0; i < 2; i++)
+			musicButton[i] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
+		for (int i = 0; i < 2; i++)
+			soundEffectsButton[i] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 		
 		// Hint Sign (3 colors)
 		for (int i = 0; i < 3; i++)
@@ -747,8 +749,10 @@ public abstract class Data {
 		
 		/** Adds slider button to the ArrayList for Pause Menu Screen **/
 		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth())/2), TILE_SIZE*4, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.5), FruitFever.pauseMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - sliderBar.getWidth()), TILE_SIZE*4, Button.Type.MUSIC, musicButton[0], musicButton[1], musicButton[1]), FruitFever.pauseMenuButtons);
 		
 		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth())/2), TILE_SIZE*6, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.8), FruitFever.pauseMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - sliderBar.getWidth()), TILE_SIZE*6, Button.Type.SOUND_EFFECTS, soundEffectsButton[0], soundEffectsButton[1], soundEffectsButton[1]), FruitFever.pauseMenuButtons);
 		
 	}
 	

@@ -28,6 +28,9 @@ public class Button extends Thing {
 		LEVEL_BOXES,
 		GEAR,
 		REFRESH,
+		SOUND_EFFECTS,
+		MUSIC,
+		
 		SLIDER;
 	};
 	
