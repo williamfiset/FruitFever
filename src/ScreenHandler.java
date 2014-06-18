@@ -318,18 +318,18 @@ public class ScreenHandler {
 	/** Adds a list of buttons to the screen **/
 	public static void addButtonsToScreen(ArrayList<Button> arr) {
 		for (int i = 0; i < arr.size(); i++) {
-			fruitFever.add(arr.get(i).image);
 			if (arr.get(i).type == Button.Type.SLIDER)
 				fruitFever.add(arr.get(i).bar);
+			fruitFever.add(arr.get(i).image);
 		}
 	}
 	
 	/** Removes a list of buttons from the screen **/
 	public static void removeButtonsFromScreen(ArrayList<Button> arr) {
 		for (int i = 0; i < arr.size(); i++) {
-			fruitFever.remove(arr.get(i).image);
 			if (arr.get(i).type == Button.Type.SLIDER)
 				fruitFever.remove(arr.get(i).bar);
+			fruitFever.remove(arr.get(i).image);
 		}
 	}
 	

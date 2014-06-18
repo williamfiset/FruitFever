@@ -33,7 +33,7 @@ public abstract class Data {
 	public static BufferedImage sheet = null;
 	
 	public static GImage loadingScreenBackground, loadingScreenBar, levelSelectionBackDrop, fruitFeverTitle,
-						heartImage, sliderCircle, sliderBar,
+						heartImage, sliderCircle, sliderCirclePressed, sliderBar,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
@@ -287,6 +287,7 @@ public abstract class Data {
 		sheet = DataLoader.loadImage("/img/Menu/Slider.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/Slider.png");
 		
 		sliderCircle = makeImage(0, 0, TILE_SIZE, TILE_SIZE); 
+		sliderCirclePressed = makeImage(TILE_SIZE, 0, TILE_SIZE, TILE_SIZE); 
 		sliderBar = makeImage(0, TILE_SIZE, TILE_SIZE*7, TILE_SIZE); 
 		
 		/** Enemies
@@ -745,7 +746,9 @@ public abstract class Data {
 		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.REFRESH, refreshButton[0], refreshButton[1], refreshButton[2]), FruitFever.inGameButtons);
 		
 		/** Adds slider button to the ArrayList for Pause Menu Screen **/
-		addToButtons(new Slider((int) (FruitFever.SCREEN_WIDTH/2), 100, sliderCircle, sliderCircle, sliderCircle, sliderBar), FruitFever.pauseMenuButtons);
+		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth())/2), TILE_SIZE*4, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.5), FruitFever.pauseMenuButtons);
+		
+		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth())/2), TILE_SIZE*6, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.8), FruitFever.pauseMenuButtons);
 		
 	}
 	

@@ -55,11 +55,16 @@ public class Button extends Thing {
 	}
 	
 	/** Used for SLIDER button **/
-	public Button(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage bar) {
-		this(x, y, Type.SLIDER, defaultImg, hoverImg, clickImg);
+	public Button(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage bar, double defaultValue) {
+		this(x - (int)(defaultImg.getWidth()/2), y, Type.SLIDER, defaultImg, hoverImg, clickImg);
 		this.bar = new GImage(bar.getImage());
 		this.bar.setLocation(x, y);
 	}
+	
+	// private int calculateXPos() { IN PROGRESS
+		// return (x - bar.getX() + (width/2))/bar.getWidth();
+	// }
+	
 	/** Empty method to be overidden by Slider.slideButton() **/
 	public void slideButton(int mouseXPos) { }
 

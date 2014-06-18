@@ -10,19 +10,24 @@ import acm.graphics.*;
 public class Slider extends Button {
 
 	// Designated constructor
+	public Slider(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage bar, double defaultValue) {
+		super(x, y, defaultImg, hoverImg, clickImg, bar, defaultValue);
+	}
+	
+	// Convenience constructor
 	public Slider(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage bar) {
-		super(x, y, defaultImg, hoverImg, clickImg, bar);
+		this(x, y, defaultImg, hoverImg, clickImg, bar, 0.0);
 	}
 
 	/** Places the position of the button to where the mouse is (if allowed) **/
 	public void slideButton(int mouseXPos) {
+	
+		imageX = (int) Math.max(bar.getX(), Math.min(bar.getX() + bar.getWidth(), mouseXPos + FruitFever.viewX));
+		
+		// Accounts for the center of the circle
+		imageX -= (width/2);
 
-		// New mouseXPos is on the slider
-		if (mouseXPos >= bar.getX() && mouseXPos <= bar.getX() + bar.getWidth()) {
-
-			imageX = mouseXPos - (width/2) + FruitFever.viewX;
-			super.animate();
-		}
+		super.animate();
 		
 	}
 
@@ -30,7 +35,7 @@ public class Slider extends Button {
 	public double getPercentage() {
 
 		try {
-			return (x - bar.getX())/bar.getWidth();
+			return (x - bar.getX() + (width/2))/bar.getWidth();
 		} catch (ArithmeticException zeroDivision) {
 			return 0.0;
 		}
