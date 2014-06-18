@@ -236,12 +236,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					screenHandler.add(point1, point2, point3, point4, point5, point6, leftRect, rightRect, upRect, downRect, centerRect);		
 
 			}
-			
-			if (debugMode) {
-				screenHandler.updateDebugModeDisplay();
-				add(screenHandler.nodesBackground);
-				add(screenHandler.nodes);
-			}
 
 			pauseLoop(loopTimer);
 
@@ -255,10 +249,20 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	/** Calculates how much to pause the main loop by so that it runs as smoothly as possible **/
 	private void pauseLoop(Timer_ timer){
+		
+		double loopTime = timer.stop()*1000;
+		
+		if (debugMode) {
+			screenHandler.updateDebugModeDisplay(loopTime);
+			add(screenHandler.nodesBackground);
+			add(screenHandler.nodes);
+			add(screenHandler.speedBackground);
+			add(screenHandler.speed);
+		}
+		
+		double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - loopTime);
 
-		double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - timer.stop()*1000);
-
-		String strPauseTime  = new Double(pauseTime).toString();
+		String strPauseTime = new Double(pauseTime).toString();
 
 		// Cut the double to limit it's decimal places
 		if (strPauseTime.length() > 7)

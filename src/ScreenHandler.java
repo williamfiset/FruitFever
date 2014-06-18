@@ -10,16 +10,17 @@ import acm.program.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
+import java.text.DecimalFormat;
 
 public class ScreenHandler {
 	
 	static FruitFever fruitFever;
 	
 	/** Debug mode **/
-	static GLabel nodes = new GLabel("Nodes:");
-	static GRect nodesBackground = new GRect(0, FruitFever.SCREEN_HEIGHT - (int)nodes.getHeight() - 7, (int)nodes.getWidth() + 4, (int)nodes.getHeight());
-	static GLabel speed = new GLabel("Speed:");
-	static GRect speedBackground = new GRect(0, FruitFever.SCREEN_HEIGHT - (int)speed.getHeight() - 7, (int)speed.getWidth() + 4, (int)speed.getHeight());
+	static GLabel nodes = new GLabel("");
+	static GRect nodesBackground = new GRect(0, 0, 0, 0);
+	static GLabel speed = new GLabel("");
+	static GRect speedBackground = new GRect(0, 0, 0, 0);
 	
 	/** Level Selection Screen**/
 	static GLabel[] levelNumbers = new GLabel[20];
@@ -70,6 +71,9 @@ public class ScreenHandler {
 		// energyLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (energyLabel.getWidth()/2), 22);
 		
 		nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
+		speed.setLocation(FruitFever.SCREEN_WIDTH - 110, FruitFever.SCREEN_HEIGHT - 9);
+		speedBackground.setSize(114, (int)speed.getHeight());
+		speedBackground.setLocation(FruitFever.SCREEN_WIDTH - 114, FruitFever.SCREEN_HEIGHT - (int)speed.getHeight() - 7);
 		
 	}
 	
@@ -109,6 +113,8 @@ public class ScreenHandler {
 		
 		nodes.setColor(Color.white);
 		nodesBackground.setFilled(true);
+		speed.setColor(Color.white);
+		speedBackground.setFilled(true);
 		
 		setLocations();
 		
@@ -239,10 +245,17 @@ public class ScreenHandler {
 		numberOfFruitRings.setLabel("x " + FruitFever.currentFruitRings + "/" + FruitFever.totalFruitRings);
 	}
 	
-	public void updateDebugModeDisplay() {
+	public void updateDebugModeDisplay(double milliSeconds) {
+		
 		nodes.setLabel("Nodes: " + fruitFever.getElementCount());
 		nodesBackground.setSize((int)nodes.getWidth() + 4, (int)nodes.getHeight());
 		nodesBackground.setLocation(0, FruitFever.SCREEN_HEIGHT - (int)nodes.getHeight() - 7);
+		
+		DecimalFormat f = new DecimalFormat("#.00");
+		
+		double fps = 1000/(Math.max(milliSeconds, 30));
+		
+		speed.setLabel("FPS: " + f.format(fps) + " (" + f.format(milliSeconds) + ")");
 	}
 	
 	/** Magical code that redraws the hearts according to the amount of lives left */
