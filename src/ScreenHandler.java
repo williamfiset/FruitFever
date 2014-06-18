@@ -256,6 +256,8 @@ public class ScreenHandler {
 		double fps = 1000/(Math.max(milliSeconds, 30));
 		
 		speed.setLabel("FPS: " + f.format(fps) + " (" + f.format(milliSeconds) + ")");
+		
+		add(nodesBackground, nodes, speedBackground, speed);
 	}
 	
 	/** Magical code that redraws the hearts according to the amount of lives left */

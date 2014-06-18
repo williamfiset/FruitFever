@@ -52,7 +52,7 @@ public class Animation extends Thing {
 	
 
 	// Designated constructor 
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type, boolean randomStartingFrame){
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type, boolean randomStartingFrame) {
 	
 		super(x, y);
 		
@@ -77,12 +77,12 @@ public class Animation extends Thing {
 	}
 
 	// Convenience constructor 
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type){
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type) {
 		this(x, y, originalImages, reverse, delay, repeat, type, false);	
 	}
 
 	// Convenience constructor 
-	public Animation(int x, int y, GImage[] originalImages){
+	public Animation(int x, int y, GImage[] originalImages) {
 		this(x, y, originalImages, false, 1, true, Type.NOT_AVAILABLE);
 
 		// Make copy of images
@@ -94,7 +94,7 @@ public class Animation extends Thing {
 	}
 	
 	// Convenience constructor 
-	public Animation (int x, int y, GImage originalImages[], Type type){
+	public Animation (int x, int y, GImage originalImages[], Type type) {
 		this (x, y, originalImages, false, 1, true, type, false);
 
 		// Make copy of images
@@ -107,9 +107,9 @@ public class Animation extends Thing {
 
 
 
-	public void animate(){
+	public void animate() {
 	
-		if(active){
+		if (active) {
 			
 			// Break out of this method if it's not time to change the image yet
 

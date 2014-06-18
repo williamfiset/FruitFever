@@ -1,17 +1,15 @@
 /**
-*	Data - Loads images from webserver and stores them as GImages, loads level information.
-* 
-* @Author Micah Stairs
-*
-**/
+ *	Data - Loads images from webserver and stores them as GImages, loads level information.
+ * 
+ *	@Author Micah Stairs
+ *
+ **/
 
 // To-do : Make Fruit Rings appear on top of scenery 
 // Make Fruit Rings spin at different spins
 // Make buttons in level selection screen inactive when you can no longer change pages
 // Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
-// Rename MAX_LIVES to STARTING_LIVES in Player
 // rename Data.levelSelectionBackDrop since it is used in the pause menu too
-// make iconBackgroundBar not slide when viewX is moved 
 
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
@@ -208,7 +206,7 @@ public abstract class Data {
 			}
 				
 		// Spikes
-		spikes[0] = makeImage(TILE_SIZE*4, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
+		spikes[0] = makeImage(TILE_SIZE*5, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
 		spikesV[0] = ImageTransformer.verticalFlip(spikes[0]);
 				
 		// Stars
@@ -222,10 +220,10 @@ public abstract class Data {
 		locked = makeImage(TILE_SIZE*10, TILE_SIZE, TILE_SIZE*2, TILE_SIZE*2);
 		
 		// Notes
-		for (int i = 0; i < 2; i++)
-			musicButton[i] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
-		for (int i = 0; i < 2; i++)
-			soundEffectsButton[i] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
+		for (int i = 0; i < 2; i++) {
+			soundEffectsButton[i] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
+			musicButton[i] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
+		}
 		
 		// Hint Sign (3 colors)
 		for (int i = 0; i < 3; i++)
@@ -747,11 +745,11 @@ public abstract class Data {
 		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.REFRESH, refreshButton[0], refreshButton[1], refreshButton[2]), FruitFever.inGameButtons);
 		
 		/** Adds slider button to the ArrayList for Pause Menu Screen **/
-		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth())/2), TILE_SIZE*4, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.5), FruitFever.pauseMenuButtons);
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - sliderBar.getWidth()), TILE_SIZE*4, Button.Type.MUSIC, musicButton[0], musicButton[1], musicButton[1]), FruitFever.pauseMenuButtons);
+		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth() + TILE_SIZE)/2), TILE_SIZE*5, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.5), FruitFever.pauseMenuButtons);
+		addToButtons(new Button((int)(FruitFever.SCREEN_WIDTH/2 - TILE_SIZE*4.5), TILE_SIZE*5, Button.Type.MUSIC, musicButton[0], musicButton[1], musicButton[1]), FruitFever.pauseMenuButtons);
 		
-		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth())/2), TILE_SIZE*6, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.8), FruitFever.pauseMenuButtons);
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - sliderBar.getWidth()), TILE_SIZE*6, Button.Type.SOUND_EFFECTS, soundEffectsButton[0], soundEffectsButton[1], soundEffectsButton[1]), FruitFever.pauseMenuButtons);
+		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth() + TILE_SIZE)/2), TILE_SIZE*7, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.8), FruitFever.pauseMenuButtons);
+		addToButtons(new Button((int)(FruitFever.SCREEN_WIDTH/2 - TILE_SIZE*4.5), TILE_SIZE*7, Button.Type.SOUND_EFFECTS, soundEffectsButton[0], soundEffectsButton[1], soundEffectsButton[1]), FruitFever.pauseMenuButtons);
 		
 	}
 	

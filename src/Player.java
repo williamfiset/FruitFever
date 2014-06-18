@@ -23,8 +23,9 @@ public class Player extends Animation {
 	// static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	
 // Player Stats
-	static final int MAX_LIVES = 11;
-	private int lives = MAX_LIVES;
+	public static final int MAX_LIVES = 100;
+	private static int STARTING_LIVES = 11;
+	private int lives = STARTING_LIVES;
 	public double maxEnergy = 1000, currentEnergy = maxEnergy, maxHealth = 1000, currentHealth = maxHealth;
 	private boolean poisoned = false;
 	private int poisonLeft = 0;
@@ -99,7 +100,7 @@ public class Player extends Animation {
 
 		boundaryLeft = Data.TILE_SIZE; boundaryRight = -Data.TILE_SIZE;
 		
-		poisonAnimation = new Animation(x, y, Data.playerGasBubbles);
+		poisonAnimation = new Animation(x, y, Data.playerGasBubbles, false, 4, true, Animation.Type.NOT_AVAILABLE);
 		poisonAnimation.image.setVisible(false);
 
 		swirl = new Swirl();
@@ -211,7 +212,9 @@ public class Player extends Animation {
 	public void poison() {
 		if (poisoned) {
 			FruitFever.screenHandler.adjustHealthBar(--currentHealth/maxHealth);
-			poisonAnimation.image.setLocation(x, y);
+			poisonAnimation.imageX = imageX + Data.TILE_SIZE;
+			poisonAnimation.imageY = imageY - Data.TILE_SIZE;
+			poisonAnimation.animate();
 			poisonLeft--;
 			if (poisonLeft <= 0) {
 				poisoned = false;

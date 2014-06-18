@@ -252,13 +252,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		double loopTime = timer.stop()*1000;
 		
-		if (debugMode) {
+		if (debugMode)
 			screenHandler.updateDebugModeDisplay(loopTime);
-			add(screenHandler.nodesBackground);
-			add(screenHandler.nodes);
-			add(screenHandler.speedBackground);
-			add(screenHandler.speed);
-		}
 		
 		double pauseTime = Math.max(0f, MAIN_LOOP_SPEED - loopTime);
 
