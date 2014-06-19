@@ -40,9 +40,13 @@ public class ScreenHandler {
 	// static GLabel energyLabel = new GLabel("Energy");
 	
 	/** Pause Menu **/
+	static GLabel pauseMenuTitle = new GLabel("Paused");
 	static GImage musicX, soundEffectsX;
 	static GLabel musicLabel = new GLabel("Music");
-	static GLabel soundEffectsLabel = new GLabel("SoundEffects");
+	static GLabel soundEffectsLabel = new GLabel("Sound Effects");
+	static GLabel mainMenuButtonText = new GLabel("Main Menu");
+	static GLabel levelSelectionButtonText = new GLabel("Level Selection");
+	static GLabel resumeButtonText = new GLabel("Resume");
 	
 	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
@@ -76,10 +80,14 @@ public class ScreenHandler {
 		// energyLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (energyLabel.getWidth()/2), 22);
 		
 		/** Pause Menu **/
-		musicX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*5);
-		soundEffectsX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*7);
-		musicLabel.setLocation((int)((FruitFever.SCREEN_WIDTH - musicLabel.getWidth() + Data.TILE_SIZE)/2), Data.TILE_SIZE*5);
-		soundEffectsLabel.setLocation((int)((FruitFever.SCREEN_WIDTH - soundEffectsLabel.getWidth() + Data.TILE_SIZE)/2), Data.TILE_SIZE*7);
+		pauseMenuTitle.setLocation((int)((FruitFever.SCREEN_WIDTH - pauseMenuTitle.getWidth())/2), Data.TILE_SIZE*5);
+		mainMenuButtonText.setLocation((int)((FruitFever.SCREEN_WIDTH - mainMenuButtonText.getWidth())/2), Data.TILE_SIZE*11);
+		levelSelectionButtonText.setLocation((int)((FruitFever.SCREEN_WIDTH - levelSelectionButtonText.getWidth())/2), Data.TILE_SIZE*13);
+		resumeButtonText.setLocation((int)((FruitFever.SCREEN_WIDTH - resumeButtonText.getWidth())/2), Data.TILE_SIZE*15);
+		musicX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*6);
+		soundEffectsX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*8);
+		musicLabel.setLocation((int)((FruitFever.SCREEN_WIDTH - musicLabel.getWidth() + Data.TILE_SIZE)/2), Data.TILE_SIZE*6);
+		soundEffectsLabel.setLocation((int)((FruitFever.SCREEN_WIDTH - soundEffectsLabel.getWidth() + Data.TILE_SIZE)/2), Data.TILE_SIZE*8);
 		
 		/** Debugging **/
 		nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
@@ -128,6 +136,10 @@ public class ScreenHandler {
 		speed.setColor(Color.white);
 		speedBackground.setFilled(true);
 		
+		pauseMenuTitle.setFont(new Font("Helvetica", Font.BOLD, 35));
+		mainMenuButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
+		levelSelectionButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
+		resumeButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
 		musicX = Thing.copyImage(Data.redX);
 		musicX.setVisible(false);
 		soundEffectsX = Thing.copyImage(Data.redX);
@@ -166,13 +178,13 @@ public class ScreenHandler {
 	public void drawPauseMenu() {
 		add(Data.windowBorder);
 		addButtonsToScreen(FruitFever.pauseMenuButtons);
-		add(musicX, soundEffectsX, musicLabel, soundEffectsLabel);
+		add(pauseMenuTitle, musicX, soundEffectsX, musicLabel, soundEffectsLabel, mainMenuButtonText, levelSelectionButtonText, resumeButtonText);
 	}
 	
 	public void removePauseMenu() {
 		remove(Data.windowBorder);
 		removeButtonsFromScreen(FruitFever.pauseMenuButtons);
-		remove(musicX, soundEffectsX, musicLabel, soundEffectsLabel);
+		remove(pauseMenuTitle, musicX, soundEffectsX, musicLabel, soundEffectsLabel, mainMenuButtonText, levelSelectionButtonText, resumeButtonText);
 	}
 	
 	/** Shifts the level selection screen by a positive or negative integer value **/

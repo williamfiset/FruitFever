@@ -82,7 +82,9 @@ public abstract class Data {
 						menuButtons = new GImage[12],
 						leftArrowButton = new GImage[3],
 						rightArrowButton = new GImage[3],
-						levelButton = new GImage[2];
+						levelButton = new GImage[2],
+						
+						buttonFrame = new GImage[2];
 
 	public static GImage[][] fireworkAnimation = new GImage[3][5],
 							torches = new GImage[3][3],
@@ -314,41 +316,22 @@ public abstract class Data {
 		
 		updateLoadingBar(0.1);
 		
-		// PICK RANDOM COLOR SCHEME
-		
-		String color = "Red";
-
-		// switch ((int) (Math.random()*3)) {
-			// case 0: color = "Orange"; break;
-			// case 1: color = "Pink"; break;
-			// default: color = "Red"; break;
-		// }
-		
 		/** Import menu images **/
-		sheet = DataLoader.loadImage("img/Menu/Menu_" + color + ".png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/Menu_" + color + ".png");
+		sheet = DataLoader.loadImage("img/Menu/Menu_Red.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/Menu_Red.png");
 		
 		// Menu Button Images
 		for (int i = 0; i < 12; i++)
 			menuButtons[i] = makeImage(0, i*69, 266, 69);
 			
 		// Fruit Fever Title
-		fruitFeverTitle = makeImage(267, color == "Orange" ? 212 : 338, 351, 36);
+		fruitFeverTitle = makeImage(267, 338, 351, 36);
 		fruitFeverTitle.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (fruitFeverTitle.getWidth()/2), 50);
 		
 		// Icon Background Bar
 		iconBackgroundBar = makeImage(0, Data.TILE_SIZE*34, Data.TILE_SIZE*28, Data.TILE_SIZE);
-			
-		// PICK RANDOM COLOR SCHEME
-		
-		switch ((int) (Math.random()*4)) {
-			case 0: color = "blue"; break;
-			case 1: color = "green"; break;
-			case 2: color = "purple"; break;
-			case 3: color = "brown"; break;
-		}
 		
 		/** Import level selection arrow images **/
-		sheet = DataLoader.loadImage("img/LevelSelection/arrows/" + color + "Arrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/"+color+"Arrows.png");
+		sheet = DataLoader.loadImage("img/LevelSelection/arrows/brownArrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/brownArrows.png");
 		for (int i = 0; i < 3; i++) {
 			leftArrowButton[i] = makeImage(0, i*33, 36, 31);
 			rightArrowButton[i] = makeImage(36, i*33, 36, 31);
@@ -357,13 +340,15 @@ public abstract class Data {
 		updateLoadingBar(0.1);
 		
 		/** Import level selection background/level button images **/
-		sheet = DataLoader.loadImage("img/LevelSelection/backDrop/" + color + "Level.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/backDrop/" + color + "Level.png");
+		sheet = DataLoader.loadImage("img/LevelSelection/backDrop/brownLevel.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/backDrop/brownLevel.png");
 		
 		levelButton[0] = makeImage(0, 139, 51, 45);
 		levelButton[1] = makeImage(0, 93, 50, 44);
 		windowBorder = makeImage(70, 0, 260, 334);
 		windowBorder.setLocation((int) (FruitFever.SCREEN_WIDTH/2 - windowBorder.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - windowBorder.getHeight()/2));
-		
+		buttonFrame[0] = makeImage(9, 341, 139, 35);
+		buttonFrame[1] = makeImage(153, 341, 139, 35);
+
 		updateLoadingBar(0.05);
 
 		/** Add buttons and set locations **/
@@ -731,27 +716,32 @@ public abstract class Data {
 		
 		/** Adds level box buttons to the ArrayLists for Level Selection Screen **/
 		for (int i = 0; i < 20; i++)
-			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, levelButton[0], levelButton[1], levelButton[1], i), FruitFever.levelSelectionButtons);
+			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, levelButton, i), FruitFever.levelSelectionButtons);
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton[0], leftArrowButton[1], leftArrowButton[2]), FruitFever.levelSelectionButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton), FruitFever.levelSelectionButtons);
 		
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, Button.Type.RIGHT_ARROW, rightArrowButton[0], rightArrowButton[1], rightArrowButton[2]), FruitFever.levelSelectionButtons);
-		
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, Button.Type.RIGHT_ARROW, rightArrowButton), FruitFever.levelSelectionButtons);
 		
 		/** Adds gear button to the ArrayLists for In-Game Screen **/
-		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, Button.Type.GEAR, gearButton[0], gearButton[1], gearButton[2]), FruitFever.inGameButtons);
-		
+		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, Button.Type.GEAR, gearButton), FruitFever.inGameButtons);
 		
 		/** Adds refresh button to the ArrayList for In-Game Screen **/
-		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.REFRESH, refreshButton[0], refreshButton[1], refreshButton[2]), FruitFever.inGameButtons);
+		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.REFRESH, refreshButton), FruitFever.inGameButtons);
 		
-		/** Adds slider button to the ArrayList for Pause Menu Screen **/
-		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth() + TILE_SIZE)/2), TILE_SIZE*5, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.5), FruitFever.pauseMenuButtons);
-		addToButtons(new Button((int)(FruitFever.SCREEN_WIDTH/2 - TILE_SIZE*4.5), TILE_SIZE*5, Button.Type.MUSIC, musicButton[0], musicButton[1], musicButton[1]), FruitFever.pauseMenuButtons);
+		/** Adds sliders and music/sound effect toggles to the ArrayList for Pause Menu Screen **/
 		
-		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth() + TILE_SIZE)/2), TILE_SIZE*7, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.8), FruitFever.pauseMenuButtons);
-		addToButtons(new Button((int)(FruitFever.SCREEN_WIDTH/2 - TILE_SIZE*4.5), TILE_SIZE*7, Button.Type.SOUND_EFFECTS, soundEffectsButton[0], soundEffectsButton[1], soundEffectsButton[1]), FruitFever.pauseMenuButtons);
+		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth() + TILE_SIZE)/2), TILE_SIZE*6, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.5), FruitFever.pauseMenuButtons);
+		addToButtons(new Button((int)(FruitFever.SCREEN_WIDTH/2 - TILE_SIZE*4.5), TILE_SIZE*6, Button.Type.MUSIC, musicButton), FruitFever.pauseMenuButtons);
+		
+		addToButtons(new Slider((int) ((FruitFever.SCREEN_WIDTH - sliderBar.getWidth() + TILE_SIZE)/2), TILE_SIZE*8, sliderCircle, sliderCirclePressed, sliderCirclePressed, sliderBar, 0.8), FruitFever.pauseMenuButtons);
+		addToButtons(new Button((int)(FruitFever.SCREEN_WIDTH/2 - TILE_SIZE*4.5), TILE_SIZE*8, Button.Type.SOUND_EFFECTS, soundEffectsButton), FruitFever.pauseMenuButtons);
+		
+		/** Adds Main Menu, Level Selection, and Resume buttons to the ArrayList for Pause Menu Screen **/
+		
+		addToButtons(new Button((int)((FruitFever.SCREEN_WIDTH - buttonFrame[0].getWidth())/2), TILE_SIZE*10, Button.Type.MAIN_MENU, buttonFrame), FruitFever.pauseMenuButtons);
+		addToButtons(new Button((int)((FruitFever.SCREEN_WIDTH - buttonFrame[0].getWidth())/2), TILE_SIZE*12, Button.Type.LEVEL_SELECTION, buttonFrame), FruitFever.pauseMenuButtons);
+		addToButtons(new Button((int)((FruitFever.SCREEN_WIDTH - buttonFrame[0].getWidth())/2), TILE_SIZE*14, Button.Type.RESUME, buttonFrame), FruitFever.pauseMenuButtons);
 		
 	}
 	

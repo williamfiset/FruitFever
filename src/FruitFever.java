@@ -469,7 +469,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				clickedOnButton.setHover();
 				
 				/** Play button **/
-				if (clickedOnButton.type == Button.Type.PLAY)
+				if (clickedOnButton.type == Button.Type.PLAY || clickedOnButton.type == Button.Type.LEVEL_SELECTION)
 					screenHandler.drawLevelSelection();
 				
 				/** Level left arrow button **/
@@ -492,7 +492,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					loadLevel();
 				
 				/** Pause Menu Button (Gear) **/
-				} else if (clickedOnButton.type == Button.Type.GEAR) {
+				} else if (clickedOnButton.type == Button.Type.GEAR || clickedOnButton.type == Button.Type.RESUME) {
 					if (currentScreen != ScreenMode.PAUSED) {
 						currentScreen = ScreenMode.PAUSED;
 						screenHandler.drawPauseMenu();
@@ -512,6 +512,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				/** Sound Effects button **/
 				} else if (clickedOnButton.type == Button.Type.SOUND_EFFECTS) {
 					screenHandler.toggleVisibility(screenHandler.soundEffectsX);
+					
+				/** Slider button **/
+				} else if (clickedOnButton.type == Button.Type.MAIN_MENU) {
+					screenHandler.drawMainMenu();
 				
 				/** Refresh Button **/
 				} else if (clickedOnButton.type == Button.Type.REFRESH) {

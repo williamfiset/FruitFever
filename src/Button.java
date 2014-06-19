@@ -19,18 +19,28 @@ public class Button extends Thing {
 	public int level; // Only used for LEVEL_BOXES button
 	
 	public enum Type {
+		
+		/** Main Menu **/
 		PLAY,
 		CONTROLS,
 		OPTIONS,
 		MULTIPLAYER,
+		
+		/** Level Selection **/
 		LEFT_ARROW,
 		RIGHT_ARROW,
 		LEVEL_BOXES,
+		
+		/** In-Game **/
 		GEAR,
 		REFRESH,
+		
+		/** Pause Menu **/
 		SOUND_EFFECTS,
 		MUSIC,
-		
+		MAIN_MENU,
+		LEVEL_SELECTION,
+		RESUME,
 		SLIDER;
 	};
 	
@@ -49,9 +59,14 @@ public class Button extends Thing {
 	
 	}
 	
+	/** Convenience constructor **/
+	public Button(int x, int y, Type type, GImage[] imgArray) {
+		this(x, y, type, imgArray[0], imgArray[1], imgArray[imgArray.length > 2 ? 2 : 1]);
+	}
+	
 	/** Constructor used for LEVEL_BOXES button **/
-	public Button(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, int level) {
-		this(x, y, Type.LEVEL_BOXES, defaultImg, hoverImg, clickImg);
+	public Button(int x, int y, GImage[] imgArray, int level) {
+		this(x, y, Type.LEVEL_BOXES, imgArray[0], imgArray[1], imgArray[1]);
 		this.level = level;
 	}
 	
