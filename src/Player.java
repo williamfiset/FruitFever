@@ -137,6 +137,7 @@ public class Player extends Animation {
 
 		// Other needed functions
 		enableJumping();
+		poison();
 		updateHealth();
 		grabbingItem();
 		checkCollisionWithHintSigns();

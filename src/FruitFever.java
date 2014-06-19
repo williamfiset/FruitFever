@@ -221,7 +221,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				player.swirl.animate();
 				player.motion();
-				player.poison();
 				player.animate();
 				
 				// player.animateProjectiles(); // (Deprecated)
