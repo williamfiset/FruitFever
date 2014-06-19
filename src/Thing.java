@@ -65,7 +65,7 @@ public class Thing extends Rectangle {
 
 	/** This is the old .animate() method, we still need it to correctly position blocks and things
 	  * in some bug situations **/
-	public void naturalAnimate() {
+	public final void naturalAnimate() {
 
 		// Places image at the correct position on the screen
 		image.setLocation(imageX - FruitFever.viewX, imageY  - FruitFever.viewY);		
@@ -75,7 +75,7 @@ public class Thing extends Rectangle {
 	}
 	
 	/** Updates the size and the position of the bounding box **/
-	private void updateBoundingBox() {
+	private final void updateBoundingBox() {
 		
 		// Changes the size of bounding box
 		setSize((int)image.getWidth() - boundaryLeft + boundaryRight, (int)image.getHeight() - boundaryTop + boundaryBottom);

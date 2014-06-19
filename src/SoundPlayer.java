@@ -32,7 +32,7 @@ public class SoundPlayer {
 		NOTE: Playing sound with this is alright for short clips but definitely not for a soundtrack 
 		as they take up lots of space (60+ mb for ≈6min soundstack) **/
 
-	public static void playSound(String fileName){
+	public static void playSound(String fileName) {
 
 		String pathDir = makePath("sound/" + fileName);
 
@@ -58,18 +58,23 @@ public class SoundPlayer {
 	 */
 	public static void playSoundTrack (String soundTrack){
 
-		// String pathDir = soundTrack;
-		// System.out.println(pathDir);
+		String pathDir = makePath(soundTrack);
+		System.out.println(pathDir);
 
-		// Media media = new Media(pathDir);
-		// MediaPlayer mediaPlayer = new MediaPlayer(media);
+		Media media = new Media(pathDir);
+		MediaPlayer mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
+
+
+
+		// String bip = "bip.mp3";
+		// Media hit = new Media(bip);
+		// MediaPlayer mediaPlayer = new MediaPlayer(hit);
 		// mediaPlayer.play();
 
+
+
 	}
-
-
-
-
 }
 
 
