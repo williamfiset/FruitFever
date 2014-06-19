@@ -36,11 +36,11 @@ public class ScreenHandler {
 	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	static int HEART_AREA_WIDTH = 3*Data.TILE_SIZE;
 	static GImage currentHealthBar, currentEnergyBar;
-	static GLabel healthLabel = new GLabel("Health");
-	static GLabel energyLabel = new GLabel("Energy");
+	// static GLabel healthLabel = new GLabel("Health");
+	// static GLabel energyLabel = new GLabel("Energy");
 	
 	/** Pause Menu **/
-	// static GImage musicX, soundEffectX;
+	static GImage musicX, soundEffectsX;
 	
 	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
@@ -73,6 +73,11 @@ public class ScreenHandler {
 		// healthLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (healthLabel.getWidth()/2), 10);
 		// energyLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (energyLabel.getWidth()/2), 22);
 		
+		/** Pause Menu **/
+		musicX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*5);
+		soundEffectsX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*7);
+		
+		/** Debugging **/
 		nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
 		speed.setLocation(FruitFever.SCREEN_WIDTH - 110, FruitFever.SCREEN_HEIGHT - 9);
 		speedBackground.setSize(114, (int)speed.getHeight());
@@ -111,13 +116,18 @@ public class ScreenHandler {
 		for (int i = 0; i < Player.MAX_LIVES; i++)
 			livesImages[i] = Thing.copyImage(Data.heartImage);
 			
-		healthLabel.setColor(Color.white);
-		energyLabel.setColor(Color.white);
+		// healthLabel.setColor(Color.white);
+		// energyLabel.setColor(Color.white);
 		
 		nodes.setColor(Color.white);
 		nodesBackground.setFilled(true);
 		speed.setColor(Color.white);
 		speedBackground.setFilled(true);
+		
+		musicX = Thing.copyImage(Data.redX);
+		musicX.setVisible(false);
+		soundEffectsX = Thing.copyImage(Data.redX);
+		soundEffectsX.setVisible(false);
 		
 		setLocations();
 		
@@ -152,11 +162,13 @@ public class ScreenHandler {
 	public void drawPauseMenu() {
 		add(Data.windowBorder);
 		addButtonsToScreen(FruitFever.pauseMenuButtons);
+		add(musicX, soundEffectsX);
 	}
 	
 	public void removePauseMenu() {
 		remove(Data.windowBorder);
 		removeButtonsFromScreen(FruitFever.pauseMenuButtons);
+		remove(musicX, soundEffectsX);
 	}
 	
 	/** Shifts the level selection screen by a positive or negative integer value **/
@@ -368,6 +380,11 @@ public class ScreenHandler {
 	
 	public void remove(GObject obj) {
 		fruitFever.remove(obj);
+	}
+	
+	public void remove(GObject... objects) {
+		for (GObject obj : objects)
+			fruitFever.remove(obj);
 	}
 	
 	public void removeAll() {
