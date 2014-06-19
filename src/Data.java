@@ -10,6 +10,7 @@ To-do List
 -Make Fruit Rings spin at different spins
 -Make buttons in level selection screen inactive when you can no longer change pages
 -Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
+-Use Thing.copyImage throughout the game
 **/
 
 import acm.graphics.*;
