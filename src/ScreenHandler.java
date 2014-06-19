@@ -39,6 +39,9 @@ public class ScreenHandler {
 	static GLabel healthLabel = new GLabel("Health");
 	static GLabel energyLabel = new GLabel("Energy");
 	
+	/** Pause Menu **/
+	// static GImage musicX, soundEffectX;
+	
 	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
 		this.fruitFever = fruitFever;

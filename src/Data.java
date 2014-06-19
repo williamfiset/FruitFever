@@ -22,7 +22,7 @@ import java.awt.*;
 
 public abstract class Data {
 	
-	public static final InformationStorer infoFile = new InformationStorer("levels/levelInformation");;
+	public static final InformationStorer infoFile = new InformationStorer("levels/levelInformation");
 	
 	public static double loadingBarProgress = 0.0;
 	
@@ -31,7 +31,8 @@ public abstract class Data {
 	public static BufferedImage sheet = null;
 	
 	public static GImage loadingScreenBackground, loadingScreenBar, windowBorder, fruitFeverTitle,
-						heartImage, sliderCircle, sliderCirclePressed, sliderBar,
+						heartImage,
+						sliderCircle, sliderCirclePressed, sliderBar, redX,
 						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 						checkpointFlagRed, checkpointFlagGreen,
 						moss, thickMoss,
@@ -225,6 +226,7 @@ public abstract class Data {
 			soundEffectsButton[i] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
 			musicButton[i] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 		}
+		redX = makeImage(TILE_SIZE*7, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
 		
 		// Hint Sign (3 colors)
 		for (int i = 0; i < 3; i++)

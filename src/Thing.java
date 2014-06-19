@@ -97,5 +97,9 @@ public class Thing extends Rectangle {
 		boundaryTop = top;
 		boundaryBottom = bottom;
 	}
+	
+	public static GImage makeCopy(GImage img) {
+		return new GImage(img.getImage());
+	}
 
 }
