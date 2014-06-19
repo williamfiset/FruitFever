@@ -504,6 +504,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				/** Slider button **/
 				} else if (clickedOnButton.type == Button.Type.SLIDER) {
 					clickedOnButton.slideButton(mouse.getX());
+					
+				/** Music button **/
+				} else if (clickedOnButton.type == Button.Type.MUSIC) {
+					screenHandler.toggleVisibility(screenHandler.musicX);
+				
+				/** Sound Effects button **/
+				} else if (clickedOnButton.type == Button.Type.SOUND_EFFECTS) {
+					screenHandler.toggleVisibility(screenHandler.soundEffectsX);
 				
 				/** Refresh Button **/
 				} else if (clickedOnButton.type == Button.Type.REFRESH) {

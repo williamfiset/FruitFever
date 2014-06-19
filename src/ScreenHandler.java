@@ -41,6 +41,8 @@ public class ScreenHandler {
 	
 	/** Pause Menu **/
 	static GImage musicX, soundEffectsX;
+	static GLabel musicLabel = new GLabel("Music");
+	static GLabel soundEffectsLabel = new GLabel("SoundEffects");
 	
 	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
@@ -76,6 +78,8 @@ public class ScreenHandler {
 		/** Pause Menu **/
 		musicX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*5);
 		soundEffectsX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*7);
+		musicLabel.setLocation((int)((FruitFever.SCREEN_WIDTH - musicLabel.getWidth() + Data.TILE_SIZE)/2), Data.TILE_SIZE*5);
+		soundEffectsLabel.setLocation((int)((FruitFever.SCREEN_WIDTH - soundEffectsLabel.getWidth() + Data.TILE_SIZE)/2), Data.TILE_SIZE*7);
 		
 		/** Debugging **/
 		nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
@@ -162,13 +166,13 @@ public class ScreenHandler {
 	public void drawPauseMenu() {
 		add(Data.windowBorder);
 		addButtonsToScreen(FruitFever.pauseMenuButtons);
-		add(musicX, soundEffectsX);
+		add(musicX, soundEffectsX, musicLabel, soundEffectsLabel);
 	}
 	
 	public void removePauseMenu() {
 		remove(Data.windowBorder);
 		removeButtonsFromScreen(FruitFever.pauseMenuButtons);
-		remove(musicX, soundEffectsX);
+		remove(musicX, soundEffectsX, musicLabel, soundEffectsLabel);
 	}
 	
 	/** Shifts the level selection screen by a positive or negative integer value **/
@@ -343,6 +347,10 @@ public class ScreenHandler {
 		FruitFever.hintText = obj;
 		add(obj.label);
 	
+	}
+	
+	public void toggleVisibility(GObject obj) {
+		obj.setVisible(!obj.isVisible());
 	}
 	
 	/** Adds a list of buttons to the screen **/
