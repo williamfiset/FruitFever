@@ -10,7 +10,6 @@ To-do List
 -Make Fruit Rings spin at different spins
 -Make buttons in level selection screen inactive when you can no longer change pages
 -Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
--Use Thing.copyImage throughout the game
 **/
 
 import acm.graphics.*;
@@ -242,10 +241,10 @@ public abstract class Data {
 		// Energy and Health Bars for Player
 		healthBar = makeImage(116, 176, 122, 11);
 		healthBarBackground = makeImage(116, 188, 122, 11);
-		FruitFever.screenHandler.currentHealthBar = new GImage(healthBar.getImage());
+		FruitFever.screenHandler.currentHealthBar = Thing.copyImage(healthBar);
 		energyBar = makeImage(116, 152, 122, 11);
 		energyBarBackground = makeImage(116, 164, 122, 11);
-		FruitFever.screenHandler.currentEnergyBar = new GImage(energyBar.getImage());
+		FruitFever.screenHandler.currentEnergyBar = Thing.copyImage(energyBar);
 		
 		updateLoadingBar(0.1);
 	

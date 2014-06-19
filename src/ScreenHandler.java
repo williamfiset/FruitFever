@@ -85,11 +85,11 @@ public class ScreenHandler {
 		
 		/** Adds lock and star images to array **/
 		for (int i = 0; i < 20; i++) {
-			levelLocks[i] = new GImage(Data.locked.getImage());
+			levelLocks[i] = Thing.copyImage(Data.locked);
 
 			for (int j = 0; j < 3; j++) {
-				levelStars[i][j] = new GImage(Data.starIcon.getImage());
-				levelNoStars[i][j] = new GImage(Data.noStarIcon.getImage());
+				levelStars[i][j] = Thing.copyImage(Data.starIcon);
+				levelNoStars[i][j] = Thing.copyImage(Data.noStarIcon);
 			}
 		}
 		
@@ -109,7 +109,7 @@ public class ScreenHandler {
 		numberOfFruitRings.setColor(Color.white);
 		numberOfLives.setColor(Color.white);
 		for (int i = 0; i < Player.MAX_LIVES; i++)
-			livesImages[i] = new GImage(Data.heartImage.getImage());
+			livesImages[i] = Thing.copyImage(Data.heartImage);
 			
 		healthLabel.setColor(Color.white);
 		energyLabel.setColor(Color.white);

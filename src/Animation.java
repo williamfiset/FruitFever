@@ -65,7 +65,7 @@ public class Animation extends Thing {
 		this.images = originalImages;
 		
 		// Set these instance variables, now that we know the image
-		super.image = new GImage(images[counter].getImage());
+		super.image = copyImage(images[counter]);
 		super.setSize((int) image.getWidth(), (int) image.getHeight());
 		
 		this.reverse = reverse;
@@ -89,7 +89,7 @@ public class Animation extends Thing {
 		this.images = originalImages;
 		
 		// Set these instance variables, now that we know the image
-		super.image = new GImage(images[counter].getImage());
+		super.image = copyImage(images[counter]);
 		super.setSize((int) image.getWidth(), (int) image.getHeight());
 	}
 	
@@ -101,7 +101,7 @@ public class Animation extends Thing {
 		this.images = originalImages;
 
 		// Set these instance variables, now that we know the image
-		super.image = new GImage(images[counter].getImage());
+		super.image = copyImage(images[counter]);
 		super.setSize((int) image.getWidth(), (int) image.getHeight());
 	}
 

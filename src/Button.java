@@ -37,15 +37,15 @@ public class Button extends Thing {
 	/** Designated constructor **/
 	public Button(int x, int y, Type type, GImage defaultImg, GImage hoverImg, GImage clickImg) {
 	
-		super(x, y, (int) defaultImg.getWidth(), (int) defaultImg.getHeight(), new GImage(defaultImg.getImage()));
+		super(x, y, (int) defaultImg.getWidth(), (int) defaultImg.getHeight(), defaultImg);
 		
 		// Sets the position of the button images
 		super.animate();
 		
 		this.type = type;
-		this.defaultImage = new GImage(defaultImg.getImage());
-		this.hoverImage = new GImage(hoverImg.getImage());
-		this.clickImage = new GImage(clickImg.getImage());
+		this.defaultImage = defaultImg;
+		this.hoverImage = hoverImg;
+		this.clickImage = clickImg;
 	
 	}
 	
@@ -58,7 +58,7 @@ public class Button extends Thing {
 	/** Constructor used for SLIDER button **/
 	public Button(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage bar, double defaultValue) {
 		this((int) (x + bar.getWidth()*defaultValue - Slider.CIRCLE_RADIUS), y, Type.SLIDER, defaultImg, hoverImg, clickImg);
-		this.bar = new GImage(bar.getImage());
+		this.bar = copyImage(bar);
 		this.bar.setLocation(x, y);
 	}
 	
@@ -71,15 +71,15 @@ public class Button extends Thing {
 	}
 	
 	public void setDefault() {
-		image.setImage(defaultImage.getImage());
+		changeImage(defaultImage);
 	}
 	
 	public void setHover() {
-		image.setImage(hoverImage.getImage());
+		changeImage(hoverImage);
 	}
 	
 	public void setClick() {
-		image.setImage(clickImage.getImage());
+		changeImage(clickImage);
 	}
 	
 }
