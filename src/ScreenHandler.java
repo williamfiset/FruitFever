@@ -58,12 +58,12 @@ public class ScreenHandler {
 		/** Lock and Star images **/
 		for (int i = 0; i < 20; i++) {
 		
-			centerObject(levelLocks[i], -115 + (i%4)*60, 97 + (i/4)*55);
-			
-			for (int j = 0; j < 3; j++) {
-				centerObject(levelStars[i][j], -110 + (i%4)*60 + 12*j, 127 + (i/4)*55);
-				centerObject(levelNoStars[i][j], -110 + (i%4)*60 + 12*j, 127 + (i/4)*55);
-			}
+			levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
+  			
+  			for (int j = 0; j < 3; j++) {
+  				levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
+  				levelNoStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
+  			}
 		}
 		
 		Data.healthBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
