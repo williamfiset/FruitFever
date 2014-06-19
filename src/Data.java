@@ -5,10 +5,11 @@
  *
  **/
 
-/** To-do List 
-	-Make Fruit Rings spin at different spins
-	-Make buttons in level selection screen inactive when you can no longer change pages
-	-Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
+/**
+To-do List 
+-Make Fruit Rings spin at different spins
+-Make buttons in level selection screen inactive when you can no longer change pages
+-Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
 **/
 
 import acm.graphics.*;
@@ -21,7 +22,7 @@ import java.awt.*;
 
 public abstract class Data {
 	
-	public static InformationStorer infoFile;
+	public static final InformationStorer infoFile = new InformationStorer("levels/levelInformation");;
 	
 	public static double loadingBarProgress = 0.0;
 	
@@ -383,8 +384,6 @@ public abstract class Data {
 	
 	/** Loads level information from the file **/
 	public static void loadLevelInformation() {
-		
-		infoFile = new InformationStorer("levels/levelInformation");
 		
 		// Load level information
 		if (new File("levels/levelInformation.ser").exists()) {
