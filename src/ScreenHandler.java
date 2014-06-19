@@ -57,11 +57,12 @@ public class ScreenHandler {
 	
 		/** Lock and Star images **/
 		for (int i = 0; i < 20; i++) {
-			levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
+		
+			centerObject(levelLocks[i], -115 + (i%4)*60, 97 + (i/4)*55);
 			
 			for (int j = 0; j < 3; j++) {
-				levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
-				levelNoStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
+				centerObject(levelStars[i][j], -110 + (i%4)*60 + 12*j, 127 + (i/4)*55);
+				centerObject(levelNoStars[i][j], -110 + (i%4)*60 + 12*j, 127 + (i/4)*55);
 			}
 		}
 		
@@ -69,25 +70,26 @@ public class ScreenHandler {
 		currentHealthBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
 		Data.energyBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
 		currentEnergyBar.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
-		
+
 		Data.fruitRingAnimation[5].setLocation(Data.TILE_SIZE*4, 0);
 		
 		numberOfFruitRings.setLocation(Data.TILE_SIZE*5, 16);
 		
 		numberOfLives.setLocation(Data.TILE_SIZE + 3, 16);
 		
-		// healthLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (healthLabel.getWidth()/2), 10);
-		// energyLabel.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (energyLabel.getWidth()/2), 22);
-		
+
+		// centerObject(healthLabel, 10);
+		// centerObject(energyLabel, 22);
+
 		/** Pause Menu **/
-		pauseMenuTitle.setLocation((int)((FruitFever.SCREEN_WIDTH - pauseMenuTitle.getWidth())/2), Data.TILE_SIZE*5);
-		mainMenuButtonText.setLocation((int)((FruitFever.SCREEN_WIDTH - mainMenuButtonText.getWidth())/2), Data.TILE_SIZE*11);
-		levelSelectionButtonText.setLocation((int)((FruitFever.SCREEN_WIDTH - levelSelectionButtonText.getWidth())/2), Data.TILE_SIZE*13);
-		resumeButtonText.setLocation((int)((FruitFever.SCREEN_WIDTH - resumeButtonText.getWidth())/2), Data.TILE_SIZE*15);
-		musicX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*6);
-		soundEffectsX.setLocation((int)(FruitFever.SCREEN_WIDTH/2 - Data.TILE_SIZE*4.5), Data.TILE_SIZE*8);
-		musicLabel.setLocation((int)((FruitFever.SCREEN_WIDTH - musicLabel.getWidth() + Data.TILE_SIZE)/2), Data.TILE_SIZE*6);
-		soundEffectsLabel.setLocation((int)((FruitFever.SCREEN_WIDTH - soundEffectsLabel.getWidth() + Data.TILE_SIZE)/2), Data.TILE_SIZE*8);
+		centerObject(pauseMenuTitle, Data.TILE_SIZE*5);
+		centerObject(musicX, (int) (-Data.TILE_SIZE*4.5), Data.TILE_SIZE*6);
+		centerObject(musicLabel, Data.TILE_SIZE/2, Data.TILE_SIZE*6);
+		centerObject(soundEffectsX, (int) (-Data.TILE_SIZE*4.5), Data.TILE_SIZE*8);
+		centerObject(soundEffectsLabel, Data.TILE_SIZE/2, Data.TILE_SIZE*8);
+		centerObject(mainMenuButtonText, Data.TILE_SIZE*11);
+		centerObject(levelSelectionButtonText, Data.TILE_SIZE*13);
+		centerObject(resumeButtonText, Data.TILE_SIZE*15);
 		
 		/** Debugging **/
 		nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
@@ -119,8 +121,9 @@ public class ScreenHandler {
 			levelNumbers[i].setFont(new Font("Helvetica", Font.BOLD, 30));
 		}
 		
-		Data.healthBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.healthBar.getWidth()/2), 1);
-		Data.energyBarBackground.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (Data.energyBar.getWidth()/2), 13);
+		centerObject(Data.healthBarBackground, 1);
+		centerObject(Data.energyBarBackground, 13);
+		
 		
 		Data.fruitRingAnimation[5].setLocation(Data.TILE_SIZE*4, 0);
 		numberOfFruitRings.setColor(Color.white);
@@ -191,7 +194,7 @@ public class ScreenHandler {
 	public void shiftLevelLabels(int shift) {
 	
 		levelRange.setLabel(levelSelectionPages[FruitFever.levelSelectionPage]);
-		levelRange.setLocation((int) (fruitFever.SCREEN_WIDTH/2 - levelRange.getWidth()/2), 402);
+		centerObject(levelRange, 402);
 		
 		for (int i = 0; i < 20; i++) {
 			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
@@ -363,6 +366,18 @@ public class ScreenHandler {
 	
 	public void toggleVisibility(GObject obj) {
 		obj.setVisible(!obj.isVisible());
+	}
+	
+	/** This will center an object horizontally (with either a positive or negative offset)
+	  * and at the desired vertical position **/
+	private void centerObject(GObject obj, int xOffset, int yPosition) {
+		obj.setLocation( (int) ((FruitFever.SCREEN_WIDTH - obj.getWidth())/2) + xOffset, yPosition);
+	
+	}
+	
+	/** This will center an object horizontally and at the desired vertical position **/
+	private void centerObject(GObject obj, int yPosition) {
+		centerObject(obj, 0, yPosition);
 	}
 	
 	/** Adds a list of buttons to the screen **/
