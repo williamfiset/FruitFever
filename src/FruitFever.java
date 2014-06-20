@@ -20,8 +20,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500;
 	
 	// Cannot be made final since they can be modified through GameStarter
-	static boolean debugMode = false;
-	static int MAIN_LOOP_SPEED = 30;
+	static boolean debugMode      = false;
+	static int MAIN_LOOP_SPEED    = 30;
 
 /** Level Information/Objects/Lists **/
 	
@@ -32,7 +32,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static Animation vortex;
 	static Thing greenCheckPoint;
 	static boolean levelComplete;
-
+	
 	static ArrayList<Block> blocks;
 	static ArrayList<Thing> things, checkPoints;
 	static ArrayList<Hint> hints;
@@ -92,7 +92,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 /** Natural Disaster Variables **/
 
-	private static int earthQuakeMagnitude = 2, quakeBoundary_x = 0, quakeBoundary_y = 0;
+	private static int earthQuakeMagnitude  = 2, quakeBoundary_x = 0, quakeBoundary_y = 0;
 	final private static int QUAKE_BOUNDARY = 5;
 
 /** BUG TESTING COLLISION DETECTION **/

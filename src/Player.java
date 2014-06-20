@@ -19,72 +19,72 @@ public class Player extends Animation {
 	public static Animation poisonAnimation;
 	
 	public Animation grabbedItem = null;
-
-	// static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	
-// Player Stats
+    // static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+	
+  // Player Stats
 	public static final int MAX_LIVES = 100;
 	private static int STARTING_LIVES = 11;
-	private int lives = STARTING_LIVES;
-	public double maxEnergy = 1000, currentEnergy = maxEnergy, maxHealth = 1000, currentHealth = maxHealth;
-	private boolean poisoned = false;
-	private int poisonLeft = 0;
-
-// Swirl related Variables
-
+	private int lives                 = STARTING_LIVES;
+	public double maxEnergy           = 1000, currentEnergy = maxEnergy, maxHealth = 1000, currentHealth = maxHealth;
+	private boolean poisoned          = false;
+	private int poisonLeft            = 0;
+	
+  // Swirl related Variables
+	
 	Swirl swirl;
 	private final static byte SWIRL_MOUTH_DISTANCE = 15; 
-
-// Horizontal Movement Variables
-
+	
+  // Horizontal Movement Variables
+	
 	public static enum MovementDirection { LEFT, RIGHT, NONE }	
 	private MovementDirection movementDirection = MovementDirection.NONE;
-
+	
 	static int ORIGINAL_STARTING_HORIZONTAL_VELOCITY = 3;
 	static int horizontalVelocity = ORIGINAL_STARTING_HORIZONTAL_VELOCITY; 
 	public int dx = 0;
 	public boolean facingRight = true;
-
-// Collision Detection Constants 
-
+	
+  // Collision Detection Constants 
+	
 	private static final byte VERTICAL_PX_BUFFER = 2;
 	private static final byte CRACK_SPACING = 3;
 	private static final byte JUMP_SPACING = 3;
-
-// Gravity/Falling Variables & Constants
-
+	
+  // Gravity/Falling Variables & Constants
+	
 	static final double STARTING_FALLING_VELOCITY = 2.5;
 	private static final double TERMINAL_VELOCITY = Data.TILE_SIZE - VERTICAL_PX_BUFFER - 1;
 	private static final double STARTING_FALLING_ACCELERATION = 0.5;
 	private static final double CHANGE_IN_ACCELERATION = 0.015;
-
+	
 	private double fallingVelocity = STARTING_FALLING_VELOCITY;
 	private double fallingAcceleration = STARTING_FALLING_ACCELERATION;
-
-	private boolean gravity = true;
-
-// Jumping Variables 
 	
-	// setBaseLine is true because we don't know where the player starts
+	private boolean gravity = true;
+	
+  // Jumping Variables 
+	
+  // setBaseLine is true because we don't know where the player starts
 	private boolean setBaseLine = true, keepJumping = false;
-
-	// onSurface is true if the player is on any surface 
+	
+  // onSurface is true if the player is on any surface 
 	private boolean onSurface = false, isJumping = false;
-
+	
 	// baseLine holds the y value of where the player started when jumping
 	private int baseLine;
 	private int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // Jump a maximum of 3.5 blocks high
-
-// Jumping Motion Variables
-
+	
+  // Jumping Motion Variables
+	
 	private static final double ORIGINAL_STARTING_JUMPING_VELOCITY = 6.25;
 	private static final double STARTING_JUMPING_DECCELERATION = 0, CHANGE_IN_DECLERATION = 0.043; 
 	private static double startingJumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY; 
-
+	
 	private double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
 	private double jumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY;
-
-// Animation Things
+	
+  // Animation Things
 	
 	private GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
 	public boolean finishedTongueAnimation = true;

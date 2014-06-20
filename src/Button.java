@@ -56,7 +56,7 @@ public class Button extends Thing {
 		this.defaultImage = defaultImg;
 		this.hoverImage = hoverImg;
 		this.clickImage = clickImg;
-	
+		 
 	}
 	
 	/** Convenience constructor **/
