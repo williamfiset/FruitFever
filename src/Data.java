@@ -324,7 +324,6 @@ public abstract class Data {
 			
 		// Fruit Fever Title
 		fruitFeverTitle = makeImage(267, 338, 351, 36);
-		fruitFeverTitle.setLocation(FruitFever.SCREEN_WIDTH/2 - (int) (fruitFeverTitle.getWidth()/2), 50);
 		
 		// Icon Background Bar
 		iconBackgroundBar = makeImage(0, Data.TILE_SIZE*34, Data.TILE_SIZE*28, Data.TILE_SIZE);
@@ -344,7 +343,6 @@ public abstract class Data {
 		levelButton[0] = makeImage(0, 139, 51, 45);
 		levelButton[1] = makeImage(0, 93, 50, 44);
 		windowBorder = makeImage(70, 0, 260, 334);
-		windowBorder.setLocation((int) (FruitFever.SCREEN_WIDTH/2 - windowBorder.getWidth()/2), (int) (FruitFever.SCREEN_HEIGHT/2 - windowBorder.getHeight()/2));
 		buttonFrame[0] = makeImage(9, 341, 139, 35);
 		buttonFrame[1] = makeImage(153, 341, 139, 35);
 
@@ -752,7 +750,6 @@ public abstract class Data {
 	private static void updateLoadingBar(double newProgress) {
 		loadingBarProgress += newProgress;
 		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(loadingBarProgress)), 20);
-		loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
 		FruitFever.screenHandler.add(loadingScreenBar);
 	}
 	

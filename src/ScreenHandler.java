@@ -55,6 +55,10 @@ public class ScreenHandler {
 	
 	private void setLocations() {
 	
+		centerObject(Data.fruitFeverTitle, 50);
+		centerObject(Data.windowBorder);
+		Data.loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) Data.loadingScreenBar.getHeight());
+		
 		/** Lock and Star images **/
 		for (int i = 0; i < 20; i++) {
 		
@@ -198,7 +202,7 @@ public class ScreenHandler {
 		
 		for (int i = 0; i < 20; i++) {
 			levelNumbers[i].setLabel(String.valueOf(Integer.valueOf(levelNumbers[i].getLabel()) + shift));
-			levelNumbers[i].setLocation((int) (fruitFever.SCREEN_WIDTH/2 - levelNumbers[i].getWidth()/2 - 90 + (i%4)*60), 128 + (i/4)*55);
+			centerObject(levelNumbers[i], -90 + (i%4)*60, 128 + (i/4)*55);
 			
 			int level = Integer.valueOf(levelNumbers[i].getLabel());
 			
@@ -378,6 +382,11 @@ public class ScreenHandler {
 	/** This will center an object horizontally and at the desired vertical position **/
 	private void centerObject(GObject obj, int yPosition) {
 		centerObject(obj, 0, yPosition);
+	}
+	
+	/** This will center an object horizontally and vertically **/
+	private void centerObject(GObject obj) {
+		centerObject(obj, 0, (int) ((FruitFever.SCREEN_HEIGHT - obj.getHeight())/2));
 	}
 	
 	/** Adds a list of buttons to the screen **/
