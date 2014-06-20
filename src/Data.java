@@ -30,65 +30,65 @@ public abstract class Data {
 
 	public static BufferedImage sheet = null;
 	
-	public static GImage loadingScreenBackground, loadingScreenBar, windowBorder, fruitFeverTitle,
-						heartImage,
-						sliderCircle, sliderCirclePressed, sliderBar, redX,
-						purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
-						checkpointFlagRed, checkpointFlagGreen,
-						moss, thickMoss,
-						bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
-						energyBar, energyBarBackground, healthBar, healthBarBackground,
-						iconBackgroundBar;
+	public static GImage 	loadingScreenBackground, loadingScreenBar, windowBorder, fruitFeverTitle,
+							heartImage,
+							sliderCircle, sliderCirclePressed, sliderBar, redX,
+							purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
+							checkpointFlagRed, checkpointFlagGreen,
+							moss, thickMoss,
+							bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
+							energyBar, energyBarBackground, healthBar, healthBarBackground,
+							iconBackgroundBar;
 						
-	public static GImage[] sceneryImages = new GImage[28],
+	public static GImage[] 	sceneryImages = new GImage[28],
 						   
-						blueFruit = new GImage[5],
-						yellowFruit = new GImage[6],
-						redFruit = new GImage[7],	
-						purpleFruit = new GImage[20],	
-						
-						gearButton = new GImage[3],
-						fruitRingAnimation = new GImage[6],
-						vortexAnimation = new GImage[5],
-						powerups = new GImage[2],
-						   
-						playerStill = new GImage[1],
-						playerStillH = new GImage[1],
-						playerTongue = new GImage[5],
-						playerTongueH = new GImage[5],
-						playerShoot = new GImage[6],
-						playerShootH = new GImage[6],
-						  
-						// fuzzyEnemyAttack = new GImage[4],
-						// fuzzyEnemyAttackH = new GImage[4],
-						// fuzzyEnemyMoving = new GImage[3],
-						// fuzzyEnemyMovingH = new GImage[3],
-						// fuzzyShot = new GImage[8],
-						// wormEnemyMoving = new GImage[4],
-						// wormEnemyMovingH = new GImage[4],
-						   
-						swirlAnimation = new GImage[6],
-						
-						gasBubbles = new GImage[4],
-						playerGasBubbles = new GImage[4],
-						lava = new GImage[1],
-						spikes = new GImage[1],
-						spikesV = new GImage[1],
-						musicButton = new GImage[2],
-						soundEffectsButton = new GImage[2],
-						hintSign = new GImage[3],
-						refreshButton = new GImage[3],
-						menuButtons = new GImage[12],
-						leftArrowButton = new GImage[3],
-						rightArrowButton = new GImage[3],
-						levelButton = new GImage[2],
-						
-						buttonFrame = new GImage[2];
+							blueFruit = new GImage[5],
+							yellowFruit = new GImage[6],
+							redFruit = new GImage[7],	
+							purpleFruit = new GImage[20],	
+							
+							gearButton = new GImage[3],
+							fruitRingAnimation = new GImage[6],
+							vortexAnimation = new GImage[5],
+							powerups = new GImage[2],
+							   
+							playerStill = new GImage[1],
+							playerStillH = new GImage[1],
+							playerTongue = new GImage[5],
+							playerTongueH = new GImage[5],
+							playerShoot = new GImage[6],
+							playerShootH = new GImage[6],
+							  
+							// fuzzyEnemyAttack = new GImage[4],
+							// fuzzyEnemyAttackH = new GImage[4],
+							// fuzzyEnemyMoving = new GImage[3],
+							// fuzzyEnemyMovingH = new GImage[3],
+							// fuzzyShot = new GImage[8],
+							// wormEnemyMoving = new GImage[4],
+							// wormEnemyMovingH = new GImage[4],
+							   
+							swirlAnimation = new GImage[6],
+							
+							gasBubbles = new GImage[4],
+							playerGasBubbles = new GImage[4],
+							lava = new GImage[1],
+							spikes = new GImage[1],
+							spikesV = new GImage[1],
+							musicButton = new GImage[2],
+							soundEffectsButton = new GImage[2],
+							hintSign = new GImage[3],
+							refreshButton = new GImage[3],
+							menuButtons = new GImage[12],
+							leftArrowButton = new GImage[3],
+							rightArrowButton = new GImage[3],
+							levelButton = new GImage[2],
+							
+							buttonFrame = new GImage[2];
 
-	public static GImage[][] fireworkAnimation = new GImage[3][5],
-							torches = new GImage[3][3],
-							torchesH = new GImage[3][3],
-							blockImages = new GImage[18][4];
+	public static GImage[][] 	fireworkAnimation = new GImage[3][5],
+								torches = new GImage[3][3],
+								torchesH = new GImage[3][3],
+								blockImages = new GImage[18][4];
 
 	/** Loads the images required for the loading screen **/
 	public static void loadingScreen(){

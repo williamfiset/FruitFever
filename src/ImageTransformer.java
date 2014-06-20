@@ -147,4 +147,48 @@ abstract class ImageTransformer {
 		return crop(img, (int) width);
 	}
 	
+	/** Extends a GImage hoizontally by stretching the center and retaining the sides **/
+	public static GImage extend(GImage left, GImage center, GImage right, int newWidth) {
+
+		int centerWidth = (int) (newWidth - left.getWidth() - right.getWidth());
+
+		center = resize(center, centerWidth, (int)left.getHeight());
+     
+     	return joinHorizontally(left, center, right);
+		
+    }
+	
+	/** Joins three Gimages together side by side **/
+	public static GImage joinHorizontally(GImage left, GImage center, GImage right) {
+	
+		int height = (int) left.getHeight(),
+			newWidth = (int) (left.getWidth() + center.getWidth() + right.getWidth());
+		
+		int[][] arrLeft = left.getPixelArray(),
+				arrCenter = center.getPixelArray(),
+				arrRight = left.getPixelArray(),
+				arrFull = new int[height][newWidth];
+		
+		for (int i = 0; i < height; i++)
+			for (int j = 0; j < (int) (left.getWidth()); j++)
+				arrFull[i][j] = arrLeft[i][j];
+				
+		int xOffset = (int) left.getWidth();
+		
+		for (int i = 0; i < height; i++)
+			for (int j = 0; j < (int) (center.getWidth()); j++)
+				arrFull[i][j + xOffset] = arrCenter[i][j];
+		
+		xOffset += (int) center.getWidth();
+		
+		for (int i = 0; i < height; i++)
+			for (int j = 0; j < (int) (right.getWidth()); j++)
+				arrFull[i][j + xOffset] = arrRight[i][j];
+     
+     	return new GImage(arrFull);
+		
+    }
+	
+	
+	
 }

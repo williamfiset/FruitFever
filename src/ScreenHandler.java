@@ -87,9 +87,9 @@ public class ScreenHandler {
 
 		/** Pause Menu **/
 		centerObject(pauseMenuTitle, Data.TILE_SIZE*5);
-		centerObject(musicX, (int) (-Data.TILE_SIZE*4.5), Data.TILE_SIZE*6);
+		centerObject(musicX, (int) (-Data.TILE_SIZE*4), Data.TILE_SIZE*6);
 		centerObject(musicLabel, Data.TILE_SIZE/2, Data.TILE_SIZE*6);
-		centerObject(soundEffectsX, (int) (-Data.TILE_SIZE*4.5), Data.TILE_SIZE*8);
+		centerObject(soundEffectsX, (int) (-Data.TILE_SIZE*4), Data.TILE_SIZE*8);
 		centerObject(soundEffectsLabel, Data.TILE_SIZE/2, Data.TILE_SIZE*8);
 		centerObject(mainMenuButtonText, Data.TILE_SIZE*11);
 		centerObject(levelSelectionButtonText, Data.TILE_SIZE*13);

@@ -23,12 +23,14 @@ public class Player extends Animation {
     // static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	
   // Player Stats
+  
 	public static final int MAX_LIVES = 100;
 	private static int STARTING_LIVES = 11;
 	private int lives                 = STARTING_LIVES;
-	public double maxEnergy           = 1000, currentEnergy = maxEnergy, maxHealth = 1000, currentHealth = maxHealth;
 	private boolean poisoned          = false;
 	private int poisonLeft            = 0;
+	
+	public double maxEnergy = 1000, currentEnergy = maxEnergy, maxHealth = 1000, currentHealth = maxHealth;
 	
   // Swirl related Variables
 	
@@ -53,42 +55,44 @@ public class Player extends Animation {
 	
   // Gravity/Falling Variables & Constants
 	
-	static final double STARTING_FALLING_VELOCITY = 2.5;
-	private static final double TERMINAL_VELOCITY = Data.TILE_SIZE - VERTICAL_PX_BUFFER - 1;
-	private static final double STARTING_FALLING_ACCELERATION = 0.5;
-	private static final double CHANGE_IN_ACCELERATION = 0.015;
+	private static final double STARTING_FALLING_VELOCITY = 2.5,
+								TERMINAL_VELOCITY = Data.TILE_SIZE - VERTICAL_PX_BUFFER - 1,STARTING_FALLING_ACCELERATION = 0.5,
+								CHANGE_IN_ACCELERATION = 0.015;
 	
-	private double fallingVelocity = STARTING_FALLING_VELOCITY;
-	private double fallingAcceleration = STARTING_FALLING_ACCELERATION;
+	private double 	fallingVelocity = STARTING_FALLING_VELOCITY,
+					fallingAcceleration = STARTING_FALLING_ACCELERATION;
 	
 	private boolean gravity = true;
 	
   // Jumping Variables 
 	
-  // setBaseLine is true because we don't know where the player starts
-	private boolean setBaseLine = true, keepJumping = false;
+	private boolean setBaseLine = true, // true because we don't know where the player starts
+					keepJumping = false,
+					onSurface = false, // true if the player is on any surface 
+					isJumping = false;
 	
-  // onSurface is true if the player is on any surface 
-	private boolean onSurface = false, isJumping = false;
-	
-	// baseLine holds the y value of where the player started when jumping
-	private int baseLine;
-	private int maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // Jump a maximum of 3.5 blocks high
+	private int baseLine, // holds the y value of where the player started when jumping
+				maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // Jump a maximum of 3.5 blocks high
 	
   // Jumping Motion Variables
 	
-	private static final double ORIGINAL_STARTING_JUMPING_VELOCITY = 6.25;
-	private static final double STARTING_JUMPING_DECCELERATION = 0, CHANGE_IN_DECLERATION = 0.043; 
+	private static final double ORIGINAL_STARTING_JUMPING_VELOCITY = 6.25,
+								STARTING_JUMPING_DECCELERATION = 0,
+								CHANGE_IN_DECLERATION = 0.043; 
 	private static double startingJumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY; 
 	
-	private double jumpingDecceleration = STARTING_JUMPING_DECCELERATION;
-	private double jumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY;
+	private double 	jumpingDecceleration = STARTING_JUMPING_DECCELERATION,
+					jumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY;
 	
-  // Animation Things
+  // Animation Variables
 	
 	private GImage[] stillAnim, stillAnimH, shootAnim, shootAnimH, tongueAnim, tongueAnimH;
+	
 	public boolean finishedTongueAnimation = true;
-	private boolean sideCollisionFacingLeft = false, sideCollisionFacingRight = false, sideCollision = false;
+	
+	private boolean sideCollisionFacingLeft = false,
+					sideCollisionFacingRight = false,
+					sideCollision = false;
 
 	public Player() {
 

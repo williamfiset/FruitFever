@@ -17,7 +17,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	static GraphicsProgram screen;
 	static ScreenHandler screenHandler;
-	final static int SCREEN_WIDTH = 700, SCREEN_HEIGHT = 500;
+	final static int 	SCREEN_WIDTH = 700,
+						SCREEN_HEIGHT = 500;
 	
 	// Cannot be made final since they can be modified through GameStarter
 	static boolean debugMode      = false;
@@ -25,9 +26,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 /** Level Information/Objects/Lists **/
 	
-	static int currentFruitRings, totalFruitRings;
+	static int 	currentFruitRings,
+				totalFruitRings;
+	
 	static LevelInformation[] levelInformation = new LevelInformation[100];
-	static int LEVEL_WIDTH, LEVEL_HEIGHT;
+	
+	static int 	LEVEL_WIDTH,
+				LEVEL_HEIGHT;
 	
 	static Animation vortex;
 	static Thing greenCheckPoint;
@@ -36,18 +41,20 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<Block> blocks;
 	static ArrayList<Thing> things, checkPoints;
 	static ArrayList<Hint> hints;
-	// static ArrayList<Enemy> enemies;
 	static ArrayList<Animation> edibleItems, dangerousThings;
 	static ArrayList<TextAnimator> levelTexts;
 	static TextAnimator hintText;
+	// static ArrayList<Enemy> enemies;
 
 /** Player **/
 
 	static Player player;
-	static boolean swirlButtonPressed = false, tongueButtonPressed = false;
+	static boolean 	swirlButtonPressed = false,
+					tongueButtonPressed = false;
 	
 	// These variables are used to help deal with multi-threading, it allows us to control when the events occur during the main loop (this hasn't been implemented for simple events like a user pressing A, D, or W)
-	static boolean swirlEventInvoked = false, tongueEventInvoked = false;
+	static boolean 	swirlEventInvoked = false,
+					tongueEventInvoked = false;
 	
 /** Menus/GUI **/
 	
@@ -73,7 +80,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other ArrayLists)
 	static Button clickedOnButton = null;
 	
-	static int currentLevel = 1, levelSelectionPage = 0;
+	static int 	currentLevel = 1,
+				levelSelectionPage = 0;
+	
 	static ScreenMode currentScreen;
 
 	static ArrayList<Alarm>	powerupAlarms = new ArrayList<Alarm>();
@@ -81,13 +90,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 /** Screen View Variables **/
 
 	final static double viewBoxSpacing = 0.29; // (This value seems to be optimal for screen view)
-	final static int LEFT_BOUNDARY = (int) (SCREEN_WIDTH * viewBoxSpacing);
-	final static int RIGHT_BOUNDARY = (int) (SCREEN_WIDTH * (1.0 - viewBoxSpacing));
-	final static int UP_BOUNDARY = (int) (SCREEN_HEIGHT * viewBoxSpacing);
-	final static int DOWN_BOUNDARY = (int) (SCREEN_HEIGHT * (1.0 - viewBoxSpacing));
+	final static int 	LEFT_BOUNDARY = (int) (SCREEN_WIDTH * viewBoxSpacing),
+						RIGHT_BOUNDARY = (int) (SCREEN_WIDTH * (1.0 - viewBoxSpacing)),
+						UP_BOUNDARY = (int) (SCREEN_HEIGHT * viewBoxSpacing),
+						DOWN_BOUNDARY = (int) (SCREEN_HEIGHT * (1.0 - viewBoxSpacing));
 		
-	static int viewX, viewY;
-	static int vx; // Δ in viewX & viewY
+	static int 	viewX,
+				viewY,
+				vx; // Δ in viewX & viewY
+				
 	static double vy; 
 
 /** Natural Disaster Variables **/
@@ -108,11 +119,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		postInit();
 		
 		/** Temporary **/
-		GRect leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		GRect rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT);
-		GRect upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3);
-		GRect downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3); 
-		GRect centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
+		GRect 	leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT),
+				rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT),
+				upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3),
+				downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3),
+				centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
 		
 		point1 = new GRect(0,0,2,3); point2 = new GRect(0,0,2,3); 
 		point3 = new GRect(0,0,2,3); point4 = new GRect(0,0,2,3);
