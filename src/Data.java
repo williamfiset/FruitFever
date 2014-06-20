@@ -343,8 +343,20 @@ public abstract class Data {
 		levelButton[0] = makeImage(0, 139, 51, 45);
 		levelButton[1] = makeImage(0, 93, 50, 44);
 		windowBorder = makeImage(70, 0, 260, 334);
-		buttonFrame[0] = makeImage(9, 341, 139, 35);
-		buttonFrame[1] = makeImage(153, 341, 139, 35);
+		
+		GImage buttonFrameLeft = makeImage(9, 341, 10, 35);
+		GImage buttonFrameCenter = makeImage(19, 341, 10, 35);
+		GImage buttonFrameRight = makeImage(138, 341, 10, 35);
+		
+		buttonFrame[0] = ImageTransformer.extendHorizontally(buttonFrameLeft, buttonFrameCenter, buttonFrameRight, 175);
+		//buttonFrame[0] = makeImage(9, 341, 139, 35);
+		
+		buttonFrameLeft = makeImage(153, 341, 10, 35);
+		buttonFrameCenter = makeImage(163, 341, 10, 35);
+		buttonFrameRight = makeImage(282, 341, 10, 35);
+		
+		buttonFrame[1] = ImageTransformer.extendHorizontally(buttonFrameLeft, buttonFrameCenter, buttonFrameRight, 175);
+		//buttonFrame[1] = makeImage(153, 341, 139, 35);
 
 		updateLoadingBar(0.05);
 

@@ -148,7 +148,7 @@ abstract class ImageTransformer {
 	}
 	
 	/** Extends a GImage hoizontally by stretching the center and retaining the sides **/
-	public static GImage extend(GImage left, GImage center, GImage right, int newWidth) {
+	public static GImage extendHorizontally(GImage left, GImage center, GImage right, int newWidth) {
 
 		int centerWidth = (int) (newWidth - left.getWidth() - right.getWidth());
 
@@ -166,7 +166,7 @@ abstract class ImageTransformer {
 		
 		int[][] arrLeft = left.getPixelArray(),
 				arrCenter = center.getPixelArray(),
-				arrRight = left.getPixelArray(),
+				arrRight = right.getPixelArray(),
 				arrFull = new int[height][newWidth];
 		
 		for (int i = 0; i < height; i++)
