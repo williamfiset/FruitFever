@@ -147,16 +147,63 @@ abstract class ImageTransformer {
 		return crop(img, (int) width);
 	}
 	
-	/** Extends a GImage hoizontally by stretching the center and retaining the sides **/
-	public static GImage extendHorizontally(GImage left, GImage center, GImage right, int newWidth) {
+	/** Extends a GImage vertically by stretching the center and retaining the top and bottom **/
+	public static GImage extendVertically(GImage[] arr, int newWidth) {
 
-		int centerWidth = (int) (newWidth - left.getWidth() - right.getWidth());
+		int centerHeight = (int) (newWidth - arr[0].getWidth() - arr[2].getWidth());
 
-		center = resize(center, centerWidth, (int)left.getHeight());
+		arr[1] = resize(arr[1], (int) arr[1].getWidth(), centerHeight);
      
-     	return joinHorizontally(left, center, right);
+     	return joinVertically(arr);
 		
     }
+	
+	/** Extends a GImage hoizontally by stretching the center and retaining the sides **/
+	public static GImage extendHorizontally(GImage[] arr, int newWidth) {
+
+		int centerWidth = (int) (newWidth - arr[0].getWidth() - arr[2].getWidth());
+
+		arr[1] = resize(arr[1], centerWidth, (int) arr[1].getHeight());
+     
+     	return joinHorizontally(arr);
+		
+    }
+	
+	/** Joins three Gimages together on top of each other **/
+	public static GImage joinVertically(GImage top, GImage center, GImage bottom) {
+	
+		int width = (int) top.getWidth(),
+			newHeight = (int) (top.getHeight() + center.getHeight() + bottom.getHeight());
+		
+		int[][] arrTop = top.getPixelArray(),
+				arrCenter = center.getPixelArray(),
+				arrBottom = bottom.getPixelArray(),
+				arrFull = new int[newHeight][width];
+		
+		for (int i = 0; i < (int) top.getHeight(); i++)
+			for (int j = 0; j < width; j++)
+				arrFull[i][j] = arrTop[i][j];
+				
+		int yOffset = (int) top.getWidth();
+		
+		for (int i = 0; i < (int) (center.getHeight()); i++)
+			for (int j = 0; j < width; j++)
+				arrFull[i + yOffset][j] = arrCenter[i][j];
+		
+		yOffset += (int) center.getWidth();
+		
+		for (int i = 0; i < (int) (bottom.getHeight()); i++)
+			for (int j = 0; j < width; j++)
+				arrFull[i + yOffset][j] = arrBottom[i][j];
+     
+     	return new GImage(arrFull);
+		
+    }
+	
+	/** Joins three Gimages together on top of each other **/
+	public static GImage joinVertically(GImage[] arr) {
+		return joinVertically(arr[0], arr[1], arr[2]);
+	}
 	
 	/** Joins three Gimages together side by side **/
 	public static GImage joinHorizontally(GImage left, GImage center, GImage right) {
@@ -189,6 +236,14 @@ abstract class ImageTransformer {
 		
     }
 	
+	/** Joins three Gimages together side by side **/
+	public static GImage joinHorizontally(GImage[] arr) {
+		return joinHorizontally(arr[0], arr[1], arr[2]);
+	}
 	
+	/** Joins 9 Gimages together to make a GImage of a given size **/
+	public static GImage joinSet(GImage[][] arr, int width, int height) {
+		return extendVertically(new GImage[] {extendHorizontally(arr[0], width), extendHorizontally(arr[1], width), extendHorizontally(arr[2], width)}, height);
+	}
 	
 }
