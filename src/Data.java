@@ -580,7 +580,7 @@ public abstract class Data {
 						// Add Block to the ArrayList
 						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, color, image));
 
-					} catch(ArrayIndexOutOfBoundsException e) { 
+					} catch (ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("\nBLOCK LAYER contains invalid character: '%c' \n", character);
 						System.exit(0);
 					}
@@ -612,7 +612,7 @@ public abstract class Data {
 							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, new GImage[]{powerups[number]}, false, 0, true, Animation.powerupTypes[number]));
 							continue;
 						}
-					} catch(ArrayIndexOutOfBoundsException e) { 
+					} catch (ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("SCENERY LAYER contains invalid character: '%c' \n", character);
 						System.exit(0);
 					}
@@ -736,7 +736,7 @@ public abstract class Data {
 		
 		/** Adds level box buttons to the ArrayLists for Level Selection Screen **/
 		for (int i = 0; i < 20; i++)
-			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 100 + (i/4)*55, levelButton, i), FruitFever.levelSelectionButtons);
+			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55, levelButton, i), FruitFever.levelSelectionButtons);
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
 		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton), FruitFever.levelSelectionButtons);
