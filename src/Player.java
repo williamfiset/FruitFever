@@ -167,7 +167,7 @@ public class Player extends Animation {
 						rightCollision2 = Block.getBlock(x + hv + Data.TILE_SIZE, y + Data.TILE_SIZE - VERTICAL_PX_BUFFER);
 
 						if (rightCollision1 == null && rightCollision2 == null) {
-							imageX += hv;	
+							imageX += hv;
 							break;
 						} else
 							hv--;
@@ -590,6 +590,18 @@ public class Player extends Animation {
 					poisonAnimation.image.setLocation(x, y);
 
 				// Instant death 
+				} else if (obj.type == Animation.Type.SPIKES){
+
+					// Spikes Point downwards
+					if (obj.image == Data.spikes[0] ) {
+						
+					// Spikes Point downwards	
+					} else {
+
+					}
+
+					System.out.println("Spikes Collision");
+
 				} else {
 
 					collisionOccurred = true;

@@ -12,9 +12,9 @@ a--------------aa--0--aa---aaaaa-aaaaaa---------------aa---aa-----aaaaa--*------
 a-------------aaaaaaaaa----aaaa-----------aaaaaaaaaa--aa------------aaaa--------------*---a
 aa------------aaaaaa------aaaaa-----------aaaaaaaaaa---------aa------aaaaaaaa-------------a
 a------?------aaaaa------------------*--aaaaaaaaaaaa-----*---aa-------aaaaaa--------------a
-a&--aaaaaa-------aaa-----a--------------aaaaaa---aaaa--------aa---------aaa---------------a
-aaaaaaaaaa--------aa-----a-a----a---*---aaaa--|1-aaaaaa---aaaaaa----------------------*---a
-aaaaaa^----@?-----aaaa-aaa-----------a--aaa---aaaaaaaaa---aaaaaaa-------------------------a
+a&--aaaaaa-----^^aaa-----a--------------aaaaaa---aaaa--------aa---------aaa---------------a
+aaaaaaaaaa-------^aa-----a-a----a---*---aaaa--|1-aaaaaa---aaaaaa----------------------*---a
+aaaaaa-----@?-----aaaa-aaa-----------a--aaa---aaaaaaaaa---aaaaaaa-------------------------a
 a-------aaaaaa-------a--&a---a------aa--aaa---------aaaa--aa--aaaa----------------aaaa--aaa
 a------aaaaaaa-aa--::a---aa-------------aaa-----***-------aa--aaa----------------aaaaa%-aaa
 a---aaaaa-------a--aaaaa-a~~~~~~~~~~~~~~aaa-a-----------------aa------------------aaaaaaaaa
