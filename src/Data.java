@@ -221,7 +221,7 @@ public abstract class Data {
 			}
 				
 		// Spikes
-		spikesBlood[0] = makeImage(TILE_SIZE*4, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
+		spikesBlood[0] = makeImage(TILE_SIZE*4, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
 		spikesBloodV[0] = ImageTransformer.verticalFlip(spikesBlood[0]);
 		spikes[0] = makeImage(TILE_SIZE*5, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
 		spikesV[0] = ImageTransformer.verticalFlip(spikes[0]);
@@ -353,8 +353,8 @@ public abstract class Data {
 		/** Import level boxes and button images **/
 		sheet = DataLoader.loadImage("img/menu/tileset.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/menu/tileset.png");
 		
-		for (int i = 0; i < 2; i++)
-			levelButton[i] = makeImage(TILE_SIZE*i*2, 0, TILE_SIZE*2, TILE_SIZE*2);
+		levelButton[0] = makeImage(TILE_SIZE*2, 0, TILE_SIZE*2, TILE_SIZE*2);
+		levelButton[1] = makeImage(0, 0, TILE_SIZE*2, TILE_SIZE*2);
 			
 		for (int n = 0; n < 3; n++)
 			for (int y = 0; y < 3; y++)
