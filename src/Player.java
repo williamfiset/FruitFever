@@ -578,7 +578,7 @@ public class Player extends Animation {
 		boolean collisionOccurred = false;
 
 		/** Loop through all dangerous sprites **/
-		for (Animation obj : FruitFever.dangerousThings){
+		for (Animation obj : FruitFever.dangerousThings) {
 
 			if (obj.intersects(this)) {
 				
@@ -592,17 +592,13 @@ public class Player extends Animation {
 				// SPIKES
 				} else if (obj.type == Animation.Type.SPIKES){
 
-					// Spikes Point upwards
-					if (obj.image == Data.spikes[0] ) {
-						obj.setNewAnimation(Data.spikesBlood);
-
-						
-					// Spikes Point downawards	
-					} else {
-						obj.setNewAnimation(Data.spikesBloodV);
-						
-					}
-
+					
+					bloodySpikes(obj);
+					
+					/** Bloody any other spikes **/
+						for (Animation obj2 : FruitFever.dangerousThings)
+							if (obj2.type == Animation.Type.SPIKES && obj2.intersects(this))
+								bloodySpikes(obj2);
 					
 					collisionOccurred = true;
 					FruitFever.screenHandler.adjustHearts(--lives);	
@@ -623,6 +619,17 @@ public class Player extends Animation {
 
 		return collisionOccurred;
 
+	}
+	
+	private void bloodySpikes(Animation obj) {
+		
+		// Spikes Point upwards
+		if (obj.images.equals(Data.spikes))
+			obj.setNewAnimation(Data.spikesBlood);
+		// Spikes Point downawards	
+		if (obj.images.equals(Data.spikesV))
+			obj.setNewAnimation(Data.spikesBloodV);
+						
 	}
 
 	private boolean checkForPlayerOutOfBounds() {
