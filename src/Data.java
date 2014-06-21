@@ -350,23 +350,21 @@ public abstract class Data {
 		
 		updateLoadingBar(0.1);
 		
-		/** Import tileset images **/
-		sheet = DataLoader.loadImage("img/tilesets/tileset.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/tilsets/tileset.png");
+		/** Import level boxes and button images **/
+		sheet = DataLoader.loadImage("img/menu/tileset.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/menu/tileset.png");
 		
+		for (int i = 0; i < 2; i++)
+			levelButton[i] = makeImage(TILE_SIZE*i*2, 0, TILE_SIZE*2, TILE_SIZE*2);
+			
 		for (int n = 0; n < 3; n++)
 			for (int y = 0; y < 3; y++)
 				for (int x = 0; x < 3; x++)
-					tileset[n][y][x] = makeImage(TILESET_SIZE*(x + n*3), TILESET_SIZE*y, TILESET_SIZE, TILESET_SIZE);
-		
-		/** Import level selection background/level button images **/
-		sheet = DataLoader.loadImage("img/LevelSelection/backDrop/brownLevel.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/backDrop/brownLevel.png");
-		
-		levelButton[0] = makeImage(0, 139, 51, 45);
-		levelButton[1] = makeImage(0, 93, 50, 44);
-		windowBorder = makeImage(70, 0, 260, 334);
+					tileset[n][y][x] = makeImage(TILE_SIZE*4 + TILESET_SIZE*(x + n*3), TILESET_SIZE*y, TILESET_SIZE, TILESET_SIZE);
 		
 		for (int i = 0; i < 3; i++)
 			buttonFrame[i] = ImageTransformer.joinSet(tileset[i], 175, 37);
+		
+		windowBorder = ImageTransformer.joinSet(tileset[0], 260, 334);
 
 		updateLoadingBar(0.05);
 
