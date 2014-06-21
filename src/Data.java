@@ -73,6 +73,8 @@ public abstract class Data {
 							gasBubbles = new GImage[4],
 							playerGasBubbles = new GImage[4],
 							lava = new GImage[1],
+							spikesBlood = new GImage[1],
+							spikesBloodV = new GImage[1],
 							spikes = new GImage[1],
 							spikesV = new GImage[1],
 							musicButton = new GImage[2],
@@ -219,6 +221,8 @@ public abstract class Data {
 			}
 				
 		// Spikes
+		spikesBlood[0] = makeImage(TILE_SIZE*4, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
+		spikesBloodV[0] = ImageTransformer.verticalFlip(spikesBlood[0]);
 		spikes[0] = makeImage(TILE_SIZE*5, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
 		spikesV[0] = ImageTransformer.verticalFlip(spikes[0]);
 				
