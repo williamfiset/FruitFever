@@ -46,6 +46,7 @@ public abstract class Data {
 							yellowFruit = new GImage[6],
 							redFruit = new GImage[7],	
 							purpleFruit = new GImage[20],	
+							lightBlueFruit = new GImage[20],	
 							
 							gearButton = new GImage[3],
 							fruitRingAnimation = new GImage[6],
@@ -156,10 +157,16 @@ public abstract class Data {
 		for (int i = 0; i < 7; i++)
 			redFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 			
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 10; i++) {
 			purpleFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
-		for (int i = 0; i < 10; i++)
 			purpleFruit[i + 10] = ImageTransformer.horizontalFlip(purpleFruit[i]);
+		}
+			
+		for (int i = 0; i < 10; i++) {
+			lightBlueFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
+			lightBlueFruit[i + 10] = ImageTransformer.horizontalFlip(lightBlueFruit[i]);
+		}
+		
 		
 		updateLoadingBar(0.1);
 		
@@ -546,6 +553,9 @@ public abstract class Data {
 							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, redFruit, true, 3, true, Animation.Type.FRUIT, true));
 						else if (character == '3')
 							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, purpleFruit, false, 3, true, Animation.Type.FRUIT, true));
+						else if (character == '4')
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, lightBlueFruit, false, 3, true, Animation.Type.FRUIT, true));
+							
 						continue;
 					}		
 
