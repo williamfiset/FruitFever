@@ -772,6 +772,7 @@ public abstract class Data {
 	private static void updateLoadingBar(double newProgress) {
 		loadingBarProgress += newProgress;
 		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(loadingBarProgress)), 20);
+		loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
 		FruitFever.screenHandler.add(loadingScreenBar);
 	}
 	
