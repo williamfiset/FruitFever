@@ -589,18 +589,26 @@ public class Player extends Animation {
 					poisonAnimation.image.setVisible(true);
 					poisonAnimation.image.setLocation(x, y);
 
-				// Instant death 
+				// SPIKES
 				} else if (obj.type == Animation.Type.SPIKES){
 
-					// Spikes Point downwards
+					// Spikes Point upwards
 					if (obj.image == Data.spikes[0] ) {
-						
-					// Spikes Point downwards	
-					} else {
+						obj.setNewAnimation(Data.spikesBlood);
 
+						
+					// Spikes Point downawards	
+					} else {
+						obj.setNewAnimation(Data.spikesBloodV);
+						
 					}
 
-					System.out.println("Spikes Collision");
+					
+					collisionOccurred = true;
+					FruitFever.screenHandler.adjustHearts(--lives);	
+					respawn();
+
+					break;
 
 				} else {
 
