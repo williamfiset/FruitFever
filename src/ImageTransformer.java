@@ -148,9 +148,9 @@ abstract class ImageTransformer {
 	}
 	
 	/** Extends a GImage vertically by stretching the center and retaining the top and bottom **/
-	public static GImage extendVertically(GImage[] arr, int newWidth) {
+	public static GImage extendVertically(GImage[] arr, int newHeight) {
 
-		int centerHeight = (int) (newWidth - arr[0].getWidth() - arr[2].getWidth());
+		int centerHeight = (int) (newHeight - arr[0].getHeight() - arr[2].getHeight());
 
 		arr[1] = resize(arr[1], (int) arr[1].getWidth(), centerHeight);
      
@@ -184,13 +184,13 @@ abstract class ImageTransformer {
 			for (int j = 0; j < width; j++)
 				arrFull[i][j] = arrTop[i][j];
 				
-		int yOffset = (int) top.getWidth();
+		int yOffset = (int) top.getHeight();
 		
 		for (int i = 0; i < (int) (center.getHeight()); i++)
 			for (int j = 0; j < width; j++)
 				arrFull[i + yOffset][j] = arrCenter[i][j];
 		
-		yOffset += (int) center.getWidth();
+		yOffset += (int) center.getHeight();
 		
 		for (int i = 0; i < (int) (bottom.getHeight()); i++)
 			for (int j = 0; j < width; j++)

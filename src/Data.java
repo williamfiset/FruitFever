@@ -26,7 +26,7 @@ public abstract class Data {
 	
 	public static double loadingBarProgress = 0.0;
 	
-	public static final int TILE_SIZE = 25;
+	public static final int TILE_SIZE = 25, TILESET_SIZE = 10;
 
 	public static BufferedImage sheet = null;
 	
@@ -84,12 +84,14 @@ public abstract class Data {
 							rightArrowButton = new GImage[3],
 							levelButton = new GImage[2],
 							
-							buttonFrame = new GImage[2];
+							buttonFrame = new GImage[3];
 
 	public static GImage[][] 	fireworkAnimation = new GImage[3][5],
 								torches = new GImage[3][3],
 								torchesH = new GImage[3][3],
 								blockImages = new GImage[18][4];
+								
+	public static GImage[][][] tileset = new GImage[3][3][3];
 
 	/** Loads the images required for the loading screen **/
 	public static void loadingScreen(){
@@ -344,6 +346,14 @@ public abstract class Data {
 		
 		updateLoadingBar(0.1);
 		
+		/** Import tileset images **/
+		sheet = DataLoader.loadImage("img/tilesets/tileset.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/tilsets/tileset.png");
+		
+		for (int n = 0; n < 3; n++)
+			for (int y = 0; y < 3; y++)
+				for (int x = 0; x < 3; x++)
+					tileset[n][y][x] = makeImage(TILESET_SIZE*(x + n*3), TILESET_SIZE*y, TILESET_SIZE, TILESET_SIZE);
+		
 		/** Import level selection background/level button images **/
 		sheet = DataLoader.loadImage("img/LevelSelection/backDrop/brownLevel.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/backDrop/brownLevel.png");
 		
@@ -351,19 +361,8 @@ public abstract class Data {
 		levelButton[1] = makeImage(0, 93, 50, 44);
 		windowBorder = makeImage(70, 0, 260, 334);
 		
-		GImage buttonFrameLeft = makeImage(9, 341, 10, 35);
-		GImage buttonFrameCenter = makeImage(19, 341, 10, 35);
-		GImage buttonFrameRight = makeImage(138, 341, 10, 35);
-		
-		buttonFrame[0] = ImageTransformer.extendHorizontally(new GImage[]{buttonFrameLeft, buttonFrameCenter, buttonFrameRight}, 175);
-		//buttonFrame[0] = makeImage(9, 341, 139, 35);
-		
-		buttonFrameLeft = makeImage(153, 341, 10, 35);
-		buttonFrameCenter = makeImage(163, 341, 10, 35);
-		buttonFrameRight = makeImage(282, 341, 10, 35);
-		
-		buttonFrame[1] = ImageTransformer.extendHorizontally(new GImage[]{buttonFrameLeft, buttonFrameCenter, buttonFrameRight}, 175);
-		//buttonFrame[1] = makeImage(153, 341, 139, 35);
+		for (int i = 0; i < 3; i++)
+			buttonFrame[i] = ImageTransformer.joinSet(tileset[i], 175, 37);
 
 		updateLoadingBar(0.05);
 
