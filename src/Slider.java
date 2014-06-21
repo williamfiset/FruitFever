@@ -24,7 +24,7 @@ public class Slider extends Button {
 	/** Places the position of the button to where the mouse is (if allowed) **/
 	public void slideButton(int mouseXPos) {
 	
-		imageX = (int) Math.max(bar.getX(), Math.min(bar.getX() + bar.getWidth(), mouseXPos + FruitFever.viewX));
+		imageX = (int) Math.max(bar.getX(), Math.min(bar.getX() + bar.getWidth(), mouseXPos)) + FruitFever.viewX;
 		
 		// Accounts for the center of the circle
 		imageX -= 13;

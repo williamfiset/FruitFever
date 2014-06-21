@@ -72,7 +72,7 @@ public class Button extends Thing {
 	
 	/** Constructor used for SLIDER button **/
 	public Button(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage bar, double defaultValue) {
-		this((int) (x + bar.getWidth()*defaultValue - Slider.CIRCLE_RADIUS), y, Type.SLIDER, defaultImg, hoverImg, clickImg);
+		this((int) (x + bar.getWidth()*defaultValue - Slider.CIRCLE_RADIUS) + FruitFever.viewX, y + FruitFever.viewY, Type.SLIDER, defaultImg, hoverImg, clickImg);
 		this.bar = copyImage(bar);
 		this.bar.setLocation(x, y);
 	}
