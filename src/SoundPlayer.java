@@ -2,12 +2,13 @@
 /**
 *
 * This class can be used to play soundtracks and sound effects throughout the lifetime of a program
-*
+* 
 *
 * @Author William Fiset
 * March 13, 2014
 *
-* 
+* Micah said to try:
+* http://java-demos.blogspot.ca/2012/11/java-code-to-play-mp3-file.html 
 *
 * SoundEffect FileFormat: aac 
 * SoundTrack FileFormat: mp3

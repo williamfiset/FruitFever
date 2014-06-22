@@ -226,7 +226,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				// Block.updateNaturalFallingBlockCandidates();
 				// Block.activateFallingBlocksByNaturalDisaster();	
 
-				// Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
+				Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
 				Block.motion();	
 				Block.drawBlocks();
 				
