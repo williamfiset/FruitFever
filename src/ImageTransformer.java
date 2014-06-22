@@ -246,4 +246,21 @@ abstract class ImageTransformer {
 		return extendVertically(new GImage[] {extendHorizontally(arr[0], width), extendHorizontally(arr[1], width), extendHorizontally(arr[2], width)}, height);
 	}
 	
+	public static boolean isIdentical(GImage img1, GImage img2) {
+		
+		if (img1.getWidth() != img2.getWidth() || img1.getHeight() != img2.getHeight())
+			return false;
+		
+		int[][] arr1 = img1.getPixelArray();
+		int[][] arr2 = img2.getPixelArray();
+		
+		for (int y = 0; y < img1.getHeight(); y++)
+			for (int x = 0; x < img1.getWidth(); x++)
+				if (arr1[y][x] != arr2[y][x])
+					return false;
+		
+		return true;
+	
+	}
+	
 }

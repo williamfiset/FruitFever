@@ -91,7 +91,7 @@ public abstract class Data {
 	public static GImage[][] 	fireworkAnimation = new GImage[3][5],
 								torches = new GImage[3][3],
 								torchesH = new GImage[3][3],
-								blockImages = new GImage[18][4];
+								blockImages = new GImage[19][4];
 								
 	public static GImage[][][] tileset = new GImage[3][3][3];
 
@@ -113,7 +113,7 @@ public abstract class Data {
 		/** Blocks **/
 		sheet = DataLoader.loadImage("img/sprites/blocks.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/blocks.png");
 	
-		for (int i = 0; i < 18; i++) {
+		for (int i = 0; i < blockImages.length; i++) {
 			blockImages[i][0] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 			for (int j = 1; j < 4; j++)
 				blockImages[i][j] = ImageTransformer.rotateCounterClockwise(blockImages[i][j - 1]);
@@ -771,10 +771,12 @@ public abstract class Data {
 	}
 	
 	private static void updateLoadingBar(double newProgress) {
-		loadingBarProgress += newProgress;
-		loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(loadingBarProgress)), 20);
-		loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
-		FruitFever.screenHandler.add(loadingScreenBar);
+		try {
+			loadingBarProgress += newProgress;
+			loadingScreenBar = ImageTransformer.resize(loadingScreenBar, (int) (700*(loadingBarProgress)), 20);
+			loadingScreenBar.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) loadingScreenBar.getHeight());
+			FruitFever.screenHandler.add(loadingScreenBar);
+		} catch (NullPointerException e) { }
 	}
 	
 	/** Grabs an integer out of an enemy entry in the Enemy block 
