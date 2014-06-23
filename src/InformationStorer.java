@@ -72,6 +72,33 @@ public class InformationStorer {
 		
         return defaultValue;
     }
+	
+	 /** Checks to see if an item exists **/
+    public boolean checkItemExists(String key) {
+        
+         HashMap<String, Object> fileHashMap = new HashMap<String, Object>();
+
+        try
+        {
+            FileInputStream fileIn = new FileInputStream(fileName + ".ser");
+            ObjectInputStream inStream = new ObjectInputStream(fileIn);
+            
+            fileHashMap = (HashMap) inStream.readObject();
+            inStream.close();
+            fileIn.close();
+
+            for (String str : fileHashMap.keySet())
+                instanceDictionary.put(str, fileHashMap.get(str));
+
+        }
+		catch (IOException i) { }
+		catch (ClassNotFoundException c) { }
+
+        if (instanceDictionary.containsKey(key)) 
+             return true;
+		
+        return false;
+    }
 
     /** Checks if file exists in Directory **/
     public static boolean fileExists(String file) {
