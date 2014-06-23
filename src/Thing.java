@@ -8,7 +8,7 @@
 import acm.graphics.*;
 import java.awt.*;
 
-public class Thing extends Rectangle {
+public class Thing extends Rectangle implements Serializable {
 
 	/** Public instance variables **/
 	public GImage image;
