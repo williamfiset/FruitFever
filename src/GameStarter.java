@@ -18,7 +18,7 @@ public class GameStarter{
 	public static void main(String[] args) {	
 		
 		for (int i = 0; i < args.length; i++)
-			switch (args[0]) {
+			switch (args[i]) {
 				case "debug": FruitFever.debugMode = true; break;
 				case "!debug": FruitFever.debugMode = false; break;
 				default: FruitFever.MAIN_LOOP_SPEED = Integer.valueOf(args[0]);
