@@ -16,13 +16,25 @@
 *
 **/
 
-import java.io.File;
-import javax.sound.sampled.*;
+import javax.media.*;
+import javafx.media.*;
+import com.sun.media.*;
 
-// Requires java 7
+import musicJar.javax.media.*;
+import musicJar.javafx.media.*;
+import musicJar.com.sun.media.*;
+
+import java.net.*;
+import java.io.*;
+import java.util.*;
+
+// import javax.sound.sampled.*;
+
+// Requires java 7 & doesn't seem to work 
 // Refer to http://docs.oracle.com/javafx/2/api/javafx/scene/media/MediaPlayer.html
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+// import javafx.scene.media.Media;
+// import javafx.scene.media.MediaPlayer;
+
 
 public class SoundPlayer {
 	
@@ -41,10 +53,17 @@ public class SoundPlayer {
 
 			File musicFile = new File(pathDir);
 
-			AudioInputStream audio = AudioSystem.getAudioInputStream(musicFile);
-			Clip musicClip = AudioSystem.getClip();
-			musicClip.open(audio);
-			musicClip.start();
+			// AudioInputStream audio = AudioSystem.getAudioInputStream(musicFile);
+			// Clip musicClip = AudioSystem.getClip();
+			// musicClip.open(audio);
+			// musicClip.start();
+
+			System.out.println(musicFile.toURI().toURL());
+
+			final plr p = Manager.createRealizedPlayer(musicFile.toURI().toURL());
+
+			// Start the music
+			plr.start();
 
 		} catch(Exception e){
 			System.out.println( "\nMusic Folder does not exist or does not contain:\n" + pathDir + fileName + "\n" );
@@ -77,6 +96,8 @@ public class SoundPlayer {
 
 	}
 }
+
+
 
 
 
