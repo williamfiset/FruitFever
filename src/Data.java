@@ -40,12 +40,6 @@ public abstract class Data {
 							iconBackgroundBar;
 						
 	public static GImage[] 	sceneryImages = new GImage[30],
-						   
-							blueFruit = new GImage[5],
-							yellowFruit = new GImage[6],
-							redFruit = new GImage[7],	
-							purpleFruit = new GImage[20],	
-							lightBlueFruit = new GImage[20],	
 							
 							gearButton = new GImage[3],
 							fruitRingAnimation = new GImage[6],
@@ -88,6 +82,7 @@ public abstract class Data {
 							buttonFrame = new GImage[3];
 
 	public static GImage[][] 	fireworkAnimation = new GImage[3][5],
+								fruits = new GImage [5][],
 								torches = new GImage[3][3],
 								torchesH = new GImage[3][3],
 								blockImages = new GImage[19][4];
@@ -151,23 +146,26 @@ public abstract class Data {
 		/** Fruits **/
 		sheet = DataLoader.loadImage("img/sprites/fruits.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/fruits.png");
 		
+		fruits[0] = new GImage[5];
 		for (int i = 0; i < 5; i++)
-			blueFruit[i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
+			fruits[0][i] = makeImage(TILE_SIZE*i, 0, TILE_SIZE, TILE_SIZE);
 
+		fruits[1] = new GImage[6];
 		for (int i = 0; i < 6; i++)
-			yellowFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
+			fruits[1][i] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);	
 			
+		fruits[2] = new GImage[7];
 		for (int i = 0; i < 7; i++)
-			redFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+			fruits[2][i] = makeImage(TILE_SIZE*i, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 			
+		fruits[3] = new GImage[20];
+		fruits[4] = new GImage[20];
 		for (int i = 0; i < 10; i++) {
-			purpleFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
-			purpleFruit[i + 10] = ImageTransformer.horizontalFlip(purpleFruit[i]);
-		}
-			
-		for (int i = 0; i < 10; i++) {
-			lightBlueFruit[i] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
-			lightBlueFruit[i + 10] = ImageTransformer.horizontalFlip(lightBlueFruit[i]);
+			fruits[3][i] = makeImage(TILE_SIZE*i, TILE_SIZE*3, TILE_SIZE, TILE_SIZE);
+			fruits[3][i + 10] = ImageTransformer.horizontalFlip(fruits[3][i]);
+
+			fruits[4][i] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
+			fruits[4][i + 10] = ImageTransformer.horizontalFlip(fruits[4][i]);
 		}
 		
 		
@@ -545,17 +543,7 @@ public abstract class Data {
 
 					// Reads in a fruit
 					if (Character.isDigit(character)) {
-						if (character == '0')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, blueFruit, true, 3, true, Animation.Type.FRUIT, true));
-						else if (character == '1')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, yellowFruit, true, 3, true, Animation.Type.FRUIT, true));
-						else if (character == '2')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, redFruit, true, 3, true, Animation.Type.FRUIT, true));
-						else if (character == '3')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, purpleFruit, false, 3, true, Animation.Type.FRUIT, true));
-						else if (character == '4')
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, lightBlueFruit, false, 3, true, Animation.Type.FRUIT, true));
-							
+						FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruits[Integer.valueOf(String.valueOf(character))], true, 3, true, Animation.Type.FRUIT, true));	
 						continue;
 					}		
 
