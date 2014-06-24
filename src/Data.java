@@ -35,12 +35,11 @@ public abstract class Data {
 							sliderCircle, sliderCirclePressed, sliderBar, redX,
 							purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 							checkpointFlagRed, checkpointFlagGreen,
-							moss, thickMoss,
 							bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
 							energyBar, energyBarBackground, healthBar, healthBarBackground,
 							iconBackgroundBar;
 						
-	public static GImage[] 	sceneryImages = new GImage[28],
+	public static GImage[] 	sceneryImages = new GImage[30],
 						   
 							blueFruit = new GImage[5],
 							yellowFruit = new GImage[6],
@@ -143,9 +142,9 @@ public abstract class Data {
 		for (int i = 0; i < 3; i++)
 			sceneryImages[i + 25] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 		
-		// Moss for blocks (Off to the right)
-		moss = makeImage(TILE_SIZE*9, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		thickMoss = makeImage(TILE_SIZE*10, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		// Moss for blocks
+		sceneryImages[28] = makeImage(TILE_SIZE*9, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[29] = makeImage(TILE_SIZE*10, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 		
 		updateLoadingBar(0.1);
 		
