@@ -143,8 +143,8 @@ public abstract class Data {
 			sceneryImages[i + 25] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 		
 		// Moss for blocks
-		sceneryImages[28] = makeImage(TILE_SIZE*9, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		sceneryImages[29] = makeImage(TILE_SIZE*10, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		sceneryImages[28] = makeImage(TILE_SIZE*9, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		sceneryImages[29] = makeImage(TILE_SIZE*10, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		
 		updateLoadingBar(0.1);
 		
