@@ -108,7 +108,7 @@ public abstract class Data {
 		sheet = DataLoader.loadImage("img/sprites/blocks.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/blocks.png");
 	
 		for (int i = 0; i < blockImages.length; i++) {
-			blockImages[i][0] = makeImage(0, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
+			blockImages[i][0] = makeImage(TILE_SIZE*2, TILE_SIZE*i, TILE_SIZE, TILE_SIZE);
 			for (int j = 1; j < 4; j++)
 				blockImages[i][j] = ImageTransformer.rotateCounterClockwise(blockImages[i][j - 1]);
 		}
