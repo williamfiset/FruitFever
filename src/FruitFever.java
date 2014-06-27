@@ -343,7 +343,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 		/** LOAD NEW LEVEL**/
 		
-		Data.loadObjects("levels/levels.txt", currentLevel);
+		Data.loadObjects();
 		
 		screenHandler.updateFruitRingDisplay(0);
 		

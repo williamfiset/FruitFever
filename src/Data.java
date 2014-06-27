@@ -8,8 +8,8 @@
 /**
 To-do List 
 -Make Fruit Rings spin at different spins
--Make buttons in level selection screen inactive when you can no longer change pages
--Add totalFruitRings and fruitRingRecord to LevelInformation, also add level width and height
+-Make buttons in level selection screen inactive when you can no longer change pagess
+-Save level height and width in the exportedLevel files instead of calculating it during run-time
 **/
 
 import acm.graphics.*;
@@ -395,48 +395,36 @@ public abstract class Data {
 		// Generate level information from levels.txt file
 		else {
 			
-			try {
+			for (int i = 0; i < 100; i++)
 
-				Scanner sc = new Scanner(new File("levels/levels.txt"));
-				
-				for (int i = 0; i < 100; i++)
-					try {
-						// Navigate to the correct line
-						while(!sc.nextLine().equals(String.valueOf(i))){}
+				try {
+					
+					Scanner sc = new Scanner(new File("levels/exportedLevels/" + i + ".txt"));
 						
-						FruitFever.levelInformation[i] = new LevelInformation(sc.nextLine(), i, false);
-						infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
-					}
-					/** Create locked level with no highscore or name or stars since it does not exist **/
-					catch (NoSuchElementException e) {
-						FruitFever.levelInformation[i] = new LevelInformation("", i, true);
-						infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
-					}
-				
-			}
-			catch (IOException e) {
-				System.out.println("\n IOException \n");
-				e.printStackTrace();
-				System.exit(0);	
-			}
+					FruitFever.levelInformation[i] = new LevelInformation(sc.nextLine(), i, false);
+					infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
+			
+				/** Create locked level with no highscore or name or stars since it does not exist **/
+				} catch (IOException e) {
+					FruitFever.levelInformation[i] = new LevelInformation("", i, true);
+					infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
+				}
 		
 		}
 		
 	}
 
 	/** Loads objects from the file **/
-	public static void loadObjects(String fileName, int level) {
+	public static void loadObjects() {
 		
 		try {
 
-			Scanner sc = new Scanner(new File(fileName));
+			Scanner sc = new Scanner(new File("levels/exportedLevels/" + FruitFever.currentLevel + ".txt"));
 
 			// Clear ArrayLists
 			Block.resetBlockLists();
-
-			/** Find the correct level **/
-			while(!sc.nextLine().equals(String.valueOf(level))){}
 			
+			sc.nextLine();
 			sc.nextLine();
 
 			int lineNumber = 0;
@@ -697,16 +685,8 @@ public abstract class Data {
 
 			sc.close();
 		
-		}
-		catch (NoSuchElementException e) {
-			System.out.println("Level " + FruitFever.currentLevel + " was not found.\n");
-			e.printStackTrace();
-			System.exit(0);
-		}
-		catch (IOException e) {
-			System.out.println("\n IOException \n");
-			e.printStackTrace();
-			System.exit(0);
+		} catch (IOException e) {
+			System.out.println("Level " + FruitFever.currentLevel + " could not load.\n");
 		}
 
 	}
