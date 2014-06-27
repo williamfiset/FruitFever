@@ -28,6 +28,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Add Exit and Help to the menu
 		-Copy/Paste
 		-Add different cursors (research this)
+		-Add icon to program
 
 		Refactoring:
 		-Add trimExtension method to get rid of .ser from the end of a String
