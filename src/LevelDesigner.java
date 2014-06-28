@@ -12,8 +12,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	/** TO DO 
 
 		Crucial:
-		-Finish menu
-		-Figure out why menu is unnresponsive
 		-Find a way to easily replace one image for another throughout each levelDesigner.ser file.
 
 		Necessary:
