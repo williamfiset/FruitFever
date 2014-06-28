@@ -15,7 +15,6 @@ import java.util.*;
 public class Block extends Thing {
 
 	int color;
-	private boolean motionBlock = false;
 
 	private static HashMap<Integer, ArrayList<Block>> xBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
 	private static HashMap<Integer, ArrayList<Block>> yBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
@@ -290,13 +289,12 @@ public class Block extends Thing {
 
 		// Makes sure falling block is on the screen when it falls 
 		// Also activates falling blocks
-		if (!randomlySelectedBlock.motionBlock)
+		if (! inMotion(randomlySelectedBlock))
 			if (randomlySelectedBlock.imageX > FruitFever.viewX && randomlySelectedBlock.imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
 				if (randomlySelectedBlock.imageY > FruitFever.viewY && randomlySelectedBlock.imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) {
 					
 					randomlySelectedBlock.dy = 1;
 					randomlySelectedBlock.changeImage(Data.blockImages[17][0]);
-					randomlySelectedBlock.motionBlock = true;
 					fallingBlocks.add(randomlySelectedBlock);
 					naturalFallingBlockCondidates.remove(randomlySelectedBlock);
 				}
@@ -326,18 +324,24 @@ public class Block extends Thing {
 
 		// found the block we were looking for
 		if (fallingBlock1 != null) {
-			fallingBlocks.add(fallingBlock1);
+			fallingBlock1.dy = 1;
 			fallingBlock1.changeImage(Data.blockImages[16][0]);
+			fallingBlocks.add(fallingBlock1);
+
 		}
 
 		if (fallingBlock2 != null) {
-			fallingBlocks.add(fallingBlock2);
+			fallingBlock2.dy = 1;
 			fallingBlock2.changeImage(Data.blockImages[16][0]);
+			fallingBlocks.add(fallingBlock2);
+			
 		}
 
 		if (fallingBlock0 != null) {
-			fallingBlocks.add(fallingBlock0);
+			fallingBlock0.dy = 1;
 			fallingBlock0.changeImage(Data.blockImages[16][0]);	
+			fallingBlocks.add(fallingBlock0);
+
 		}
 
 	}
@@ -355,8 +359,8 @@ public class Block extends Thing {
 		outerLoop:
 		for (Block fallingBlock : column) {
 			
-			// ignore the blocks above the player
-			if (fallingBlock.y <= playerY)
+			// ignore the blocks above the player or if it is already falling
+			if (fallingBlock.y <= playerY || inMotion(fallingBlock))
 				continue;	
 
 			// Starting searching position is in the middle of the first block found
@@ -397,16 +401,22 @@ public class Block extends Thing {
 			
 			// You only need to change th eimagex and imagey because the bounding box automatically takes care of the 
 			// doesn't seem to be needed
-			// fallingBlock.x += fallingBlock.dx;
-			// fallingBlock.y += fallingBlock.dy;
+			fallingBlock.x += fallingBlock.dx;
+			fallingBlock.y += fallingBlock.dy;
 			
 		}
+
+		System.out.printf("fallingBlock List Length: %d\n", fallingBlocks.size() );
+
 
 	}
 
 	private static boolean isWithinRange (int num, boolean x) {
-
 		return x ? (num >= 0 && num < FruitFever.LEVEL_WIDTH ) : (num >= 0 && num < FruitFever.LEVEL_HEIGHT );
+	}
+
+	private static boolean inMotion(Block block){
+		return (block.dy > 0 || block.dx > 0);
 
 	}
 

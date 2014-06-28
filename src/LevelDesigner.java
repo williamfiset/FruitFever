@@ -18,6 +18,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Add hint functionality
 		-Add functionality to name levels
 		-Images seem to be overlapping each other multiple times? Aren't the ones underneath supposed to be erased?
+		-Add icon to program (William made a ghetto icon for you. You best respect him :P)
+
 
 		Optional:
 		-Move blocks (multi-select?)
@@ -26,7 +28,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Add Exit and Help to the menu
 		-Copy/Paste
 		-Add different cursors (research this)
-		-Add icon to program
 
 		Refactoring:
 		-Add trimExtension method to get rid of .ser from the end of a String
@@ -99,6 +100,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	private static Layer currentLayer = Layer.BLOCK;
 	private static Set currentSet = Set.BLOCKS;
 	
+	
+
 	/** Contains the main game loop **/
 	@Override public void run() {
 
