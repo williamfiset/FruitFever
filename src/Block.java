@@ -392,10 +392,18 @@ public class Block extends Thing {
 
 	/** Moves the position of the falling blocks **/
 
-	public static void motion(){
+	public static void motion() {
 
-		for (Block fallingBlock : fallingBlocks) {
-			
+
+		for (int index = 0; index < fallingBlocks.size(); index++){
+
+			Block fallingBlock = fallingBlocks.get(index);
+
+			if (fallingBlock.imageY > FruitFever.LEVEL_HEIGHT + Data.TILE_SIZE*3) {
+				fallingBlocks.remove(index);
+				continue;
+			}
+
 			fallingBlock.imageX += fallingBlock.dx;
 			fallingBlock.imageY += fallingBlock.dy;
 			
@@ -403,7 +411,7 @@ public class Block extends Thing {
 			// doesn't seem to be needed
 			fallingBlock.x += fallingBlock.dx;
 			fallingBlock.y += fallingBlock.dy;
-			
+
 		}
 
 		System.out.printf("fallingBlock List Length: %d\n", fallingBlocks.size() );
