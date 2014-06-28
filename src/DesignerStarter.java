@@ -68,31 +68,31 @@ public class DesignerStarter implements ActionListener {
 		// A group of JMenuItems
 
 		menuItem = new JMenuItem("New", KeyEvent.VK_N);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("New");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
 		menuItem = new JMenuItem("Save", KeyEvent.VK_S);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Save");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
 		menuItem = new JMenuItem("Save As", KeyEvent.VK_S);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK | KeyEvent.SHIFT_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Save As");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
 		menuItem = new JMenuItem("Open", KeyEvent.VK_O);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Load");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
 		menuItem = new JMenuItem("Export", KeyEvent.VK_E);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Export");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
@@ -106,17 +106,17 @@ public class DesignerStarter implements ActionListener {
 		submenu = new JMenu("Block Layer");
 
 		menuItem = new JMenuItem("Blocks");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_0, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_0, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
 		submenu.add(menuItem);
 
 		menuItem = new JMenuItem("Fruit");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
 		submenu.add(menuItem);
 
 		menuItem = new JMenuItem("Special");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
 		submenu.add(menuItem);
 
@@ -127,17 +127,17 @@ public class DesignerStarter implements ActionListener {
 		submenu = new JMenu("Scenery Layer");
 
 		menuItem = new JMenuItem("Powerups");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
 		submenu.add(menuItem);
 
 		menuItem = new JMenuItem("Scenery 1");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
 		submenu.add(menuItem);
 
 		menuItem = new JMenuItem("Scenery 2");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, KeyEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
 		submenu.add(menuItem);
 
@@ -150,8 +150,6 @@ public class DesignerStarter implements ActionListener {
 	}
 
 	 public void actionPerformed(ActionEvent e) {
-
-		System.err.println(e.getActionCommand());
 
 	 	switch (e.getActionCommand()) {
 
@@ -200,8 +198,7 @@ public class DesignerStarter implements ActionListener {
 				gameApplet.changeSelectedSet(LevelDesigner.Set.SCENERY_2);
 				break;
 	 	}
-
-    }
+	 }
 
 	// private static void addMenu() {
 

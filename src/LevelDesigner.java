@@ -19,6 +19,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Add functionality to name levels
 		-Images seem to be overlapping each other multiple times? Aren't the ones underneath supposed to be erased?
 		-Add icon to program (William made a ghetto icon for you. You best respect him :P)
+		-If you saveAs and then cancel it, next time you go to save you need to specify which file you want to load, since infoFile is now null
 
 
 		Optional:
@@ -28,6 +29,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Add Exit and Help to the menu
 		-Copy/Paste
 		-Add different cursors (research this)
+		-Add mini-map
 
 		Refactoring:
 		-Add trimExtension method to get rid of .ser from the end of a String
@@ -49,7 +51,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		background = new GRect(0, 0, FruitFever.SCREEN_WIDTH, FruitFever.SCREEN_HEIGHT + MENU_HEIGHT),
 		menuBackground = new GRect(0, 0, FruitFever.SCREEN_WIDTH, MENU_HEIGHT);
 	
-	private boolean controlPressed = false;
+	private boolean controlPressed = false, shiftPressed = false;
 
 	/** Yellow selected box **/
 	
@@ -131,8 +133,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		add(selectedBox);
 
 		while (true) {
-			if (!DesignerStarter.appletFrame.isFocused())
+			if (!DesignerStarter.appletFrame.isFocused()) {
 				controlPressed = false;
+				shiftPressed = false;
+			}
 		}
 
 	}
@@ -350,6 +354,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		/**
 		This should do.. it rounds from the center of the image.
 		If we have massive or oddly off-centered objects we could run into issues
+		Note: We could just use xOffset and yOffset, test to make sure it works..!
 		**/
 
 		double x = roundPos(img.getX() + img.getWidth()/2);
@@ -395,10 +400,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	
 	/** Take user input **/
 	@Override public void keyPressed(KeyEvent key){
-				
-		int keyCode = key.getKeyCode();
 
-		switch (keyCode) {
+		switch (key.getKeyCode()) {
 				
 			case KeyEvent.VK_LEFT:
 				for (GImage obj : sceneryLayer)
@@ -428,6 +431,21 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					obj.move(0, -Data.TILE_SIZE);
 				break;
 
+			case KeyEvent.VK_E:
+				if (controlPressed)
+					export();
+				break;
+
+			case KeyEvent.VK_N:
+				if (controlPressed)
+					newDrawingBoard();
+				break;
+
+			case KeyEvent.VK_O:
+				if (controlPressed)
+					open();
+				break;
+
 			case KeyEvent.VK_P:
 				if (player == null) {
 					player = Data.playerStill[0];
@@ -437,6 +455,13 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					blockLayer.add(player);
 				} else
 					player.setLocation(roundPos(mouseX) + findXOffset(Data.playerStill[0]), snapToGridY(mouseY) + findYOffset(Data.playerStill[0]));
+				break;
+
+			case KeyEvent.VK_S:
+				if (controlPressed) {
+					if (shiftPressed) saveAs();
+					else save();
+				}
 				break;
 
 			case KeyEvent.VK_V:
@@ -453,6 +478,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			case KeyEvent.VK_CONTROL:
 				controlPressed = true;
 				break;
+
+			case KeyEvent.VK_SHIFT:
+				shiftPressed = true;
+				break;
 				
 				
 		}
@@ -468,6 +497,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 			case KeyEvent.VK_CONTROL:
 				controlPressed = false;
+				break;
+
+			case KeyEvent.VK_SHIFT:
+				shiftPressed = false;
 				break;
 				
 		}
