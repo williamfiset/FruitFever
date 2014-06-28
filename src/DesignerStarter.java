@@ -67,31 +67,31 @@ public class DesignerStarter implements ActionListener {
 
 		// A group of JMenuItems
 
-		menuItem = new JMenuItem("New", KeyEvent.VK_N);
+		menuItem = new JMenuItem("New");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("New");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
-		menuItem = new JMenuItem("Save", KeyEvent.VK_S);
+		menuItem = new JMenuItem("Save");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Save");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
-		menuItem = new JMenuItem("Save As", KeyEvent.VK_S);
+		menuItem = new JMenuItem("Save As");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Save As");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
-		menuItem = new JMenuItem("Open", KeyEvent.VK_O);
+		menuItem = new JMenuItem("Open");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Load");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
-		menuItem = new JMenuItem("Export", KeyEvent.VK_E);
+		menuItem = new JMenuItem("Export");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Export");
 		menuItem.addActionListener(this);
