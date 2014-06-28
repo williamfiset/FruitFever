@@ -100,7 +100,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	private static Layer currentLayer = Layer.BLOCK;
 	private static Set currentSet = Set.BLOCKS;
 	
-	
 
 	/** Contains the main game loop **/
 	@Override public void run() {

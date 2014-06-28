@@ -322,26 +322,23 @@ public class Block extends Thing {
 		Block fallingBlock1 = getLastBlockInColumn(xBlockPositions.get(column1), playerX, playerY, playerOnSurface);
 		Block fallingBlock2 = getLastBlockInColumn(xBlockPositions.get(column2), playerX, playerY, playerOnSurface);
 
+		/* To make things more instense remove the else if clause */
+
 		// found the block we were looking for
 		if (fallingBlock1 != null) {
 			fallingBlock1.dy = 1;
-			fallingBlock1.changeImage(Data.blockImages[16][0]);
+			// fallingBlock1.changeImage(Data.blockImages[16][0]);
 			fallingBlocks.add(fallingBlock1);
 
-		}
-
-		if (fallingBlock2 != null) {
+		} else if (fallingBlock2 != null) {
 			fallingBlock2.dy = 1;
-			fallingBlock2.changeImage(Data.blockImages[16][0]);
+			// fallingBlock2.changeImage(Data.blockImages[16][0]);
 			fallingBlocks.add(fallingBlock2);
 			
-		}
-
-		if (fallingBlock0 != null) {
+		} else if (fallingBlock0 != null) {
 			fallingBlock0.dy = 1;
-			fallingBlock0.changeImage(Data.blockImages[16][0]);	
+			// fallingBlock0.changeImage(Data.blockImages[16][0]);	
 			fallingBlocks.add(fallingBlock0);
-
 		}
 
 	}
