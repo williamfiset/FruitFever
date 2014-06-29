@@ -97,6 +97,11 @@ public class DesignerStarter implements ActionListener {
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
+		menuItem = new JMenuItem("Export All");
+		menuItem.getAccessibleContext().setAccessibleDescription("Export All");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+
 		// Build second menu in the menu bar.
 		menu = new JMenu("Add");
 		menuBar.add(menu);
@@ -173,6 +178,9 @@ public class DesignerStarter implements ActionListener {
 	 			gameApplet.export();
 	 			break;
 
+	 		case "Export All":
+	 			gameApplet.exportAll();
+	 			break;
 
 	 		case "Blocks":
 				gameApplet.changeSelectedSet(LevelDesigner.Set.BLOCKS);

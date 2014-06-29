@@ -12,7 +12,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	/** TO DO 
 
 		Crucial:
-		-Find a way to easily replace one image for another throughout each levelDesigner.ser file.
+		-Write script replace one image for another throughout each levelDesigner.ser file.
 
 		Necessary:
 		-Add hint functionality
@@ -34,9 +34,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		Refactoring:
 		-Add trimExtension method to get rid of .ser from the end of a String
 		-Add method to move all images in both layers by a given amount
+		-Re-organize methods so they are in a logical order
 		
 	**/
-
 	
 	private static InformationStorer infoFile = null;
 
@@ -483,7 +483,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				shiftPressed = true;
 				break;
 				
-				
 		}
 		
 	}
@@ -615,7 +614,20 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					remove(Data.sceneryImages[i]);
 		}
 	
-	}	
+	}
+
+	/** Re-exports all levels in the designedLevels folder **/
+	public void exportAll() {
+
+		File folder = new File(Paths.get("").toAbsolutePath().toString() + "/levels/designedLevels");
+		File[] listOfFiles = folder.listFiles();
+
+		for (int i = 0; i < listOfFiles.length; i++)
+			if (listOfFiles[i].isFile()) {
+				loadDesignedLevel(listOfFiles[i].getName());
+				export();
+			}
+	}
 	
 	/** Exports the drawing board to file **/
 	public void export() {
@@ -627,13 +639,12 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		resetView();
 	
 		PrintWriter writer = null;
-			
-			System.out.println(level);
+
 		try {
 			writer = new PrintWriter("levels/exportedLevels/" + level + ".txt", "UTF-8");
 		} catch (IOException e) { e.printStackTrace(); }
 
-		writer.println("Level's Title");
+		writer.println("The level's title should go here");
 		
 		int width = findWidth(), height = findHeight();
 		int tilesWide = width/Data.TILE_SIZE, tilesHigh = height/Data.TILE_SIZE;
@@ -708,7 +719,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 							writer.print('%');
 							continue nextChar;
 						}
-			
+						
+						System.out.println("Unrecognizable object. Could not assign a character to export it as. The image is still in the designed level file.");
 					
 					}
 				
@@ -841,12 +853,15 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
         newDrawingBoard();
 
-        String number = selectedFile.getName();
+        loadDesignedLevel(selectedFile.getName());
 
-        if (number.lastIndexOf(".ser") != -1)
-     		level = Integer.valueOf(number.substring(0, number.lastIndexOf('.')));
+	}
+
+	private void loadDesignedLevel(String levelNumber) {
+		if (levelNumber.lastIndexOf(".ser") != -1)
+     		level = Integer.valueOf(levelNumber.substring(0, levelNumber.lastIndexOf('.')));
      	else
-     		level = Integer.valueOf(number);
+     		level = Integer.valueOf(levelNumber);
 
  		infoFile = new InformationStorer("levels/designedLevels/" + level);
  		DesignerStarter.appletFrame.setTitle("Level Designer (Level " + level + ")");	
@@ -855,7 +870,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		sceneryLayer = loadFromFile(sceneryLayer, "sceneryLayer");
 
 		fixLayering();
-
 	}
 	
 	/** Properly layers the images on the sceen **/

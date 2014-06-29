@@ -1,18 +1,18 @@
-Level's Title
+The level's title should go here
 275
 325
 ----f------
 ----f------
 ----f-ff---
 ----fff--f-
----ffff----
----ffff--f-
-f--fffff--f
----fff-ff-f
-----fff-f--
-----ff-f---
------f-f--f
-------ffff-
+---hhhhh---
+--hhhhhh-f-
+fhhhhhhhh-f
+-hhhhhhhh-f
+hhhhhfhhh--
+-hhhhhhhhh-
+--hhhhhhhhf
+----hhhfff-
 -------fff-
 +
 -----------
