@@ -8,8 +8,7 @@
 /**
 To-do List 
 -Make Fruit Rings spin at different spins
--Make buttons in level selection screen inactive when you can no longer change pagess
--Save level height and width in the exportedLevel files instead of calculating it during run-time
+-Make buttons in level selection screen inactive when you can no longer change pages
 **/
 
 import acm.graphics.*;

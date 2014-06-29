@@ -322,9 +322,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		levelTexts = new ArrayList<>();
 		checkPoints = new ArrayList<>();
 		hints = new ArrayList<>();
-
-		LEVEL_WIDTH = 0;
-		LEVEL_HEIGHT = 0;
 		
 		viewX = 0;
 		viewY = 0;
@@ -371,14 +368,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	}
 
-	/** Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks found horizontally and vertically **/
-	// private void findScreenDimensions() {
-	// 	for (Block block : blocks ) {
-	// 		LEVEL_WIDTH = Math.max(LEVEL_WIDTH, block.x);
-	// 		LEVEL_HEIGHT = Math.max(LEVEL_HEIGHT, block.y);
-	// 	}
-	// }
-	
 	/** Checks all buttons in a list, and changes the subimage if it has been clicked on **/
 	private void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse) {
 		for (Button obj : arr)
@@ -487,7 +476,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					if (levelSelectionPage > 0) {
 						levelSelectionPage--;
 						screenHandler.shiftLevelLabels(-20);
-					}		
+					}
 			
 				/** Level right arrow button **/
 				} else if (clickedOnButton.type == Button.Type.RIGHT_ARROW) {
