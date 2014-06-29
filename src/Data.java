@@ -423,9 +423,11 @@ public abstract class Data {
 
 			// Clear ArrayLists
 			Block.resetBlockLists();
+
+			FruitFever.levelInformation[FruitFever.currentLevel].name = sc.nextLine();
+			FruitFever.LEVEL_WIDTH = Integer.valueOf(sc.nextLine());
+			FruitFever.LEVEL_HEIGHT = Integer.valueOf(sc.nextLine());
 			
-			sc.nextLine();
-			sc.nextLine();
 
 			int lineNumber = 0;
 			String line = "";

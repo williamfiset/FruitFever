@@ -349,8 +349,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		if (vortex == null)
 			System.out.println("Umm.. so sorry to break it to you, but the person who programmed this level forgot to make a vortex.. so you do not have any way to beat this level!");
-			
-		findScreenDimensions();
 		
 		player = new Player();
 		player.focusViewOnPlayer(Player.startX, Player.startY, true);
@@ -374,12 +372,12 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	}
 
 	/** Sets the variables LEVEL_WIDTH & LEVEL_HEIGHT to the furthest blocks found horizontally and vertically **/
-	private void findScreenDimensions() {
-		for (Block block : blocks ) {
-			LEVEL_WIDTH = Math.max(LEVEL_WIDTH, block.x);
-			LEVEL_HEIGHT = Math.max(LEVEL_HEIGHT, block.y);
-		}
-	}
+	// private void findScreenDimensions() {
+	// 	for (Block block : blocks ) {
+	// 		LEVEL_WIDTH = Math.max(LEVEL_WIDTH, block.x);
+	// 		LEVEL_HEIGHT = Math.max(LEVEL_HEIGHT, block.y);
+	// 	}
+	// }
 	
 	/** Checks all buttons in a list, and changes the subimage if it has been clicked on **/
 	private void checkAndSetClick(ArrayList<Button> arr, MouseEvent mouse) {

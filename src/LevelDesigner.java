@@ -399,7 +399,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	}
 	
 	/** Take user input **/
-	@Override public void keyPressed(KeyEvent key){
+	@Override public void keyPressed(KeyEvent key) {
 
 		switch (key.getKeyCode()) {
 				
@@ -633,16 +633,19 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			writer = new PrintWriter("levels/exportedLevels/" + level + ".txt", "UTF-8");
 		} catch (IOException e) { e.printStackTrace(); }
 
-		writer.println(level);
 		writer.println("Level's Title");
 		
 		int width = findWidth(), height = findHeight();
+		int tilesWide = width/Data.TILE_SIZE, tilesHigh = height/Data.TILE_SIZE;
+
+		writer.println(width);
+		writer.println(height);
 		
 		/** Block Layer **/
 		
-		for (int y = 0; y < height; y++) {
+		for (int y = 0; y < tilesHigh; y++) {
 			nextChar:
-			for (int x = 0; x < width; x++) {
+			for (int x = 0; x < tilesWide; x++) {
 				
 				for (GImage obj : blockLayer)
 					if (obj.getX() - findXOffset((GImage) obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset((GImage) obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
@@ -723,9 +726,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		
 		/** Scenery Layer **/
 		
-		for (int y = 0; y < height; y++) {
+		for (int y = 0; y < tilesHigh; y++) {
 			nextChar:
-			for (int x = 0; x < width; x++) {
+			for (int x = 0; x < tilesWide; x++) {
 				
 				for (GImage obj : sceneryLayer)
 					if (obj.getX() - findXOffset(obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset((GImage) obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
@@ -899,7 +902,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		
 	}
 	
-	/** Finds the number of tiles wide the drawing board **/
+	/** Finds the number of pixels wide the drawing board **/
 	private int findWidth() {
 	
 		double maxX = Double.MIN_VALUE;
@@ -910,11 +913,11 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		for (GImage obj : blockLayer)
 			maxX = Math.max(maxX, obj.getX());
 			
-		return (int) (maxX/Data.TILE_SIZE) + 1;
+		return (int) (maxX + Data.TILE_SIZE);
 	
 	}
 	
-	/** Finds the number of tiles high the drawing board **/
+	/** Finds the number of pixels high the drawing board **/
 	private int findHeight() {
 	
 		double maxY = Double.MIN_VALUE;
@@ -925,7 +928,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		for (GImage obj : blockLayer) 
 			maxY = Math.max(maxY, obj.getY() - MENU_HEIGHT);
 		
-		return (int) (maxY/Data.TILE_SIZE) + 1;
+		return (int) (maxY + Data.TILE_SIZE);
 	
 	}
 	
