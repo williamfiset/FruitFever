@@ -101,6 +101,19 @@ public class DesignerStarter implements ActionListener {
 		menuItem.getAccessibleContext().setAccessibleDescription("Export All");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
+		
+		
+		/** Edit Menu **/
+
+		menu = new JMenu("Edit");
+		menu.getAccessibleContext().setAccessibleDescription("Edit");
+		menuBar.add(menu);
+
+		menuItem = new JMenuItem("Change Level's Title");
+		menuItem.getAccessibleContext().setAccessibleDescription("Change Level's Title");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+
 
 		// Build second menu in the menu bar.
 		menu = new JMenu("Add");
@@ -180,6 +193,10 @@ public class DesignerStarter implements ActionListener {
 
 	 		case "Export All":
 	 			gameApplet.exportAll();
+	 			break;
+
+	 		case "Change Level's Title":
+	 			gameApplet.promptLevelTitle();
 	 			break;
 
 	 		case "Blocks":

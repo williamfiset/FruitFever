@@ -70,6 +70,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	/** **/
 
 	private static int level;
+	private static String name = null;
 
 	GImage vortex = null, player = null;
 	
@@ -628,9 +629,17 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				export();
 			}
 	}
+
+	public void promptLevelTitle() {
+		name = JOptionPane.showInputDialog(DesignerStarter.appletFrame, "Enter the level's title", "Title", JOptionPane.PLAIN_MESSAGE);
+		
+	}
 	
 	/** Exports the drawing board to file **/
 	public void export() {
+
+		if (name == null)
+			promptLevelTitle();
 
 		save();
 
@@ -644,8 +653,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			writer = new PrintWriter("levels/exportedLevels/" + level + ".txt", "UTF-8");
 		} catch (IOException e) { e.printStackTrace(); }
 
-		writer.println("The level's title should go here");
-		
+		writer.println(name);
+
 		int width = findWidth(), height = findHeight();
 		int tilesWide = width/Data.TILE_SIZE, tilesHigh = height/Data.TILE_SIZE;
 
@@ -832,6 +841,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		infoFile.addItem("sceneryLayer", scenery);
 
+		infoFile.addItem("name", name);
+
 		System.out.println("Finished Saving.");
 
 	}
@@ -868,6 +879,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		blockLayer = loadFromFile(blockLayer, "blockLayer");
 		sceneryLayer = loadFromFile(sceneryLayer, "sceneryLayer");
+		name = (String) infoFile.getItem("name");
 
 		fixLayering();
 	}
