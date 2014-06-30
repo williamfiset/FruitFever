@@ -12,22 +12,22 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	/** TO DO 
 
 		Crucial:
-		-Write script replace one image for another throughout each levelDesigner.ser file.
+		-Add hint functionality
 
 		Necessary:
-		-Add hint functionality
-		-Add functionality to name levels
-		-Images seem to be overlapping each other multiple times? Aren't the ones underneath supposed to be erased?
-		-Add icon to program (William made a ghetto icon for you. You best respect him :P)
 		-If you saveAs and then cancel it, next time you go to save you need to specify which file you want to load, since infoFile is now null
+		-Images seem to be overlapping each other multiple times? Aren't the ones underneath supposed to be erased?
 
-
-		Optional:
+		Extras:
+		-Write script replace one image for another throughout each levelDesigner.ser file.
+		-Add icon to program (William made a ghetto icon for you. You best respect him :P)
 		-Move blocks (multi-select?)
 		-Add modes: Add, Move, etc.
 		-Add animations to drawing board and even to the menu?
 		-Add Exit and Help to the menu
 		-Copy/Paste
+
+		Unneeded Extras:
 		-Add different cursors (research this)
 		-Add mini-map
 
