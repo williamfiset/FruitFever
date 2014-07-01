@@ -411,7 +411,7 @@ public class Block extends Thing {
 
 		}
 
-		System.out.printf("fallingBlock List Length: %d\n", fallingBlocks.size() );
+		// System.out.printf("fallingBlock List Length: %d\n", fallingBlocks.size() );
 
 
 	}
