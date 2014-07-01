@@ -79,6 +79,7 @@ public class Player extends Animation {
 	private static final double ORIGINAL_STARTING_JUMPING_VELOCITY = 6.25,
 								STARTING_JUMPING_DECCELERATION = 0,
 								CHANGE_IN_DECLERATION = 0.043; 
+
 	private static double startingJumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY; 
 	
 	private double 	jumpingDecceleration = STARTING_JUMPING_DECCELERATION,
@@ -146,6 +147,54 @@ public class Player extends Animation {
 		grabbingItem();
 		checkCollisionWithHintSigns();
 	}
+
+
+	
+	public void poison() {
+
+		if (poisoned) {
+			
+			FruitFever.screenHandler.adjustHealthBar(--currentHealth/maxHealth);
+			poisonAnimation.imageX = imageX + Data.TILE_SIZE;
+			poisonAnimation.imageY = imageY - Data.TILE_SIZE;
+			poisonAnimation.animate();
+			poisonLeft--;
+			
+			if (poisonLeft <= 0) {
+				poisoned = false;
+				poisonAnimation.image.setVisible(false);
+			}
+		}
+	
+	}
+
+	public void startJumpPowerup() {
+	
+		if (FruitFever.debugMode)
+			System.out.println("Executed startJumpPower");
+			
+		startingJumpingVelocity = 9;
+		maxJumpHeight = (int)(5.5*Data.TILE_SIZE);
+
+	}
+	
+	public void stopJumpPowerup() {
+	
+		if (FruitFever.debugMode)
+			System.out.println("stopped startJumpPower");
+		
+		maxJumpHeight = (int)(3.5*Data.TILE_SIZE);
+		startingJumpingVelocity = 6.25;
+
+	}
+
+	public void startSpeedPowerup(){
+		horizontalVelocity = 5;
+	}
+
+	public void stopSpeedPowerup(){
+		horizontalVelocity = 3;
+	}
 	
 	/** This method pushes the player up close to the wall when there's a side collision.
 		This method fixes issue #94 concerning different player speeds **/
@@ -212,49 +261,6 @@ public class Player extends Animation {
 
 		sideCollision = false;
 
-	}
-	
-	public void poison() {
-		if (poisoned) {
-			FruitFever.screenHandler.adjustHealthBar(--currentHealth/maxHealth);
-			poisonAnimation.imageX = imageX + Data.TILE_SIZE;
-			poisonAnimation.imageY = imageY - Data.TILE_SIZE;
-			poisonAnimation.animate();
-			poisonLeft--;
-			if (poisonLeft <= 0) {
-				poisoned = false;
-				poisonAnimation.image.setVisible(false);
-			}
-		}
-	
-	}
-
-	public void startJumpPowerup() {
-	
-		if (FruitFever.debugMode)
-			System.out.println("Executed startJumpPower");
-			
-		startingJumpingVelocity = 9;
-		maxJumpHeight = (int)(5.5*Data.TILE_SIZE);
-
-	}
-	
-	public void stopJumpPowerup() {
-	
-		if (FruitFever.debugMode)
-			System.out.println("stopped startJumpPower");
-		
-		maxJumpHeight = (int)(3.5*Data.TILE_SIZE);
-		startingJumpingVelocity = 6.25;
-
-	}
-
-	public void startSpeedPowerup(){
-		horizontalVelocity = 5;
-	}
-
-	public void stopSpeedPowerup(){
-		horizontalVelocity = 3;
 	}
 
 	/** Responds accordingly to collision detection **/
@@ -407,10 +413,11 @@ public class Player extends Animation {
 
 			// Sets baseLine (where the player started before jumping)
 			if (!setBaseLine) {
-				baseLine = y;
+				baseLine = imageY;
 				setBaseLine = true;	
 			}
 			
+
 			// Player has not yet hit the maximum jump limit
 			if (imageY - jumpingVelocity > baseLine - maxJumpHeight && jumpingVelocity > 0) {
 
@@ -438,6 +445,7 @@ public class Player extends Animation {
 
 		if (keepJumping)
 			setIsJumping(true);	
+
 	}
 
 
