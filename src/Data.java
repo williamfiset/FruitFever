@@ -397,7 +397,6 @@ public abstract class Data {
 			for (int i = 0; i < 100; i++)
 
 				try {
-					
 					Scanner sc = new Scanner(new File("levels/exportedLevels/" + i + ".txt"));
 						
 					FruitFever.levelInformation[i] = new LevelInformation(sc.nextLine(), i, false);
