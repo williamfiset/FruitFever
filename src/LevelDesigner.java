@@ -30,6 +30,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		Unneeded Extras:
 		-Add different cursors (research this)
 		-Add mini-map
+		-Undo/Redo
 
 		Refactoring:
 		-Add trimExtension method to get rid of .ser from the end of a String
@@ -37,50 +38,50 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Re-organize methods so they are in a logical order
 		
 	**/
+
+/** MAIN OBJECTS AND ARRAY;ISTS **/
 	
 	private static InformationStorer infoFile = null;
 
 	private final JFileChooser fileChooser = new JFileChooser();
+
+	private static ArrayList<GImage> blockLayer = new ArrayList<>(), sceneryLayer = new ArrayList<>();
+	
+/** CONSTANTS **/
 	
 	public static final int MENU_HEIGHT = 70;
 	private static final int MENU_ORIGIN_X = 10;
 	
-	private static ArrayList<GImage> blockLayer = new ArrayList<>(), sceneryLayer = new ArrayList<>();
-	
+/** GRAPHICS **/
+
 	private static GRect
 		background = new GRect(0, 0, FruitFever.SCREEN_WIDTH, FruitFever.SCREEN_HEIGHT + MENU_HEIGHT),
 		menuBackground = new GRect(0, 0, FruitFever.SCREEN_WIDTH, MENU_HEIGHT);
-	
-	private boolean controlPressed = false, shiftPressed = false;
 
-	/** Yellow selected box **/
-	
 	private static GRect selectedBox = new GRect(0, 0, 0, 0);
 	private double selectedX, selectedY;
-
-	private void updateSelectedBox() {
-		if (selected == null)
-			selectedBox.setLocation(-100, 100);
-		else {
-			selectedBox.setLocation(selectedX, selectedY);
-			selectedBox.setSize(selected.getWidth(), selected.getHeight());
-		}
-	}
-
-	/** **/
-
-	private static int level;
-	private static String name = null;
-
-	GImage vortex = null, player = null;
-	
 	private static GObject selected = null;
+	
+
+/** MOUSE/KEYBOARD **/
 
 	private static enum MouseButtonPressed { LEFT, RIGHT, NONE }
 	private static MouseButtonPressed mouseButtonPressed = MouseButtonPressed.NONE;
 
 	private static double mouseX, mouseY;
-	
+
+	private boolean controlPressed = false, shiftPressed = false;
+
+
+/** LEVEL VARIABLES **/
+
+	private static int level;
+	private static String name = null;
+
+	GImage vortex = null, player = null;
+
+/** MENU ENUMS **/	
+
 	private static enum Layer { BLOCK, SCENERY }
 	
 	public static enum Set {
@@ -141,33 +142,15 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		}
 
 	}
-	
-	private ArrayList<GImage> loadFromFile(ArrayList<GImage> arr, String str) {
 
-		/** Add new objects **/
-
-		if (infoFile.checkItemExists(str)) {
-			System.out.println("loading");
-			@SuppressWarnings("unchecked") ArrayList<SerializableThing> tempArr = (ArrayList<SerializableThing>) infoFile.getItem(str);
-			
-			for (SerializableThing obj : tempArr) {
-				GImage img = new GImage(obj.pixelArray);
-
-				if (img.equals(Data.playerStill[0]))
-					player = img;
-
-				if (img.equals(Data.vortexAnimation[0]))
-					vortex = img;
-
-				arr.add(img);
-				img.setLocation(obj.x, obj.y);
-				add(img);
-			}
-			
+	/** Updates the location and size of the selected box **/
+	private void updateSelectedBox() {
+		if (selected == null)
+			selectedBox.setLocation(-100, 100);
+		else {
+			selectedBox.setLocation(selectedX, selectedY);
+			selectedBox.setSize(selected.getWidth(), selected.getHeight());
 		}
-		
-		return arr;
-	
 	}
 
 	/** Removes objects from screen and clears the lists **/
@@ -336,7 +319,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					sceneryLayer.get(i).setImage(copyImage(newImg).getImage());
 
 		}
-
 
 	}
 	
@@ -847,6 +829,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 	}
 
+	/** Initiates loading procedure by selecting a file and clearing the drawing board **/
 	public void open() {
 
 		fileChooser.setDialogTitle("Select a level to load");
@@ -882,6 +865,34 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		name = (String) infoFile.getItem("name");
 
 		fixLayering();
+	}
+
+	private ArrayList<GImage> loadFromFile(ArrayList<GImage> arr, String str) {
+
+		/** Add new objects **/
+
+		if (infoFile.checkItemExists(str)) {
+
+			@SuppressWarnings("unchecked") ArrayList<SerializableThing> tempArr = (ArrayList<SerializableThing>) infoFile.getItem(str);
+			
+			for (SerializableThing obj : tempArr) {
+				GImage img = new GImage(obj.pixelArray);
+
+				if (img.equals(Data.playerStill[0]))
+					player = img;
+
+				if (img.equals(Data.vortexAnimation[0]))
+					vortex = img;
+
+				arr.add(img);
+				img.setLocation(obj.x, obj.y);
+				add(img);
+			}
+			
+		}
+		
+		return arr;
+	
 	}
 	
 	/** Properly layers the images on the sceen **/

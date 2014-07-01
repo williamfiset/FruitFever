@@ -402,9 +402,9 @@ public abstract class Data {
 					FruitFever.levelInformation[i] = new LevelInformation(sc.nextLine(), i, false);
 					infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
 			
-				/** Create locked level with no highscore or name or stars since it does not exist **/
+				/** Create unlocked level with no highscore or name or stars since it does not exist **/
 				} catch (IOException e) {
-					FruitFever.levelInformation[i] = new LevelInformation("", i, true);
+					FruitFever.levelInformation[i] = new LevelInformation("", i, false);
 					infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
 				}
 		
