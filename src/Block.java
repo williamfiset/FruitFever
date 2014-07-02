@@ -239,7 +239,8 @@ public class Block extends Thing {
 						secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
 						if (secondBlockDown != null) continue;
 
-						naturalFallingBlockCondidates.add(block);
+						if (!naturalFallingBlockCondidates.contains(block))
+							naturalFallingBlockCondidates.add(block);
 					}
 				}
 			}
@@ -247,31 +248,26 @@ public class Block extends Thing {
 			// If there are no more blocks that are valid candidates to fall then pick any of the remaining blocks given 
 			// there is not two blocks below them
 			if (naturalFallingBlockCondidates.size() == 0) 
-				for (Block block : FruitFever.blocks ) {
+				for (Block block : FruitFever.blocks ) 
+					if (block.imageX > 0 && block.imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) {
+						if (block.imageY > 0 && block.imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) {
 
-					if (block.imageX > 0 && block.imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE){
-						if (block.imageY > 0 && block.imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE){
+							firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
+							if (firstBlockDown != null) continue;
 
-						firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
-						if (firstBlockDown != null) continue;
+							secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
+							if (secondBlockDown != null) continue;
 
-						secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
-						if (secondBlockDown != null) continue;
-
-						naturalFallingBlockCondidates.add(block);
+							if (!naturalFallingBlockCondidates.contains(block))
+								naturalFallingBlockCondidates.add(block);
+						}
 					}
-				}
-			}	
 		}
-
-
-			
-		
 
 	}
 
 	/** Selects all the block candidates that are worthy of falling **/
-	public static void activateFallingBlocksByNaturalDisaster(){
+	public static void activateFallingBlocksByNaturalDisaster() {
 
 		// Only loop through the blocks on the screen 
 		// Selects a worthy falling block candidate and activates it
@@ -289,15 +285,15 @@ public class Block extends Thing {
 
 		// Makes sure falling block is on the screen when it falls 
 		// Also activates falling blocks
-		if (! inMotion(randomlySelectedBlock))
+		if (!inMotion(randomlySelectedBlock))
 			if (randomlySelectedBlock.imageX > FruitFever.viewX && randomlySelectedBlock.imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
-				if (randomlySelectedBlock.imageY > FruitFever.viewY && randomlySelectedBlock.imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) {
-					
-					randomlySelectedBlock.dy = 1;
-					randomlySelectedBlock.changeImage(Data.blockImages[17][0]);
-					fallingBlocks.add(randomlySelectedBlock);
-					naturalFallingBlockCondidates.remove(randomlySelectedBlock);
-				}
+				if (randomlySelectedBlock.imageY > FruitFever.viewY && randomlySelectedBlock.imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+					if (!fallingBlocks.contains(randomlySelectedBlock)) {
+						randomlySelectedBlock.dy = 1;
+						randomlySelectedBlock.changeImage(Data.blockImages[17][0]);
+						fallingBlocks.add(randomlySelectedBlock);
+						naturalFallingBlockCondidates.remove(randomlySelectedBlock);
+					}
 
 		// Removing form list should be fine as long as this method is called at an interval
 		// otherwise blocks will be falling very fast as the list gets sorter
@@ -403,15 +399,13 @@ public class Block extends Thing {
 
 			fallingBlock.imageX += fallingBlock.dx;
 			fallingBlock.imageY += fallingBlock.dy;
-			
-			// You only need to change th eimagex and imagey because the bounding box automatically takes care of the 
-			// doesn't seem to be needed
-			fallingBlock.x += fallingBlock.dx;
-			fallingBlock.y += fallingBlock.dy;
+
+			System.out.println(fallingBlock);
+
 
 		}
 
-		// System.out.printf("fallingBlock List Length: %d\n", fallingBlocks.size() );
+		System.out.printf("fallingBlock List Length: %d\n", fallingBlocks.size() );
 
 
 	}

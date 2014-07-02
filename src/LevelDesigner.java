@@ -39,7 +39,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		
 	**/
 
-/** MAIN OBJECTS AND ARRAY;ISTS **/
+/** MAIN OBJECTS AND ARRAYLISTS **/
 	
 	private static InformationStorer infoFile = null;
 
