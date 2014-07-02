@@ -243,25 +243,11 @@ public class ScreenHandler {
 	/** Adds all images including blocks, things, fruits, and enemies to the screen **/
 	public void addImagesToScreen() {
 
-		for (Block obj : fruitFever.blocks) {
-			obj.image.setLocation(obj.getX(), obj.getY());
+		for (Block obj : fruitFever.blocks)
 			add(obj.image);
-		}
 		
-		for (Thing thing : fruitFever.things) {
-			thing.image.setLocation(thing.getX(), thing.getY());
+		for (Thing thing : fruitFever.things)
 			add(thing.image);
-		}
-		
-		for (Thing item : fruitFever.edibleItems) {
-			item.image.setLocation(item.getX(), item.getY());
-			add(item.image);
-		}
-		
-		// for (Enemy enemy : fruitFever.enemies) {
-			// enemy.image.setLocation(enemy.getX(), enemy.getY());
-			// add(enemy.image, enemy.healthBarBackground, enemy.healthBar);
-		// }
 		
 		/** Player Images **/
 		add(fruitFever.player.image, fruitFever.player.swirl.image);
@@ -285,8 +271,8 @@ public class ScreenHandler {
 	public void updateDebugModeDisplay(double milliSeconds) {
 		
 		nodes.setLabel("Nodes: " + fruitFever.getElementCount());
-		nodesBackground.setSize((int)nodes.getWidth() + 4, (int)nodes.getHeight());
-		nodesBackground.setLocation(0, FruitFever.SCREEN_HEIGHT - (int)nodes.getHeight() - 7);
+		nodesBackground.setSize((int) nodes.getWidth() + 4, (int) nodes.getHeight());
+		nodesBackground.setLocation(0, FruitFever.SCREEN_HEIGHT - (int) nodes.getHeight() - 7);
 		
 		DecimalFormat f = new DecimalFormat("#.00");
 		
