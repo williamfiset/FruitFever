@@ -594,8 +594,9 @@ public class Player extends Animation {
 				if (obj.type == Animation.Type.GAS_BUBBLES) {
 					poisoned  = true;
 					poisonLeft = 300;
+					poisonAnimation.imageX = imageX + Data.TILE_SIZE;
+					poisonAnimation.imageY = imageY - Data.TILE_SIZE;
 					poisonAnimation.image.setVisible(true);
-					poisonAnimation.image.setLocation(x, y);
 
 				// SPIKES
 				} else if (obj.type == Animation.Type.SPIKES){
