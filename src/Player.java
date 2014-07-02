@@ -976,8 +976,9 @@ public class Player extends Animation {
 							}
 						}
 
-
+						FruitFever.things.remove(FruitFever.edibleItems.get(i));
 						FruitFever.edibleItems.remove(i);
+
 						break;
 					}
 

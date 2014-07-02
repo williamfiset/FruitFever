@@ -202,22 +202,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					} else things.get(i).animate();
 				}
 				
-				/** Animate all enemies 
-				for (int i = 0; i < enemies.size(); i++) {
-					if (!enemies.get(i).active) {
-						remove(enemies.get(i).healthBar);
-						remove(enemies.get(i).healthBarBackground);
-						remove(enemies.get(i).image);
-						enemies.remove(i);
-						i--;
-					} else enemies.get(i).animate();
-				} **/
-					
-					
-				/** Animate all edible items **/
-				for (Animation item : edibleItems)
-					item.animate();
-				
+				/** Actions triggered by user **/
 				if (swirlEventInvoked)		
 					swirlEvent();
 				if (tongueEventInvoked)		
@@ -234,8 +219,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				player.swirl.animate();
 				player.motion();
 				player.animate();
-				
-				// player.animateProjectiles(); // (Deprecated)
 				
 				ScreenHandler.adjustHearts(player.getLives());
 				
