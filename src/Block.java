@@ -321,17 +321,17 @@ public class Block extends Thing {
 		/* To make things more instense remove the else if clause */
 
 		// found the block we were looking for
-		if (fallingBlock1 != null) {
+		if (fallingBlock1 != null && !fallingBlocks.contains(fallingBlock1)) {
 			fallingBlock1.dy = 1;
 			// fallingBlock1.changeImage(Data.blockImages[16][0]);
 			fallingBlocks.add(fallingBlock1);
 
-		} else if (fallingBlock2 != null) {
+		} else if (fallingBlock2 != null && !fallingBlocks.contains(fallingBlock2)) {
 			fallingBlock2.dy = 1;
 			// fallingBlock2.changeImage(Data.blockImages[16][0]);
 			fallingBlocks.add(fallingBlock2);
 			
-		} else if (fallingBlock0 != null) {
+		} else if (fallingBlock0 != null && !fallingBlocks.contains(fallingBlock0)) {
 			fallingBlock0.dy = 1;
 			// fallingBlock0.changeImage(Data.blockImages[16][0]);	
 			fallingBlocks.add(fallingBlock0);
@@ -388,24 +388,22 @@ public class Block extends Thing {
 	public static void motion() {
 
 
-		for (int index = 0; index < fallingBlocks.size(); index++){
+		for (int i = 0; i < fallingBlocks.size(); i++){
 
-			Block fallingBlock = fallingBlocks.get(index);
+			Block fallingBlock = fallingBlocks.get(i);
 
 			if (fallingBlock.imageY > FruitFever.LEVEL_HEIGHT + Data.TILE_SIZE*3) {
-				fallingBlocks.remove(index);
+				fallingBlocks.remove(i);
+				i--;
 				continue;
 			}
 
 			fallingBlock.imageX += fallingBlock.dx;
 			fallingBlock.imageY += fallingBlock.dy;
 
-			System.out.println(fallingBlock);
-
-
 		}
 
-		System.out.printf("fallingBlock List Length: %d\n", fallingBlocks.size() );
+		// System.out.printf("fallingBlock List Length: %d\n", fallingBlocks.size() );
 
 
 	}
