@@ -15,7 +15,7 @@ import java.awt.event.*;
 public class DesignerStarter implements ActionListener {
 
 	final static int FRAME_BORDER_HEIGHT = 22;
-	static JFrame appletFrame;
+	static JFrame appletFrame; 
 	LevelDesigner gameApplet;
 
 	public static void main(String[] args) {

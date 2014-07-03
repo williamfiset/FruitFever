@@ -83,6 +83,15 @@ public class Block extends Thing {
 	public static void drawBlocks(){
 
 		/** Temporary, make sure to optimize block drawing **/
+
+		for (Block block : FruitFever.blocks)
+			block.naturalAnimate();
+
+
+		// Advanced drawing method needs work 
+
+		/*
+
 		performedNaturalAnimate = false;
 
 		if (!performedNaturalAnimate) {
@@ -121,6 +130,8 @@ public class Block extends Thing {
 				}
 			}
 		}
+
+		*/
 	}
 
 
@@ -223,15 +234,31 @@ public class Block extends Thing {
  		 * - block must have two empty blocks directly below itself (so that when they fall they do not clog a tunnel)
 		 */
 
-		if (naturalFallingBlockCondidates.size() == 0) {
+		if (naturalFallingBlockCondidates.isEmpty()) {
 
 			for (Block block : FruitFever.blocks) {
+				if (block.withinScreen()) {
 				
-				if (block.imageX > 0 && block.imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE){
-					if (block.imageY > 0 && block.imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE){
+					topBlock = getBlock(block.x + Data.TILE_SIZE/2, block.y - Data.TILE_SIZE/2 );
+					if (topBlock == null) continue;
 
-						topBlock = getBlock(block.x + Data.TILE_SIZE/2, block.y - Data.TILE_SIZE/2 );
-						if (topBlock == null) continue;
+					firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
+					if (firstBlockDown != null) continue;
+
+					secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
+					if (secondBlockDown != null) continue;
+
+					if (!naturalFallingBlockCondidates.contains(block))
+						naturalFallingBlockCondidates.add(block);
+				}
+			}
+			
+
+			// If there are no more blocks that are valid candidates to fall then pick any of the remaining blocks given 
+			// there is not two blocks below them
+			if (naturalFallingBlockCondidates.isEmpty()) {
+				for (Block block : FruitFever.blocks ) {
+					if (block.withinScreen()) {
 
 						firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
 						if (firstBlockDown != null) continue;
@@ -241,27 +268,11 @@ public class Block extends Thing {
 
 						if (!naturalFallingBlockCondidates.contains(block))
 							naturalFallingBlockCondidates.add(block);
+
 					}
 				}
 			}
 
-			// If there are no more blocks that are valid candidates to fall then pick any of the remaining blocks given 
-			// there is not two blocks below them
-			if (naturalFallingBlockCondidates.size() == 0) 
-				for (Block block : FruitFever.blocks ) 
-					if (block.imageX > 0 && block.imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE) {
-						if (block.imageY > 0 && block.imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) {
-
-							firstBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE + Data.TILE_SIZE/2 );
-							if (firstBlockDown != null) continue;
-
-							secondBlockDown = getBlock(block.x + Data.TILE_SIZE/2, block.y + Data.TILE_SIZE*2 + Data.TILE_SIZE/2 );
-							if (secondBlockDown != null) continue;
-
-							if (!naturalFallingBlockCondidates.contains(block))
-								naturalFallingBlockCondidates.add(block);
-						}
-					}
 		}
 
 	}
@@ -285,15 +296,17 @@ public class Block extends Thing {
 
 		// Makes sure falling block is on the screen when it falls 
 		// Also activates falling blocks
-		if (!inMotion(randomlySelectedBlock))
-			if (randomlySelectedBlock.imageX > FruitFever.viewX && randomlySelectedBlock.imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
-				if (randomlySelectedBlock.imageY > FruitFever.viewY && randomlySelectedBlock.imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
-					if (!fallingBlocks.contains(randomlySelectedBlock)) {
-						randomlySelectedBlock.dy = 1;
-						randomlySelectedBlock.changeImage(Data.blockImages[17][0]);
-						fallingBlocks.add(randomlySelectedBlock);
-						naturalFallingBlockCondidates.remove(randomlySelectedBlock);
-					}
+		if (randomlySelectedBlock.inMotion()) {
+			if (randomlySelectedBlock.withinLevel()) {
+
+				// if (!fallingBlocks.contains(randomlySelectedBlock)) {
+				randomlySelectedBlock.dy = 1;
+				randomlySelectedBlock.changeImage(Data.blockImages[17][0]);
+				fallingBlocks.add(randomlySelectedBlock);
+				naturalFallingBlockCondidates.remove(randomlySelectedBlock);
+
+			}
+		}
 
 		// Removing form list should be fine as long as this method is called at an interval
 		// otherwise blocks will be falling very fast as the list gets sorter
@@ -318,22 +331,20 @@ public class Block extends Thing {
 		Block fallingBlock1 = getLastBlockInColumn(xBlockPositions.get(column1), playerX, playerY, playerOnSurface);
 		Block fallingBlock2 = getLastBlockInColumn(xBlockPositions.get(column2), playerX, playerY, playerOnSurface);
 
-		/* To make things more instense remove the else if clause */
 
-		// found the block we were looking for
-		if (fallingBlock1 != null && !fallingBlocks.contains(fallingBlock1)) {
+		/* To the game more intense remove the else if clause */
+
+
+		if (fallingBlock1 != null && !fallingBlocks.contains(fallingBlock1) ) {  
 			fallingBlock1.dy = 1;
-			// fallingBlock1.changeImage(Data.blockImages[16][0]);
 			fallingBlocks.add(fallingBlock1);
 
-		} else if (fallingBlock2 != null && !fallingBlocks.contains(fallingBlock2)) {
+		} else if (fallingBlock2 != null && !fallingBlocks.contains(fallingBlock2) ) {  
 			fallingBlock2.dy = 1;
-			// fallingBlock2.changeImage(Data.blockImages[16][0]);
 			fallingBlocks.add(fallingBlock2);
 			
-		} else if (fallingBlock0 != null && !fallingBlocks.contains(fallingBlock0)) {
+		} else if (fallingBlock0 != null && !fallingBlocks.contains(fallingBlock0) ) {  
 			fallingBlock0.dy = 1;
-			// fallingBlock0.changeImage(Data.blockImages[16][0]);	
 			fallingBlocks.add(fallingBlock0);
 		}
 
@@ -346,14 +357,14 @@ public class Block extends Thing {
 		Block furthestBlockDown = null;
 
 		// list is empty or player is not on platform
-		if (column == null || !playerOnSurface || column.size() == 0)
-			return furthestBlockDown;
+		if (!playerOnSurface || column.isEmpty())
+			return null;
 
 		outerLoop:
 		for (Block fallingBlock : column) {
 			
 			// ignore the blocks above the player or if it is already falling
-			if (fallingBlock.y <= playerY || inMotion(fallingBlock))
+			if (fallingBlock.y <= playerY || fallingBlock.inMotion())
 				continue;	
 
 			// Starting searching position is in the middle of the first block found
@@ -366,7 +377,7 @@ public class Block extends Thing {
 			Block nextBlock = fallingBlock;
 
 			// Search for the last block in the column the player is standing on
-			while (true){
+			while (true) {
 
 				startY += Data.TILE_SIZE;
 
@@ -384,17 +395,16 @@ public class Block extends Thing {
 	}
 
 	/** Moves the position of the falling blocks **/
-
 	public static void motion() {
 
+		for (int index = 0; index < fallingBlocks.size(); index++){
 
-		for (int i = 0; i < fallingBlocks.size(); i++){
+			Block fallingBlock = fallingBlocks.get(index);
 
-			Block fallingBlock = fallingBlocks.get(i);
-
+			// Once you're sure the block is off the screen remove it
 			if (fallingBlock.imageY > FruitFever.LEVEL_HEIGHT + Data.TILE_SIZE*3) {
-				fallingBlocks.remove(i);
-				i--;
+				fallingBlocks.remove(index);
+				index--;
 				continue;
 			}
 
@@ -403,20 +413,40 @@ public class Block extends Thing {
 
 		}
 
-		// System.out.printf("fallingBlock List Length: %d\n", fallingBlocks.size() );
+	}
 
+	/* Deprecate this asap, bad coding style (due to no closures or lambdas!)  */
+	private static boolean isWithinRange (int row_column_number, boolean x) {
+		return x ? (row_column_number >= 0 && row_column_number < FruitFever.LEVEL_WIDTH ) : (row_column_number >= 0 && row_column_number < FruitFever.LEVEL_HEIGHT );
+	}
+
+	private boolean inMotion(){
+		return (dy > 0 || dx > 0);
+	}
+
+	/* Determines if the block is still within the level */
+	public boolean withinLevel() {
+
+		if (imageX > FruitFever.viewX)
+			if (imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
+				if (imageY > FruitFever.viewY)
+					if (imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) 
+						return true;
+		return false;		
 
 	}
 
-	private static boolean isWithinRange (int num, boolean x) {
-		return x ? (num >= 0 && num < FruitFever.LEVEL_WIDTH ) : (num >= 0 && num < FruitFever.LEVEL_HEIGHT );
+	/* Determines if the block is currently on the screen */
+	public boolean withinScreen() {
+		
+		if (imageX > 0) 
+			if (imageY > 0)
+				if (imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
+					if (imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+						return true;
+		return false;
+
 	}
-
-	private static boolean inMotion(Block block){
-		return (block.dy > 0 || block.dx > 0);
-
-	}
-
 }
 
 /*
