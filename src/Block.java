@@ -364,7 +364,7 @@ public class Block extends Thing {
 		Block furthestBlockDown = null;
 
 		// list is empty or player is not on platform
-		if (!playerOnSurface || column.isEmpty())
+		if (!playerOnSurface || column == null)
 			return null;
 
 		outerLoop:
