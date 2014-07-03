@@ -555,7 +555,7 @@ public abstract class Data {
 
 
 						// Add Block to the ArrayList
-						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, color, image));
+						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, image));
 
 					} catch (ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("\nBLOCK LAYER contains invalid character: '%c' \n", character);

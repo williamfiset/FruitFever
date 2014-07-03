@@ -14,16 +14,13 @@ import java.util.*;
 
 public class Block extends Thing {
 
-	int color;
-
-	private static HashMap<Integer, ArrayList<Block>> xBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
-	private static HashMap<Integer, ArrayList<Block>> yBlockPositions = new HashMap<Integer, ArrayList<Block>> ();
+	private static HashMap<Integer, ArrayList<Block>> xBlockPositions = new HashMap<>(), yBlockPositions = new HashMap<>();
 
 	// The blocks that are in the current process of falling 
-	static ArrayList<Block> fallingBlocks = new ArrayList<Block>();
+	static ArrayList<Block> fallingBlocks = new ArrayList<>();
 
 	// The blocks that have a potential to fall
-	static ArrayList<Block> naturalFallingBlockCondidates = new ArrayList<Block>();
+	static ArrayList<Block> naturalFallingBlockCondidates = new ArrayList<>();
 
 
 	/** To fix issue #41 the first time you draw on the screen you must call naturalAnimate() **/
@@ -31,11 +28,10 @@ public class Block extends Thing {
 
 	private double dx, dy;
 
-	/**
- 	 * @Param color - defines the color the block is
-	 **/
+	/** Objects such as scenery or spikes that are located above and below the block (since they need to fall when the block falls) **/
+	private Thing objectAbove = null, objectBelow = null;
 
-	public Block(int x, int y, int width, int height, int color, GImage image){
+	public Block(int x, int y, int width, int height, GImage image){
 
 		super(x, y, width, height, image );
 
@@ -67,13 +63,22 @@ public class Block extends Thing {
 			yPos.add(this);
 			yBlockPositions.put(y, yPos);
 		}
-		
-		this.color = color;
 
 	}
 	
-	public Block(int x, int y, int color, GImage image){
-		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, color, image);
+	public Block(int x, int y, GImage image){
+		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, image);
+	}
+
+	public void searchForConnectedObjects() {
+
+		for (Thing obj : FruitFever.things) {
+			if (contains(obj.getX(), obj.getY() - Data.TILE_SIZE))
+				objectAbove = obj;
+			if (contains(obj.getX(), obj.getY() + Data.TILE_SIZE))
+				objectBelow = obj;
+		}
+
 	}
 
 	public static void resetPerformedNaturalAnimate(){
@@ -408,11 +413,23 @@ public class Block extends Thing {
 				continue;
 			}
 
-			fallingBlock.imageX += fallingBlock.dx;
+			// fallingBlock.imageX += fallingBlock.dx;
 			fallingBlock.imageY += fallingBlock.dy;
 
 		}
 
+	}
+
+	public void connectedObjectsMotion() {
+
+		if (objectAbove != null) {
+				objectAbove.imageY += dy;
+				objectAbove.animate();
+			}
+		if (objectBelow != null) {
+			objectBelow.imageY += dy;
+			objectBelow.animate();
+		}
 	}
 
 	/* Deprecate this asap, bad coding style (due to no closures or lambdas!)  */

@@ -213,7 +213,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				// Block.activateFallingBlocksByNaturalDisaster();	
 
 				//Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
-				Block.motion();	
+				Block.motion();
+				
+				for (Block obj: blocks)
+					obj.connectedObjectsMotion();
+
 				Block.drawBlocks();
 				
 				player.swirl.animate();
@@ -346,6 +350,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		Block.resetPerformedNaturalAnimate();
 		Block.updateNaturalFallingBlockCandidates();
+
+		for (Block obj : blocks)
+			obj.searchForConnectedObjects();
 
 		currentScreen = ScreenMode.PLAYING;
 
