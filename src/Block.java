@@ -29,7 +29,7 @@ public class Block extends Thing {
 	private double dx, dy;
 
 	/** Objects such as scenery or spikes that are located above and below the block (since they need to fall when the block falls) **/
-	private Thing objectAbove = null, objectBelow = null;
+	private Thing objectAbove = null, objectOn = null, objectBelow = null;
 
 	public Block(int x, int y, int width, int height, GImage image){
 
@@ -77,6 +77,8 @@ public class Block extends Thing {
 				objectAbove = obj;
 			if (contains(obj.getX(), obj.getY() + Data.TILE_SIZE))
 				objectBelow = obj;
+			if (contains(obj.getX(), obj.getY()))
+				objectOn = obj;
 		}
 
 	}
@@ -419,6 +421,10 @@ public class Block extends Thing {
 			if (fallingBlock.objectAbove != null) {
 				fallingBlock.objectAbove.imageY += fallingBlock.dy;
 				fallingBlock.objectAbove.animate();
+			}
+			if (fallingBlock.objectOn != null) {
+				fallingBlock.objectOn.imageY += fallingBlock.dy;
+				fallingBlock.objectOn.animate();
 			}
 			if (fallingBlock.objectBelow != null) {
 				fallingBlock.objectBelow.imageY += fallingBlock.dy;
