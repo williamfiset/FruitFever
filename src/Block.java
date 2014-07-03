@@ -416,39 +416,34 @@ public class Block extends Thing {
 			// fallingBlock.imageX += fallingBlock.dx;
 			fallingBlock.imageY += fallingBlock.dy;
 
-		}
-
-	}
-
-	public void connectedObjectsMotion() {
-
-		if (objectAbove != null) {
-				objectAbove.imageY += dy;
-				objectAbove.animate();
+			if (fallingBlock.objectAbove != null) {
+				fallingBlock.objectAbove.imageY += fallingBlock.dy;
+				fallingBlock.objectAbove.animate();
 			}
-		if (objectBelow != null) {
-			objectBelow.imageY += dy;
-			objectBelow.animate();
+			if (fallingBlock.objectBelow != null) {
+				fallingBlock.objectBelow.imageY += fallingBlock.dy;
+				fallingBlock.objectBelow.animate();
+			}
+
 		}
+
 	}
 
 	/* Deprecate this asap, bad coding style (due to no closures or lambdas!)  */
-	private static boolean isWithinRange (int row_column_number, boolean x) {
-		return x ? (row_column_number >= 0 && row_column_number < FruitFever.LEVEL_WIDTH ) : (row_column_number >= 0 && row_column_number < FruitFever.LEVEL_HEIGHT );
+	private static boolean isWithinRange(int row_column_number, boolean x) {
+		return x ? (row_column_number >= 0 && row_column_number < FruitFever.LEVEL_WIDTH ) : (row_column_number >= 0 && row_column_number < FruitFever.LEVEL_HEIGHT);
 	}
 
-	private boolean inMotion(){
+	private boolean inMotion() {
 		return (dy > 0 || dx > 0);
 	}
 
 	/* Determines if the block is still within the level */
 	public boolean withinLevel() {
 
-		if (imageX > FruitFever.viewX)
-			if (imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
-				if (imageY > FruitFever.viewY)
-					if (imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) 
-						return true;
+		if (imageX > FruitFever.viewX && imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE && imageY > FruitFever.viewY && imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) 
+			return true;
+		
 		return false;		
 
 	}
@@ -456,11 +451,9 @@ public class Block extends Thing {
 	/* Determines if the block is currently on the screen */
 	public boolean withinScreen() {
 		
-		if (imageX > 0) 
-			if (imageY > 0)
-				if (imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
-					if (imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
-						return true;
+		if (imageX > 0 && imageY > 0 && imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE && imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+			return true;
+
 		return false;
 
 	}

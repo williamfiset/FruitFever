@@ -596,21 +596,31 @@ public abstract class Data {
 					
 					try {
 					
-						// Normal Blocks
+						// Lowercase
 						if (character - 'a' >= 0) {
 							int type = character - 'a';
 							int xOffset = 0, yOffset = 0;
 
 							// Hard-Coded Exceptions (origin adjustments)
 							if (type == 0)
-								xOffset = -TILE_SIZE/2;
+								xOffset = -12;
 							else if (type == 6)
 								xOffset = -3;
 
 							// Add Scenery to the ArrayList
-							FruitFever.things.add(new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, sceneryImages[type]));
+							Thing obj = new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, sceneryImages[type]);
+
+
+							// Hard-Coded Exceptions (bounding box adjustments)
+							if (type == 0)
+								obj.adjustBoundaries(12, -13, 0, 0);
+							else if (type == 6)
+								obj.adjustBoundaries(3, 2, 0, 0);
+
+							FruitFever.things.add(obj);
 						}
-						// Capital letters
+						
+						// Uppercase
 						else {
 							int type = character - 'A';
 							// Add Scenery to the ArrayList
