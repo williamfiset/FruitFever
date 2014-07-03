@@ -531,7 +531,9 @@ public abstract class Data {
 
 					// Reads in a fruit
 					if (Character.isDigit(character)) {
-						FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruits[Integer.valueOf(String.valueOf(character))], true, 3, true, Animation.Type.FRUIT, true));	
+						Animation fruit = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruits[Integer.valueOf(String.valueOf(character))], true, 3, true, Animation.Type.FRUIT, true);	
+						FruitFever.edibleItems.add(fruit);
+						FruitFever.things.add(fruit);
 						continue;
 					}		
 

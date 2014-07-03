@@ -936,7 +936,7 @@ public class Player extends Animation {
 			grabbedItem.animate();
 			
 			// Remove item if animation has finished
-			if (finishedTongueAnimation){
+			if (finishedTongueAnimation) {
 				FruitFever.screen.remove(grabbedItem.image);
 
 				for (int i = 0; i < FruitFever.edibleItems.size(); i++)

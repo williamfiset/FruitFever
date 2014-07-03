@@ -57,7 +57,7 @@ public class DesignerStarter implements ActionListener {
 	private void addMenu() {
 
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu, submenu;
+		JMenu menu, submenu, submenu2;
 		JMenuItem menuItem;
 
 		// Build the first menu.
@@ -101,7 +101,7 @@ public class DesignerStarter implements ActionListener {
 		menuItem.getAccessibleContext().setAccessibleDescription("Export All");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
-		
+
 		
 		/** Edit Menu **/
 
@@ -114,52 +114,72 @@ public class DesignerStarter implements ActionListener {
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
+		/** Mode Menu **/
 
-		// Build second menu in the menu bar.
-		menu = new JMenu("Add");
+		menu = new JMenu("Mode");
+		menu.getAccessibleContext().setAccessibleDescription("Mode");
 		menuBar.add(menu);
+
+		/** ADD  **/
+
+		submenu = new JMenu("Add");
+		menu.add(submenu);
 
 		/** Block Layer **/
 
-		submenu = new JMenu("Block Layer");
+		submenu2 = new JMenu("Block Layer");
 
 		menuItem = new JMenuItem("Blocks");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_0, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
-		submenu.add(menuItem);
+		submenu2.add(menuItem);
 
 		menuItem = new JMenuItem("Fruit");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
-		submenu.add(menuItem);
+		submenu2.add(menuItem);
 
 		menuItem = new JMenuItem("Special");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
-		submenu.add(menuItem);
+		submenu2.add(menuItem);
 
-		menu.add(submenu);
+		submenu.add(submenu2);
 
 		/** Scenery Layer **/
 
-		submenu = new JMenu("Scenery Layer");
+		submenu2 = new JMenu("Scenery Layer");
 
 		menuItem = new JMenuItem("Powerups");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
-		submenu.add(menuItem);
+		submenu2.add(menuItem);
 
 		menuItem = new JMenuItem("Scenery 1");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
-		submenu.add(menuItem);
+		submenu2.add(menuItem);
 
 		menuItem = new JMenuItem("Scenery 2");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.CTRL_MASK));
 		menuItem.addActionListener(this);
-		submenu.add(menuItem);
+		submenu2.add(menuItem);
 
-		menu.add(submenu);
+		submenu.add(submenu2);
+
+		/** SELECT **/
+
+		menuItem = new JMenuItem("Select");
+		menuItem.getAccessibleContext().setAccessibleDescription("Select");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+
+		/** MOVE **/
+
+		menuItem = new JMenuItem("Move");
+		menuItem.getAccessibleContext().setAccessibleDescription("Move");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
 
 		/** **/
 
@@ -195,9 +215,11 @@ public class DesignerStarter implements ActionListener {
 	 			gameApplet.exportAll();
 	 			break;
 
+
 	 		case "Change Level's Title":
 	 			gameApplet.promptLevelTitle();
 	 			break;
+
 
 	 		case "Blocks":
 				gameApplet.changeSelectedSet(LevelDesigner.Set.BLOCKS);
@@ -222,6 +244,16 @@ public class DesignerStarter implements ActionListener {
 			case "Scenery 2":
 				gameApplet.changeSelectedSet(LevelDesigner.Set.SCENERY_2);
 				break;
+
+
+			case "Select":
+				LevelDesigner.currentMode = LevelDesigner.Mode.SELECT;
+				break;
+
+			case "Move":
+				LevelDesigner.currentMode = LevelDesigner.Mode.MOVE;
+				break;
+
 	 	}
 	 }
 

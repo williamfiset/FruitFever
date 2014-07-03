@@ -58,8 +58,12 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		background = new GRect(0, 0, FruitFever.SCREEN_WIDTH, FruitFever.SCREEN_HEIGHT + MENU_HEIGHT),
 		menuBackground = new GRect(0, 0, FruitFever.SCREEN_WIDTH, MENU_HEIGHT);
 
-	private static GRect selectedBox = new GRect(0, 0, 0, 0);
-	private double selectedX, selectedY;
+	private static GRect selectedObjectsBox = new GRect(0, 0, 0, 0);
+	private double selectedObjectsX, selectedObjectsY;
+	private ArrayList<GImage> selectedObjects = new ArrayList<>();
+
+	private static GRect selectedMenuBox = new GRect(0, 0, 0, 0);
+	private double selectedMenuX, selectedMenuY;
 	private static GObject selected = null;
 	
 
@@ -80,7 +84,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 	GImage vortex = null, player = null;
 
-/** MENU ENUMS **/	
+/** ENUMS **/	
 
 	private static enum Layer { BLOCK, SCENERY }
 	
@@ -103,6 +107,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 	private static Layer currentLayer = Layer.BLOCK;
 	private static Set currentSet = Set.BLOCKS;
+
+	public static enum Mode { ADD, SELECT, MOVE }
+	public static Mode currentMode = Mode.MOVE;
 	
 
 	/** Contains the main game loop **/
@@ -129,10 +136,15 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		add(menuBackground);
 		drawSet(currentSet);
 		
-		/** Add selected box to screen **/
-		updateSelectedBox();
-		selectedBox.setColor(Color.YELLOW);
-		add(selectedBox);
+		/** Add selected boxes to screen **/
+
+		updateSelectedMenuBox();
+		selectedMenuBox.setColor(Color.YELLOW);
+		add(selectedMenuBox);
+
+		selectedObjectsBox.setColor(Color.GREEN);
+		selectedObjectsBox.setVisible(false);
+		add(selectedObjectsBox);
 
 		while (true) {
 			if (!DesignerStarter.appletFrame.isFocused()) {
@@ -144,12 +156,12 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	}
 
 	/** Updates the location and size of the selected box **/
-	private void updateSelectedBox() {
+	private void updateSelectedMenuBox() {
 		if (selected == null)
-			selectedBox.setLocation(-100, 100);
+			selectedMenuBox.setLocation(-100, 100);
 		else {
-			selectedBox.setLocation(selectedX, selectedY);
-			selectedBox.setSize(selected.getWidth(), selected.getHeight());
+			selectedMenuBox.setLocation(selectedMenuX, selectedMenuY);
+			selectedMenuBox.setSize(selected.getWidth(), selected.getHeight());
 		}
 	}
 
@@ -199,9 +211,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					GObject obj = getElementAt(mouse.getX(), mouse.getY());
 
 					selected = copyImage(obj);
-					selectedX = obj.getX();
-					selectedY = obj.getY();
-					updateSelectedBox();
+					selectedMenuX = obj.getX();
+					selectedMenuY = obj.getY();
+					updateSelectedMenuBox();
 
 				} catch (ClassCastException e) { }
 			} else
@@ -492,8 +504,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	/** Changes the menu set on the screen **/
 	public void changeSelectedSet(Set newSet) {
 		
+		currentMode = Mode.ADD;
+
 		selected = null;
-		updateSelectedBox();
+		updateSelectedMenuBox();
 		
 		removeSet(currentSet);
 		drawSet(newSet);
@@ -900,7 +914,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	
 		menuBackground.sendToBack();
 		
-		selectedBox.sendToFront();
+		selectedMenuBox.sendToFront();
 	
 		for (GImage obj : sceneryLayer)
 			obj.sendToBack();
