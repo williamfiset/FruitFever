@@ -11,36 +11,37 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 	/** TO DO 
 
-		Crucial:
+		Crucial/Important:
 		-Add hint functionality
+		-Incorporate Layer.array feature across program
+		-Add hotkeys for changing modes (ALT-S, ALT-M)
 
 		Necessary:
 		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects
 		to the screen that are slightly transparent, to represent the ones that can fall
+		-Finish Move Mode
+		-Finish Select Mode
 
 		Extras:
 		-Write script replace one image for another throughout each levelDesigner.ser file.
-		-Add icon to program (William made a ghetto icon for you. You best respect him :P)
-		-Move blocks (multi-select?)
-		-Add modes: Add, Move, etc.
-		
-		-Add Exit and Help to the menu
-		-Copy/Paste
-
-		Nice Additions:
-		-Add automatic orientation detection for spikes and torches
+		-Add icon to program (William made a ghetto icon for you. You best respect him :P
 		-Don't save during export if there are no unsaved changes (currently saves regardless)
+		-Add Exit and Help to the menu
 
-		Unneeded Extras:
+		Unneeded Features that could take a fair bit of work to add:
+		-Add automatic orientation detection for spikes and torches
 		-Add different cursors (research this)
 		-Add mini-map
 		-Undo/Redo
+		-Copy/Paste
 		-Add animations to drawing board and even to the menu?
 
 		Refactoring:
 		-Add trimExtension method to get rid of .ser from the end of a String
-		-Add method to move all images in both layers by a given amount
 		-Re-organize methods so they are in a logical order
+
+		Possible Issues:
+		-If the user clicks while on one mode, changes the mode, and then releases the mouse, weird things could possible happen, maybe? Just a thought...
 		
 	**/
 
@@ -64,8 +65,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		menuBackground = new GRect(0, 0, FruitFever.SCREEN_WIDTH, MENU_HEIGHT);
 
 	private static GRect selectedObjectsBox = new GRect(0, 0, 0, 0);
-	private double selectedObjectsX, selectedObjectsY;
 	private ArrayList<GImage> selectedObjects = new ArrayList<>();
+
+	private double startX, startY;
 
 	private static GRect selectedMenuBox = new GRect(0, 0, 0, 0);
 	private double selectedMenuX, selectedMenuY;
@@ -77,7 +79,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	private static enum MouseButtonPressed { LEFT, RIGHT, NONE }
 	private static MouseButtonPressed mouseButtonPressed = MouseButtonPressed.NONE;
 
-	private static double mouseX, mouseY;
+	private static double mouseX, mouseY, extraX, extraY;
 
 	private boolean controlPressed = false, shiftPressed = false, altPressed = false;
 
@@ -91,7 +93,18 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 /** ENUMS **/	
 
-	private static enum Layer { BLOCK, SCENERY }
+	private static enum Layer {
+
+		BLOCK(blockLayer),
+		SCENERY(sceneryLayer);
+
+		public ArrayList<GImage> array;
+
+		Layer(ArrayList<GImage> array) {
+			this.array = array;
+		}
+
+	}
 	
 	public static enum Set {
 	
@@ -114,7 +127,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	private static Set currentSet = Set.BLOCKS;
 
 	public static enum Mode { ADD, SELECT, MOVE }
-	public static Mode currentMode = Mode.MOVE;
+	public static Mode currentMode = Mode.ADD;
 	
 
 	/** Contains the main game loop **/
@@ -222,15 +235,39 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					updateSelectedMenuBox();
 
 				} catch (ClassCastException e) { }
-			} else
-				addObject();
-		
+			} else {
+				if (currentMode == Mode.ADD)
+					addObject();
+				else if (currentMode == Mode.SELECT)
+					selectObject();
+				else if (currentMode == Mode.MOVE) {
+					startX = mouseX;
+					startY = mouseY;
+				}
+
+			}
 		/** Erase Object **/
 		} else if (mouse.getButton() == 3) {
 			mouseButtonPressed = MouseButtonPressed.RIGHT;
 			eraseObject();
 		}
 
+	}
+
+	private void selectObject() {
+
+		ArrayList<GImage> arr;
+
+		if (currentLayer == Layer.BLOCK)
+			arr = blockLayer;
+		else if (currentLayer == Layer.SCENERY)
+			arr = sceneryLayer;
+
+		for (GImage obj : blockLayer)
+			if (!selectedObjects.contains(obj) && obj.contains(mouseX, mouseY))
+				selectedObjects.add(obj);
+
+		System.out.println(selectedObjects.size());
 	}
 
 	private void addObject() {
@@ -245,15 +282,32 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		}
 	}
 
+	private void moveObjects() {
+		extraX += mouseX - startX;
+		extraY += mouseY - startY;
+
+		moveObjects(selectedObjects, roundPos(extraX), roundPos(extraY));
+		
+		startX = mouseX;
+		startY = mouseY;
+		extraX %= Data.TILE_SIZE;
+		extraY %= Data.TILE_SIZE;
+	}
+
 	@Override public void mouseDragged(MouseEvent mouse) {
 
 		mouseX = mouse.getX();
 		mouseY = mouse.getY();
 
 		if (mouse.getY() >= MENU_HEIGHT) {
-			if (mouseButtonPressed == MouseButtonPressed.LEFT)
-				addObject();
-			else if (mouseButtonPressed == MouseButtonPressed.RIGHT)
+			if (mouseButtonPressed == MouseButtonPressed.LEFT) {
+				if (currentMode == Mode.ADD)
+					addObject();
+				else if (currentMode == Mode.SELECT)
+					selectObject();
+				else if (currentMode == Mode.MOVE)
+					moveObjects();
+			} else if (mouseButtonPressed == MouseButtonPressed.RIGHT)
 				eraseObject();
 		}
 
@@ -263,6 +317,15 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		mouseX = mouse.getX();
 		mouseY = mouse.getY();
+
+		if (mouseButtonPressed == MouseButtonPressed.RIGHT) {
+			selectedObjects.clear();
+			extraX = 0;
+			extraY = 0;
+		}
+
+		if (currentMode == Mode.MOVE)
+			finalizeMovedObjects();
 
 		mouseButtonPressed = MouseButtonPressed.NONE;
 
@@ -277,32 +340,29 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	
 	/** Adds an object to the drawing board, removing any underlying objects **/
 	private void finalizeObject() {
-			
-		if (currentLayer == Layer.BLOCK) {
 		
-			/** Remove previous object in Block Layer if it exists **/
-			removeObjectsFromLayer(blockLayer);
-				
-			/** Add new object to the Block Layer **/
-			blockLayer.add((GImage) selected);
-	
-		} else if (currentLayer == Layer.SCENERY){
-			
-			/** Remove previous object in Scenery Layer if it exists **/
-			removeObjectsFromLayer(sceneryLayer);
-				
-			/** Add new object to the Scenery Layer **/
-			sceneryLayer.add((GImage) selected);
-		
-		}
+		removeObjectsFromLayer(currentLayer.array);
+		currentLayer.array.add((GImage) selected);
 		
 		fixLayering();
 	}
 
-	private void removeObjectsFromLayer(ArrayList<GImage> arr) {
+	private void finalizeMovedObjects() {
+
+		for (GImage obj : selectedObjects) {
+			removeObjectsFromLayer(currentLayer.array, obj.getX(), obj.getY());
+			currentLayer.array.add(obj);
+			add(obj);
+		}
+
+		fixLayering();
+
+	}
+
+	private void removeObjectsFromLayer(ArrayList<GImage> arr, double x, double y) {
 
 		for (GImage obj : arr)
-			if (getTileBoundary(obj).contains(mouseX, mouseY)) {
+			if (getTileBoundary(obj).contains(x, y)) {
 
 				if (obj.equals(Data.playerStill[0]))
 					player = null;
@@ -315,6 +375,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				break;
 			}
 
+	}
+
+	private void removeObjectsFromLayer(ArrayList<GImage> arr) {
+		removeObjectsFromLayer(arr, mouseX, mouseY);
 	}
 
 	private void switchObjects(GObject oldImg, GObject newImg) {
@@ -435,31 +499,19 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				break;
 				
 			case KeyEvent.VK_LEFT:
-				for (GImage obj : sceneryLayer)
-					obj.move(Data.TILE_SIZE, 0);
-				for (GImage obj : blockLayer)
-					obj.move(Data.TILE_SIZE, 0);
+				moveAllArraysOfObjects(Data.TILE_SIZE, 0);
 				break;
 				
 			case KeyEvent.VK_RIGHT:
-				for (GImage obj : sceneryLayer)
-					obj.move(-Data.TILE_SIZE, 0);
-				for (GImage obj : blockLayer)
-					obj.move(-Data.TILE_SIZE, 0);
+				moveAllArraysOfObjects(-Data.TILE_SIZE, 0);
 				break;
 				
 			case KeyEvent.VK_UP:
-				for (GImage obj : sceneryLayer)
-					obj.move(0, Data.TILE_SIZE);
-				for (GImage obj : blockLayer)
-					obj.move(0, Data.TILE_SIZE);
+				moveAllArraysOfObjects(0, Data.TILE_SIZE);
 				break;
 				
 			case KeyEvent.VK_DOWN:
-				for (GImage obj : sceneryLayer)
-					obj.move(0, -Data.TILE_SIZE);
-				for (GImage obj : blockLayer)
-					obj.move(0, -Data.TILE_SIZE);
+				moveAllArraysOfObjects(0, -Data.TILE_SIZE);
 				break;
 
 			case KeyEvent.VK_E:
@@ -516,9 +568,23 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			case KeyEvent.VK_SHIFT:
 				shiftPressed = true;
 				break;
+
+			case KeyEvent.VK_ALT:
+				altPressed = true;
+				break;
 				
 		}
 		
+	}
+
+	private void moveObjects(ArrayList<GImage> arr, double horizontalMovement, double verticalMovement) {
+		for (GImage obj : arr)
+			obj.move(horizontalMovement, verticalMovement);
+	}
+
+	private void moveAllArraysOfObjects(double horizontalMovement, double verticalMovement) {
+		moveObjects(blockLayer, horizontalMovement, verticalMovement);
+		moveObjects(sceneryLayer, horizontalMovement, verticalMovement);
 	}
 
 	/** Take user input **/
@@ -534,6 +600,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 			case KeyEvent.VK_SHIFT:
 				shiftPressed = false;
+				break;
+
+			case KeyEvent.VK_ALT:
+				altPressed = false;
 				break;
 				
 		}
@@ -764,7 +834,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 							continue nextChar;
 						}
 						
-						System.out.println("Unrecognizable object. Could not assign a character to export it as. The image is still in the designed level file.");
+						System.out.println("Unrecognizable object. Could not assign a character to export it as. The image, however, is still in the designed level file.");
 					
 					}
 				
