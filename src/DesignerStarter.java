@@ -104,6 +104,7 @@ public class DesignerStarter implements ActionListener {
 		menu.add(menuItem);
 
 		menuItem = new JMenuItem("Export All");
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Export All");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
@@ -176,6 +177,7 @@ public class DesignerStarter implements ActionListener {
 		/** SELECT **/
 
 		menuItem = new JMenuItem("Select");
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Select");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
@@ -183,6 +185,7 @@ public class DesignerStarter implements ActionListener {
 		/** MOVE **/
 
 		menuItem = new JMenuItem("Move");
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.ALT_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Move");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);

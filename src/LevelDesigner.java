@@ -19,16 +19,19 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		Necessary:
 		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects
 		to the screen that are slightly transparent, to represent the ones that can fall
-		-Finish Move Mode
-		-Finish Select Mode
+		-Finish Select Mode :
+			-add GRects representing the selected blocks
+			-add Unselect ability
+			-Clicking will select one object
+			-Clicking and dragging will select a box of objects
 
 		Extras:
-		-Write script replace one image for another throughout each levelDesigner.ser file.
 		-Add icon to program (William made a ghetto icon for you. You best respect him :P
 		-Don't save during export if there are no unsaved changes (currently saves regardless)
 		-Add Exit and Help to the menu
 
 		Unneeded Features that could take a fair bit of work to add:
+		-Write script replace one image for another throughout each levelDesigner.ser file.
 		-Add automatic orientation detection for spikes and torches
 		-Add different cursors (research this)
 		-Add mini-map
@@ -66,6 +69,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 	private static GRect selectedObjectsBox = new GRect(0, 0, 0, 0);
 	private ArrayList<GImage> selectedObjects = new ArrayList<>();
+	private ArrayList<GRect> selectedObjectsHighlighting = new ArrayList<>();
 
 	private double startX, startY;
 
@@ -515,8 +519,17 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				break;
 
 			case KeyEvent.VK_E:
-				if (controlPressed)
-					export();
+				if (controlPressed) {
+					if (shiftPressed)
+						exportAll();
+					else
+						export();
+				}
+				break;
+
+			case KeyEvent.VK_M:
+				if (altPressed)
+					currentMode = Mode.MOVE;
 				break;
 
 			case KeyEvent.VK_N:
@@ -543,6 +556,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			case KeyEvent.VK_S:
 				if (controlPressed)
 					save(shiftPressed);
+				else if (altPressed)
+					currentMode = Mode.SELECT;
 				break;
 
 			case KeyEvent.VK_T:
