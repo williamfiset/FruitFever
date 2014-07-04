@@ -284,7 +284,7 @@ public class Block extends Thing {
 			return;
 		
 		// System.out.println(listLength);
-		// very unlikely to select index 0? 
+		// very unlikely to select index 0? Micah's answer: FALSE, the numbers are truncated, so it has equal chance to return int 0 through listLength - 1
 		int randomIndex = (int) (Math.random() * listLength);
 		Block randomlySelectedBlock = naturalFallingBlockCondidates.get(randomIndex);
 

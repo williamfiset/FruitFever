@@ -173,7 +173,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 						levelComplete = false;
 					}
 					
-					screenHandler.drawLevelSelection();
+					// screenHandler.drawLevelSelection();
+					screenHandler.drawEndOfLevel();
 					continue;
 				}
 				
