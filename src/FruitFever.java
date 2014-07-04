@@ -301,7 +301,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		blocks = new ArrayList<>();
 		things = new ArrayList<>();
 		edibleItems = new ArrayList<>();
-		// enemies = new ArrayList<>();
 		dangerousThings = new ArrayList<>();
 		levelTexts = new ArrayList<>();
 		checkPoints = new ArrayList<>();
@@ -347,9 +346,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		Block.resetPerformedNaturalAnimate();
 		Block.updateNaturalFallingBlockCandidates();
-
-		for (Block obj : blocks)
-			obj.searchForConnectedObjects();
 
 		currentScreen = ScreenMode.PLAYING;
 

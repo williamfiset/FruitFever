@@ -429,6 +429,7 @@ public abstract class Data {
 
 			int lineNumber = 0;
 			String line = "";
+			ArrayList<Thing> fallingObjectsInBlockLayer = new ArrayList<>();
 
 			/** BLOCKS (as well as Player, Lava, and Fruits, etc.) **/
 
@@ -449,6 +450,7 @@ public abstract class Data {
 						obj.boundaryTop = (Data.TILE_SIZE/3);
 						FruitFever.things.add(obj);
 						FruitFever.dangerousThings.add(obj);
+						fallingObjectsInBlockLayer.add(obj);
 						continue;
 					}
 					
@@ -461,9 +463,14 @@ public abstract class Data {
 						if (Block.getBlock(i*TILE_SIZE, lineNumber*TILE_SIZE - Data.TILE_SIZE) == null) {
 							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes, Animation.Type.SPIKES);
 							obj.boundaryTop = 15;
+							fallingObjectsInBlockLayer.add(obj);
 						} else {
 							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesV, Animation.Type.SPIKES);
 							obj.boundaryBottom = -15;
+
+							Block blockAbove = Block.getBlock(i*TILE_SIZE, (lineNumber - 1)*TILE_SIZE);
+							if (blockAbove != null)
+								blockAbove.connectedObjects.add(obj);
 						}
 						
 						FruitFever.things.add(obj);
@@ -476,23 +483,33 @@ public abstract class Data {
 						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.GAS_BUBBLES, true);
 						FruitFever.things.add(obj);
 						FruitFever.dangerousThings.add(obj);
+						fallingObjectsInBlockLayer.add(obj);
 						continue;
 					}
 					
 					// Torches
 					if (character == '&') {
-						if (Block.getBlock(i*TILE_SIZE - Data.TILE_SIZE, lineNumber*TILE_SIZE) == null)
-							FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torches[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true));
-						else 
-							FruitFever.things.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torchesH[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true));
+
+						Thing obj;
+
+						if (Block.getBlock((i - 1)*TILE_SIZE, lineNumber*TILE_SIZE) == null) {
+							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torches[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true);
+							FruitFever.things.add(obj);
+						} else {
+							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torchesH[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true);
+							FruitFever.things.add(obj);
+						}
+
+						fallingObjectsInBlockLayer.add(obj);
 						continue;
 					}
 					
 					// Hint Sign
 					if (character == '?') {
-						Hint sign = new Hint(i*TILE_SIZE, lineNumber*TILE_SIZE);
-						FruitFever.things.add(sign);
-						FruitFever.hints.add(sign);
+						Hint obj = new Hint(i*TILE_SIZE, lineNumber*TILE_SIZE);
+						FruitFever.things.add(obj);
+						FruitFever.hints.add(obj);
+						fallingObjectsInBlockLayer.add(obj);
 						continue;
 					}
 					
@@ -523,9 +540,9 @@ public abstract class Data {
 
 					// CheckPoint
 					if (character == '|') {
-						Thing checkPoint = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE - TILE_SIZE, checkpointFlagRed);
-						FruitFever.checkPoints.add(checkPoint);
-						FruitFever.things.add(checkPoint);
+						Thing obj = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE - TILE_SIZE, checkpointFlagRed);
+						FruitFever.checkPoints.add(obj);
+						FruitFever.things.add(obj);
 						continue;
 					}
 
@@ -567,6 +584,18 @@ public abstract class Data {
 
 			}
 
+			for (Thing obj : fallingObjectsInBlockLayer) {
+				Block blockBelow = Block.getBlock(obj.imageX, obj.imageY + Data.TILE_SIZE);
+				Block blockToRight = Block.getBlock(obj.imageX + Data.TILE_SIZE, obj.imageY);
+				Block blockToLeft = Block.getBlock(obj.imageX - Data.TILE_SIZE, obj.imageY);
+				if (blockBelow != null)
+					blockBelow.connectedObjects.add(obj);
+				else if (blockToRight != null)
+					blockToRight.connectedObjects.add(obj);
+				else if (blockToLeft != null)
+					blockToLeft.connectedObjects.add(obj);
+			}
+
 			lineNumber = 0;
 
 			/** SCENERY **/
@@ -575,6 +604,10 @@ public abstract class Data {
 
 				// Iterate through each character in the line, instantiating the specified block (if it exists)
 				for (int i = 0; i < line.length(); i++) {
+
+					Block blockAbove = Block.getBlock(i*TILE_SIZE, (lineNumber - 1)*TILE_SIZE);
+					Block blockOn = Block.getBlock(i*TILE_SIZE, lineNumber*TILE_SIZE);
+					Block blockBelow = Block.getBlock(i*TILE_SIZE, (lineNumber + 1)*TILE_SIZE);
 
 					char character = line.charAt(i);
 
@@ -598,33 +631,38 @@ public abstract class Data {
 					
 						// Lowercase
 						if (character - 'a' >= 0) {
-							int type = character - 'a';
-							int xOffset = 0, yOffset = 0;
-
+							
 							// Hard-Coded Exceptions (origin adjustments)
+							int type = character - 'a', xOffset;
 							if (type == 0)
 								xOffset = -12;
 							else if (type == 6)
 								xOffset = -3;
+							else
+								xOffset = 0;
 
-							// Add Scenery to the ArrayList
-							Thing obj = new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE + yOffset, sceneryImages[type]);
-
-
-							// Hard-Coded Exceptions (bounding box adjustments)
-							if (type == 0)
-								obj.adjustBoundaries(12, -13, 0, 0);
-							else if (type == 6)
-								obj.adjustBoundaries(3, 2, 0, 0);
-
+							Thing obj = new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE, sceneryImages[type]);
 							FruitFever.things.add(obj);
+							
+							if (blockOn != null)
+								blockOn.connectedObjects.add(obj);
+							else if (blockBelow != null)
+								blockBelow.connectedObjects.add(obj);
+
+							
 						}
 						
 						// Uppercase
 						else {
 							int type = character - 'A';
-							// Add Scenery to the ArrayList
-							FruitFever.things.add(new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, sceneryImages[26 + type]));
+
+							Thing obj = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, sceneryImages[26 + type]);
+							FruitFever.things.add(obj);
+
+							if (blockOn != null)
+								blockOn.connectedObjects.add(obj);
+							else if (blockBelow != null)
+								blockBelow.connectedObjects.add(obj);
 						}
 
 					} catch(ArrayIndexOutOfBoundsException e) { 

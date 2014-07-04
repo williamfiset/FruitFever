@@ -29,7 +29,7 @@ public class Block extends Thing {
 	private double dx, dy;
 
 	/** Objects such as scenery or spikes that are located above and below the block (since they need to fall when the block falls) **/
-	private Thing objectAbove = null, objectOn = null, objectBelow = null;
+	public ArrayList<Thing> connectedObjects = new ArrayList<>();
 
 	public Block(int x, int y, int width, int height, GImage image){
 
@@ -68,19 +68,6 @@ public class Block extends Thing {
 	
 	public Block(int x, int y, GImage image){
 		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, image);
-	}
-
-	public void searchForConnectedObjects() {
-
-		for (Thing obj : FruitFever.things) {
-			if (contains(obj.getX(), obj.getY() - Data.TILE_SIZE))
-				objectAbove = obj;
-			if (contains(obj.getX(), obj.getY() + Data.TILE_SIZE))
-				objectBelow = obj;
-			if (contains(obj.getX(), obj.getY()))
-				objectOn = obj;
-		}
-
 	}
 
 	public static void resetPerformedNaturalAnimate(){
@@ -418,17 +405,9 @@ public class Block extends Thing {
 			// fallingBlock.imageX += fallingBlock.dx;
 			fallingBlock.imageY += fallingBlock.dy;
 
-			if (fallingBlock.objectAbove != null) {
-				fallingBlock.objectAbove.imageY += fallingBlock.dy;
-				fallingBlock.objectAbove.animate();
-			}
-			if (fallingBlock.objectOn != null) {
-				fallingBlock.objectOn.imageY += fallingBlock.dy;
-				fallingBlock.objectOn.animate();
-			}
-			if (fallingBlock.objectBelow != null) {
-				fallingBlock.objectBelow.imageY += fallingBlock.dy;
-				fallingBlock.objectBelow.animate();
+			for (Thing obj : fallingBlock.connectedObjects) {
+				obj.imageY += fallingBlock.dy;
+				obj.animate();
 			}
 
 		}
