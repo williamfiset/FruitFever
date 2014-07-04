@@ -170,12 +170,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 							levelInformation[currentLevel].stars = (byte) Math.max(levelInformation[currentLevel].stars, (((double) currentFruitRings / (double) totalFruitRings)*3.0));
 							
 						Data.updateLevelInformation(currentLevel);
-						levelComplete = false;
-					}
+
+						screenHandler.drawEndOfLevel();
+					} else
+						screenHandler.drawLevelSelection();
 					
-					// screenHandler.drawLevelSelection();
-					screenHandler.drawEndOfLevel();
-					continue;
 				}
 				
 				/** Countdown all of the alarms towards execution **/
@@ -316,6 +315,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		vx = 0;
 		vy = 0;
 		hintText = null;
+
+		levelComplete = false;
 		
 		tongueButtonPressed = false;
 		swirlButtonPressed = false;

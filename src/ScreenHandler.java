@@ -172,6 +172,8 @@ public class ScreenHandler {
 	public void drawEndOfLevel() {
 		
 		add(Data.windowBorder);
+
+		// for (int i = 0; i < FruitFever.levelInformation[currentLevel].stars; i++)
 			
 		fruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
 	}
