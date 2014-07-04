@@ -15,25 +15,27 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Add hint functionality
 
 		Necessary:
-		-If you saveAs and then cancel it, next time you go to save you need to specify which file you want to load, since infoFile is now null
-		-Images seem to be overlapping each other multiple times? Aren't the ones underneath supposed to be erased?
 		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects
 		to the screen that are slightly transparent, to represent the ones that can fall
-		-Shortcut keys aren't yet setup for Ctrl + #
 
 		Extras:
 		-Write script replace one image for another throughout each levelDesigner.ser file.
 		-Add icon to program (William made a ghetto icon for you. You best respect him :P)
 		-Move blocks (multi-select?)
 		-Add modes: Add, Move, etc.
-		-Add animations to drawing board and even to the menu?
+		
 		-Add Exit and Help to the menu
 		-Copy/Paste
+
+		Nice Additions:
+		-Add automatic orientation detection for spikes and torches
+		-Don't save during export if there are no unsaved changes (currently saves regardless)
 
 		Unneeded Extras:
 		-Add different cursors (research this)
 		-Add mini-map
 		-Undo/Redo
+		-Add animations to drawing board and even to the menu?
 
 		Refactoring:
 		-Add trimExtension method to get rid of .ser from the end of a String
@@ -77,7 +79,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 	private static double mouseX, mouseY;
 
-	private boolean controlPressed = false, shiftPressed = false;
+	private boolean controlPressed = false, shiftPressed = false, altPressed = false;
 
 
 /** LEVEL VARIABLES **/
@@ -153,6 +155,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			if (!DesignerStarter.appletFrame.isFocused()) {
 				controlPressed = false;
 				shiftPressed = false;
+				altPressed = false;
 			}
 		}
 
@@ -308,7 +311,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					vortex = null;
 
 				remove(obj);
-				blockLayer.remove(obj);
+				arr.remove(obj);
 				break;
 			}
 
@@ -400,6 +403,36 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	@Override public void keyPressed(KeyEvent key) {
 
 		switch (key.getKeyCode()) {
+
+			case KeyEvent.VK_0:
+				if (altPressed)
+					changeSelectedSet(Set.BLOCKS);
+				break;
+
+			case KeyEvent.VK_1:
+				if (altPressed)
+					changeSelectedSet(Set.FRUIT);
+				break;
+				
+			case KeyEvent.VK_2:
+				if (altPressed)
+					changeSelectedSet(Set.SPECIAL);
+				break;
+
+			case KeyEvent.VK_3:
+				if (altPressed)
+					changeSelectedSet(Set.POWERUPS);
+				break;
+
+			case KeyEvent.VK_4:
+				if (altPressed)
+					changeSelectedSet(Set.SCENERY_1);
+				break;
+
+			case KeyEvent.VK_5:
+				if (altPressed)
+					changeSelectedSet(Set.SCENERY_2);
+				break;
 				
 			case KeyEvent.VK_LEFT:
 				for (GImage obj : sceneryLayer)
@@ -456,10 +489,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				break;
 
 			case KeyEvent.VK_S:
-				if (controlPressed) {
-					if (shiftPressed) saveAs();
-					else save();
-				}
+				if (controlPressed)
+					save(shiftPressed);
 				break;
 
 			case KeyEvent.VK_T:
@@ -645,7 +676,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		if (name == null)
 			promptLevelTitle();
 
-		save();
+		save(false);
 
 		System.out.println("Export Has Begun.");
 	
@@ -794,22 +825,20 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	
 	}
 
-	public void saveAs() {
-		infoFile = null;
-		save();
-	}
-
-	public void save() {
+	public void save(boolean saveAs) {
 
 		/** Create file and then use it **/
 
-		if (infoFile == null) {
+		if (infoFile == null || saveAs) {
 
 			fileChooser.setDialogTitle("Enter this level's number");
 
 			int result = fileChooser.showSaveDialog(this);
          	if (result != JFileChooser.APPROVE_OPTION) {
-         		System.out.println("No file was chosen. Save aborted.");
+         		if (infoFile == null)
+         			System.out.println("No file was chosen. Save aborted.");
+         		else
+         			System.out.println("No new save file was chosen.");
          		return;
          	}
 

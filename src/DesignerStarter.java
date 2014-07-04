@@ -136,17 +136,17 @@ public class DesignerStarter implements ActionListener {
 		submenu2 = new JMenu("Block Layer");
 
 		menuItem = new JMenuItem("Blocks");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_0, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_0, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(this);
 		submenu2.add(menuItem);
 
 		menuItem = new JMenuItem("Fruit");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(this);
 		submenu2.add(menuItem);
 
 		menuItem = new JMenuItem("Special");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(this);
 		submenu2.add(menuItem);
 
@@ -157,17 +157,17 @@ public class DesignerStarter implements ActionListener {
 		submenu2 = new JMenu("Scenery Layer");
 
 		menuItem = new JMenuItem("Powerups");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(this);
 		submenu2.add(menuItem);
 
 		menuItem = new JMenuItem("Scenery 1");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(this);
 		submenu2.add(menuItem);
 
 		menuItem = new JMenuItem("Scenery 2");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.CTRL_MASK));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.ALT_MASK));
 		menuItem.addActionListener(this);
 		submenu2.add(menuItem);
 
@@ -206,11 +206,11 @@ public class DesignerStarter implements ActionListener {
 	 			break;
 
 	 		case "Save":
-	 			gameApplet.save();
+	 			gameApplet.save(false);
 	 			break;
 
 	 		case "Save As":
-	 			gameApplet.saveAs();
+	 			gameApplet.save(true);
 	 			break;
 
 	 		case "Open":
