@@ -335,7 +335,7 @@ public abstract class Data {
 		fruitFeverTitle = makeImage(267, 338, 351, 36);
 		
 		// Icon Background Bar
-		iconBackgroundBar = makeImage(0, Data.TILE_SIZE*34, Data.TILE_SIZE*28, Data.TILE_SIZE);
+		iconBackgroundBar = makeImage(0, TILE_SIZE*34, TILE_SIZE*28, TILE_SIZE);
 		
 		/** Import level selection arrow images **/
 		sheet = DataLoader.loadImage("img/LevelSelection/arrows/brownArrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/brownArrows.png");
@@ -447,7 +447,7 @@ public abstract class Data {
 					// Lava
 					if (character == '~') {
 						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, lava, Animation.Type.LAVA);
-						obj.boundaryTop = (Data.TILE_SIZE/3);
+						obj.boundaryTop = TILE_SIZE/3;
 						FruitFever.things.add(obj);
 						FruitFever.dangerousThings.add(obj);
 						fallingObjectsInBlockLayer.add(obj);
@@ -460,7 +460,7 @@ public abstract class Data {
 						Animation obj;
 
 						// Creates spikes by using block detection to determine orientation
-						if (Block.getBlock(i*TILE_SIZE, lineNumber*TILE_SIZE - Data.TILE_SIZE) == null) {
+						if (Block.getBlock(i*TILE_SIZE, (lineNumber - 1)*TILE_SIZE) == null) {
 							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes, Animation.Type.SPIKES);
 							obj.boundaryTop = 15;
 							fallingObjectsInBlockLayer.add(obj);
@@ -585,9 +585,9 @@ public abstract class Data {
 			}
 
 			for (Thing obj : fallingObjectsInBlockLayer) {
-				Block blockBelow = Block.getBlock(obj.imageX, obj.imageY + Data.TILE_SIZE);
-				Block blockToRight = Block.getBlock(obj.imageX + Data.TILE_SIZE, obj.imageY);
-				Block blockToLeft = Block.getBlock(obj.imageX - Data.TILE_SIZE, obj.imageY);
+				Block blockBelow = Block.getBlock(obj.imageX, obj.imageY + TILE_SIZE);
+				Block blockToRight = Block.getBlock(obj.imageX + TILE_SIZE, obj.imageY);
+				Block blockToLeft = Block.getBlock(obj.imageX - TILE_SIZE, obj.imageY);
 				if (blockBelow != null)
 					blockBelow.connectedObjects.add(obj);
 				else if (blockToRight != null)
@@ -742,8 +742,6 @@ public abstract class Data {
 	}
 	
 	public static void addButtonsToArrayList(){
-	
-		Button tempButton;
 		
 		// Adds main menu buttons to the ArrayLists
 		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[0].getWidth()/2), 125, Button.Type.PLAY, menuButtons[0], menuButtons[1], menuButtons[2]), FruitFever.mainMenuButtons);

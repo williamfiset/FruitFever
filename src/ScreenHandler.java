@@ -17,36 +17,29 @@ public class ScreenHandler {
 	static FruitFever fruitFever;
 	
 	/** Debug mode **/
-	static GLabel nodes = new GLabel("");
-	static GRect nodesBackground = new GRect(0, 0, 0, 0);
-	static GLabel speed = new GLabel("");
-	static GRect speedBackground = new GRect(0, 0, 0, 0);
+	static GLabel nodes = new GLabel(""), speed = new GLabel("");
+	static GRect nodesBackground = new GRect(0, 0, 0, 0), speedBackground = new GRect(0, 0, 0, 0);
 	
 	/** Level Selection Screen**/
-	static GLabel[] levelNumbers = new GLabel[20];
-	static GImage[] levelLocks = new GImage[20];	
-	static GImage[][] levelStars = new GImage[20][3];	
-	static GImage[][] levelNoStars = new GImage[20][3];
+	static GLabel[] levelNumbers = new GLabel[20], levelLocks = new GImage[20];	
+	static GImage[][] levelStars = new GImage[20][3], levelNoStars = new GImage[20][3];
 	static String[] levelSelectionPages = new String[] {"0-19", "20-39", "40-59", "60-79", "80-99"};
 	static GLabel levelRange = new GLabel(levelSelectionPages[0]);
 	
 	/** In-Game **/
-	static GLabel numberOfFruitRings = new GLabel("");
-	static GLabel numberOfLives = new GLabel("");
+	static GLabel numberOfFruitRings = new GLabel(""), numberOfLives = new GLabel("");
 	static GImage[] livesImages = new GImage[Player.MAX_LIVES];
 	static int HEART_AREA_WIDTH = 3*Data.TILE_SIZE;
 	static GImage currentHealthBar, currentEnergyBar;
-	// static GLabel healthLabel = new GLabel("Health");
-	// static GLabel energyLabel = new GLabel("Energy");
 	
 	/** Pause Menu **/
-	static GLabel pauseMenuTitle = new GLabel("Paused");
-	static GImage musicX, soundEffectsX;
-	static GLabel musicLabel = new GLabel("Music");
-	static GLabel soundEffectsLabel = new GLabel("Sound Effects");
-	static GLabel mainMenuButtonText = new GLabel("Main Menu");
-	static GLabel levelSelectionButtonText = new GLabel("Level Selection");
-	static GLabel resumeButtonText = new GLabel("Resume");
+	static GLabel 	pauseMenuTitle = new GLabel("Paused"),
+					musicX, soundEffectsX,
+					musicLabel = new GLabel("Music"),
+					soundEffectsLabel = new GLabel("Sound Effects"),
+					mainMenuButtonText = new GLabel("Main Menu"),
+					levelSelectionButtonText = new GLabel("Level Selection"),
+					resumeButtonText = new GLabel("Resume");
 	
 	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
@@ -79,10 +72,6 @@ public class ScreenHandler {
 		numberOfFruitRings.setLocation(Data.TILE_SIZE*5, 16);
 		
 		numberOfLives.setLocation(Data.TILE_SIZE + 3, 16);
-		
-
-		// centerObject(healthLabel, 10);
-		// centerObject(energyLabel, 22);
 
 		/** Pause Menu **/
 		centerObject(pauseMenuTitle, Data.TILE_SIZE*5);
@@ -133,9 +122,6 @@ public class ScreenHandler {
 		numberOfLives.setColor(Color.white);
 		for (int i = 0; i < Player.MAX_LIVES; i++)
 			livesImages[i] = Thing.copyImage(Data.heartImage);
-			
-		// healthLabel.setColor(Color.white);
-		// energyLabel.setColor(Color.white);
 		
 		nodes.setColor(Color.white);
 		nodesBackground.setFilled(true);
@@ -256,8 +242,6 @@ public class ScreenHandler {
 		add(Data.iconBackgroundBar, Data.fruitRingAnimation[5], numberOfFruitRings, numberOfLives);
 		add(Data.healthBarBackground, currentHealthBar, Data.energyBarBackground, currentEnergyBar);
 		add(livesImages);
-		
-		// fruitFever.add(healthLabel, energyLabel);
 		
 		addButtonsToScreen(fruitFever.inGameButtons);
 		

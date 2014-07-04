@@ -17,6 +17,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		Necessary:
 		-If you saveAs and then cancel it, next time you go to save you need to specify which file you want to load, since infoFile is now null
 		-Images seem to be overlapping each other multiple times? Aren't the ones underneath supposed to be erased?
+		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects
+		to the screen that are slightly transparent, to represent the ones that can fall
 
 		Extras:
 		-Write script replace one image for another throughout each levelDesigner.ser file.
