@@ -13,6 +13,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		Crucial/Important:
 		-Add hint functionality
+		-Add keyboard shortcut for 'Quit' and 'Save and Quit'
 
 		Necessary:
 		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects

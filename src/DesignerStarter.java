@@ -109,6 +109,18 @@ public class DesignerStarter implements ActionListener {
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
+		menuItem = new JMenuItem("Quit");
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription("Quit");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+
+		menuItem = new JMenuItem("Save and Quit");
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription("Save and Quit");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+
 		
 		/** Edit Menu **/
 
@@ -226,6 +238,15 @@ public class DesignerStarter implements ActionListener {
 
 	 		case "Export All":
 	 			gameApplet.exportAll();
+	 			break;
+
+	 		case "Quit":
+	 			System.exit(0);
+	 			break;
+
+	 		case "Save and Quit":
+	 			gameApplet.save(false);
+	 			System.exit(0);
 	 			break;
 
 
