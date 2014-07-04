@@ -212,7 +212,7 @@ public abstract class Data {
 		// Torches
 		for (int n = 0; n < 3; n++) 
 			for (int i = 0; i < 3; i++) {
-				torches[n][i] = makeImage(TILE_SIZE*(n*2 + 10), TILE_SIZE*(i + 5), TILE_SIZE, TILE_SIZE);
+				torches[n][i] = makeImage(TILE_SIZE*(n + 10), TILE_SIZE*(i + 5), TILE_SIZE, TILE_SIZE);
 				torchesH[n][i] = ImageTransformer.horizontalFlip(torches[n][i]);
 			}
 				
