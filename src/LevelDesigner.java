@@ -19,6 +19,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Images seem to be overlapping each other multiple times? Aren't the ones underneath supposed to be erased?
 		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects
 		to the screen that are slightly transparent, to represent the ones that can fall
+		-Shortcut keys aren't yet setup for Ctrl + #
 
 		Extras:
 		-Write script replace one image for another throughout each levelDesigner.ser file.
@@ -80,8 +81,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 
 /** LEVEL VARIABLES **/
-
-	private static int level;
+	
+	public static int level;
 	private static String name = null;
 
 	GImage vortex = null, player = null;
@@ -459,6 +460,11 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					if (shiftPressed) saveAs();
 					else save();
 				}
+				break;
+
+			case KeyEvent.VK_T:
+				if (controlPressed)
+					DesignerStarter.testLevel();
 				break;
 
 			case KeyEvent.VK_V:

@@ -15,16 +15,16 @@ public class GameStarter{
 	final static int FRAME_BORDER_HEIGHT = 22;
 	static JFrame frame;
 
-	public static void main(String[] args) {	
+	public static void main(String... args) {	
 		
-
-
 		for (int i = 0; i < args.length; i++)
 			switch (args[i]) {
 				case "debug": FruitFever.debugMode = true; break;
 				case "!debug": FruitFever.debugMode = false; break;
+				case "level=": FruitFever.currentLevel = Integer.valueOf(args[i + 1]); i++; break;
 				default: FruitFever.MAIN_LOOP_SPEED = Integer.valueOf(args[0]);
 			}
+
 		FruitFever gameApplet = new FruitFever();
 		JFrame appletFrame = new JFrame();
 		frame = appletFrame;

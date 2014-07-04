@@ -9,11 +9,11 @@ ddd1------------22-4d4dd----
 dddd-1--4--------2-4ddd-----
 d-ddd-----------2233ddd-----
 d-ddd-10---3---2233dddd-----
-d-dddd-0---33--233-dddd-----
+d-dddd-0---33--23%-dddd-----
 d--ddd------3-223dddddd-----
 d--ddddd-0--3-33-ddddd------
 dd-dddd--000-33-ddddd-ddd-dd
--ddddd--dd-4ddddddddd-d-----
+-ddddd--dd@-ddddddddd-d-----
 ---d-d--dddddddddddd--------
 ----d---dddddddddddd--------
 -----d--d-dd---ddd----------

@@ -73,15 +73,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	}
 
-	static ArrayList<Button> mainMenuButtons = new ArrayList<Button>();
-	static ArrayList<Button> levelSelectionButtons = new ArrayList<Button>();
-	static ArrayList<Button> inGameButtons = new ArrayList<Button>();
-	static ArrayList<Button> pauseMenuButtons = new ArrayList<Button>();
-	static ArrayList<Button> buttons = new ArrayList<Button>(); // Includes all buttons (even those in other ArrayLists)
+	static ArrayList<Button> 	mainMenuButtons = new ArrayList<>(),
+								levelSelectionButtons = new ArrayList<>(),
+								inGameButtons = new ArrayList<>(),
+								pauseMenuButtons = new ArrayList<>(),
+								buttons = new ArrayList<>(); // Includes all buttons (even those in other ArrayLists)
 	static Button clickedOnButton = null;
 	
-	static int 	currentLevel = 1,
-				levelSelectionPage = 0;
+	public static int currentLevel = -1, levelSelectionPage = 0;
 	
 	static ScreenMode currentScreen;
 
@@ -141,13 +140,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			point3.setFilled(true);	point4.setFilled(true); point5.setFilled(true);	point6.setFilled(true);
 		}		
 
-		// It's a byte an not an int because we're paranoid about saving memory! 
-		// Three bytes saved through this action! 
-		byte loops = Byte.MIN_VALUE;
-
 		// SoundPlayer.playSound("fadeToBlack.mp3");
 
-		while (true) {
+		for (int loops = 0; true; loops++) {
 
 			/** Pauses the main loop until the screen is refocused **/
 			while (!GameStarter.frame.isFocused()) { }
@@ -236,9 +231,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			pauseLoop(loopTimer);
 
 			if (currentScreen == ScreenMode.LEVEL_REFRESH)
-				loadLevel();
-							
-			loops++;
+				loadLevel();							
 			
 		}
 	}
@@ -376,24 +369,25 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	private void postInit(){
 	
 		screenHandler = new ScreenHandler(this);
-	
-		/** Loading screen **/
-		Data.loadingScreen();
-		add(Data.loadingScreenBackground);
-		
-		/** Load level information **/
-		Data.loadLevelInformation();
-		
+
 		/** Set up keyboard and mouse **/
 		addMouseListeners();
 		addKeyListeners();
-		
+	
+		Data.loadingScreen();
+		add(Data.loadingScreenBackground);
+						
+		Data.loadLevelInformation();
+
 		/** Renders Images in the Data class, and fills the object ArrayLists **/
 		Data.loadImages();
 		
 		screenHandler.init();
 	
-		screenHandler.drawMainMenu();
+		if (currentLevel != -1)
+			loadLevel();
+		else
+			screenHandler.drawMainMenu();
 	
 	}
 

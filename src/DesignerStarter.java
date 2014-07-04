@@ -16,7 +16,7 @@ public class DesignerStarter implements ActionListener {
 
 	final static int FRAME_BORDER_HEIGHT = 22;
 	static JFrame appletFrame; 
-	LevelDesigner gameApplet;
+	static LevelDesigner gameApplet;
 
 	public static void main(String[] args) {
 		DesignerStarter designerStarter = new DesignerStarter();
@@ -66,6 +66,12 @@ public class DesignerStarter implements ActionListener {
 		menuBar.add(menu);
 
 		// A group of JMenuItems
+
+		menuItem = new JMenuItem("Test");
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription("Test");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
 
 		menuItem = new JMenuItem("New");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
@@ -191,6 +197,10 @@ public class DesignerStarter implements ActionListener {
 
 	 	switch (e.getActionCommand()) {
 
+	 		case "Test":
+	 			testLevel();
+	 			break;
+
 	 		case "New":
 	 			gameApplet.newDrawingBoard();
 	 			break;
@@ -255,6 +265,14 @@ public class DesignerStarter implements ActionListener {
 				break;
 
 	 	}
+	 }
+
+	 public static void testLevel() {
+
+	 	gameApplet.export();
+	 	GameStarter gameStarter = new GameStarter();
+	 	gameStarter.main("level=", String.valueOf(LevelDesigner.level));
+
 	 }
 
 	// private static void addMenu() {
