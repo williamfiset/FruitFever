@@ -21,7 +21,8 @@ public class ScreenHandler {
 	static GRect nodesBackground = new GRect(0, 0, 0, 0), speedBackground = new GRect(0, 0, 0, 0);
 	
 	/** Level Selection Screen**/
-	static GLabel[] levelNumbers = new GLabel[20], levelLocks = new GImage[20];	
+	static GLabel[] levelNumbers = new GLabel[20];
+	static GImage[] levelLocks = new GImage[20];	
 	static GImage[][] levelStars = new GImage[20][3], levelNoStars = new GImage[20][3];
 	static String[] levelSelectionPages = new String[] {"0-19", "20-39", "40-59", "60-79", "80-99"};
 	static GLabel levelRange = new GLabel(levelSelectionPages[0]);
@@ -33,8 +34,8 @@ public class ScreenHandler {
 	static GImage currentHealthBar, currentEnergyBar;
 	
 	/** Pause Menu **/
+	static GImage musicX, soundEffectsX;
 	static GLabel 	pauseMenuTitle = new GLabel("Paused"),
-					musicX, soundEffectsX,
 					musicLabel = new GLabel("Music"),
 					soundEffectsLabel = new GLabel("Sound Effects"),
 					mainMenuButtonText = new GLabel("Main Menu"),
@@ -165,6 +166,14 @@ public class ScreenHandler {
 		shiftLevelLabels(0);
 			
 		fruitFever.currentScreen = FruitFever.ScreenMode.LEVEL_SELECTION;
+	}
+
+	/** Draws the end of level screen **/
+	public void drawEndOfLevel() {
+		
+		add(Data.windowBorder);
+			
+		fruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
 	}
 	
 	public void drawPauseMenu() {

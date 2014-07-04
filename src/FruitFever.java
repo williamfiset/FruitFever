@@ -66,6 +66,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		LEVEL_SELECTION,
 		PLAYING,
 		PAUSED,
+		END_OF_LEVEL,
 		CONTROLS,
 		OPTIONS,
 		MULTIPLAYER;
