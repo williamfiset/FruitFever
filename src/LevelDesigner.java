@@ -13,8 +13,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		Crucial/Important:
 		-Add hint functionality
-		-Incorporate Layer.array feature across program
-		-Add hotkeys for changing modes (ALT-S, ALT-M)
 
 		Necessary:
 		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects
@@ -68,8 +66,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		menuBackground = new GRect(0, 0, FruitFever.SCREEN_WIDTH, MENU_HEIGHT);
 
 	private static GRect selectedObjectsBox = new GRect(0, 0, 0, 0);
-	private ArrayList<GImage> selectedObjects = new ArrayList<>();
-	private ArrayList<GRect> selectedObjectsHighlighting = new ArrayList<>();
+	private static ArrayList<GImage> selectedObjects = new ArrayList<>();
+	private static ArrayList<GRect> selectedObjectsHighlighting = new ArrayList<>();
 
 	private double startX, startY;
 
@@ -262,12 +260,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		ArrayList<GImage> arr;
 
-		if (currentLayer == Layer.BLOCK)
-			arr = blockLayer;
-		else if (currentLayer == Layer.SCENERY)
-			arr = sceneryLayer;
-
-		for (GImage obj : blockLayer)
+		for (GImage obj : currentLayer.array)
 			if (!selectedObjects.contains(obj) && obj.contains(mouseX, mouseY))
 				selectedObjects.add(obj);
 
@@ -390,21 +383,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		if (newImg == null)
 				return;
 
-		if (currentLayer == Layer.BLOCK) {
-
-			/** Replace all old images with the new ones **/
-			for (int i = 0 ; i < blockLayer.size(); i++)
-				if (ImageTransformer.isIdentical(blockLayer.get(i), (GImage) oldImg))
-					blockLayer.get(i).setImage(copyImage(newImg).getImage());
-
-		} else if (currentLayer == Layer.SCENERY) {
-			
-			/** Replace all old images with the new ones **/
-			for (int i = 0 ; i < sceneryLayer.size(); i++)
-				if (ImageTransformer.isIdentical(sceneryLayer.get(i), (GImage) oldImg))
-					sceneryLayer.get(i).setImage(copyImage(newImg).getImage());
-
-		}
+		/** Replace all old images with the new ones **/
+		for (int i = 0 ; i < currentLayer.array.size(); i++)
+			if (ImageTransformer.isIdentical(currentLayer.array.get(i), (GImage) oldImg))
+				currentLayer.array.get(i).setImage(copyImage(newImg).getImage());
 
 	}
 	
@@ -627,8 +609,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	
 	/** Changes the menu set on the screen **/
 	public void changeSelectedSet(Set newSet) {
-		
-		currentMode = Mode.ADD;
+		setCurrentMode(Mode.ADD);
 
 		selected = null;
 		updateSelectedMenuBox();
@@ -1136,6 +1117,11 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				}
 		}
 	
+	}
+
+	public static void setCurrentMode(Mode mode) {
+		currentMode = mode;
+		selectedObjects.clear();
 	}
 
 }
