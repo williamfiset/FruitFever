@@ -37,17 +37,18 @@ while not portAvailable:
 	except:
 		port += 1
 
-
-print "\nServer is connected to port: ", port, "\n"
+		
+print "\nServer is connected to port: ", port, "\n" 
 
 # returns 10.255.250.180 as my IP rather than 207.115.103.90
 # print socket.gethostbyname(socket.gethostname()) 
 
-
 while True:
 
+	print "Server trying to connect to client..."
+	
 	client, address = server_socket.accept()
-	print "SERVER JUST CONNECTED TO ADDRESS: " , address
+	print "Server just connected to: " , address
 
 	client.send("Hello World From Server\n")
 	client.close()

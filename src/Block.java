@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Block extends Thing {
 
-	private static HashMap<Integer, ArrayList<Block>> xBlockPositions = new HashMap<>(), yBlockPositions = new HashMap<>();
+	private static HashMap<Integer, ArrayList<Block>> xBlocks = new HashMap<>(), yBlocks = new HashMap<>();
 
 	// The blocks that are in the current process of falling 
 	static ArrayList<Block> fallingBlocks = new ArrayList<>();
@@ -36,32 +36,32 @@ public class Block extends Thing {
 		super(x, y, width, height, image );
 
 		// Search if row exists within HashMap
-		if (xBlockPositions.containsKey(x)) {
+		if (xBlocks.containsKey(x)) {
 			
 			// If it does, extract ArrayList, add element and push it back into hashmap
-			ArrayList <Block> xPos = xBlockPositions.get(x);
+			ArrayList <Block> xPos = xBlocks.get(x);
 			xPos.add(this);
-			xBlockPositions.put(x, xPos);
+			xBlocks.put(x, xPos);
 
 		} else {
 			ArrayList<Block> xPos = new ArrayList<Block> ();
 			xPos.add(this);
-			xBlockPositions.put(x, xPos);
+			xBlocks.put(x, xPos);
 		}
 		
 
 		// Search if column exists within hashmap
-		if (yBlockPositions.containsKey(y)) {
+		if (yBlocks.containsKey(y)) {
 			
 			// If it does, extract ArrayList, add element and push it back into hashmap
-			ArrayList <Block> yPos = yBlockPositions.get(y);
+			ArrayList <Block> yPos = yBlocks.get(y);
 			yPos.add(this);
-			yBlockPositions.put(y, yPos);
+			yBlocks.put(y, yPos);
 
 		} else {
 			ArrayList<Block> yPos = new ArrayList<Block> ();
 			yPos.add(this);
-			yBlockPositions.put(y, yPos);
+			yBlocks.put(y, yPos);
 		}
 
 	}
@@ -98,7 +98,7 @@ public class Block extends Thing {
 
 			outerLoop:
 			for (int rowNumber = 0; rowNumber <= FruitFever.LEVEL_WIDTH; rowNumber += Data.TILE_SIZE) {
-				ArrayList <Block> rowBlocks = xBlockPositions.get(rowNumber);
+				ArrayList <Block> rowBlocks = xBlocks.get(rowNumber);
 
 
 				if (rowBlocks == null) continue;
@@ -136,8 +136,8 @@ public class Block extends Thing {
 
 	public static void resetBlockLists(){
 	
-		xBlockPositions.clear();
-		yBlockPositions.clear();
+		xBlocks.clear();
+		yBlocks.clear();
 		naturalFallingBlockCondidates.clear();
 		fallingBlocks.clear();			
 		
@@ -169,15 +169,15 @@ public class Block extends Thing {
 		try {
 
 			// Defines center row & Column
-			ArrayList <Block> row = new ArrayList <Block> (); // xBlockPositions.get(rowNumber);
-			ArrayList <Block> column = new ArrayList <Block> (); //yBlockPositions.get(columnNumber);
+			ArrayList <Block> row = new ArrayList <Block> (); // xBlocks.get(rowNumber);
+			ArrayList <Block> column = new ArrayList <Block> (); //yBlocks.get(columnNumber);
 
-			if (isWithinRange(rowNumber , true) ) row.addAll(xBlockPositions.get(rowNumber)) ;
-			if (isWithinRange(rowNumber2 , true) ) row.addAll(xBlockPositions.get(rowNumber2)) ;
-			if (isWithinRange(rowNumber3 , true) ) row.addAll(xBlockPositions.get(rowNumber3)) ;
-			if (isWithinRange(columnNumber , false) ) column.addAll(yBlockPositions.get(columnNumber)) ;
-			if (isWithinRange(columnNumber2 , false) ) column.addAll(yBlockPositions.get(columnNumber2)) ;
-			if (isWithinRange(columnNumber3 , false) ) column.addAll(yBlockPositions.get(columnNumber3)) ;
+			if (isWithinRange(rowNumber , true) ) row.addAll(xBlocks.get(rowNumber)) ;
+			if (isWithinRange(rowNumber2 , true) ) row.addAll(xBlocks.get(rowNumber2)) ;
+			if (isWithinRange(rowNumber3 , true) ) row.addAll(xBlocks.get(rowNumber3)) ;
+			if (isWithinRange(columnNumber , false) ) column.addAll(yBlocks.get(columnNumber)) ;
+			if (isWithinRange(columnNumber2 , false) ) column.addAll(yBlocks.get(columnNumber2)) ;
+			if (isWithinRange(columnNumber3 , false) ) column.addAll(yBlocks.get(columnNumber3)) ;
 
 			for (Block xBlock : row) {
 				for (Block yBlock : column) {
@@ -321,9 +321,9 @@ public class Block extends Thing {
 		int column1 = ((playerX / Data.TILE_SIZE) * Data.TILE_SIZE) + Data.TILE_SIZE;
 		int column2 = column1 + Data.TILE_SIZE;
 
-		Block fallingBlock0 = getLastBlockInColumn(xBlockPositions.get(column0), playerX, playerY, playerOnSurface);
-		Block fallingBlock1 = getLastBlockInColumn(xBlockPositions.get(column1), playerX, playerY, playerOnSurface);
-		Block fallingBlock2 = getLastBlockInColumn(xBlockPositions.get(column2), playerX, playerY, playerOnSurface);
+		Block fallingBlock0 = getLastBlockInColumn(xBlocks.get(column0), playerX, playerY, playerOnSurface);
+		Block fallingBlock1 = getLastBlockInColumn(xBlocks.get(column1), playerX, playerY, playerOnSurface);
+		Block fallingBlock2 = getLastBlockInColumn(xBlocks.get(column2), playerX, playerY, playerOnSurface);
 
 
 		/* To the game more intense remove the else if clause */
@@ -397,21 +397,39 @@ public class Block extends Thing {
 
 			// Once you're sure the block is off the screen remove it
 			if (fallingBlock.imageY > FruitFever.LEVEL_HEIGHT + Data.TILE_SIZE*3) {
+
+				// fallingBlock.imageY += fallingBlock.dy;	
+				fallingBlock.imageX = -1000;
+				fallingBlock.imageY = -1000;
+				fallingBlock.x = -1000;
+				fallingBlock.y = -1000;
+
+
+				// Remove block completely (still missing those in xBlock and yBlock lists)
 				fallingBlocks.remove(index);
+				// FruitFever.things.remove(fallingBlock);
+				// FruitFever.blocks.remove(fallingBlock);
 				index--;
-				continue;
+				
+			} else {
+
+				Block bottomBlock = getBlock(fallingBlock.x + Data.TILE_SIZE/2, fallingBlock.y+ Data.TILE_SIZE);
+				fallingBlock.changeImage(Data.blockImages[8][0]);
+
+				if (bottomBlock == null) {
+
+					fallingBlock.imageY += fallingBlock.dy;	
+					// fallingBlock.imageX += fallingBlock.dx;
+
+					for (Thing obj : fallingBlock.connectedObjects) {
+						obj.imageY += fallingBlock.dy;
+						obj.animate();
+					}
+
+				}
+
 			}
-
-			// fallingBlock.imageX += fallingBlock.dx;
-			fallingBlock.imageY += fallingBlock.dy;
-
-			for (Thing obj : fallingBlock.connectedObjects) {
-				obj.imageY += fallingBlock.dy;
-				obj.animate();
-			}
-
 		}
-
 	}
 
 	/* Deprecate this asap, bad coding style (due to no closures or lambdas!)  */
@@ -426,6 +444,7 @@ public class Block extends Thing {
 	/* Determines if the block is still within the level */
 	public boolean withinLevel() {
 
+	// These one liners are badass but the stacked if statements are easier to debug. - Will 
 		if (imageX > FruitFever.viewX && imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE && imageY > FruitFever.viewY && imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) 
 			return true;
 		
@@ -436,12 +455,15 @@ public class Block extends Thing {
 	/* Determines if the block is currently on the screen */
 	public boolean withinScreen() {
 		
+		// These one liners are badass but the stacked if statements are easier to debug. - Will 
 		if (imageX > 0 && imageY > 0 && imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE && imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
 			return true;
 
 		return false;
 
 	}
+
+
 }
 
 /*

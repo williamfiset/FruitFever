@@ -9,7 +9,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class GameStarter{
+public class GameStarter {
 
 	// Used PhotoShop to calculate the Border Height
 	final static int FRAME_BORDER_HEIGHT = 22;
@@ -39,7 +39,7 @@ public class GameStarter{
 		gameApplet.init();
 
 		// Set Frame default settings
-		appletFrame.setResizable(false);
+		// appletFrame.setResizable(false);
 		appletFrame.setSize(FruitFever.SCREEN_WIDTH , FruitFever.SCREEN_HEIGHT + FRAME_BORDER_HEIGHT);
 		appletFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		appletFrame.setTitle("Fruit Fever - Micah & Will");	
@@ -54,7 +54,7 @@ public class GameStarter{
 	}
 
 	/** Make a new thread that monitors when the program quits **/
-	private static void tasksBeforeProgramQuits(){
+	private static void tasksBeforeProgramQuits() {
 
 		// The code within this will execute when the program exits for good
     	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() { public void run() {
