@@ -36,7 +36,8 @@ public abstract class Data {
 							checkpointFlagRed, checkpointFlagGreen,
 							bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
 							energyBar, energyBarBackground, healthBar, healthBarBackground,
-							iconBackgroundBar;
+							iconBackgroundBar,
+							invisibleImage;
 						
 	public static GImage[] 	sceneryImages = new GImage[30],
 							
@@ -336,7 +337,7 @@ public abstract class Data {
 		
 		// Icon Background Bar
 		iconBackgroundBar = makeImage(0, TILE_SIZE*34, TILE_SIZE*28, TILE_SIZE);
-		
+
 		/** Import level selection arrow images **/
 		sheet = DataLoader.loadImage("img/LevelSelection/arrows/brownArrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/brownArrows.png");
 		for (int i = 0; i < 3; i++) {
@@ -578,6 +579,8 @@ public abstract class Data {
 						System.out.printf("\nBLOCK LAYER contains invalid character: '%c' \n", character);
 						System.exit(0);
 					}
+
+		
 				}
 
 				lineNumber++;
@@ -738,6 +741,8 @@ public abstract class Data {
 		} catch (IOException e) {
 			System.out.println("Level " + FruitFever.currentLevel + " could not load.\n");
 		}
+
+		invisibleImage = blockImages[blockImages.length-1][0];
 
 	}
 	

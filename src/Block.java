@@ -398,7 +398,7 @@ public class Block extends Thing {
 			// Once you're sure the block is off the screen remove it
 			if (fallingBlock.imageY > FruitFever.LEVEL_HEIGHT + Data.TILE_SIZE*3) {
 
-				// fallingBlock.imageY += fallingBlock.dy;	
+				// Places block offscreen so that blocks dont pile on top of one another
 				fallingBlock.imageX = -1000;
 				fallingBlock.imageY = -1000;
 				fallingBlock.x = -1000;
@@ -421,8 +421,11 @@ public class Block extends Thing {
 					fallingBlock.imageY += fallingBlock.dy;	
 					// fallingBlock.imageX += fallingBlock.dx;
 
+					// Move scenery with block
 					for (Thing obj : fallingBlock.connectedObjects) {
+
 						obj.imageY += fallingBlock.dy;
+						obj.changeImage(Data.invisibleImage);
 						obj.animate();
 					}
 
