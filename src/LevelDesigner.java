@@ -13,7 +13,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		Crucial/Important:
 		-Add hint functionality
-		-Add keyboard shortcut for 'Quit' and 'Save and Quit'
 
 		Necessary:
 		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects
@@ -534,6 +533,14 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					blockLayer.add(player);
 				} else
 					player.setLocation(roundPos(mouseX) + findXOffset(Data.playerStill[0]), snapToGridY(mouseY) + findYOffset(Data.playerStill[0]));
+				break;
+
+			case KeyEvent.VK_Q:
+				if (controlPressed) {
+					if (shiftPressed)
+						save(false);
+					System.exit(0);
+				}
 				break;
 
 			case KeyEvent.VK_S:
