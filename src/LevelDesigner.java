@@ -18,7 +18,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects
 		to the screen that are slightly transparent, to represent the ones that can fall
 		-Finish Select Mode :
-			-add GRects representing the selected blocks
+			-GRects needs to be deleted when the underlying block is removed
+			-GRect need to move with the screen
+			-GRect need to move when selected blocks move
 			-add Unselect ability
 			-Clicking will select one object
 			-Clicking and dragging will select a box of objects
@@ -250,21 +252,63 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			}
 		/** Erase Object **/
 		} else if (mouse.getButton() == 3) {
+			
 			mouseButtonPressed = MouseButtonPressed.RIGHT;
-			eraseObject();
+			
+			if (currentMode == Mode.ADD)
+				eraseObject();
+			else if (currentMode == Mode.SELECT)
+				unselectObject();
+
 		}
+
+	}
+
+	private void unselectAll() {
+
+		selectedObjects.clear();
+
+		for (GRect highlight : selectedObjectsHighlighting)
+			remove(highlight);
+
+		selectedObjectsHighlighting.clear();
+
+	}
+
+	private void unselectObject() {
+
+		for (GImage obj : currentLayer.array)
+			if (obj.contains(mouseX, mouseY) && selectedObjects.contains(obj)) {
+
+				for (GRect highlight : selectedObjectsHighlighting)
+					if (highlight.contains(mouseX, mouseY)) {
+						remove(highlight);
+						selectedObjectsHighlighting.remove(highlight);
+						break;
+					}
+
+				selectedObjects.remove(obj);
+
+				break;
+			}
 
 	}
 
 	private void selectObject() {
 
-		ArrayList<GImage> arr;
-
 		for (GImage obj : currentLayer.array)
-			if (!selectedObjects.contains(obj) && obj.contains(mouseX, mouseY))
-				selectedObjects.add(obj);
+			if (obj.contains(mouseX, mouseY) && !selectedObjects.contains(obj)) {
 
-		System.out.println(selectedObjects.size());
+				selectedObjects.add(obj);
+				GRect highlight = new GRect(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight());
+				highlight.setFilled(true);
+				highlight.setColor(new Color(1f, 1f, 0f, 0.5f));
+				selectedObjectsHighlighting.add(highlight);
+				add(highlight);
+
+				break;
+			}
+
 	}
 
 	private void addObject() {
@@ -283,7 +327,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		extraX += mouseX - startX;
 		extraY += mouseY - startY;
 
-		moveObjects(selectedObjects, roundPos(extraX), roundPos(extraY));
+		translateObjects(selectedObjects, roundPos(extraX), roundPos(extraY));
 		
 		startX = mouseX;
 		startY = mouseY;
@@ -304,8 +348,12 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					selectObject();
 				else if (currentMode == Mode.MOVE)
 					moveObjects();
-			} else if (mouseButtonPressed == MouseButtonPressed.RIGHT)
-				eraseObject();
+			} else if (mouseButtonPressed == MouseButtonPressed.RIGHT) {
+				if (currentMode == Mode.ADD)
+					eraseObject();
+				else if (currentMode == Mode.SELECT)
+					unselectObject();
+			}
 		}
 
 	}
@@ -315,14 +363,15 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		mouseX = mouse.getX();
 		mouseY = mouse.getY();
 
-		if (mouseButtonPressed == MouseButtonPressed.RIGHT) {
-			selectedObjects.clear();
-			extraX = 0;
-			extraY = 0;
-		}
-
-		if (currentMode == Mode.MOVE)
+		if (currentMode == Mode.MOVE) {
 			finalizeMovedObjects();
+
+			if (mouseButtonPressed == MouseButtonPressed.RIGHT) {
+				extraX = 0;
+				extraY = 0;
+			}
+
+		}
 
 		mouseButtonPressed = MouseButtonPressed.NONE;
 
@@ -582,14 +631,14 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		
 	}
 
-	private void moveObjects(ArrayList<GImage> arr, double horizontalMovement, double verticalMovement) {
+	private void translateObjects(ArrayList<GImage> arr, double horizontalMovement, double verticalMovement) {
 		for (GImage obj : arr)
 			obj.move(horizontalMovement, verticalMovement);
 	}
 
 	private void moveAllArraysOfObjects(double horizontalMovement, double verticalMovement) {
-		moveObjects(blockLayer, horizontalMovement, verticalMovement);
-		moveObjects(sceneryLayer, horizontalMovement, verticalMovement);
+		translateObjects(blockLayer, horizontalMovement, verticalMovement);
+		translateObjects(sceneryLayer, horizontalMovement, verticalMovement);
 	}
 
 	/** Take user input **/
@@ -1127,9 +1176,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	
 	}
 
-	public static void setCurrentMode(Mode mode) {
+	public void setCurrentMode(Mode mode) {
 		currentMode = mode;
-		selectedObjects.clear();
+		unselectAll();
 	}
 
 }

@@ -83,7 +83,7 @@ public class InformationStorer {
             FileInputStream fileIn = new FileInputStream(fileName + ".ser");
             ObjectInputStream inStream = new ObjectInputStream(fileIn);
             
-            fileHashMap = (HashMap) inStream.readObject();
+            fileHashMap = (HashMap<String, Object>) inStream.readObject();
             inStream.close();
             fileIn.close();
 
