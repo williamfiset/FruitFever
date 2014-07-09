@@ -50,8 +50,8 @@ public class Player extends Animation {
   // Collision Detection Constants 
 	
 	private static final byte VERTICAL_PX_BUFFER = 2;
-	private static final byte CRACK_SPACING = 3;
-	private static final byte JUMP_SPACING = 3;
+	private static final byte CRACK_SPACING      = 3;
+	private static final byte JUMP_SPACING       = 3;
 	
   // Gravity/Falling Variables & Constants
 	
@@ -68,8 +68,8 @@ public class Player extends Animation {
 	
 	private boolean setBaseLine = true, // true because we don't know where the player starts
 					keepJumping = false,
-					onSurface = false, // true if the player is on any surface 
-					isJumping = false;
+					onSurface   = false, // true if the player is on any surface 
+					isJumping   = false;
 	
 	private int baseLine, // holds the y value of where the player started when jumping
 				maxJumpHeight = (int)(3.5*Data.TILE_SIZE); // Jump a maximum of 3.5 blocks high
@@ -99,8 +99,8 @@ public class Player extends Animation {
 
 		super(startX, startY, Data.playerStill, false, 1, true, Animation.Type.NOT_AVAILABLE);
 
-		stillAnim = Data.playerStill; stillAnimH = Data.playerStillH;
-		shootAnim = Data.playerShoot; shootAnimH = Data.playerShootH;
+		stillAnim  = Data.playerStill;   stillAnimH = Data.playerStillH;  
+		shootAnim  = Data.playerShoot;   shootAnimH = Data.playerShootH;  
 		tongueAnim = Data.playerTongue; tongueAnimH = Data.playerTongueH;
 
 		boundaryLeft = Data.TILE_SIZE; boundaryRight = -Data.TILE_SIZE;
@@ -123,7 +123,7 @@ public class Player extends Animation {
 		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
 		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
 		// System.out.printf("horizontalVelocity: %d\n", horizontalVelocity);
-		// System.out.println(swirl);
+		System.out.println(swirl);
 
 		jump();
 		
@@ -184,7 +184,7 @@ public class Player extends Animation {
 			System.out.println("stopped startJumpPower");
 		
 		maxJumpHeight = (int)(3.5*Data.TILE_SIZE);
-		startingJumpingVelocity = 6.25;
+		startingJumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY;
 
 	}
 
@@ -635,6 +635,7 @@ public class Player extends Animation {
 		// Spikes Point upwards
 		if (obj.images.equals(Data.spikes))
 			obj.setNewAnimation(Data.spikesBlood);
+
 		// Spikes Point downawards	
 		if (obj.images.equals(Data.spikesV))
 			obj.setNewAnimation(Data.spikesBloodV);
@@ -692,9 +693,6 @@ public class Player extends Animation {
 			if (checkPoint == FruitFever.greenCheckPoint) continue;
 			checkPoint.changeImage(Data.checkpointFlagRed);
 		}
-		
-		// if (FruitFever.vortex != null)
-		// 	System.out.println(FruitFever.vortex.toString());
 
 		/** Reset Level if player touches vortex **/
 		if (FruitFever.vortex != null && this.intersects(FruitFever.vortex))
@@ -746,7 +744,7 @@ public class Player extends Animation {
 		FruitFever.powerupAlarms.clear();
 
 		horizontalVelocity = ORIGINAL_STARTING_HORIZONTAL_VELOCITY;
-		startingJumpingVelocity = 6.25;
+		startingJumpingVelocity = ORIGINAL_STARTING_JUMPING_VELOCITY;
 
 		// Reset falling speed
 		fallingVelocity = STARTING_FALLING_VELOCITY;
@@ -840,24 +838,7 @@ public class Player extends Animation {
 	public void swirlTeleport() {
 
 		imageX = swirl.imageX - Data.TILE_SIZE;
-		imageY = swirl.imageY ;
-
-		/** Fixes issue #77 (Jumping & teleporting) & #78 (teleporting and falling through blocks) **/
-		// x = swirl.x + Data.TILE_SIZE;
-		// y = swirl.y ;
-
-		/** Fixes Issue #42  (player semi teleports into blocks) **/
-		// Block upperRight = Block.getBlock(x, y + 3);
-		// Block upperLeft = Block.getBlock(x + Data.TILE_SIZE, y + 3);
-		// Block lowerLeft = Block.getBlock(x, y + Data.TILE_SIZE - 4);
-		// Block lowerRight = Block.getBlock(x + Data.TILE_SIZE, y + Data.TILE_SIZE - 4);
-
-		// if (upperRight != null || upperLeft != null || lowerLeft != null || lowerRight != null){
-			// imageX = (imageX/Data.TILE_SIZE) * Data.TILE_SIZE;	
-			// Takes into account that the player's center is top left
-			// if (!facingRight)
-				// imageX += Data.TILE_SIZE;
-		// }
+		imageY = swirl.imageY;
 
 		// Makes sure the player cannot jump directly after teleportation
 		resetJump();
@@ -1066,13 +1047,13 @@ class Swirl extends MovingAnimation {
 
 	static final int energyRequired = 50;		
 	static boolean reset = true;
-
+	
 	// Swirl's velocity
 	static final byte dx = 7; // (Must remain an integer for collision detection to work)
 
 	// This is the location of where the swirl is off screen when it is at rest
-	static final short SWIRL_X_REST_POS = -100;
-	static final short SWIRL_Y_REST_POS = -100;
+	private static final short SWIRL_X_REST_POS = -100;
+	private static final short SWIRL_Y_REST_POS = -100;
 
 	// These values are the actual image dimensions not the Data.TILE_SIZE Data.TILE_SIZE and Data.TILE_SIZE
 	static final byte SWIRL_IMG_WIDTH = 14, SWIRL_IMG_HEIGHT = 14; 
@@ -1087,7 +1068,7 @@ class Swirl extends MovingAnimation {
 
 	}
 	
-	public void animate() {
+	@Override public void animate() {
 	
 		// If Swirl goes off screen or hits a block, destroy it
 		if (imageX + SWIRL_IMG_WIDTH < 0 || imageX > FruitFever.LEVEL_WIDTH || collidesWithBlock())
@@ -1097,10 +1078,14 @@ class Swirl extends MovingAnimation {
 	
 	}
 
-	public void resetState(){	
+	public void resetState() {	
 
 		imageX = SWIRL_X_REST_POS;
 		imageY = SWIRL_Y_REST_POS;
+
+		// added since issue #121
+		// x = SWIRL_X_REST_POS;
+		// y = SWIRL_Y_REST_POS;
 
 		xSpeed = 0;
 		ySpeed = 0;
@@ -1133,16 +1118,35 @@ class Swirl extends MovingAnimation {
 	}
 }
 
-/** A projectile is shot from the player as an attack method (Deprecated) 
-class Projectile extends MovingAnimation {
 
-	static final byte dx = 5;
-	
-	public Projectile(int x, int y, int xSpeed) {
-		super(x, y, new GImage[]{Data.fireBallSmall}, false, 1, true, xSpeed, 0, Animation.Type.NOT_AVAILABLE);
-	}
-}
-**/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

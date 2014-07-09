@@ -145,7 +145,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		for (int loops = 0; true; loops++) {
 
 			/** Pauses the main loop until the screen is refocused **/
-			while (!GameStarter.frame.isFocused()) { }
+			while (!GameStarter.appletFrame.isFocused()) { }
 
 			Timer_ loopTimer = new Timer_();
 		
@@ -204,12 +204,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				if (tongueEventInvoked)		
 					tongueEvent();
 
+
 				// Disaster Blocks
 				// Block.updateNaturalFallingBlockCandidates();
 				// Block.activateFallingBlocksByNaturalDisaster();	
 
 				// Blocks that fall relative to player
-				Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
+				// Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
 				Block.motion();
 
 				Block.drawBlocks();

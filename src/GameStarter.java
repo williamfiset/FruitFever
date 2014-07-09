@@ -13,21 +13,15 @@ public class GameStarter {
 
 	// Used PhotoShop to calculate the Border Height
 	final static int FRAME_BORDER_HEIGHT = 22;
-	static JFrame frame;
+	static JFrame appletFrame;
 
 	public static void main(String... args) {	
 		
-		for (int i = 0; i < args.length; i++)
-			switch (args[i]) {
-				case "debug": FruitFever.debugMode = true; break;
-				case "!debug": FruitFever.debugMode = false; break;
-				case "level=": FruitFever.currentLevel = Integer.valueOf(args[i + 1]); i++; break;
-				default: FruitFever.MAIN_LOOP_SPEED = Integer.valueOf(args[0]);
-			}
+		setMode(args);
 
 		FruitFever gameApplet = new FruitFever();
-		JFrame appletFrame = new JFrame();
-		frame = appletFrame;
+		appletFrame = new JFrame();
+
 		// Center Frame to the middle of screen on start
 		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenStartX = screenDimension.width/2 - appletFrame.getSize().width/2;
@@ -50,6 +44,22 @@ public class GameStarter {
 		gameApplet.start();
     	
 		// tasksBeforeProgramQuits();
+
+	}
+
+	/*
+	 * Sets the game mode for convenient testing. 
+	 */
+	private static void setMode(String [] modes) {
+
+		for (int mode = 0; mode < modes.length; mode++) {
+			switch (modes[mode]) {
+				case "debug": FruitFever.debugMode = true; break;
+				case "!debug": FruitFever.debugMode = false; break;
+				case "level=": FruitFever.currentLevel = Integer.valueOf(modes[mode + 1]); mode++; break;
+				default: FruitFever.MAIN_LOOP_SPEED = Integer.valueOf(modes[0]);
+			}
+		}
 
 	}
 
