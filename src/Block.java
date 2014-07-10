@@ -425,7 +425,14 @@ public class Block extends Thing {
 					for (Thing obj : fallingBlock.connectedObjects) {
 
 						obj.imageY += fallingBlock.dy;
-						obj.changeImage(Data.invisibleImage);
+
+						// Block aboveBlock = getBlock(obj.y - obj.width/2 , obj.x + obj.width/2);
+						// if (aboveBlock != null) {
+						// 	aboveBlock.changeImage(Data.blockImages[9][0]);
+						// }
+						
+
+						// obj.changeImage(Data.invisibleImage);
 						obj.animate();
 					}
 

@@ -123,7 +123,7 @@ public class Player extends Animation {
 		// System.out.printf("Falling Velocity: %f\n", fallingVelocity);
 		// System.out.println(maxJumpHeight + " " + maxJumpHeight);
 		// System.out.printf("horizontalVelocity: %d\n", horizontalVelocity);
-		System.out.println(swirl);
+		// System.out.println(swirl);
 
 		jump();
 		
