@@ -19,7 +19,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		Necessary:
 		-Change menu when it's not in add mode
-		-moving selected blocks onto menu deletes them
+		-Moving selected blocks onto menu deletes them/makes them move twice as fast? This is a weird bug.
 
 		Extras:
 		-Copy/Paste
@@ -716,10 +716,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		for (GRect obj1 : arr1)
 			for (GRect obj2 : arr2)
-				if (obj1.getX() == obj2.getX() && obj1.getY() == obj2.getY()) {
+				if (obj1.getX() == obj2.getX() && obj1.getY() == obj2.getY())
 					obj2.move(horizontalMovement, verticalMovement);
-					System.out.println(obj1);
-				}
 
 	}
 
@@ -930,7 +928,17 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 						/** Blocks **/
 						for (int i = 0; i < Data.blockImages.length; i++)
 							if (ImageTransformer.isIdentical(obj, Data.blockImages[i][0])) {
+								
+								boolean fallingBlock = false;
+
+								for (GRect rect : fallingBlocksHighlighting)
+									if (rect.getX() == obj.getX() && rect.getY() == obj.getY()) {
+										writer.print((char) (i + 65)); // ASCII Chart (Upper-case letters start at 65)
+										continue nextChar;
+									}
+
 								writer.print((char) (i + 97)); // ASCII Chart (lower-case letters start at 97)
+								
 								continue nextChar;
 							}
 

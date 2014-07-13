@@ -14,6 +14,9 @@ import java.util.*;
 
 public class Block extends Thing {
 
+	/** Whether the block is able to fall or not **/
+	public boolean fallingBlock;
+
 	private static HashMap<Integer, ArrayList<Block>> xBlocks = new HashMap<>(), yBlocks = new HashMap<>();
 
 	// The blocks that are in the current process of falling 
@@ -31,9 +34,11 @@ public class Block extends Thing {
 	/** Objects such as scenery or spikes that are located above and below the block (since they need to fall when the block falls) **/
 	public ArrayList<Thing> connectedObjects = new ArrayList<>();
 
-	public Block(int x, int y, int width, int height, GImage image){
+	public Block(int x, int y, int width, int height, GImage image, boolean fallingBlock){
 
-		super(x, y, width, height, image );
+		super(x, y, width, height, image);
+
+		this.fallingBlock = fallingBlock;
 
 		// Search if row exists within HashMap
 		if (xBlocks.containsKey(x)) {
@@ -66,8 +71,8 @@ public class Block extends Thing {
 
 	}
 	
-	public Block(int x, int y, GImage image){
-		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, image);
+	public Block(int x, int y, GImage image, boolean fallingBlock){
+		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, image, fallingBlock);
 	}
 
 	public static void resetPerformedNaturalAnimate(){
