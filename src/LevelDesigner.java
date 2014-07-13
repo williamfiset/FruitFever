@@ -12,34 +12,33 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	/** TO DO 
 
 		Crucial/Important:
-		-Add hint functionality
+		-Add hint functionality (hashmap of gimage and string)
+		-Moving selected objects that are larger than 25x25 can result in some of those selected objects deleted upon placement (need to take offsets into consideration)
+		-Export falling blocks
+		-fixLayering() should place selected blocks on top of other blocks
 
 		Necessary:
-		-Add ability to set whether a block is able to fall or not (capital letters for now). Best approach, add a layer of GRects
-		to the screen that are slightly transparent, to represent the ones that can fall
-		-Finish Select Mode :
-			-GRects needs to be deleted when the underlying block is removed
-			-GRect need to move with the screen
-			-GRect need to move when selected blocks move
-			-add Unselect ability
-			-Clicking will select one object
-			-Clicking and dragging will select a box of objects
+		-Change menu when it's not in add mode
+		-moving selected blocks onto menu deletes them
 
 		Extras:
+		-Copy/Paste
 		-Add icon to program (William made a ghetto icon for you. You best respect him :P
 		-Don't save during export if there are no unsaved changes (currently saves regardless)
-		-Add Exit and Help to the menu
+		-Add Help to the menu
+		-Unselect all button in Mode menu
+		-Add automatic orientation detection for spikes and torches
 
 		Unneeded Features that could take a fair bit of work to add:
 		-Write script replace one image for another throughout each levelDesigner.ser file.
-		-Add automatic orientation detection for spikes and torches
+		-Undo/Redo
 		-Add different cursors (research this)
 		-Add mini-map
-		-Undo/Redo
-		-Copy/Paste
 		-Add animations to drawing board and even to the menu?
+		-Add Box-Select Mode (Clicking and dragging will select a box of objects)
 
 		Refactoring:
+		-Add a method which gets called by both the shortcut keys and the button presses, so that we can always be certain that they execute the same code
 		-Add trimExtension method to get rid of .ser from the end of a String
 		-Re-organize methods so they are in a logical order
 
@@ -70,6 +69,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	private static GRect selectedObjectsBox = new GRect(0, 0, 0, 0);
 	private static ArrayList<GImage> selectedObjects = new ArrayList<>();
 	private static ArrayList<GRect> selectedObjectsHighlighting = new ArrayList<>();
+
+	private static ArrayList<GImage> fallingBlocks = new ArrayList<>();
+	private static ArrayList<GRect> fallingBlocksHighlighting = new ArrayList<>();
 
 	private double startX, startY;
 
@@ -130,7 +132,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	private static Layer currentLayer = Layer.BLOCK;
 	private static Set currentSet = Set.BLOCKS;
 
-	public static enum Mode { ADD, SELECT, MOVE }
+	public static enum Mode { ADD, SELECT, MOVE, FALLING_BLOCKS }
 	public static Mode currentMode = Mode.ADD;
 	
 
@@ -248,6 +250,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					startX = mouseX;
 					startY = mouseY;
 				}
+				else if (currentMode == Mode.FALLING_BLOCKS)
+					setFalling();
 
 			}
 		/** Erase Object **/
@@ -259,12 +263,16 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				eraseObject();
 			else if (currentMode == Mode.SELECT)
 				unselectObject();
+			else if (currentMode == Mode.MOVE)
+				unselectAll();
+			else if (currentMode == Mode.FALLING_BLOCKS)
+				setNotFalling();
 
 		}
 
 	}
 
-	private void unselectAll() {
+	public void unselectAll() {
 
 		selectedObjects.clear();
 
@@ -311,6 +319,51 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 	}
 
+	public void setFallingHighlightingVisibility(boolean visible) {
+
+		for (GRect obj : fallingBlocksHighlighting)
+			obj.setVisible(visible);
+
+	}
+
+	private void setNotFalling() {
+
+		for (GImage obj : blockLayer)
+			if (obj.contains(mouseX, mouseY) && fallingBlocks.contains(obj)) {
+
+				for (GRect highlight : fallingBlocksHighlighting)
+					if (highlight.contains(mouseX, mouseY)) {
+						remove(highlight);
+						fallingBlocksHighlighting.remove(highlight);
+						break;
+					}
+
+				fallingBlocks.remove(obj);
+
+				break;
+			}
+
+	}
+
+
+	private void setFalling() {
+
+		for (GImage obj : blockLayer)
+			if (obj.contains(mouseX, mouseY) && !fallingBlocks.contains(obj)) {
+
+				GRect highlight = new GRect(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight());
+				highlight.setFilled(true);
+				highlight.setColor(new Color(1f, 0f, 0f, 0.5f));
+				fallingBlocksHighlighting.add(highlight);
+				add(highlight);
+
+				fallingBlocks.add(obj);
+
+				break;
+			}
+
+	}
+
 	private void addObject() {
 
 		if (selected != null) {
@@ -327,7 +380,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		extraX += mouseX - startX;
 		extraY += mouseY - startY;
 
-		translateObjects(selectedObjects, roundPos(extraX), roundPos(extraY));
+		translateImages(selectedObjects, roundPos(extraX), roundPos(extraY));
+		translateMutualRects(selectedObjectsHighlighting, fallingBlocksHighlighting, roundPos(extraX), roundPos(extraY));
+		translateRects(selectedObjectsHighlighting, roundPos(extraX), roundPos(extraY));
 		
 		startX = mouseX;
 		startY = mouseY;
@@ -348,11 +403,15 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 					selectObject();
 				else if (currentMode == Mode.MOVE)
 					moveObjects();
+				else if (currentMode == Mode.FALLING_BLOCKS)
+					setFalling();
 			} else if (mouseButtonPressed == MouseButtonPressed.RIGHT) {
 				if (currentMode == Mode.ADD)
 					eraseObject();
 				else if (currentMode == Mode.SELECT)
 					unselectObject();
+				else if (currentMode == Mode.FALLING_BLOCKS)
+					setNotFalling();
 			}
 		}
 
@@ -558,9 +617,19 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				}
 				break;
 
+			case KeyEvent.VK_F:
+				if (altPressed) {
+					currentMode = Mode.FALLING_BLOCKS;
+					unselectAll();
+					setFallingHighlightingVisibility(true);
+				}
+				break;
+
 			case KeyEvent.VK_M:
-				if (altPressed)
+				if (altPressed) {
 					currentMode = Mode.MOVE;
+					setFallingHighlightingVisibility(false);
+				}
 				break;
 
 			case KeyEvent.VK_N:
@@ -595,8 +664,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			case KeyEvent.VK_S:
 				if (controlPressed)
 					save(shiftPressed);
-				else if (altPressed)
+				else if (altPressed) {
 					currentMode = Mode.SELECT;
+					setFallingHighlightingVisibility(false);
+				}
 				break;
 
 			case KeyEvent.VK_T:
@@ -631,14 +702,32 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		
 	}
 
-	private void translateObjects(ArrayList<GImage> arr, double horizontalMovement, double verticalMovement) {
+	private void translateImages(ArrayList<GImage> arr, double horizontalMovement, double verticalMovement) {
 		for (GImage obj : arr)
 			obj.move(horizontalMovement, verticalMovement);
 	}
+	private void translateRects(ArrayList<GRect> arr, double horizontalMovement, double verticalMovement) {
+		for (GRect obj : arr)
+			obj.move(horizontalMovement, verticalMovement);
+	}
+
+	/** Translates all overlapping GRects in arr2 that are in arr1 **/
+	private void translateMutualRects(ArrayList<GRect> arr1, ArrayList<GRect> arr2, double horizontalMovement, double verticalMovement) {
+
+		for (GRect obj1 : arr1)
+			for (GRect obj2 : arr2)
+				if (obj1.getX() == obj2.getX() && obj1.getY() == obj2.getY()) {
+					obj2.move(horizontalMovement, verticalMovement);
+					System.out.println(obj1);
+				}
+
+	}
 
 	private void moveAllArraysOfObjects(double horizontalMovement, double verticalMovement) {
-		translateObjects(blockLayer, horizontalMovement, verticalMovement);
-		translateObjects(sceneryLayer, horizontalMovement, verticalMovement);
+		translateImages(blockLayer, horizontalMovement, verticalMovement);
+		translateImages(sceneryLayer, horizontalMovement, verticalMovement);
+		translateRects(selectedObjectsHighlighting, horizontalMovement, verticalMovement);
+		translateRects(fallingBlocksHighlighting, horizontalMovement, verticalMovement);
 	}
 
 	/** Take user input **/
@@ -666,7 +755,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	
 	/** Changes the menu set on the screen **/
 	public void changeSelectedSet(Set newSet) {
-		setCurrentMode(Mode.ADD);
+		currentMode = Mode.ADD;
+		unselectAll();
+
+		setFallingHighlightingVisibility(false);
 
 		selected = null;
 		updateSelectedMenuBox();
@@ -1073,14 +1165,20 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	private void fixLayering() {
 	
 		menuBackground.sendToBack();
-		
-		selectedMenuBox.sendToFront();
 	
 		for (GImage obj : sceneryLayer)
 			obj.sendToBack();
 			
 		for (GImage obj : blockLayer)
 			obj.sendToBack();
+
+		for (GRect obj : selectedObjectsHighlighting)
+			obj.sendToFront();
+			
+		for (GRect obj : fallingBlocksHighlighting)
+			obj.sendToFront();
+
+		selectedMenuBox.sendToFront();
 		
 		background.sendToBack();
 
@@ -1104,12 +1202,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		}
 		
 		/** Move Objects **/
-		
-		for (GImage obj : sceneryLayer)
-			obj.move(-minX, -minY);
-			
-		for (GImage obj : blockLayer)
-			obj.move(-minX, -minY);
+		moveAllArraysOfObjects(-minX, -minY);
 		
 	}
 	
@@ -1174,11 +1267,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				}
 		}
 	
-	}
-
-	public void setCurrentMode(Mode mode) {
-		currentMode = mode;
-		unselectAll();
 	}
 
 }

@@ -73,6 +73,8 @@ public class DesignerStarter implements ActionListener {
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
+		menu.addSeparator();
+
 		menuItem = new JMenuItem("New");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("New");
@@ -97,6 +99,8 @@ public class DesignerStarter implements ActionListener {
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
+		menu.addSeparator();
+
 		menuItem = new JMenuItem("Export");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Export");
@@ -109,6 +113,8 @@ public class DesignerStarter implements ActionListener {
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
+		menu.addSeparator();
+		
 		menuItem = new JMenuItem("Quit");
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Quit");
@@ -202,6 +208,14 @@ public class DesignerStarter implements ActionListener {
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
 
+		/** FALLING_BLOCKS **/
+
+		menuItem = new JMenuItem("Edit Falling Blocks");
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.ALT_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription("Edit Falling Blocks");
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
+
 		/** **/
 
 		appletFrame.setJMenuBar(menuBar);
@@ -282,10 +296,18 @@ public class DesignerStarter implements ActionListener {
 
 			case "Select":
 				LevelDesigner.currentMode = LevelDesigner.Mode.SELECT;
+				gameApplet.setFallingHighlightingVisibility(false);
 				break;
 
 			case "Move":
 				LevelDesigner.currentMode = LevelDesigner.Mode.MOVE;
+				gameApplet.setFallingHighlightingVisibility(false);
+				break;
+
+			case "Edit Falling Blocks":
+				LevelDesigner.currentMode = LevelDesigner.Mode.FALLING_BLOCKS;
+				gameApplet.unselectAll();
+				gameApplet.setFallingHighlightingVisibility(true);
 				break;
 
 	 	}
