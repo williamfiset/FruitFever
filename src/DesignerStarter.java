@@ -1,5 +1,6 @@
 /** 
   * DesignerStarter - Starts the application by putting the Applet into a JFrame.
+  *
   * The level designer offers and easy way to create levels with an interactive GUI  
   *
   * @Author Micah Stairs
