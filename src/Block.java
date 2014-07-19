@@ -6,6 +6,7 @@
 *
 * The Block Class provides functionality for blocks to have interact
 * and be part of the FruitFever World
+*
 **/
 
 import acm.graphics.*;
