@@ -43,7 +43,7 @@ public class GameStarter {
     	appletFrame.add(gameApplet);
 		gameApplet.start();
     	
-		// tasksBeforeProgramQuits();
+		tasksBeforeProgramQuits();
 
 	}
 
@@ -70,10 +70,21 @@ public class GameStarter {
     	Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() { public void run() {
 
     		// Things you want to do before quiting FruitFever (save?)
+    		executePythonScript();
 
 		 }}));
 	}
 
+	private static void executePythonScript() {
+
+		try {
+
+			// Calls the Python script telling it to delete all class files the cwd
+			ProcessBuilder processStarter = new ProcessBuilder("python","dc.py", "./", ".class");
+			processStarter.start();
+		}catch(Exception e){}
+		
+	}
 
 }
 
