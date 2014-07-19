@@ -15,6 +15,7 @@ public class GameStarter {
 	final static int FRAME_BORDER_HEIGHT = 22;
 	static JFrame appletFrame;
 
+	@SuppressWarnings("unchecked")
 	public static void main(String... args) {	
 		
 		setMode(args);
