@@ -33,6 +33,7 @@
 import java.io.*;
 import java.util.*;
 
+@SuppressWarnings("unchecked")
 public class InformationStorer {
 
     private String fileName;
@@ -129,7 +130,6 @@ public class InformationStorer {
     }
 
     /** Loads the information found in the file into instanceDictionary HashMap **/
-    @SuppressWarnings("unchecked")
     protected void deserialize() {
 
         HashMap<String, Object> fileHashMap = new HashMap<String, Object>();
