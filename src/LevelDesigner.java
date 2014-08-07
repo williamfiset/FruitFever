@@ -221,6 +221,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		for (GRect obj : fallingBlocksHighlighting)
 			remove(obj);
 
+		hints.clear();
+
 	}
 	
 	@Override public void mousePressed(MouseEvent mouse) {
@@ -1204,7 +1206,16 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		setFallingHighlightingVisibility(false);
 
 
-		// hints = (HashMap<GImage, String>) infoFile.getItem("hints");
+		hints.clear();
+		ArrayList<SerializableHint> serializedHints = (ArrayList<SerializableHint>) infoFile.getItem("hints");
+
+		outerLoop:
+		for (SerializableHint hint : serializedHints)
+			for (GImage obj : blockLayer)
+				if (obj.getX() == hint.getX() && obj.getY() == hint.getY()) {
+					hints.put(obj, hint.getHint());
+					continue outerLoop;
+				}
 
 		fixLayering();
 	}
