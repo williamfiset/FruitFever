@@ -6,6 +6,7 @@
 *
 * The Block Class provides functionality for blocks to have interact
 * and be part of the FruitFever World
+*
 **/
 
 import acm.graphics.*;
@@ -15,7 +16,7 @@ import java.util.*;
 public class Block extends Thing {
 
 	/** Whether the block is able to fall or not **/
-	public boolean fallingBlock;
+	public boolean canFall;
 
 	private static HashMap<Integer, ArrayList<Block>> xBlocks = new HashMap<>(), yBlocks = new HashMap<>();
 
@@ -34,11 +35,11 @@ public class Block extends Thing {
 	/** Objects such as scenery or spikes that are located above and below the block (since they need to fall when the block falls) **/
 	public ArrayList<Thing> connectedObjects = new ArrayList<>();
 
-	public Block(int x, int y, int width, int height, GImage image, boolean fallingBlock){
+	public Block(int x, int y, int width, int height, GImage image, boolean canFall){
 
 		super(x, y, width, height, image);
 
-		this.fallingBlock = fallingBlock;
+		this.canFall = canFall;
 
 		// Search if row exists within HashMap
 		if (xBlocks.containsKey(x)) {
@@ -71,8 +72,8 @@ public class Block extends Thing {
 
 	}
 	
-	public Block(int x, int y, GImage image, boolean fallingBlock){
-		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, image, fallingBlock);
+	public Block(int x, int y, GImage image, boolean canFall){
+		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, image, canFall);
 	}
 
 	public static void resetPerformedNaturalAnimate(){
