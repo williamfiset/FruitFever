@@ -12,18 +12,14 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	/** TO DO 
 
 		Crucial/Important:
-		-Add hint functionality (hashmap of gimage and string)
-		-Moving selected objects that are larger than 25x25 can result in some of those selected objects deleted upon placement (need to take offsets into consideration)
-		-Export falling blocks
+		-Save and load hints from file (need to be identical to the GImages located in the blockLayer)
 		-fixLayering() should place selected blocks on top of other blocks
 
 		Necessary:
 		-Change menu when it's not in add mode
-		-Moving selected blocks onto menu deletes them/makes them move twice as fast? This is a weird bug.
-
+		-Moving selected blocks onto menu deletes them/makes them move twice as fast? This is a weird bug. Maybe they are overlapped
 		Extras:
-		-Copy/Paste
-		-Add icon to program (William made a ghetto icon for you. You best respect him :P
+		-Add icon to program (William made a ghetto icon for you. You best respect him :P)
 		-Don't save during export if there are no unsaved changes (currently saves regardless)
 		-Add Help to the menu
 		-Unselect all button in Mode menu
@@ -36,6 +32,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		-Add mini-map
 		-Add animations to drawing board and even to the menu?
 		-Add Box-Select Mode (Clicking and dragging will select a box of objects)
+		-Copy/Paste
 
 		Refactoring:
 		-Add a method which gets called by both the shortcut keys and the button presses, so that we can always be certain that they execute the same code
@@ -72,6 +69,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 	private static ArrayList<GImage> fallingBlocks = new ArrayList<>();
 	private static ArrayList<GRect> fallingBlocksHighlighting = new ArrayList<>();
+
+	private static HashMap<GImage, String> hints = new HashMap<>();
 
 	private double startX, startY;
 
@@ -197,23 +196,30 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		DesignerStarter.appletFrame.setTitle("Level Designer");	
 
-		for (GImage img : blockLayer) {
+		for (GImage obj : blockLayer) {
 
-			if (img.equals(Data.playerStill[0]))
+			if (obj.equals(Data.playerStill[0]))
 				player = null;
 
-			if (img.equals(Data.vortexAnimation[0]))
+			if (obj.equals(Data.vortexAnimation[0]))
 				vortex = null;
 
-			remove(img);
+			remove(obj);
 		}
 
 		blockLayer.clear();
 
-		for (GImage img : sceneryLayer)
-			remove(img);
+		for (GImage obj : sceneryLayer)
+			remove(obj);
 
 		sceneryLayer.clear();
+
+		unselectAll();
+
+		fallingBlocks.clear();
+
+		for (GRect obj : fallingBlocksHighlighting)
+			remove(obj);
 
 	}
 	
@@ -372,6 +378,11 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 				updatePosition();
 				add(selected);
 				finalizeObject();
+
+				/** Hint functionality **/
+				if (ImageTransformer.isIdentical((GImage) selected, Data.hintSign[1]))
+					hints.put((GImage) selected, JOptionPane.showInputDialog(DesignerStarter.appletFrame, "Enter the hint's text", "Hint", JOptionPane.PLAIN_MESSAGE));
+
 			}
 		}
 	}
@@ -455,7 +466,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	private void finalizeMovedObjects() {
 
 		for (GImage obj : selectedObjects) {
-			removeObjectsFromLayer(currentLayer.array, obj.getX(), obj.getY());
+			removeObjectsFromLayer(currentLayer.array, obj.getX() - findXOffset(obj), obj.getY() - findYOffset(obj));
 			currentLayer.array.add(obj);
 			add(obj);
 		}
@@ -510,14 +521,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 	private GRect getTileBoundary(GImage img) {
 
-		/**
-		This should do.. it rounds from the center of the image.
-		If we have massive or oddly off-centered objects we could run into issues
-		Note: We could just use xOffset and yOffset, test to make sure it works..!
-		**/
-
-		double x = roundPos(img.getX() + img.getWidth()/2);
-		double y = Math.max(roundPos(img.getY() + img.getHeight()/2 - MENU_HEIGHT) + MENU_HEIGHT, MENU_HEIGHT);
+		double x = img.getX() - findXOffset(img);
+		double y = Math.max(img.getY() - findYOffset(img), MENU_HEIGHT);
 
 		return new GRect(x, y, Data.TILE_SIZE, Data.TILE_SIZE);
 
@@ -908,6 +913,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		writer.println(width);
 		writer.println(height);
+
+		ArrayList<String> hintsStrings  = new ArrayList<>();
 		
 		/** Block Layer **/
 		
@@ -931,13 +938,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 								
 								boolean fallingBlock = false;
 
-								for (GRect rect : fallingBlocksHighlighting)
-									if (rect.getX() == obj.getX() && rect.getY() == obj.getY()) {
-										writer.print((char) (i + 65)); // ASCII Chart (Upper-case letters start at 65)
-										continue nextChar;
-									}
-
-								writer.print((char) (i + 97)); // ASCII Chart (lower-case letters start at 97)
+								if (fallingBlocks.contains(obj))
+									writer.print((char) (i + 65)); // ASCII Chart (Upper-case letters start at 65)
+								else
+									writer.print((char) (i + 97)); // ASCII Chart (lower-case letters start at 97)
 								
 								continue nextChar;
 							}
@@ -968,6 +972,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 						}
 
 						if (ImageTransformer.isIdentical(obj, Data.hintSign[1])) {
+
+							hintsStrings.add(hints.get(obj));
+
 							writer.print('?');
 							continue nextChar;
 						}
@@ -1042,6 +1049,14 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		System.out.println("Scenery Layer Generated.");
 
+		writer.println("+");
+
+		/** Hint Layer **/
+		for (String str : hintsStrings)
+			writer.println(str);
+
+		System.out.println("Hint Layer Generated.");
+
 		writer.close();
 		
 		System.out.println("Finished Exporting.");
@@ -1082,26 +1097,47 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		System.out.println("Beginning to Save.");
 
 		/** Saves objects to file **/
-		
-		ArrayList<SerializableThing> blocks = new ArrayList<>();
-		
-		for (GImage img : blockLayer)
-			blocks.add(new SerializableThing((int) img.getX(), (int) img.getY(), img.getPixelArray()));
 			
-		infoFile.addItem("blockLayer", blocks);
-			
-		ArrayList<SerializableThing> scenery = new ArrayList<>();
-		
-		for (GImage img : sceneryLayer)
-			scenery.add(new SerializableThing((int) img.getX(), (int) img.getY(), img.getPixelArray()));	
-
-		infoFile.addItem("sceneryLayer", scenery);
+		infoFile.addItem("blockLayer", makeSerializableImageArray(blockLayer));
+		infoFile.addItem("sceneryLayer", makeSerializableImageArray(sceneryLayer));
 
 		infoFile.addItem("name", name);
+
+		infoFile.addItem("fallingBlocks", makeSerializableImageArray(fallingBlocks));
+
+		ArrayList<SerializableHint> serializableHints = new ArrayList<>();
+		
+		for (Map.Entry entry: hints.entrySet()) {
+			if (blockLayer.contains(entry.getKey()))
+				serializableHints.add(new SerializableHint(((GImage) entry.getKey()).getX(), ((GImage) entry.getKey()).getY(), (String) entry.getValue()));
+			else hints.remove(entry.getKey());
+		}
+
+		infoFile.addItem("hints", serializableHints);
 
 		System.out.println("Finished Saving.");
 
 	}
+
+	private ArrayList<SerializableImage> makeSerializableImageArray(ArrayList<GImage> arr1) {
+
+		ArrayList<SerializableImage> arr2 = new ArrayList<>();
+
+		for (GImage img : arr1)
+			arr2.add(new SerializableImage((int) img.getX(), (int) img.getY(), img.getPixelArray()));
+
+		return arr2;
+	}
+
+	// private ArrayList<SerializableRect> makeSerializableRectArray(ArrayList<GRect> arr1) {
+		
+	// 	ArrayList<SerializableRect> arr2 = new ArrayList<>();
+
+	// 	for (GRect rect : arr1)
+	// 		arr2.add(new SerializableRect((int) rect.getX(), (int) rect.getY(), (int) rect.getWidth(), (int) rect.getHeight(), rect.getFillColor()));
+
+	// 	return arr2;
+	// }
 
 	/** Initiates loading procedure by selecting a file and clearing the drawing board **/
 	public void open() {
@@ -1126,6 +1162,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	}
 
 	private void loadDesignedLevel(String levelNumber) {
+
+		unselectAll();
+
 		if (levelNumber.lastIndexOf(".ser") != -1)
      		level = Integer.valueOf(levelNumber.substring(0, levelNumber.lastIndexOf('.')));
      	else
@@ -1134,33 +1173,66 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
  		infoFile = new InformationStorer("levels/designedLevels/" + level);
  		DesignerStarter.appletFrame.setTitle("Level Designer (Level " + level + ")");	
 
-		blockLayer = loadFromFile(blockLayer, "blockLayer");
-		sceneryLayer = loadFromFile(sceneryLayer, "sceneryLayer");
+		blockLayer = loadFromFile(blockLayer, "blockLayer", true);
+		sceneryLayer = loadFromFile(sceneryLayer, "sceneryLayer", true);
 		name = (String) infoFile.getItem("name");
+		
+		fallingBlocks = loadFromFile(fallingBlocks, "fallingBlocks", false);
+
+		/** This sets the objects in the fallingBlocks array as the same instance as the ones in the blockLayer **/
+		for (int i = 0; i < fallingBlocks.size(); i++) {
+
+			GImage obj1 = fallingBlocks.get(i);
+
+			for (GImage obj2 : blockLayer)
+				if (obj1.getX() == obj2.getX() && obj1.getY() == obj2.getY()) {
+					fallingBlocks.set(i, obj2);
+					break;
+				}
+
+		}
+
+		// Generate list of falling block highlights and add them to the screen
+		for (GImage obj : fallingBlocks) {
+			System.out.println(obj.getX() + obj.getY());
+			GRect highlight = new GRect(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight());
+			highlight.setFilled(true);
+			highlight.setColor(new Color(1f, 0f, 0f, 0.5f));
+			fallingBlocksHighlighting.add(highlight);
+			add(highlight);
+		}
+		setFallingHighlightingVisibility(false);
+
+
+		// hints = (HashMap<GImage, String>) infoFile.getItem("hints");
 
 		fixLayering();
 	}
 
-	private ArrayList<GImage> loadFromFile(ArrayList<GImage> arr, String str) {
+	private ArrayList<GImage> loadFromFile(ArrayList<GImage> arr, String str, boolean addToScreen) {
 
 		/** Add new objects **/
 
 		if (infoFile.checkItemExists(str)) {
 
-			@SuppressWarnings("unchecked") ArrayList<SerializableThing> tempArr = (ArrayList<SerializableThing>) infoFile.getItem(str);
+			@SuppressWarnings("unchecked") ArrayList<SerializableImage> tempArr = (ArrayList<SerializableImage>) infoFile.getItem(str);
 			
-			for (SerializableThing obj : tempArr) {
+			for (SerializableImage obj : tempArr) {
 				GImage img = new GImage(obj.pixelArray);
 
-				if (img.equals(Data.playerStill[0]))
-					player = img;
-
-				if (img.equals(Data.vortexAnimation[0]))
-					vortex = img;
-
 				arr.add(img);
+
 				img.setLocation(obj.x, obj.y);
-				add(img);
+
+				if (addToScreen) {
+					if (img.equals(Data.playerStill[0]))
+						player = img;
+
+					if (img.equals(Data.vortexAnimation[0]))
+						vortex = img;
+
+					add(img);
+				}
 			}
 			
 		}
@@ -1206,7 +1278,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		
 		for (GImage obj : blockLayer) {
 			minX = Math.min(minX, obj.getX() - findXOffset(obj));
-			minY = Math.min(minY, obj.getY() - MENU_HEIGHT- findYOffset(obj));
+			minY = Math.min(minY, obj.getY() - MENU_HEIGHT - findYOffset(obj));
 		}
 		
 		/** Move Objects **/
