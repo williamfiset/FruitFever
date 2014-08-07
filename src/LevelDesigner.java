@@ -12,7 +12,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	/** TO DO 
 
 		Crucial/Important:
-		-Save and load hints from file (need to be identical to the GImages located in the blockLayer)
 		-fixLayering() should place selected blocks on top of other blocks
 
 		Necessary:
