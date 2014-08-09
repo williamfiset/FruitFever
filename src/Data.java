@@ -559,24 +559,24 @@ public abstract class Data {
 
 						GImage image;
 						int color;
-						boolean fallingBlock;
+						boolean canFall;
 
 						// Normal Blocks
 						if (character - 'a' >= 0) {
 							color = character - 'a';
 							image = blockImages[color][(int) (Math.random()*4)];
-							fallingBlock = false;
+							canFall = false;
 						}
 						// Capital letters
 						else {
 							color = character - 'A';
 							image = blockImages[color][(int) (Math.random()*4)];
-							fallingBlock = true;
+							canFall = true;
 						}
 
 
 						// Add Block to the ArrayList
-						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, image, fallingBlock));
+						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, image, canFall));
 
 					} catch (ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("\nBLOCK LAYER contains invalid character: '%c' \n", character);
