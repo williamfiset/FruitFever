@@ -317,24 +317,18 @@ public class Block extends Thing {
 	}
 
 	/* Tests to see whether a given point comes in touch with a scenery object that is connected to a falling block */
-	private static Thing connectedSceneryAtPoint(int x, int y){
+	private static Thing connectedSceneryAtPoint(int x, int y) {
 
-		for (int index = 0; index < fallingBlocks.size(); index++){
-
-			Block fallingBlock = fallingBlocks.get(index);
-
-			for (Thing scenery : fallingBlock.connectedObjects ) {
-
+		for (int index = 0; index < FruitFever.blocks.size(); index++)
+			for (Thing scenery : FruitFever.blocks.get(index).connectedObjects) 
 				if (scenery.contains(x, y)) // From java.awt.Rectangle.contains(x,y) 
 					return scenery;
-			}
-		}
 
 		return null;
 
 	}
 
-	public static void activateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface){
+	public static void activateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface) {
 
 
 		// from the players position get the column of blocks below the position
