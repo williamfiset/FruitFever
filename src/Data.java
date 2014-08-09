@@ -562,18 +562,21 @@ public abstract class Data {
 						boolean canFall;
 
 						// Normal Blocks
-						if (character - 'a' >= 0) {
+						if (Character.isLowerCase(character)) {
 							color = character - 'a';
 							image = blockImages[color][(int) (Math.random()*4)];
 							canFall = false;
-						}
+						
 						// Capital letters
-						else {
+						} else if ( Character.isUpperCase(character) ) {
 							color = character - 'A';
 							image = blockImages[color][(int) (Math.random()*4)];
 							canFall = true;
+						
+						} else {
+							// Not an upper case or lower case character 
+							continue;
 						}
-
 
 						// Add Block to the ArrayList
 						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, image, canFall));

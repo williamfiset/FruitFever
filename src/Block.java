@@ -39,7 +39,7 @@ public class Block extends Thing {
 		super(x, y, width, height, image);
 
 		this.canFall = canFall;
-		System.out.println(canFall);
+
 		// Search if row exists within HashMap
 		if (xBlocks.containsKey(x)) {
 			
@@ -352,16 +352,22 @@ public class Block extends Thing {
 		/* To make the game more intense remove the else if clause */
 
 		if (fallingBlock1 != null && !fallingBlocks.contains(fallingBlock1) ) {  
+			
 			fallingBlock1.dy = 1;
-			fallingBlocks.add(fallingBlock1);
+			if (fallingBlock1.canFall)
+				fallingBlocks.add(fallingBlock1);
 
 		} else if (fallingBlock2 != null && !fallingBlocks.contains(fallingBlock2) ) {  
+			
 			fallingBlock2.dy = 1;
-			fallingBlocks.add(fallingBlock2);
+			if (fallingBlock2.canFall)
+				fallingBlocks.add(fallingBlock2);
 			
 		} else if (fallingBlock0 != null && !fallingBlocks.contains(fallingBlock0) ) {  
+			
 			fallingBlock0.dy = 1;
-			fallingBlocks.add(fallingBlock0);
+			if (fallingBlock0.canFall)
+				fallingBlocks.add(fallingBlock0);
 		}
 
 	}
