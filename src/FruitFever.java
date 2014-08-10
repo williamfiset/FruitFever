@@ -79,6 +79,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	}
 
+	static boolean placed_menu = false;
+
 	static ArrayList<Button> 	mainMenuButtons = new ArrayList<>(),
 								levelSelectionButtons = new ArrayList<>(),
 								inGameButtons = new ArrayList<>(),
@@ -157,7 +159,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 			// Activates EarthQuake Effect				
 			// earthQuakeEffect();
-				
+			
 			if (currentScreen == ScreenMode.PLAYING) {
 			
 				/** Controls if it is time to return to the level selection menu **/
@@ -234,13 +236,36 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				if (debugMode)
 					screenHandler.add(point1, point2, point3, point4, point5, point6, leftRect, rightRect, upRect, downRect, centerRect);		
 
+			} 
+
+			if (currentScreen == ScreenMode.MAIN_MENU) {
+
+				final byte MENU_BACKGROUND_SCROLL_SCREEN = 2;
+				final double MENU_WIDTH = Data.menu_background1.getWidth() - MENU_BACKGROUND_SCROLL_SCREEN;
+
+				if (!placed_menu) {
+					Data.menu_background2.setLocation( MENU_WIDTH , 0 );
+					placed_menu = true;
+				}
+
+				if ( Data.menu_background1.getX() < -MENU_WIDTH ) 
+					Data.menu_background1.setLocation( MENU_WIDTH , 0 );
+
+				else if ( Data.menu_background2.getX() < -MENU_WIDTH ) 
+					Data.menu_background2.setLocation( MENU_WIDTH , 0 );				
+
+				Data.menu_background1.setLocation(  Data.menu_background1.getX() - MENU_BACKGROUND_SCROLL_SCREEN  , Data.menu_background1.getY() );
+				Data.menu_background2.setLocation(  Data.menu_background2.getX() - MENU_BACKGROUND_SCROLL_SCREEN  , Data.menu_background2.getY() );
+
+
 			}
 
-			pauseLoop(loopTimer);
 
 			if (currentScreen == ScreenMode.LEVEL_REFRESH)
 				loadLevel();							
 			
+			pauseLoop(loopTimer);
+
 		}
 	}
 
