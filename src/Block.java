@@ -417,6 +417,7 @@ public class Block extends Thing {
 
 			Block fallingBlock = fallingBlocks.get(index);
 
+
 			// Once you're sure the block is off the screen remove it
 			if (fallingBlock.imageY > FruitFever.LEVEL_HEIGHT + Data.TILE_SIZE*3) {
 
@@ -433,42 +434,37 @@ public class Block extends Thing {
 				// FruitFever.blocks.remove(fallingBlock);
 				index--;
 			
+
 			// falling block is still on screen 
 			} else {
 
-				Block bottomBlock = getBlock(fallingBlock.x + Data.TILE_SIZE/2, fallingBlock.y+ Data.TILE_SIZE);
-				
-				// Makes falling block green
-				// fallingBlock.changeImage(Data.blockImages[8][0]);
+				int bottomBlockX = fallingBlock.x + Data.TILE_SIZE / 2;
+				int bottomBlockY = fallingBlock.y+ Data.TILE_SIZE;
+				Block bottomBlock = getBlock( bottomBlockX ,  bottomBlockY);
 
 				// Falling Block is free to move since there is no block below it.
 				if (bottomBlock == null) {
 
 					fallingBlock.imageY += fallingBlock.dy;	
-					// fallingBlock.imageX += fallingBlock.dx; // Implementation for sideways blocks
-
 					int collisionX = fallingBlock.x + Data.TILE_SIZE / 2;	
 					int collisionY = fallingBlock.y + Data.TILE_SIZE;
 
-					FruitFever.point1.setLocation( collisionX, collisionY );
+					Thing sceneryBelowFallingBlock = Block.connectedSceneryAtPoint( collisionX, collisionY );
 
-					Thing squishedScenery = Block.connectedSceneryAtPoint( collisionX, collisionY );
-					if (squishedScenery != null) {
-						// fallingBlock.changeImage(Data.blockImages[4][0]);
-						squishedScenery.changeImage(Data.invisibleImage);
+					// Squish scenery if it exists
+					if (sceneryBelowFallingBlock != null) {
+						sceneryBelowFallingBlock.changeImage(Data.invisibleImage);
+						continue;
 					}
-
-					// scenery.changeImage(Data.invisibleImage);
+					
 
 					// // Move scenery with block
 					for (Thing scenery : fallingBlock.connectedObjects) {
-
 						scenery.imageY += fallingBlock.dy;
 						scenery.animate();
 					}
 
 				}
-
 			}
 		}
 	}
