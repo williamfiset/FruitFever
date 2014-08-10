@@ -37,6 +37,7 @@ public abstract class Data {
 							bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
 							energyBar, energyBarBackground, healthBar, healthBarBackground,
 							iconBackgroundBar,
+							menu_background,
 							invisibleImage;
 						
 	public static GImage[] 	sceneryImages = new GImage[30],
@@ -323,6 +324,8 @@ public abstract class Data {
 		}
 		**/
 		
+		menu_background = new GImage(DataLoader.loadImage("img/Menu/menu_background.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/Menu/menu_background.png"));
+
 		updateLoadingBar(0.1);
 		
 		/** Import menu images **/

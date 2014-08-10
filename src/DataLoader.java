@@ -227,6 +227,84 @@ public class DataLoader {
 
     }
 
+	/** This method will load an image given a path and a url to the image.
+	  * 
+	  * First it will try loading the image with imageIO (fastest)
+	  * if that fails try using toolkit ( 20% slower) 
+	  * and if that also fails it loads the images from the GitHub server
+	  *
+	  * @return - returns a BufferedImage of the path/Url specified
+	  *
+	  **/
+
+    public static BufferedImage loadImage( String imgPath ){
+        
+		/** Try loading image with imageIO **/
+	    if (usingImageIO) {
+
+			// Make sure you instantiate a dataloader object to get the class
+	    	if (obj == null) 
+	    		obj = new DataLoader();
+
+	        try {
+
+	        	// Gets absolute path
+				BufferedImage buffImage = null;
+				buffImage = ImageIO.read(obj.getClass().getResource(imgPath));
+				
+				if (buffImage != null)
+					return buffImage;
+				
+	        } catch (IOException e) {
+	        	System.out.printf("Failed to Load imageIO: %s", imgPath);
+	        	usingImageIO = false;
+	        }
+	    }
+
+    	/** If using imageIO doesn't work try using toolkit **/ 
+    	if (usingToolKitImage) {
+
+	        try{
+
+		    	URL imagePath = null;
+		    	try {
+					imagePath = new File(imgPath).toURI().toURL();
+				}
+				catch(Exception e) { }
+
+	            Image img = Toolkit.getDefaultToolkit().createImage(imagePath);
+	            Method method = img.getClass().getMethod("getBufferedImage");
+	            BufferedImage bufferedImage = null;
+	            int counter = 0;
+
+	            // Waits a few seconds before aborting
+	            while (bufferedImage == null && ++counter < 3000){
+
+	                img.getWidth(null);
+	                bufferedImage = (BufferedImage) method.invoke(img);
+	                try {
+						Thread.sleep(10);
+					}
+	                catch (InterruptedException e) { }
+	            }
+	           
+				/** WILL, THIS CODE WOULD ALLOW A PARTIAL IMAGE TO BE PASSED THROUGH, WITH THE BOTTOM PART STILL WHITE **/
+	            // if (bufferedImage != null)
+	                // return bufferedImage;
+	            
+	        } catch( Exception e ){
+	        	usingToolKitImage = false;
+	        }
+    	}
+
+
+	    /** If return null executes it means that the image could not be loaded using a toolKitImage,
+	     * using imageIO nor using the Internet **/
+		return null;
+
+
+    }
+
     /** Returns a pixel array of a buffered image **/
     public static int[] getPixelArray( BufferedImage img ){
         return ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
