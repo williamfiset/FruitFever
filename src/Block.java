@@ -448,6 +448,18 @@ public class Block extends Thing {
 		}
 	}
 
+	/* Tests to see whether a given point comes in touch with a scenery object that is connected to a falling block */
+	private static Thing connectedSceneryAtPoint(int x, int y) {
+
+		for (int index = 0; index < FruitFever.blocks.size(); index++)
+			for (Thing scenery : FruitFever.blocks.get(index).connectedObjects) 
+				if (scenery.contains(x, y)) // From java.awt.Rectangle.contains(x,y) 
+					return scenery;
+
+		return null;
+
+	}
+
 	/* Deprecate this asap, bad coding style (due to no closures or lambdas!)  */
 	private static boolean isWithinRange(int row_column_number, boolean x) {
 		return x ? (row_column_number >= 0 && row_column_number < FruitFever.LEVEL_WIDTH ) : (row_column_number >= 0 && row_column_number < FruitFever.LEVEL_HEIGHT);
