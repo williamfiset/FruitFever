@@ -75,6 +75,21 @@ public class Block extends Thing {
 		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, image, canFall);
 	}
 
+
+	/** 
+	 * When changing levels you must empty the block list or else
+	 * you are left with the blocks from the previous level
+	 */
+
+	public static void resetBlockLists(){
+	
+		xBlocks.clear();
+		yBlocks.clear();
+		naturalFallingBlockCondidates.clear();
+		fallingBlocks.clear();			
+		
+	}
+
 	public static void resetPerformedNaturalAnimate(){
 		performedNaturalAnimate = false;
 	}
@@ -132,22 +147,6 @@ public class Block extends Thing {
 
 		*/
 	}
-
-
-	/** 
-	 * When changing levels you must empty the block list or else
-	 * you are left with the blocks from the previous level
-	 */
-
-	public static void resetBlockLists(){
-	
-		xBlocks.clear();
-		yBlocks.clear();
-		naturalFallingBlockCondidates.clear();
-		fallingBlocks.clear();			
-		
-	}
-
 
 	/** 
 	 * Returns the block bounded in the region 
@@ -316,21 +315,7 @@ public class Block extends Thing {
 
 	}
 
-	/* Tests to see whether a given point comes in touch with a scenery object that is connected to a falling block */
-
-	private static Thing connectedSceneryAtPoint(int x, int y) {
-
-		for (int index = 0; index < FruitFever.blocks.size(); index++)
-			for (Thing scenery : FruitFever.blocks.get(index).connectedObjects) 
-				if (scenery.contains(x, y)) // From java.awt.Rectangle.contains(x,y) 
-					return scenery;
- 
- 		return null;
- 
- 	}
-
-
-	public static void activateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface){
+	public static void activateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface) {
 
 
 		// from the players position get the column of blocks below the position
@@ -412,6 +397,19 @@ public class Block extends Thing {
 		return furthestBlockDown;
 	}
 
+
+	/* Tests to see whether a given point comes in touch with a scenery object that is connected to a falling block */
+	private static Thing connectedSceneryAtPoint(int x, int y) {
+
+		for (int index = 0; index < FruitFever.blocks.size(); index++)
+			for (Thing scenery : FruitFever.blocks.get(index).connectedObjects) 
+				if (scenery.contains(x, y)) // From java.awt.Rectangle.contains(x,y) 
+					return scenery;
+
+		return null;
+
+	}
+
 	/** Moves the position of the falling blocks **/
 	public static void motion() {
 
@@ -446,19 +444,19 @@ public class Block extends Thing {
 				// Falling Block is free to move since there is no block below it.
 				if (bottomBlock == null) {
 
-					// Moves the blocks image 
 					fallingBlock.imageY += fallingBlock.dy;	
 					// fallingBlock.imageX += fallingBlock.dx; // Implementation for sideways blocks
 
-					
-					// int collisionX = fallingBlock.imageX + Data.TILE_SIZE / 2;	
-					// int collisionY = fallingBlock.imageX; // + Data.TILE_SIZE + (Data.TILE_SIZE / 2);
+					int collisionX = fallingBlock.x + Data.TILE_SIZE / 2;	
+					int collisionY = fallingBlock.y + Data.TILE_SIZE;
 
-					// Thing squishedScenery = Block.connectedSceneryAtPoint( collisionX, collisionY );
-					// if (squishedScenery != null) {
-					// 	fallingBlock.changeImage(Data.blockImages[4][0]);
-					// 	squishedScenery.changeImage(Data.invisibleImage);
-					// }
+					FruitFever.point1.setLocation( collisionX, collisionY );
+
+					Thing squishedScenery = Block.connectedSceneryAtPoint( collisionX, collisionY );
+					if (squishedScenery != null) {
+						// fallingBlock.changeImage(Data.blockImages[4][0]);
+						squishedScenery.changeImage(Data.invisibleImage);
+					}
 
 					// scenery.changeImage(Data.invisibleImage);
 
