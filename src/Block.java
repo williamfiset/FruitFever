@@ -433,16 +433,17 @@ public class Block extends Thing {
 				if (bottomBlock == null) {
 
 					fallingBlock.imageY += fallingBlock.dy;	
-					int collisionX = fallingBlock.x + Data.TILE_SIZE / 2;	
-					int collisionY = fallingBlock.y + Data.TILE_SIZE;
+					
+					// int collisionX = fallingBlock.x + Data.TILE_SIZE / 2;	
+					// int collisionY = fallingBlock.y + Data.TILE_SIZE;
 
-					Thing sceneryBelowFallingBlock = Block.connectedSceneryAtPoint( collisionX, collisionY );
+					// Thing sceneryBelowFallingBlock = Block.connectedSceneryAtPoint( collisionX, collisionY );
 
-					// Squish scenery if it exists
-					if (sceneryBelowFallingBlock != null) {
-						sceneryBelowFallingBlock.changeImage(Data.invisibleImage);
-						continue;
-					}
+					// // Squish scenery if it exists
+					// if (sceneryBelowFallingBlock != null) {
+					// 	sceneryBelowFallingBlock.changeImage(Data.invisibleImage);
+					// 	continue;
+					// }
 					
 
 					// // Move scenery with block

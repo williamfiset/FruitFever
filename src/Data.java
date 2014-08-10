@@ -651,7 +651,11 @@ public abstract class Data {
 								xOffset = 0;
 
 							Thing obj = new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE, sceneryImages[type]);
-							FruitFever.things.add(obj);
+							
+							if (type >=18 && type <= 22)
+								FruitFever.things.add(obj);
+							else
+								FruitFever.sceneryBelow.add(obj);
 							
 							if (blockOn != null)
 								blockOn.connectedObjects.add(obj);
@@ -666,7 +670,11 @@ public abstract class Data {
 							int type = character - 'A';
 
 							Thing obj = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, sceneryImages[26 + type]);
-							FruitFever.things.add(obj);
+							
+							if (type == 3 || type == 4)
+								FruitFever.things.add(obj);
+							else
+								FruitFever.sceneryBelow.add(obj);
 
 							if (blockOn != null)
 								blockOn.connectedObjects.add(obj);

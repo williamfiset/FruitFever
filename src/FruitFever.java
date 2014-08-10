@@ -5,12 +5,6 @@
  *
  */
 
-
-
-
-
-
-
 import acm.graphics.*;
 import acm.program.*;
 import java.awt.event.*;
@@ -44,12 +38,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static boolean levelComplete;
 	
 	static ArrayList<Block> blocks;
-	static ArrayList<Thing> things, checkPoints;
+	static ArrayList<Thing> things, sceneryBelow, checkPoints;
 	static ArrayList<Hint> hints;
 	static ArrayList<Animation> edibleItems, dangerousThings;
 	static ArrayList<TextAnimator> levelTexts;
 	static TextAnimator hintText;
-	// static ArrayList<Enemy> enemies;
 
 /** Player **/
 
@@ -203,7 +196,10 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 						i--;
 					} else things.get(i).animate();
 				}
-				
+
+				for (int i = 0; i < sceneryBelow.size(); i++)
+					sceneryBelow.get(i).animate();
+
 				/** Actions triggered by user **/
 				if (swirlEventInvoked)		
 					swirlEvent();
@@ -302,6 +298,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		/** RESET all lists and variables pertaining to the previous played level **/
 		blocks = new ArrayList<>();
 		things = new ArrayList<>();
+		sceneryBelow = new ArrayList<>();
 		edibleItems = new ArrayList<>();
 		dangerousThings = new ArrayList<>();
 		levelTexts = new ArrayList<>();
