@@ -144,7 +144,10 @@ public class ScreenHandler {
 	
 	/** Draws the main menu screen **/
 	public void drawMainMenu() {
+
 		removeAll();
+		
+		add(Data.menu_background);
 		addButtonsToScreen(FruitFever.mainMenuButtons);
 		add(Data.fruitFeverTitle);
 		fruitFever.levelSelectionPage = 0;
@@ -179,6 +182,7 @@ public class ScreenHandler {
 	}
 	
 	public void drawPauseMenu() {
+
 		add(Data.windowBorder);
 		addButtonsToScreen(FruitFever.pauseMenuButtons);
 		add(pauseMenuTitle, musicX, soundEffectsX, musicLabel, soundEffectsLabel, mainMenuButtonText, levelSelectionButtonText, resumeButtonText);
