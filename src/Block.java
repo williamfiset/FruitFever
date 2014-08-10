@@ -6,7 +6,6 @@
 *
 * The Block Class provides functionality for blocks to have interact
 * and be part of the FruitFever World
-*
 **/
 
 import acm.graphics.*;
@@ -76,6 +75,21 @@ public class Block extends Thing {
 		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, image, canFall);
 	}
 
+
+	/** 
+	 * When changing levels you must empty the block list or else
+	 * you are left with the blocks from the previous level
+	 */
+
+	public static void resetBlockLists(){
+	
+		xBlocks.clear();
+		yBlocks.clear();
+		naturalFallingBlockCondidates.clear();
+		fallingBlocks.clear();			
+		
+	}
+
 	public static void resetPerformedNaturalAnimate(){
 		performedNaturalAnimate = false;
 	}
@@ -134,22 +148,6 @@ public class Block extends Thing {
 		*/
 	}
 
-
-	/** 
-	 * When changing levels you must empty the block list or else
-	 * you are left with the blocks from the previous level
-	 */
-
-	public static void resetBlockLists(){
-	
-		xBlocks.clear();
-		yBlocks.clear();
-		naturalFallingBlockCondidates.clear();
-		fallingBlocks.clear();			
-		
-	}
-
-
 	/** 
 	 * Returns the block bounded in the region 
 	 * (xPos, yPos) & (xPos + blockWidth, yPos + blockHeight)
@@ -205,7 +203,7 @@ public class Block extends Thing {
 		*/
 
 
-		// This is the old Block finder method, I'm keeping it just in case we need to go back to it
+		// This is the old Block finder method
 		
 		for (Block block : FruitFever.blocks)
 			if (block.contains(xPos, yPos)) // From java.awt.Rectangle.contains(x,y) 
@@ -317,7 +315,7 @@ public class Block extends Thing {
 
 	}
 
-	public static void activateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface){
+	public static void activateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface) {
 
 
 		// from the players position get the column of blocks below the position
@@ -332,20 +330,25 @@ public class Block extends Thing {
 		Block fallingBlock2 = getLastBlockInColumn(xBlocks.get(column2), playerX, playerY, playerOnSurface);
 
 
-		/* To the game more intense remove the else if clause */
-
+		/* To make the game more intense remove the else if clause */
 
 		if (fallingBlock1 != null && !fallingBlocks.contains(fallingBlock1) ) {  
+			
 			fallingBlock1.dy = 1;
-			fallingBlocks.add(fallingBlock1);
+			if (fallingBlock1.canFall)
+				fallingBlocks.add(fallingBlock1);
 
 		} else if (fallingBlock2 != null && !fallingBlocks.contains(fallingBlock2) ) {  
+			
 			fallingBlock2.dy = 1;
-			fallingBlocks.add(fallingBlock2);
+			if (fallingBlock2.canFall)
+				fallingBlocks.add(fallingBlock2);
 			
 		} else if (fallingBlock0 != null && !fallingBlocks.contains(fallingBlock0) ) {  
+			
 			fallingBlock0.dy = 1;
-			fallingBlocks.add(fallingBlock0);
+			if (fallingBlock0.canFall)
+				fallingBlocks.add(fallingBlock0);
 		}
 
 	}
@@ -394,12 +397,26 @@ public class Block extends Thing {
 		return furthestBlockDown;
 	}
 
+
+	/* Tests to see whether a given point comes in touch with a scenery object that is connected to a falling block */
+	private static Thing connectedSceneryAtPoint(int x, int y) {
+
+		for (int index = 0; index < FruitFever.blocks.size(); index++)
+			for (Thing scenery : FruitFever.blocks.get(index).connectedObjects) 
+				if (scenery.contains(x, y)) // From java.awt.Rectangle.contains(x,y) 
+					return scenery;
+
+		return null;
+
+	}
+
 	/** Moves the position of the falling blocks **/
 	public static void motion() {
 
 		for (int index = 0; index < fallingBlocks.size(); index++){
 
 			Block fallingBlock = fallingBlocks.get(index);
+
 
 			// Once you're sure the block is off the screen remove it
 			if (fallingBlock.imageY > FruitFever.LEVEL_HEIGHT + Data.TILE_SIZE*3) {
@@ -416,34 +433,38 @@ public class Block extends Thing {
 				// FruitFever.things.remove(fallingBlock);
 				// FruitFever.blocks.remove(fallingBlock);
 				index--;
-				
+			
+
+			// falling block is still on screen 
 			} else {
 
-				Block bottomBlock = getBlock(fallingBlock.x + Data.TILE_SIZE/2, fallingBlock.y+ Data.TILE_SIZE);
-				fallingBlock.changeImage(Data.blockImages[8][0]);
+				int bottomBlockX = fallingBlock.x + Data.TILE_SIZE / 2;
+				int bottomBlockY = fallingBlock.y+ Data.TILE_SIZE;
+				Block bottomBlock = getBlock( bottomBlockX ,  bottomBlockY);
 
+				// Falling Block is free to move since there is no block below it.
 				if (bottomBlock == null) {
 
 					fallingBlock.imageY += fallingBlock.dy;	
-					// fallingBlock.imageX += fallingBlock.dx;
+					int collisionX = fallingBlock.x + Data.TILE_SIZE / 2;	
+					int collisionY = fallingBlock.y + Data.TILE_SIZE;
 
-					// Move scenery with block
-					for (Thing obj : fallingBlock.connectedObjects) {
+					Thing sceneryBelowFallingBlock = Block.connectedSceneryAtPoint( collisionX, collisionY );
 
-						obj.imageY += fallingBlock.dy;
+					// Squish scenery if it exists
+					if (sceneryBelowFallingBlock != null) {
+						sceneryBelowFallingBlock.changeImage(Data.invisibleImage);
+						continue;
+					}
+					
 
-						// Block aboveBlock = getBlock(obj.y - obj.width/2 , obj.x + obj.width/2);
-						// if (aboveBlock != null) {
-						// 	aboveBlock.changeImage(Data.blockImages[9][0]);
-						// }
-						
-
-						// obj.changeImage(Data.invisibleImage);
-						obj.animate();
+					// // Move scenery with block
+					for (Thing scenery : fallingBlock.connectedObjects) {
+						scenery.imageY += fallingBlock.dy;
+						scenery.animate();
 					}
 
 				}
-
 			}
 		}
 	}
@@ -493,45 +514,3 @@ public class Block extends Thing {
 
 
 }
-
-/*
-
-fallingBlock
-- falls when the player lands on it
-- falls by natural disaster 
-
-movingBlock 
-- A block that moves between points
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// don't delete space!
-
-
-

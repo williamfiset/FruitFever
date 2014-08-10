@@ -559,24 +559,27 @@ public abstract class Data {
 
 						GImage image;
 						int color;
-						boolean fallingBlock;
+						boolean canFall;
 
 						// Normal Blocks
-						if (character - 'a' >= 0) {
+						if (Character.isLowerCase(character)) {
 							color = character - 'a';
 							image = blockImages[color][(int) (Math.random()*4)];
-							fallingBlock = false;
-						}
+							canFall = false;
+						
 						// Capital letters
-						else {
+						} else if ( Character.isUpperCase(character) ) {
 							color = character - 'A';
 							image = blockImages[color][(int) (Math.random()*4)];
-							fallingBlock = true;
+							canFall = true;
+						
+						} else {
+							// Not an upper case or lower case character 
+							continue;
 						}
 
-
 						// Add Block to the ArrayList
-						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, image, fallingBlock));
+						FruitFever.blocks.add(new Block(i*TILE_SIZE, lineNumber*TILE_SIZE, image, canFall));
 
 					} catch (ArrayIndexOutOfBoundsException e) { 
 						System.out.printf("\nBLOCK LAYER contains invalid character: '%c' \n", character);
