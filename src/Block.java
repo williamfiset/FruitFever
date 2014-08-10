@@ -317,22 +317,18 @@ public class Block extends Thing {
 	}
 
 	/* Tests to see whether a given point comes in touch with a scenery object that is connected to a falling block */
-	private static Thing connectedSceneryAtPoint(int x, int y){
 
-		for (int index = 0; index < fallingBlocks.size(); index++){
+	private static Thing connectedSceneryAtPoint(int x, int y) {
 
-			Block fallingBlock = fallingBlocks.get(index);
-
-			for (Thing scenery : fallingBlock.connectedObjects ) {
-
+		for (int index = 0; index < FruitFever.blocks.size(); index++)
+			for (Thing scenery : FruitFever.blocks.get(index).connectedObjects) 
 				if (scenery.contains(x, y)) // From java.awt.Rectangle.contains(x,y) 
 					return scenery;
-			}
-		}
+ 
+ 		return null;
+ 
+ 	}
 
-		return null;
-
-	}
 
 	public static void activateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface){
 
@@ -445,14 +441,16 @@ public class Block extends Thing {
 				Block bottomBlock = getBlock(fallingBlock.x + Data.TILE_SIZE/2, fallingBlock.y+ Data.TILE_SIZE);
 				
 				// Makes falling block green
-				fallingBlock.changeImage(Data.blockImages[8][0]);
+				// fallingBlock.changeImage(Data.blockImages[8][0]);
 
 				// Falling Block is free to move since there is no block below it.
 				if (bottomBlock == null) {
 
+					// Moves the blocks image 
 					fallingBlock.imageY += fallingBlock.dy;	
 					// fallingBlock.imageX += fallingBlock.dx; // Implementation for sideways blocks
 
+					
 					// int collisionX = fallingBlock.imageX + Data.TILE_SIZE / 2;	
 					// int collisionY = fallingBlock.imageX; // + Data.TILE_SIZE + (Data.TILE_SIZE / 2);
 
