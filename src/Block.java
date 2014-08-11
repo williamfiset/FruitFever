@@ -10,7 +10,7 @@
 
 import acm.graphics.*;
 import java.util.*;
-
+import java.awt.*;
 
 public class Block extends Thing {
 
@@ -359,14 +359,14 @@ public class Block extends Thing {
 
 		Block furthestBlockDown = null;
 
-		// list is empty or player is not on platform
+		// List is empty or player is not on platform
 		if (!playerOnSurface || column == null)
 			return null;
 
 		outerLoop:
 		for (Block fallingBlock : column) {
 			
-			// ignore the blocks above the player or if it is already falling
+			// Ignore the blocks above the player or if it is already falling
 			if (fallingBlock.y <= playerY || fallingBlock.inMotion())
 				continue;	
 
@@ -386,11 +386,11 @@ public class Block extends Thing {
 
 				nextBlock = getBlock(startX, startY);
 
-				// next block was found
+				// Next block was found
 				if (nextBlock != null ){ 
 					furthestBlockDown = nextBlock;
 				
-				// if there is no next block break out
+				// If there is no next block break out
 				} else break outerLoop;
 			}
 		}
@@ -422,7 +422,7 @@ public class Block extends Thing {
 				index--;
 			
 
-			// falling block is still on screen 
+			// Falling block is still on screen 
 			} else {
 
 				int bottomBlockX = fallingBlock.x + Data.TILE_SIZE / 2;
@@ -432,8 +432,16 @@ public class Block extends Thing {
 				// Falling Block is free to move since there is no block below it.
 				if (bottomBlock == null) {
 
-					fallingBlock.imageY += fallingBlock.dy;	
+					fallingBlock.imageY += fallingBlock.dy;
+
+					// Needed for proper collision detection with scenery since fallingBlock.animate() hasn't been called;
+					fallingBlock.y += fallingBlock.dy;
 					
+					for (Thing obj : FruitFever.sceneryBelow)
+						if (fallingBlock.contains(obj))
+							obj.changeImage(Data.invisibleImage);
+
+
 					// int collisionX = fallingBlock.x + Data.TILE_SIZE / 2;	
 					// int collisionY = fallingBlock.y + Data.TILE_SIZE;
 
@@ -458,16 +466,16 @@ public class Block extends Thing {
 	}
 
 	/* Tests to see whether a given point comes in touch with a scenery object that is connected to a falling block */
-	private static Thing connectedSceneryAtPoint(int x, int y) {
+	// private static Thing connectedSceneryAtPoint(int x, int y) {
 
-		for (int index = 0; index < FruitFever.blocks.size(); index++)
-			for (Thing scenery : FruitFever.blocks.get(index).connectedObjects) 
-				if (scenery.contains(x, y)) // From java.awt.Rectangle.contains(x,y) 
-					return scenery;
+	// 	for (int index = 0; index < FruitFever.blocks.size(); index++)
+	// 		for (Thing scenery : FruitFever.blocks.get(index).connectedObjects) 
+	// 			if (scenery.contains(x, y)) // From java.awt.Rectangle.contains(x,y) 
+	// 				return scenery;
 
-		return null;
+	// 	return null;
 
-	}
+	// }
 
 	/* Deprecate this asap, bad coding style (due to no closures or lambdas!)  */
 	private static boolean isWithinRange(int row_column_number, boolean x) {
