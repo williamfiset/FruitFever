@@ -443,8 +443,53 @@ public class Block extends Thing {
 						if (obj instanceof Animation) {
 							Animation animationObj = (Animation) obj;
 							
-							if (fallingBlock.contains(animationObj))
-								animationObj.makeInvisible();
+							/* I think fruits and gas bubbles should disappear when touched by a block */
+
+							// Fruits don't work 
+							// else if (Arrays.asList(animationObj.images).contains(Data.fruits[0])) {
+							// 	if (fallingBlock.intersects(animationObj))
+							// 		animationObj.makeInvisible();
+							// }
+
+							// Torches (Perhaps a loop would work better haha)
+							// This is a much more realistic approach for getting rid of torches
+							if (Arrays.asList(animationObj.images).contains(Data.torches[0][0])) {
+								if (fallingBlock.intersects(animationObj))
+									animationObj.makeInvisible();
+							}
+							else if (Arrays.asList(animationObj.images).contains(Data.torches[1][0])) {
+								if (fallingBlock.intersects(animationObj))
+									animationObj.makeInvisible();
+							}
+							else if (Arrays.asList(animationObj.images).contains(Data.torches[2][0])) {
+								if (fallingBlock.intersects(animationObj))
+									animationObj.makeInvisible();
+							}
+							else if (Arrays.asList(animationObj.images).contains(Data.torchesH[0][0])) {
+								if (fallingBlock.intersects(animationObj))
+									animationObj.makeInvisible();
+							}
+							else if (Arrays.asList(animationObj.images).contains(Data.torchesH[1][0])) {
+								if (fallingBlock.intersects(animationObj))
+									animationObj.makeInvisible();
+							}
+							else if (Arrays.asList(animationObj.images).contains(Data.torchesH[2][0])) {
+								if (fallingBlock.intersects(animationObj))
+									animationObj.makeInvisible();
+							}
+							
+							// Gas bubbles
+							else if ( Arrays.asList(animationObj.images).contains(Data.gasBubbles[0]) ) {
+								if (fallingBlock.intersects(animationObj))
+									animationObj.makeInvisible();
+							}
+
+							// Whatever is not a torch
+							else {
+								if (fallingBlock.contains(animationObj))
+									animationObj.makeInvisible();
+							} 
+
 
 						// Spider webs, hints?
 						} else {
