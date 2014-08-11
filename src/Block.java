@@ -441,22 +441,21 @@ public class Block extends Thing {
 						if (fallingBlock.contains(obj))
 							obj.changeImage(Data.invisibleImage);
 
-					// Slightly more rigorous approach with all the objects but doesn't seem to
-					// work with animations 
+					// Slightly more rigorous approach with all the objects
 					for (Thing obj : FruitFever.things) {
 						
 						// Gas bubbles, torches etc...
 						if (obj instanceof Animation) {
 							Animation animationObj = (Animation) obj;
 							
-							if (fallingBlock.intersects(animationObj))
+							if (fallingBlock.contains(animationObj))
 								animationObj.makeInvisible();
 
 						// Spider webs, hints?
 						} else {
 
 							// Intersects is what we need for spider webs
-							if (fallingBlock.intersects(obj))
+							if (fallingBlock.contains(obj))
 								obj.changeImage(Data.invisibleImage);							
 						}
 
