@@ -441,21 +441,30 @@ public class Block extends Thing {
 						if (fallingBlock.contains(obj))
 							obj.changeImage(Data.invisibleImage);
 
+					// Slightly more rigorous approach with all the objects but doesn't seem to
+					// work with animations 
+					for (Thing obj : FruitFever.things) {
+						
+						// Gas bubbles, torches etc...
+						if (obj instanceof Animation) {
+							Animation animationObj = (Animation) obj;
+							
+							if (fallingBlock.intersects(animationObj))
+								animationObj.makeInvisible();
 
-					// int collisionX = fallingBlock.x + Data.TILE_SIZE / 2;	
-					// int collisionY = fallingBlock.y + Data.TILE_SIZE;
+						// Spider webs, hints?
+						} else {
 
-					// Thing sceneryBelowFallingBlock = Block.connectedSceneryAtPoint( collisionX, collisionY );
+							// Intersects is what we need for spider webs
+							if (fallingBlock.intersects(obj))
+								obj.changeImage(Data.invisibleImage);							
+						}
 
-					// // Squish scenery if it exists
-					// if (sceneryBelowFallingBlock != null) {
-					// 	sceneryBelowFallingBlock.changeImage(Data.invisibleImage);
-					// 	continue;
-					// }
-					
+					}
 
-					// // Move scenery with block
+					// Move scenery with block
 					for (Thing scenery : fallingBlock.connectedObjects) {
+
 						scenery.imageY += fallingBlock.dy;
 						scenery.animate();
 					}

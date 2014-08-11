@@ -162,6 +162,12 @@ public class Animation extends Thing {
 	
 	}
 	
+	public void makeInvisible() {
+		for (GImage img : this.images) {
+			img = Data.invisibleImage;
+		}
+	}
+
 	public void setNewAnimation(GImage[] newImages) {
 		images = newImages;
 		counter = -1;
