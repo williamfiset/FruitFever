@@ -240,7 +240,7 @@ public class ScreenHandler {
 	/** Adds all images including blocks, things, fruits, and enemies to the screen **/
 	public void addImagesToScreen() {
 
-		for (Thing obj : fruitFever.sceneryBelow)
+		for (Thing obj : fruitFever.objectsBelowBlocks)
 			add(obj.image);
 
 		for (Block obj : fruitFever.blocks)

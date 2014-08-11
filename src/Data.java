@@ -655,7 +655,7 @@ public abstract class Data {
 							if (type >=18 && type <= 22)
 								FruitFever.things.add(obj);
 							else
-								FruitFever.sceneryBelow.add(obj);
+								FruitFever.objectsBelowBlocks.add(obj);
 							
 							if (blockOn != null)
 								blockOn.connectedObjects.add(obj);
@@ -674,7 +674,7 @@ public abstract class Data {
 							if (type == 3 || type == 4)
 								FruitFever.things.add(obj);
 							else
-								FruitFever.sceneryBelow.add(obj);
+								FruitFever.objectsBelowBlocks.add(obj);
 
 							if (blockOn != null)
 								blockOn.connectedObjects.add(obj);

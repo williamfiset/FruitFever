@@ -437,7 +437,7 @@ public class Block extends Thing {
 					// Needed for proper collision detection with scenery since fallingBlock.animate() hasn't been called;
 					fallingBlock.y += fallingBlock.dy;
 					
-					for (Thing obj : FruitFever.sceneryBelow)
+					for (Thing obj : FruitFever.objectsBelowBlocks)
 						if (fallingBlock.contains(obj))
 							obj.changeImage(Data.invisibleImage);
 
@@ -455,7 +455,7 @@ public class Block extends Thing {
 						} else {
 
 							// Intersects is what we need for spider webs
-							if (fallingBlock.contains(obj))
+							if (fallingBlock.intersects(obj))
 								obj.changeImage(Data.invisibleImage);							
 						}
 

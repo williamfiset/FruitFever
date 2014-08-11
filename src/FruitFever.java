@@ -21,7 +21,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 						SCREEN_HEIGHT = 500;
 	
 	// Cannot be made final since they can be modified through GameStarter
-	static boolean debugMode      = false;
+	static boolean debugMode      = true;
 	static int MAIN_LOOP_SPEED    = 30;
 
 /** Level Information/Objects/Lists **/
@@ -38,7 +38,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static boolean levelComplete;
 	
 	static ArrayList<Block> blocks;
-	static ArrayList<Thing> things, sceneryBelow, checkPoints;
+	static ArrayList<Thing> things, objectsBelowBlocks, checkPoints;
 	static ArrayList<Hint> hints;
 	static ArrayList<Animation> edibleItems, dangerousThings;
 	static ArrayList<TextAnimator> levelTexts;
@@ -197,8 +197,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					} else things.get(i).animate();
 				}
 
-				for (int i = 0; i < sceneryBelow.size(); i++)
-					sceneryBelow.get(i).animate();
+				for (int i = 0; i < objectsBelowBlocks.size(); i++)
+					objectsBelowBlocks.get(i).animate();
 
 				/** Actions triggered by user **/
 				if (swirlEventInvoked)		
@@ -298,7 +298,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		/** RESET all lists and variables pertaining to the previous played level **/
 		blocks = new ArrayList<>();
 		things = new ArrayList<>();
-		sceneryBelow = new ArrayList<>();
+		objectsBelowBlocks = new ArrayList<>();
 		edibleItems = new ArrayList<>();
 		dangerousThings = new ArrayList<>();
 		levelTexts = new ArrayList<>();
