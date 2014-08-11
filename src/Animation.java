@@ -162,10 +162,9 @@ public class Animation extends Thing {
 	
 	}
 	
+	/** NOTE: This may result in a resized image, potentially causing issues **/
 	public void makeInvisible() {
-		for (GImage img : this.images) {
-			img = Data.invisibleImage;
-		}
+		images = new GImage[] { Data.invisibleImage };
 	}
 
 	public void setNewAnimation(GImage[] newImages) {
