@@ -12,9 +12,18 @@ public class Thing extends Rectangle {
 
 	/** Public instance variables **/
 	public GImage image;
-	int imageX, imageY;
-	boolean active = true;
+	public int imageX, imageY;
+	public boolean active = true;
 	
+	public static enum Layer {
+		BEHIND_BLOCKS,
+		ABOVE_BLOCKS;
+	}
+
+	public Layer layer;
+
+	public boolean canFall = false;
+
 	// Used to alter the underlying Rectangle's boundaries, without adjusting the size of the images or its position
 	public int boundaryLeft, boundaryRight, boundaryTop, boundaryBottom;
 	
@@ -38,18 +47,23 @@ public class Thing extends Rectangle {
 	public Thing(int x, int y, GImage image, boolean mirrorRandomly) {
 		this(x, y, (int) image.getWidth(), (int) image.getHeight(), mirrorRandomly ? ImageTransformer.mirrorRandomly(image) : image);
 	}
-	
-	/** Constructors that do not define the image **/
-	
-	public Thing(int x, int y, int width, int height) {
-		super(x, y, width, height);
-		this.imageX = x;
-		this.imageY = y;
+
+	public Thing(int x, int y, int width, int height, GImage image, boolean canFall) {
+		this(x, y, width, height, image);
+		this.canFall = canFall;
 	}
 	
-	public Thing(int x, int y) {
-		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE);	
-	}
+	/** Constructors that do not define the image (they don't seem to be used?) **/ 
+	
+	// public Thing(int x, int y, int width, int height) {
+	// 	super(x, y, width, height);
+	// 	this.imageX = x;
+	// 	this.imageY = y;
+	// }
+	
+	// public Thing(int x, int y) {
+	// 	this(x, y, Data.TILE_SIZE, Data.TILE_SIZE);	
+	// }
 
 	/** Update image **/
 	public void animate() {

@@ -14,9 +14,6 @@ import java.awt.*;
 
 public class Block extends Thing {
 
-	/** Whether the block is able to fall or not **/
-	public boolean canFall;
-
 	private static HashMap<Integer, ArrayList<Block>> xBlocks = new HashMap<>(), yBlocks = new HashMap<>();
 
 	// The blocks that are in the current process of falling 
@@ -36,9 +33,7 @@ public class Block extends Thing {
 
 	public Block(int x, int y, int width, int height, GImage image, boolean canFall){
 
-		super(x, y, width, height, image);
-
-		this.canFall = canFall;
+		super(x, y, width, height, image, canFall);
 
 		// Search if row exists within HashMap
 		if (xBlocks.containsKey(x)) {
