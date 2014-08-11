@@ -14,7 +14,7 @@ public class Animation extends Thing {
 	protected int counter = 0;
 	public Type type;
 
-	protected GImage[] images;
+	public GImage[] images;
 	protected boolean counterGoingUp = true; 
 
 	private int delayCounter, delay;
