@@ -38,7 +38,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static boolean levelComplete;
 	
 	static ArrayList<Block> blocks;
-	static ArrayList<Thing> things, objectsBelowBlocks, checkPoints;
+	static ArrayList<Thing> things, checkPoints;
 	static ArrayList<Hint> hints;
 	static ArrayList<Animation> edibleItems, dangerousThings;
 	static ArrayList<TextAnimator> levelTexts;
@@ -197,9 +197,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					} else things.get(i).animate();
 				}
 
-				for (int i = 0; i < objectsBelowBlocks.size(); i++)
-					objectsBelowBlocks.get(i).animate();
-
 				/** Actions triggered by user **/
 				if (swirlEventInvoked)		
 					swirlEvent();
@@ -298,7 +295,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		/** RESET all lists and variables pertaining to the previous played level **/
 		blocks = new ArrayList<>();
 		things = new ArrayList<>();
-		objectsBelowBlocks = new ArrayList<>();
 		edibleItems = new ArrayList<>();
 		dangerousThings = new ArrayList<>();
 		levelTexts = new ArrayList<>();

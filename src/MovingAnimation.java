@@ -15,13 +15,13 @@ public class MovingAnimation extends Animation {
 	public double xSpeed, ySpeed, xLeftover, yLeftover;
 
 	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, double xSpeed, double ySpeed, Type type) {
-		super(x, y, originalImages, reverse, delay, repeat, type);
+		super(x, y, originalImages, reverse, delay, repeat, type, false, false, false, Layer.ABOVE_BLOCKS);
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
 	}
 	
 	public MovingAnimation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type) {
-		super(x, y, originalImages, reverse, delay, repeat, type);
+		this(x, y, originalImages, reverse, delay, repeat, 0.0, 0.0, type);
 	}
 	
 	// Overrides Animation.animate()

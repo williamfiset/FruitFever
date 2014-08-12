@@ -33,7 +33,7 @@ public class Block extends Thing {
 
 	public Block(int x, int y, int width, int height, GImage image, boolean canFall){
 
-		super(x, y, width, height, image, canFall);
+		super(x, y, width, height, image, canFall, false, Layer.BLOCKS);
 
 		// Search if row exists within HashMap
 		if (xBlocks.containsKey(x)) {
@@ -432,74 +432,74 @@ public class Block extends Thing {
 					// Needed for proper collision detection with scenery since fallingBlock.animate() hasn't been called;
 					fallingBlock.y += fallingBlock.dy;
 					
-					for (Thing obj : FruitFever.objectsBelowBlocks)
-						if (fallingBlock.contains(obj))
-							obj.changeImage(Data.invisibleImage);
+					for (Thing obj : FruitFever.things)
+						if (obj.canBeCrushed)
+							if (fallingBlock.contains(obj))
+								obj.makeInvisible();
 
 					// Slightly more rigorous approach with all the objects
-					for (Thing obj : FruitFever.things) {
+					// for (Thing obj : FruitFever.things) {
 						
-						// Gas bubbles, torches etc...
-						if (obj instanceof Animation) {
-							Animation animationObj = (Animation) obj;
+					// 	// Gas bubbles, torches etc...
+					// 	if (obj instanceof Animation) {
+					// 		Animation animationObj = (Animation) obj;
 							
-							/* I think fruits and gas bubbles should disappear when touched by a block */
+					// 		/* I think fruits and gas bubbles should disappear when touched by a block */
 
-							// Fruits don't work 
-							// else if (Arrays.asList(animationObj.images).contains(Data.fruits[0])) {
-							// 	if (fallingBlock.intersects(animationObj))
-							// 		animationObj.makeInvisible();
-							// }
+					// 		// Fruits don't work 
+					// 		// else if (Arrays.asList(animationObj.images).contains(Data.fruits[0])) {
+					// 		// 	if (fallingBlock.intersects(animationObj))
+					// 		// 		animationObj.makeInvisible();
+					// 		// }
 
-							// Torches (Perhaps a loop would work better haha)
-							// This is a much more realistic approach for getting rid of torches
-							if (Arrays.asList(animationObj.images).contains(Data.torches[0][0])) {
-								if (fallingBlock.intersects(animationObj))
-									animationObj.makeInvisible();
-							}
-							else if (Arrays.asList(animationObj.images).contains(Data.torches[1][0])) {
-								if (fallingBlock.intersects(animationObj))
-									animationObj.makeInvisible();
-							}
-							else if (Arrays.asList(animationObj.images).contains(Data.torches[2][0])) {
-								if (fallingBlock.intersects(animationObj))
-									animationObj.makeInvisible();
-							}
-							else if (Arrays.asList(animationObj.images).contains(Data.torchesH[0][0])) {
-								if (fallingBlock.intersects(animationObj))
-									animationObj.makeInvisible();
-							}
-							else if (Arrays.asList(animationObj.images).contains(Data.torchesH[1][0])) {
-								if (fallingBlock.intersects(animationObj))
-									animationObj.makeInvisible();
-							}
-							else if (Arrays.asList(animationObj.images).contains(Data.torchesH[2][0])) {
-								if (fallingBlock.intersects(animationObj))
-									animationObj.makeInvisible();
-							}
+					// 		// Torches (Perhaps a loop would work better haha)
+					// 		// This is a much more realistic approach for getting rid of torches
+					// 		if (Arrays.asList(animationObj.images).contains(Data.torches[0][0])) {
+					// 			if (fallingBlock.intersects(animationObj))
+					// 				animationObj.makeInvisible();
+					// 		}
+					// 		else if (Arrays.asList(animationObj.images).contains(Data.torches[1][0])) {
+					// 			if (fallingBlock.intersects(animationObj))
+					// 				animationObj.makeInvisible();
+					// 		}
+					// 		else if (Arrays.asList(animationObj.images).contains(Data.torches[2][0])) {
+					// 			if (fallingBlock.intersects(animationObj))
+					// 				animationObj.makeInvisible();
+					// 		}
+					// 		else if (Arrays.asList(animationObj.images).contains(Data.torchesH[0][0])) {
+					// 			if (fallingBlock.intersects(animationObj))
+					// 				animationObj.makeInvisible();
+					// 		}
+					// 		else if (Arrays.asList(animationObj.images).contains(Data.torchesH[1][0])) {
+					// 			if (fallingBlock.intersects(animationObj))
+					// 				animationObj.makeInvisible();
+					// 		}
+					// 		else if (Arrays.asList(animationObj.images).contains(Data.torchesH[2][0])) {
+					// 			if (fallingBlock.intersects(animationObj))
+					// 				animationObj.makeInvisible();
+					// 		}
 							
-							// Gas bubbles
-							else if ( Arrays.asList(animationObj.images).contains(Data.gasBubbles[0]) ) {
-								if (fallingBlock.intersects(animationObj))
-									animationObj.makeInvisible();
-							}
+					// 		// Gas bubbles
+					// 		else if ( Arrays.asList(animationObj.images).contains(Data.gasBubbles[0]) ) {
+					// 			if (fallingBlock.intersects(animationObj))
+					// 				animationObj.makeInvisible();
+					// 		}
 
-							// Whatever is not a torch
-							else {
-								if (fallingBlock.contains(animationObj))
-									animationObj.makeInvisible();
-							} 
+					// 		// Whatever is not a torch
+					// 		else {
+					// 			if (fallingBlock.contains(animationObj))
+					// 				animationObj.makeInvisible();
+					// 		} 
 
+					// 	// Spider webs, hints?
+					// 	} else {
 
-						// Spider webs, hints?
-						} else {
+					// 		// Intersects is what we need for spider webs
+					// 		// if (fallingBlock.intersects(obj))
+					// 		// 	obj.changeImage(Data.invisibleImage);							
+					// 	}
 
-							// Intersects is what we need for spider webs
-							if (fallingBlock.intersects(obj))
-								obj.changeImage(Data.invisibleImage);							
-						}
-
-					}
+					// }
 
 					// Move scenery with block
 					for (Thing scenery : fallingBlock.connectedObjects) {
@@ -537,9 +537,10 @@ public class Block extends Thing {
 	/* Determines if the block is still within the level */
 	public boolean withinLevel() {
 
-	// These one liners are badass but the stacked if statements are easier to debug. - Will 
-		if (imageX > FruitFever.viewX && imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE && imageY > FruitFever.viewY && imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) 
-			return true;
+		if (imageX > FruitFever.viewX && imageY > FruitFever.viewY)
+			if (imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
+					if (imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) 
+						return true;
 		
 		return false;		
 
@@ -548,9 +549,10 @@ public class Block extends Thing {
 	/* Determines if the block is currently on the screen */
 	public boolean withinScreen() {
 		
-		// These one liners are badass but the stacked if statements are easier to debug. - Will 
-		if (imageX > 0 && imageY > 0 && imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE && imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
-			return true;
+		if (imageX > 0 && imageY > 0)
+			if (imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
+				if (imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+					return true;
 
 		return false;
 
@@ -558,3 +560,4 @@ public class Block extends Thing {
 
 
 }
+

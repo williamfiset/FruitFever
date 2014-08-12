@@ -13,6 +13,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		Crucial/Important:
 		-fixLayering() should place selected blocks on top of other blocks
+		-erasing a falling block doesn't remove highlighting
 
 		Necessary:
 		-Change menu when it's not in add mode

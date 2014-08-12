@@ -16,13 +16,16 @@ public class Thing extends Rectangle {
 	public boolean active = true;
 	
 	public static enum Layer {
-		BEHIND_BLOCKS,
+		BELOW_BLOCKS,
+		BLOCKS,
 		ABOVE_BLOCKS;
 	}
 
 	public Layer layer;
 
 	public boolean canFall = false;
+
+	public boolean canBeCrushed = false;
 
 	// Used to alter the underlying Rectangle's boundaries, without adjusting the size of the images or its position
 	public int boundaryLeft, boundaryRight, boundaryTop, boundaryBottom;
@@ -48,22 +51,28 @@ public class Thing extends Rectangle {
 		this(x, y, (int) image.getWidth(), (int) image.getHeight(), mirrorRandomly ? ImageTransformer.mirrorRandomly(image) : image);
 	}
 
-	public Thing(int x, int y, int width, int height, GImage image, boolean canFall) {
+	public Thing(int x, int y, int width, int height, GImage image, boolean canFall, boolean canBeCrushed, Layer layer) {
 		this(x, y, width, height, image);
 		this.canFall = canFall;
+		this.canBeCrushed = canBeCrushed;
+		this.layer = layer;
+	}
+
+	public Thing(int x, int y, GImage image, boolean canFall, boolean canBeCrushed, Layer layer) {
+		this(x, y, (int) image.getWidth(), (int) image.getHeight(), image, canFall, canBeCrushed, layer);
 	}
 	
-	/** Constructors that do not define the image (they don't seem to be used?) **/ 
+	/** Constructors that do not define the image **/ 
 	
-	// public Thing(int x, int y, int width, int height) {
-	// 	super(x, y, width, height);
-	// 	this.imageX = x;
-	// 	this.imageY = y;
-	// }
+	public Thing(int x, int y, int width, int height) {
+		super(x, y, width, height);
+		this.imageX = x;
+		this.imageY = y;
+	}
 	
-	// public Thing(int x, int y) {
-	// 	this(x, y, Data.TILE_SIZE, Data.TILE_SIZE);	
-	// }
+	public Thing(int x, int y) {
+		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE);	
+	}
 
 	/** Update image **/
 	public void animate() {
@@ -112,6 +121,11 @@ public class Thing extends Rectangle {
 		boundaryBottom = bottom;
 	}
 	
+	public void makeInvisible() {
+		changeImage(Data.invisibleImage);
+		System.out.println(toString() + " was made invisible!");
+	}
+
 	public static GImage copyImage(GImage img) {
 		return new GImage(img.getImage());
 	}
