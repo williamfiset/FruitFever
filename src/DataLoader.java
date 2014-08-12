@@ -8,122 +8,32 @@
  */
 
 import acm.graphics.*;
-import java.awt.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.lang.reflect.Method;
-import java.awt.image.DataBufferInt;
+
+// import java.awt.*;
+// import java.io.File;
+// import java.lang.reflect.Method;
+// import java.awt.image.DataBufferInt;
 // import sun.awt.image.ToolkitImage;
 
 public class DataLoader {
 
-	private static boolean usingToolKitImage = true;
 	private static boolean usingImageIO = true;
 	private static DataLoader obj = null;
 
-	/** Saves an image from the web to the current working directory *
-	  * NOTE: this only seems to works with images without alpha channels **/
-	public static void downloadImageWithName(String urlName, String imageName){
-		
-		try{
-
-			// Get url object and open connection
-			URL url = new URL(urlName);
-			URLConnection urlConnection = url.openConnection();
-			
-			// Gets the current Working directory
-			FileOutputStream destination = new FileOutputStream( System.getProperty("user.dir") +"/" + imageName );
-			
-			BufferedInputStream in = new BufferedInputStream(urlConnection.getInputStream());
-			BufferedOutputStream out = new BufferedOutputStream(destination);
-
-			// until the end of data, keep saving into file.
-			int i;
-			while ((i = in.read()) != -1) {
-			    out.write(i);
-			}
-			out.flush();
-
-			out.close();
-			in.close();
-			
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-	}
-
-	
-	/* Saves an image from the web to a location specified on the computer
-	 * NOTE: this only seems to works with images without alpha channels */
-	public void downloadImageWithPath(String urlName, String pathWithImageName){
-		
-		try{
-
-			// Get url object and open connection
-			URL url = new URL(urlName);
-			URLConnection urlConnection = url.openConnection();
-			
-			// Places the image at a specified path
-			FileOutputStream destination = new FileOutputStream( pathWithImageName );
-			
-			BufferedInputStream in = new BufferedInputStream(urlConnection.getInputStream());
-			BufferedOutputStream out = new BufferedOutputStream(destination);
-
-			// until the end of data, keep saving into file.
-			int i;
-			while ((i = in.read()) != -1) {
-			    out.write(i);
-			}
-			out.flush();
-
-			out.close();
-			in.close();
-			
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	
-	
-	/** This method will return a GImage (this we we can altogether avoid having)
-	  * physical images in our project.
-	  * 
-	  * NOTE: Currently only works only with small images **/
-	
-	public static GImage getImageWithUrl(String urlName){
-			
-		BufferedImage image =null;
-	    try{
-	
-	        URL url = new URL(urlName);
-	        // read the url
-	       image = ImageIO.read(url);
-	
-	    }catch(IOException e){
-	    	System.out.println("Could not turn URL into image");
-	        e.printStackTrace();
-	    }
-	    
-	    // Try returning a GImage if applicable
-	    if (image != null)
-	    	return new GImage(image);
-	    return null;
-	}
-	
 
 	/** This method will load an image given a path and a url to the image.
 	  * 
 	  * First it will try loading the image with imageIO (fastest)
-	  * if that fails try using toolkit ( 20% slower) 
 	  * and if that also fails it loads the images from the GitHub server
+	  * which is surprisingly fast also.
 	  *
 	  * @return - returns a BufferedImage of the path/Url specified
 	  *
@@ -147,61 +57,26 @@ public class DataLoader {
 				if (buffImage != null)
 					return buffImage;
 				
-	        } catch (IOException e) {
+	        } catch (Exception e) {
 	        	System.out.printf("Failed to Load imageIO: %s", imgPath);
 	        	usingImageIO = false;
 	        }
 	    }
 
-    	/** If using imageIO doesn't work try using toolkit **/ 
-    	if (usingToolKitImage) {
-
-	        try{
-
-		    	URL imagePath = null;
-		    	try {
-					imagePath = new File(imgPath).toURI().toURL();
-				}
-				catch(Exception e) { }
-
-	            Image img = Toolkit.getDefaultToolkit().createImage(imagePath);
-	            Method method = img.getClass().getMethod("getBufferedImage");
-	            BufferedImage bufferedImage = null;
-	            int counter = 0;
-
-	            // Waits a few seconds before aborting
-	            while (bufferedImage == null && ++counter < 3000){
-
-	                img.getWidth(null);
-	                bufferedImage = (BufferedImage) method.invoke(img);
-	                try {
-						Thread.sleep(10);
-					}
-	                catch (InterruptedException e) { }
-	            }
-	           
-				/** WILL, THIS CODE WOULD ALLOW A PARTIAL IMAGE TO BE PASSED THROUGH, WITH THE BOTTOM PART STILL WHITE **/
-	            // if (bufferedImage != null)
-	                // return bufferedImage;
-	            
-	        } catch( Exception e ){
-	        	usingToolKitImage = false;
-	        }
-    	}
-
 		/** If loading image from the computer fails load it using the web! **/
-	    try{
+	    try {
 
 			BufferedImage buffImage =null;
 
 			// Reads image from the link provided
 	        URL url = new URL(urlLink);
 	        buffImage = ImageIO.read(url);
-		
+	
 
 	        if (buffImage != null)
 	       		return buffImage;	
-	        else{
+	
+	        else {
 
 	        	// Prints which URL caused null
 				String [] urlParts = urlLink.split("/");
@@ -209,7 +84,7 @@ public class DataLoader {
 	        }
 
 	    // Image is too large or no Internet connection
-	    }catch(Exception e){
+	    } catch(Exception e) {
 
 	    	// Tell user to connect to the Internet?
 
@@ -220,18 +95,14 @@ public class DataLoader {
 	    }
 
 
-	    /** If return null executes it means that the image could not be loaded using a toolKitImage,
-	     * using imageIO nor using the Internet **/
+	    /** If return null executes it means that the image could not be loaded 
+	     * using imageIO or using the Internet to download did not work **/
 		return null;
-
 
     }
 
-	/** This method will load an image given a path and a url to the image.
-	  * 
-	  * First it will try loading the image with imageIO (fastest)
-	  * if that fails try using toolkit ( 20% slower) 
-	  * and if that also fails it loads the images from the GitHub server
+	/** 
+	  * Try loading the image with imageIO 
 	  *
 	  * @return - returns a BufferedImage of the path/Url specified
 	  *
@@ -261,58 +132,104 @@ public class DataLoader {
 	        }
 	    }
 
-    	/** If using imageIO doesn't work try using toolkit **/ 
-    	if (usingToolKitImage) {
-
-	        try{
-
-		    	URL imagePath = null;
-		    	try {
-					imagePath = new File(imgPath).toURI().toURL();
-				}
-				catch(Exception e) { }
-
-	            Image img = Toolkit.getDefaultToolkit().createImage(imagePath);
-	            Method method = img.getClass().getMethod("getBufferedImage");
-	            BufferedImage bufferedImage = null;
-	            int counter = 0;
-
-	            // Waits a few seconds before aborting
-	            while (bufferedImage == null && ++counter < 3000){
-
-	                img.getWidth(null);
-	                bufferedImage = (BufferedImage) method.invoke(img);
-	                try {
-						Thread.sleep(10);
-					}
-	                catch (InterruptedException e) { }
-	            }
-	           
-				/** WILL, THIS CODE WOULD ALLOW A PARTIAL IMAGE TO BE PASSED THROUGH, WITH THE BOTTOM PART STILL WHITE **/
-	            // if (bufferedImage != null)
-	                // return bufferedImage;
-	            
-	        } catch( Exception e ){
-	        	usingToolKitImage = false;
-	        }
-    	}
-
-
 	    /** If return null executes it means that the image could not be loaded using a toolKitImage,
 	     * using imageIO nor using the Internet **/
 		return null;
 
-
-    }
-
-    /** Returns a pixel array of a buffered image **/
-    public static int[] getPixelArray( BufferedImage img ){
-        return ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
     }
 
 
+
+
+	/** Saves an image from the web to the current working directory *
+	  * NOTE: this only seems to works with images without alpha channels **/
+	public static void downloadImageWithName(String urlName, String imageName){
+		
+		try {
+
+			// Get url object and open connection
+			URL url = new URL(urlName);
+			URLConnection urlConnection = url.openConnection();
+			
+			// Gets the current Working directory
+			FileOutputStream destination = new FileOutputStream( System.getProperty("user.dir") +"/" + imageName );
+			
+			BufferedInputStream in = new BufferedInputStream(urlConnection.getInputStream());
+			BufferedOutputStream out = new BufferedOutputStream(destination);
+
+			// until the end of data, keep saving into file.
+			int i;
+			while ((i = in.read()) != -1) {
+			    out.write(i);
+			}
+			out.flush();
+
+			out.close();
+			in.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	
+	/* Saves an image from the web to a location specified on the computer
+	 * NOTE: this only seems to works with images without alpha channels */
+	public void downloadImageWithPath(String urlName, String pathWithImageName){
+		
+		try {
+
+			// Get url object and open connection
+			URL url = new URL(urlName);
+			URLConnection urlConnection = url.openConnection();
+			
+			// Places the image at a specified path
+			FileOutputStream destination = new FileOutputStream( pathWithImageName );
+			
+			BufferedInputStream in = new BufferedInputStream(urlConnection.getInputStream());
+			BufferedOutputStream out = new BufferedOutputStream(destination);
+
+			// until the end of data, keep saving into file.
+			int i;
+			while ((i = in.read()) != -1) {
+			    out.write(i);
+			}
+			out.flush();
+
+			out.close();
+			in.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/** This method will return a GImage (this we we can altogether avoid having)
+	  * physical images in our project.
+	  * 
+	  * NOTE: Currently only works only with small images **/
+	
+	public static GImage getImageWithUrl(String urlName){
+			
+		BufferedImage image =null;
+	    try{
+	
+	        URL url = new URL(urlName);
+	        // read the url
+	       image = ImageIO.read(url);
+	
+	    }catch(Exception e){
+	    	System.out.println("Could not turn URL into image");
+	        e.printStackTrace();
+	    }
+	    
+	    // Try returning a GImage if applicable
+	    if (image != null)
+	    	return new GImage(image);
+	    return null;
+	}
+
 }
 
 
