@@ -452,7 +452,7 @@ public abstract class Data {
 						
 					// Lava
 					if (character == '~') {
-						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, lava, Animation.Type.LAVA);
+						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, lava, Animation.Type.LAVA, true, true, Thing.Layer.BELOW_BLOCKS);
 						obj.boundaryTop = TILE_SIZE/3;
 						FruitFever.things.add(obj);
 						FruitFever.dangerousThings.add(obj);
@@ -467,11 +467,11 @@ public abstract class Data {
 
 						// Creates spikes by using block detection to determine orientation
 						if (Block.getBlock(i*TILE_SIZE, (lineNumber - 1)*TILE_SIZE) == null) {
-							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes, Animation.Type.SPIKES);
+							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikes, Animation.Type.SPIKES, true, true, Thing.Layer.BELOW_BLOCKS);
 							obj.boundaryTop = 15;
 							fallingObjectsInBlockLayer.add(obj);
 						} else {
-							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesV, Animation.Type.SPIKES);
+							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, spikesV, Animation.Type.SPIKES, true, true, Thing.Layer.BELOW_BLOCKS);
 							obj.boundaryBottom = -15;
 
 							Block blockAbove = Block.getBlock(i*TILE_SIZE, (lineNumber - 1)*TILE_SIZE);
@@ -486,7 +486,7 @@ public abstract class Data {
 					
 					// Gas Bubbles
 					if (character == ':') {
-						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.GAS_BUBBLES, true);
+						Animation obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, gasBubbles, false, 4, true, Animation.Type.GAS_BUBBLES, true, true, true, Thing.Layer.BELOW_BLOCKS);
 						FruitFever.things.add(obj);
 						FruitFever.dangerousThings.add(obj);
 						fallingObjectsInBlockLayer.add(obj);
@@ -499,10 +499,10 @@ public abstract class Data {
 						Thing obj;
 
 						if (Block.getBlock((i - 1)*TILE_SIZE, lineNumber*TILE_SIZE) == null) {
-							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torches[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true);
+							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torches[(int) (Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true, true, true, Thing.Layer.BELOW_BLOCKS);
 							FruitFever.things.add(obj);
 						} else {
-							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torchesH[(int)(Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true);
+							obj = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, torchesH[(int) (Math.random()*3)], false, 4, true, Animation.Type.NOT_AVAILABLE, true, true, true, Thing.Layer.BELOW_BLOCKS);
 							FruitFever.things.add(obj);
 						}
 
@@ -528,7 +528,7 @@ public abstract class Data {
 
 					// Vortex
 					if (character == '%') {
-						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, vortexAnimation, false, 2, true, Animation.Type.NOT_AVAILABLE, true);
+						Animation vortex = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, vortexAnimation, false, 2, true, Animation.Type.NOT_AVAILABLE, true, true, true, Thing.Layer.BELOW_BLOCKS);
 						FruitFever.vortex = vortex;
 						FruitFever.vortex.adjustBoundaries(7, -7, 7, -7);
 						FruitFever.things.add(vortex);
@@ -537,7 +537,7 @@ public abstract class Data {
 					
 					// Fruit Ring
 					if (character == '*') {
-						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruitRingAnimation, true, 3, true, Animation.Type.FRUIT_RING, true);
+						Animation fruitRing = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruitRingAnimation, true, 3, true, Animation.Type.FRUIT_RING, true, true, true, Thing.Layer.BELOW_BLOCKS);
 						FruitFever.edibleItems.add(fruitRing);
 						FruitFever.things.add(fruitRing);
 						FruitFever.totalFruitRings++;
@@ -554,7 +554,7 @@ public abstract class Data {
 
 					// Reads in a fruit
 					if (Character.isDigit(character)) {
-						Animation fruit = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruits[Integer.valueOf(String.valueOf(character))], true, 3, true, Animation.Type.FRUIT, true);	
+						Animation fruit = new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, fruits[Integer.valueOf(String.valueOf(character))], true, 3, true, Animation.Type.FRUIT, true, true, true, Thing.Layer.BELOW_BLOCKS);	
 						FruitFever.edibleItems.add(fruit);
 						FruitFever.things.add(fruit);
 						continue;
@@ -633,7 +633,7 @@ public abstract class Data {
 						// Read in a powerup
 						if (Character.isDigit(character)) {
 							int number = Integer.valueOf(String.valueOf(character));
-							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, new GImage[]{powerups[number]}, false, 0, true, Animation.powerupTypes[number]));
+							FruitFever.edibleItems.add(new Animation(i*TILE_SIZE, lineNumber*TILE_SIZE, new GImage[]{powerups[number]}, false, 0, true, Animation.powerupTypes[number], true, true, true, Thing.Layer.BELOW_BLOCKS));
 							continue;
 						}
 					} catch (ArrayIndexOutOfBoundsException e) { 
@@ -655,22 +655,33 @@ public abstract class Data {
 							else
 								xOffset = 0;
 
-							Thing obj = new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE, sceneryImages[type]);
-							FruitFever.things.add(obj);
+							Thing obj;
+
+							if (type >=18 && type <= 22)
+								obj = new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE, sceneryImages[type], true, blockOn == null, blockOn == null ? Thing.Layer.BELOW_BLOCKS : Thing.Layer.ABOVE_BLOCKS);
+							else
+								obj = new Thing(i*TILE_SIZE + xOffset, lineNumber*TILE_SIZE, sceneryImages[type], true, blockOn == null, Thing.Layer.BELOW_BLOCKS);
 							
+							FruitFever.things.add(obj);
+
 							if (blockOn != null)
 								blockOn.connectedObjects.add(obj);
 							else if (blockBelow != null)
 								blockBelow.connectedObjects.add(obj);
-
-							
+	
 						}
 						
 						// Uppercase
 						else {
 							int type = character - 'A';
 
-							Thing obj = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, sceneryImages[26 + type]);
+							Thing obj;
+							
+							if (type == 3 || type == 4)
+								obj = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, sceneryImages[26 + type], true, blockOn == null, Thing.Layer.ABOVE_BLOCKS);
+							else
+								obj = new Thing(i*TILE_SIZE, lineNumber*TILE_SIZE, sceneryImages[26 + type], true, blockOn == null, Thing.Layer.BELOW_BLOCKS);
+							
 							FruitFever.things.add(obj);
 
 							if (blockOn != null)

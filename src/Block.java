@@ -10,12 +10,9 @@
 
 import acm.graphics.*;
 import java.util.*;
-
+import java.awt.*;
 
 public class Block extends Thing {
-
-	/** Whether the block is able to fall or not **/
-	public boolean canFall;
 
 	private static HashMap<Integer, ArrayList<Block>> xBlocks = new HashMap<>(), yBlocks = new HashMap<>();
 
@@ -36,9 +33,7 @@ public class Block extends Thing {
 
 	public Block(int x, int y, int width, int height, GImage image, boolean canFall){
 
-		super(x, y, width, height, image);
-
-		this.canFall = canFall;
+		super(x, y, width, height, image, canFall, false, Layer.BLOCKS);
 
 		// Search if row exists within HashMap
 		if (xBlocks.containsKey(x)) {
@@ -73,6 +68,21 @@ public class Block extends Thing {
 	
 	public Block(int x, int y, GImage image, boolean canFall){
 		this(x, y, Data.TILE_SIZE, Data.TILE_SIZE, image, canFall);
+	}
+
+
+	/** 
+	 * When changing levels you must empty the block list or else
+	 * you are left with the blocks from the previous level
+	 */
+
+	public static void resetBlockLists(){
+	
+		xBlocks.clear();
+		yBlocks.clear();
+		naturalFallingBlockCondidates.clear();
+		fallingBlocks.clear();			
+		
 	}
 
 	public static void resetPerformedNaturalAnimate(){
@@ -132,22 +142,6 @@ public class Block extends Thing {
 
 		*/
 	}
-
-
-	/** 
-	 * When changing levels you must empty the block list or else
-	 * you are left with the blocks from the previous level
-	 */
-
-	public static void resetBlockLists(){
-	
-		xBlocks.clear();
-		yBlocks.clear();
-		naturalFallingBlockCondidates.clear();
-		fallingBlocks.clear();			
-		
-	}
-
 
 	/** 
 	 * Returns the block bounded in the region 
@@ -316,6 +310,7 @@ public class Block extends Thing {
 
 	}
 
+<<<<<<< HEAD
 	/* Tests to see whether a given point comes in touch with a scenery object that is connected to a falling block */
 	private static Thing connectedSceneryAtPoint(int x, int y) {
 
@@ -328,6 +323,8 @@ public class Block extends Thing {
 
 	}
 
+=======
+>>>>>>> fallingblocks
 	public static void activateFallingBlocksWithPlayerPosition(int playerX, int playerY, boolean playerOnSurface) {
 
 
@@ -372,14 +369,14 @@ public class Block extends Thing {
 
 		Block furthestBlockDown = null;
 
-		// list is empty or player is not on platform
+		// List is empty or player is not on platform
 		if (!playerOnSurface || column == null)
 			return null;
 
 		outerLoop:
 		for (Block fallingBlock : column) {
 			
-			// ignore the blocks above the player or if it is already falling
+			// Ignore the blocks above the player or if it is already falling
 			if (fallingBlock.y <= playerY || fallingBlock.inMotion())
 				continue;	
 
@@ -399,11 +396,11 @@ public class Block extends Thing {
 
 				nextBlock = getBlock(startX, startY);
 
-				// next block was found
+				// Next block was found
 				if (nextBlock != null ){ 
 					furthestBlockDown = nextBlock;
 				
-				// if there is no next block break out
+				// If there is no next block break out
 				} else break outerLoop;
 			}
 		}
@@ -416,6 +413,7 @@ public class Block extends Thing {
 		for (int index = 0; index < fallingBlocks.size(); index++){
 
 			Block fallingBlock = fallingBlocks.get(index);
+
 
 			// Once you're sure the block is off the screen remove it
 			if (fallingBlock.imageY > FruitFever.LEVEL_HEIGHT + Data.TILE_SIZE*3) {
@@ -433,32 +431,28 @@ public class Block extends Thing {
 				// FruitFever.blocks.remove(fallingBlock);
 				index--;
 			
-			// falling block is still on screen 
+
+			// Falling block is still on screen 
 			} else {
 
-				Block bottomBlock = getBlock(fallingBlock.x + Data.TILE_SIZE/2, fallingBlock.y+ Data.TILE_SIZE);
-				
-				// Makes falling block green
-				fallingBlock.changeImage(Data.blockImages[8][0]);
+				int bottomBlockX = fallingBlock.x + Data.TILE_SIZE / 2;
+				int bottomBlockY = fallingBlock.y+ Data.TILE_SIZE;
+				Block bottomBlock = getBlock( bottomBlockX ,  bottomBlockY);
 
 				// Falling Block is free to move since there is no block below it.
 				if (bottomBlock == null) {
 
-					fallingBlock.imageY += fallingBlock.dy;	
-					// fallingBlock.imageX += fallingBlock.dx; // Implementation for sideways blocks
+					fallingBlock.imageY += fallingBlock.dy;
 
-					// int collisionX = fallingBlock.imageX + Data.TILE_SIZE / 2;	
-					// int collisionY = fallingBlock.imageX; // + Data.TILE_SIZE + (Data.TILE_SIZE / 2);
+					// Needed for proper collision detection with scenery since fallingBlock.animate() hasn't been called;
+					fallingBlock.y += fallingBlock.dy;
+					
+					for (Thing obj : FruitFever.things)
+						if (obj.canBeCrushed)
+							if (fallingBlock.contains(obj))
+								obj.makeInvisible();
 
-					// Thing squishedScenery = Block.connectedSceneryAtPoint( collisionX, collisionY );
-					// if (squishedScenery != null) {
-					// 	fallingBlock.changeImage(Data.blockImages[4][0]);
-					// 	squishedScenery.changeImage(Data.invisibleImage);
-					// }
-
-					// scenery.changeImage(Data.invisibleImage);
-
-					// // Move scenery with block
+					// Move scenery with block
 					for (Thing scenery : fallingBlock.connectedObjects) {
 
 						scenery.imageY += fallingBlock.dy;
@@ -466,7 +460,6 @@ public class Block extends Thing {
 					}
 
 				}
-
 			}
 		}
 	}
@@ -483,9 +476,10 @@ public class Block extends Thing {
 	/* Determines if the block is still within the level */
 	public boolean withinLevel() {
 
-	// These one liners are badass but the stacked if statements are easier to debug. - Will 
-		if (imageX > FruitFever.viewX && imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE && imageY > FruitFever.viewY && imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) 
-			return true;
+		if (imageX > FruitFever.viewX && imageY > FruitFever.viewY)
+			if (imageX < FruitFever.viewX + FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
+					if (imageY < FruitFever.viewY + FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE) 
+						return true;
 		
 		return false;		
 
@@ -494,9 +488,10 @@ public class Block extends Thing {
 	/* Determines if the block is currently on the screen */
 	public boolean withinScreen() {
 		
-		// These one liners are badass but the stacked if statements are easier to debug. - Will 
-		if (imageX > 0 && imageY > 0 && imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE && imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
-			return true;
+		if (imageX > 0 && imageY > 0)
+			if (imageX < FruitFever.SCREEN_WIDTH + Data.TILE_SIZE)
+				if (imageY < FruitFever.SCREEN_HEIGHT + Data.TILE_SIZE)
+					return true;
 
 		return false;
 
@@ -504,3 +499,4 @@ public class Block extends Thing {
 
 
 }
+

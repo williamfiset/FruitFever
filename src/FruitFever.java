@@ -5,12 +5,6 @@
  *
  */
 
-
-
-
-
-
-
 import acm.graphics.*;
 import acm.program.*;
 import java.awt.event.*;
@@ -27,7 +21,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 						SCREEN_HEIGHT = 500;
 	
 	// Cannot be made final since they can be modified through GameStarter
-	static boolean debugMode      = false;
+	static boolean debugMode      = true;
 	static int MAIN_LOOP_SPEED    = 30;
 
 /** Level Information/Objects/Lists **/
@@ -49,7 +43,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<Animation> edibleItems, dangerousThings;
 	static ArrayList<TextAnimator> levelTexts;
 	static TextAnimator hintText;
-	// static ArrayList<Enemy> enemies;
 
 /** Player **/
 
@@ -205,7 +198,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 						i--;
 					} else things.get(i).animate();
 				}
-				
+
 				/** Actions triggered by user **/
 				if (swirlEventInvoked)		
 					swirlEvent();

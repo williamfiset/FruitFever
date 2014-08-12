@@ -97,7 +97,7 @@ public class Player extends Animation {
 
 	public Player() {
 
-		super(startX, startY, Data.playerStill, false, 1, true, Animation.Type.NOT_AVAILABLE);
+		super(startX, startY, Data.playerStill, false, 1, true, Animation.Type.NOT_AVAILABLE, false, false, false, Layer.ABOVE_BLOCKS);
 
 		stillAnim  = Data.playerStill;   stillAnimH = Data.playerStillH;  
 		shootAnim  = Data.playerShoot;   shootAnimH = Data.playerShootH;  
@@ -105,7 +105,7 @@ public class Player extends Animation {
 
 		boundaryLeft = Data.TILE_SIZE; boundaryRight = -Data.TILE_SIZE;
 		
-		poisonAnimation = new Animation(x, y, Data.playerGasBubbles, false, 4, true, Animation.Type.NOT_AVAILABLE);
+		poisonAnimation = new Animation(x, y, Data.playerGasBubbles, false, 4, true, Animation.Type.NOT_AVAILABLE, false, false, false, Layer.ABOVE_BLOCKS);
 		poisonAnimation.image.setVisible(false);
 
 		swirl = new Swirl();
@@ -678,7 +678,7 @@ public class Player extends Animation {
 						FruitFever.addToThings(new Animation(checkPoint.imageX - 17 + (int) (Math.random()*35),
 						checkPoint.imageY - Data.TILE_SIZE*2 + (int) (Math.random()*35),
 						Data.fireworkAnimation[(int) (Math.random()*3)], false, 2 + (int)(Math.random()*3),
-						false, Animation.Type.FIREWORK));
+						false, Animation.Type.FIREWORK, false, false, false, Layer.ABOVE_BLOCKS));
 					
 					break;
 					

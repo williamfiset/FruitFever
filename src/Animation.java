@@ -14,7 +14,7 @@ public class Animation extends Thing {
 	protected int counter = 0;
 	public Type type;
 
-	protected GImage[] images;
+	public GImage[] images;
 	protected boolean counterGoingUp = true; 
 
 	private int delayCounter, delay;
@@ -35,7 +35,7 @@ public class Animation extends Thing {
 		
 	};
 	
-	public static final Type[] powerupTypes = new Type[]{Type.JUMP_POWERUP, Type.SPEED_POWERUP};
+	public static final Type[] powerupTypes = new Type[] { Type.JUMP_POWERUP, Type.SPEED_POWERUP };
 	
 	/**
 	 * @param x : default x-position
@@ -52,13 +52,17 @@ public class Animation extends Thing {
 	
 
 	// Designated constructor 
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type, boolean randomStartingFrame) {
+	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type, boolean randomStartingFrame, boolean canFall, boolean canBeCrushed, Layer layer) {
 	
 		super(x, y);
+
+		this.canFall = canFall;
+		this.canBeCrushed = canBeCrushed;
+		this.layer = layer;
 		
 		// Randomizes which frame the animation starts on
 		// (makes things such as fruit or fruit rings look better when they are clustered together)
-		if(randomStartingFrame)
+		if (randomStartingFrame)
 			counter = (int) (Math.random()*(originalImages.length - 1));
 
 		// Make copy of images
@@ -77,35 +81,21 @@ public class Animation extends Thing {
 	}
 
 	// Convenience constructor 
-	public Animation(int x, int y, GImage[] originalImages, boolean reverse, int delay, boolean repeat, Type type) {
-		this(x, y, originalImages, reverse, delay, repeat, type, false);	
+	public Animation (int x, int y, GImage originalImages[], Type type, boolean canFall, boolean canBeCrushed, Layer layer) {
+		this (x, y, originalImages, false, 1, true, type, false, canFall, canBeCrushed, layer);
+
+		// Make copy of images
+		this.images = originalImages;
+
+		// Set these instance variables, now that we know the image
+		super.image = copyImage(images[counter]);
+		super.setSize((int) image.getWidth(), (int) image.getHeight());
 	}
 
 	// Convenience constructor 
 	public Animation(int x, int y, GImage[] originalImages) {
-		this(x, y, originalImages, false, 1, true, Type.NOT_AVAILABLE);
-
-		// Make copy of images
-		this.images = originalImages;
-		
-		// Set these instance variables, now that we know the image
-		super.image = copyImage(images[counter]);
-		super.setSize((int) image.getWidth(), (int) image.getHeight());
+		this(x, y, originalImages, Type.NOT_AVAILABLE, false, false, Layer.BELOW_BLOCKS);
 	}
-	
-	// Convenience constructor 
-	public Animation (int x, int y, GImage originalImages[], Type type) {
-		this (x, y, originalImages, false, 1, true, type, false);
-
-		// Make copy of images
-		this.images = originalImages;
-
-		// Set these instance variables, now that we know the image
-		super.image = copyImage(images[counter]);
-		super.setSize((int) image.getWidth(), (int) image.getHeight());
-	}
-
-
 
 	public void animate() {
 	
@@ -162,6 +152,11 @@ public class Animation extends Thing {
 	
 	}
 	
+	/** NOTE: This may result in a resized image, potentially causing issues **/
+	@Override public void makeInvisible() {
+		images = new GImage[] { Data.invisibleImage };
+	}
+
 	public void setNewAnimation(GImage[] newImages) {
 		images = newImages;
 		counter = -1;
