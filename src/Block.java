@@ -437,70 +437,6 @@ public class Block extends Thing {
 							if (fallingBlock.contains(obj))
 								obj.makeInvisible();
 
-					// Slightly more rigorous approach with all the objects
-					// for (Thing obj : FruitFever.things) {
-						
-					// 	// Gas bubbles, torches etc...
-					// 	if (obj instanceof Animation) {
-					// 		Animation animationObj = (Animation) obj;
-							
-					// 		/* I think fruits and gas bubbles should disappear when touched by a block */
-
-					// 		// Fruits don't work 
-					// 		// else if (Arrays.asList(animationObj.images).contains(Data.fruits[0])) {
-					// 		// 	if (fallingBlock.intersects(animationObj))
-					// 		// 		animationObj.makeInvisible();
-					// 		// }
-
-					// 		// Torches (Perhaps a loop would work better haha)
-					// 		// This is a much more realistic approach for getting rid of torches
-					// 		if (Arrays.asList(animationObj.images).contains(Data.torches[0][0])) {
-					// 			if (fallingBlock.intersects(animationObj))
-					// 				animationObj.makeInvisible();
-					// 		}
-					// 		else if (Arrays.asList(animationObj.images).contains(Data.torches[1][0])) {
-					// 			if (fallingBlock.intersects(animationObj))
-					// 				animationObj.makeInvisible();
-					// 		}
-					// 		else if (Arrays.asList(animationObj.images).contains(Data.torches[2][0])) {
-					// 			if (fallingBlock.intersects(animationObj))
-					// 				animationObj.makeInvisible();
-					// 		}
-					// 		else if (Arrays.asList(animationObj.images).contains(Data.torchesH[0][0])) {
-					// 			if (fallingBlock.intersects(animationObj))
-					// 				animationObj.makeInvisible();
-					// 		}
-					// 		else if (Arrays.asList(animationObj.images).contains(Data.torchesH[1][0])) {
-					// 			if (fallingBlock.intersects(animationObj))
-					// 				animationObj.makeInvisible();
-					// 		}
-					// 		else if (Arrays.asList(animationObj.images).contains(Data.torchesH[2][0])) {
-					// 			if (fallingBlock.intersects(animationObj))
-					// 				animationObj.makeInvisible();
-					// 		}
-							
-					// 		// Gas bubbles
-					// 		else if ( Arrays.asList(animationObj.images).contains(Data.gasBubbles[0]) ) {
-					// 			if (fallingBlock.intersects(animationObj))
-					// 				animationObj.makeInvisible();
-					// 		}
-
-					// 		// Whatever is not a torch
-					// 		else {
-					// 			if (fallingBlock.contains(animationObj))
-					// 				animationObj.makeInvisible();
-					// 		} 
-
-					// 	// Spider webs, hints?
-					// 	} else {
-
-					// 		// Intersects is what we need for spider webs
-					// 		// if (fallingBlock.intersects(obj))
-					// 		// 	obj.changeImage(Data.invisibleImage);							
-					// 	}
-
-					// }
-
 					// Move scenery with block
 					for (Thing scenery : fallingBlock.connectedObjects) {
 
@@ -512,18 +448,6 @@ public class Block extends Thing {
 			}
 		}
 	}
-
-	/* Tests to see whether a given point comes in touch with a scenery object that is connected to a falling block */
-	// private static Thing connectedSceneryAtPoint(int x, int y) {
-
-	// 	for (int index = 0; index < FruitFever.blocks.size(); index++)
-	// 		for (Thing scenery : FruitFever.blocks.get(index).connectedObjects) 
-	// 			if (scenery.contains(x, y)) // From java.awt.Rectangle.contains(x,y) 
-	// 				return scenery;
-
-	// 	return null;
-
-	// }
 
 	/* Deprecate this asap, bad coding style (due to no closures or lambdas!)  */
 	private static boolean isWithinRange(int row_column_number, boolean x) {

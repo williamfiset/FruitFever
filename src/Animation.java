@@ -155,7 +155,6 @@ public class Animation extends Thing {
 	/** NOTE: This may result in a resized image, potentially causing issues **/
 	@Override public void makeInvisible() {
 		images = new GImage[] { Data.invisibleImage };
-		System.out.println(type + " was made invisible!");
 	}
 
 	public void setNewAnimation(GImage[] newImages) {

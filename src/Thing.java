@@ -123,7 +123,6 @@ public class Thing extends Rectangle {
 	
 	public void makeInvisible() {
 		changeImage(Data.invisibleImage);
-		System.out.println(toString() + " was made invisible!");
 	}
 
 	public static GImage copyImage(GImage img) {
