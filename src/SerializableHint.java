@@ -12,4 +12,16 @@ public class SerializableHint implements Serializable {
 		this.hint = hint;
 	}
 
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public String getHint() {
+		return hint;
+	}
+
 }

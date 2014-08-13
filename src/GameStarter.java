@@ -83,6 +83,7 @@ public class GameStarter {
 			// Calls the Python script telling it to delete all class files the cwd
 			ProcessBuilder processStarter = new ProcessBuilder("python","dc.py", "./", ".class");
 			processStarter.start();
+			
 		}catch(Exception e){}
 		
 	}

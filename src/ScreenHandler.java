@@ -144,7 +144,12 @@ public class ScreenHandler {
 	
 	/** Draws the main menu screen **/
 	public void drawMainMenu() {
+
 		removeAll();
+		
+		add(Data.menu_background2);
+		add(Data.menu_background1);
+		
 		addButtonsToScreen(FruitFever.mainMenuButtons);
 		add(Data.fruitFeverTitle);
 		fruitFever.levelSelectionPage = 0;
@@ -179,6 +184,7 @@ public class ScreenHandler {
 	}
 	
 	public void drawPauseMenu() {
+
 		add(Data.windowBorder);
 		addButtonsToScreen(FruitFever.pauseMenuButtons);
 		add(pauseMenuTitle, musicX, soundEffectsX, musicLabel, soundEffectsLabel, mainMenuButtonText, levelSelectionButtonText, resumeButtonText);
@@ -240,11 +246,16 @@ public class ScreenHandler {
 	/** Adds all images including blocks, things, fruits, and enemies to the screen **/
 	public void addImagesToScreen() {
 
+		for (Thing obj : fruitFever.things)
+			if (obj.layer == Thing.Layer.BELOW_BLOCKS)
+				add(obj.image);
+
 		for (Block obj : fruitFever.blocks)
 			add(obj.image);
 		
-		for (Thing thing : fruitFever.things)
-			add(thing.image);
+		for (Thing obj : fruitFever.things)
+			if (obj.layer == Thing.Layer.ABOVE_BLOCKS)
+				add(obj.image);
 		
 		/** Player Images **/
 		add(fruitFever.player.image, fruitFever.player.swirl.image);
