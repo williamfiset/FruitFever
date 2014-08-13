@@ -141,9 +141,6 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		/** Set file chooser to proper directory **/
 		fileChooser.setCurrentDirectory(new File(Paths.get("").toAbsolutePath().toString() + "/levels/designedLevels"));
 		
-		/** Set up keyboard and mouse **/
-		addMouseListeners();
-		addKeyListeners();
 	
 		/** Imports images into the Data class **/
 		Data.loadImages();
@@ -168,6 +165,10 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		selectedObjectsBox.setColor(Color.GREEN);
 		selectedObjectsBox.setVisible(false);
 		add(selectedObjectsBox);
+
+		/** Set up keyboard and mouse **/
+		addMouseListeners();
+		addKeyListeners();
 
 		while (true) {
 			if (!DesignerStarter.appletFrame.isFocused()) {
@@ -561,7 +562,9 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 	
 	/** Makes a copy of an image **/
 	private GImage copyImage(GObject obj) {
-		return new GImage(((GImage) obj).getImage());
+		if (obj != null) 
+			return new GImage(((GImage) obj).getImage());
+		else return null;
 	}
 	
 	/** Take user input **/
