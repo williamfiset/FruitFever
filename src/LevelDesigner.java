@@ -9,13 +9,11 @@ import java.nio.file.*;
 
 public class LevelDesigner extends GraphicsProgram implements MouseMotionListener {
 
-	/** TO DO 
-
-		Crucial/Important:
-		-fixLayering() should place selected blocks on top of other blocks
+	/** TO DO:
 
 		Necessary:
 		-Change menu when it's not in add mode
+		-fixLayering() should place selected blocks on top of other blocks
 		-Moving selected blocks onto menu deletes them/makes them move twice as fast? This is a weird bug. Maybe they are overlapped
 		Extras:
 		-Add icon to program (William made a ghetto icon for you. You best respect him :P)
@@ -525,6 +523,15 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		double x = img.getX() - findXOffset(img);
 		double y = Math.max(img.getY() - findYOffset(img), MENU_HEIGHT);
+
+		return new GRect(x, y, Data.TILE_SIZE, Data.TILE_SIZE);
+
+	}
+
+	private GRect getTileBoundary(GRect obj) {
+
+		double x = obj.getX();
+		double y = Math.max(obj.getY(), MENU_HEIGHT);
 
 		return new GRect(x, y, Data.TILE_SIZE, Data.TILE_SIZE);
 
@@ -1336,6 +1343,14 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 			for (int i = 0; i < blockLayer.size(); i++)
 				if (getTileBoundary(blockLayer.get(i)).contains(mouseX, mouseY)) {
+
+					for (GRect rect : fallingBlocksHighlighting)
+						if (getTileBoundary(rect).contains(mouseX, mouseY)) {
+							fallingBlocksHighlighting.remove(rect);
+							remove(rect);
+							break;
+						}
+
 					remove(blockLayer.get(i));
 					blockLayer.remove(blockLayer.get(i));
 					i--;
