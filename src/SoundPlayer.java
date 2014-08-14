@@ -10,23 +10,28 @@
 * Micah said to try:
 * http://java-demos.blogspot.ca/2012/11/java-code-to-play-mp3-file.html 
 *
-* SoundEffect FileFormat: aac 
-* SoundTrack FileFormat: mp3
+* SoundEffect FileFormat preferably: aac 
+* SoundTrack FileFormat preferably: mp3
 *
 *
 **/
 
-import javax.media.*;
-import javafx.media.*;
-import com.sun.media.*;
+// import javax.media.*;
+// import javafx.media.*;
+// import com.sun.media.*;
 
-import musicJar.javax.media.*;
-import musicJar.javafx.media.*;
-import musicJar.com.sun.media.*;
+// import musicJar.javax.media.*;
+// import musicJar.javafx.media.*;
+// import musicJar.com.sun.media.*;
 
 import java.net.*;
-import java.io.*;
 import java.util.*;
+
+
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 // import javax.sound.sampled.*;
 
@@ -41,9 +46,74 @@ public class SoundPlayer {
 	// Change to get class path! 
 	private static String makePath(String fileName) { return System.getProperty("user.dir") + "/" + fileName; }
 
-	/** Loads an uncompressed sound file format such as .wav or aif and plays it
-		NOTE: Playing sound with this is alright for short clips but definitely not for a soundtrack 
-		as they take up lots of space (60+ mb for ≈6min soundstack) **/
+	/* Usage:
+
+	Clip soundClip = loadSound("marioSound.wav");
+	soundClip.start();
+	
+	*/
+
+	public static Clip loadSound(String fileName){
+
+		String pathDir = System.getProperty("user.dir") + "/"; // current directory
+
+		try {
+
+			File musicFile = new File(pathDir + fileName);
+
+			AudioInputStream audio = AudioSystem.getAudioInputStream(musicFile);
+			Clip musicClip = AudioSystem.getClip();
+			musicClip.open(audio);
+			
+			return musicClip;
+
+		} catch(Exception e) {
+
+			System.out.println( "Might wanna check path:\n" + pathDir + fileName + "\n" );
+			e.printStackTrace();
+			return null;
+
+		}
+
+	}
+
+	public static void main(String[] args) {
+		
+		Clip marioSoundClip = loadSound("sound/jump.wav");
+		marioSoundClip.start();
+
+	}
+
+/*
+	 
+	//  SoundTracks can be and should be a .mp3 file 
+	//  @param soundTrack: the name of the soundTrack you wish to play
+	 
+	public static void playSoundTrack (String soundTrack){
+
+		String pathDir = makePath(soundTrack);
+		System.out.println(pathDir);
+
+		Media media = new Media(pathDir);
+		MediaPlayer mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
+
+
+
+		// String bip = "bip.mp3";
+		// Media hit = new Media(bip);
+		// MediaPlayer mediaPlayer = new MediaPlayer(hit);
+		// mediaPlayer.play();
+
+	}
+
+*/
+
+/*
+
+	// Loads an uncompressed sound file format such as .wav or aif and plays it
+	//	NOTE: Playing sound with this is alright for short clips but definitely not for a soundtrack 
+	//	as they take up lots of space (60+ mb for ≈6min soundstack) 
 
 	public static void playSound(String fileName) {
 
@@ -72,44 +142,9 @@ public class SoundPlayer {
 		
 	}
 
-	/* 
-	 * SoundTracks can be and should be a .mp3 file 
-	 * @param soundTrack: the name of the soundTrack you wish to play
-	 */
-	public static void playSoundTrack (String soundTrack){
+*/
 
-		String pathDir = makePath(soundTrack);
-		System.out.println(pathDir);
-
-		Media media = new Media(pathDir);
-		MediaPlayer mediaPlayer = new MediaPlayer(media);
-		mediaPlayer.play();
-
-
-
-		// String bip = "bip.mp3";
-		// Media hit = new Media(bip);
-		// MediaPlayer mediaPlayer = new MediaPlayer(hit);
-		// mediaPlayer.play();
-
-
-
-	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
