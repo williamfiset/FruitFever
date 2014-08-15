@@ -24,7 +24,7 @@
 // import musicJar.javafx.media.*;
 // import musicJar.com.sun.media.*;
 
-import java.net.*;
+// import java.net.*;
 import java.util.*;
 
 
@@ -32,6 +32,10 @@ import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+
+import javax.sound.midi.*;
+import javax.swing.JOptionPane;
+import java.net.URL;
 
 // import javax.sound.sampled.*;
 
@@ -49,14 +53,22 @@ public class SoundPlayer {
 	/* Usage:
 
 	Clip soundClip = loadSound("marioSound.wav");
-	soundClip.start();
 	
+	soundClip.start();
+
+	soundClip.loop(intNumber);
+	soundClip.loop(Clip.LOOP_CONTINUOUSLY); // Loop forever
+	
+	soundClip.stop();
+	soundClip.flush();
+
+	http://docs.oracle.com/javase/7/docs/api/javax/sound/sampled/Clip.html
+
 	*/
 
 	public static Clip loadSound(String fileName){
 
 		String pathDir = System.getProperty("user.dir") + "/"; // current directory
-
 		try {
 
 			File musicFile = new File(pathDir + fileName);
@@ -79,8 +91,13 @@ public class SoundPlayer {
 
 	public static void main(String[] args) {
 		
+		// Plays clip once (needs like 1/2 to start)
 		Clip marioSoundClip = loadSound("sound/jump.wav");
 		marioSoundClip.start();
+		
+		// Let the program live for ≈ 3 sec		
+		Timer_ timer = new Timer_();
+		while (timer.getTime() < 3.0){}
 
 	}
 
