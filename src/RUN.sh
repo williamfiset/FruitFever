@@ -1,3 +1,3 @@
 #!/bin/sh
 javac *.java
-java -cp .:lib/* Player
+java -cp .:lib/* $1

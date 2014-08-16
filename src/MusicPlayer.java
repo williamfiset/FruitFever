@@ -4,6 +4,16 @@
 
 This class allows you to play compressed audio files.
 
+Example:
+
+MusicPlayer audio = new MusicPlayer("sound/LionKingSoundTrack.mp3");
+audio.play();
+
+
+Dependancies:
+- jl1.0.1.jar
+- mp3spi1.9.5.jar
+- tritonus_share.jar
 
 
 */
