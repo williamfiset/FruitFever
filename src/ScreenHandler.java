@@ -42,6 +42,11 @@ public class ScreenHandler {
 					levelSelectionButtonText = new GLabel("Level Selection"),
 					resumeButtonText = new GLabel("Resume");
 	
+	/** End of Level Screen **/
+
+	
+
+
 	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
 		this.fruitFever = fruitFever;
@@ -51,6 +56,7 @@ public class ScreenHandler {
 	
 		centerObject(Data.fruitFeverTitle, 50);
 		centerObject(Data.windowBorder);
+		centerObject(Data.endScreenWindow);
 		
 		/** Lock and Star images **/
 		for (int i = 0; i < 20; i++) {
@@ -176,11 +182,13 @@ public class ScreenHandler {
 	/** Draws the end of level screen **/
 	public void drawEndOfLevel() {
 		
-		add(Data.windowBorder);
-
+		// add(Data.windowBorder);
 		// for (int i = 0; i < FruitFever.levelInformation[currentLevel].stars; i++)
 			
-		fruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
+		add(Data.endScreenWindow);
+		add(Data.buttonFrame[1]);
+
+		// fruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
 	}
 	
 	public void drawPauseMenu() {
