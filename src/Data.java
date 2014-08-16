@@ -29,7 +29,7 @@ public abstract class Data {
 
 	public static BufferedImage sheet = null;
 	
-	public static GImage 	loadingScreenBackground, loadingScreenBar, windowBorder, fruitFeverTitle,
+	public static GImage 	loadingScreenBackground, loadingScreenBar, windowBorder, fruitFeverTitle, endScreenWindow,
 							heartImage,
 							sliderCircle, sliderCirclePressed, sliderBar, redX,
 							purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
@@ -367,6 +367,7 @@ public abstract class Data {
 			buttonFrame[i] = ImageTransformer.joinSet(tileset[i], 175, 37);
 		
 		windowBorder = ImageTransformer.joinSet(tileset[0], 260, 334);
+		endScreenWindow = ImageTransformer.joinSet( tileset[0], 320, 380 );
 
 		updateLoadingBar(0.05);
 
