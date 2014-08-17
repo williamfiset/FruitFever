@@ -30,6 +30,7 @@ if __name__ == '__main__':
 	for branch in branches:
 		if branch is not '':
 
+			# * indicates the current checked-out branch
 			if '*' in branch:
 
 				branch = branch.split()
