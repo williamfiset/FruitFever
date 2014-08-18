@@ -405,16 +405,15 @@ public class Block extends Thing {
 			if (fallingBlock.imageY > FruitFever.LEVEL_HEIGHT + Data.TILE_SIZE*3) {
 
 				// Places block offscreen so that blocks dont pile on top of one another
-				fallingBlock.imageX = -1000;
-				fallingBlock.imageY = -1000;
-				fallingBlock.x = -1000;
-				fallingBlock.y = -1000;
-
+				// fallingBlock.imageX = -1000;
+				// fallingBlock.imageY = -1000;
+				// fallingBlock.x = -1000;
+				// fallingBlock.y = -1000;
 
 				// Remove block completely (still missing those in xBlock and yBlock lists)
-				fallingBlocks.remove(index);
-				// FruitFever.things.remove(fallingBlock);
-				// FruitFever.blocks.remove(fallingBlock);
+				FruitFever.removeThingFromLists(fallingBlock, FruitFever.blocks, fallingBlocks);
+				// fallingBlocks.remove(index);
+				
 				index--;
 			
 

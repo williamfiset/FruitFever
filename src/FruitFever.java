@@ -672,6 +672,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	}
 	**/
 
+	public static void removeThingFromLists(Block obj, ArrayList<Block>... lists) {
+
+		screen.remove(obj.image);
+
+		for (ArrayList<Block> list : lists)
+			if (list.contains(obj))
+				list.remove(obj);
+
+	}
+
 }
 
 
