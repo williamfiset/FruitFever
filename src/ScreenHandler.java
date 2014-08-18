@@ -254,7 +254,7 @@ public class ScreenHandler {
 			add(obj.image);
 		
 		for (Thing obj : fruitFever.things)
-			if (obj.layer == Thing.Layer.ABOVE_BLOCKS)
+			if (obj.layer != Thing.Layer.ABOVE_BLOCKS)
 				add(obj.image);
 		
 		/** Player Images **/
