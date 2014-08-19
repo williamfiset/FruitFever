@@ -42,9 +42,8 @@ public class ScreenHandler {
 					levelSelectionButtonText = new GLabel("Level Selection"),
 					resumeButtonText = new GLabel("Resume");
 	
-	/** End of Level Screen **/
-
-	
+	/** End of Level Screen **/	
+	static GImage[] largeStars = new GImage[3], largeNoStars = new GImage[3], largeFadedStars = new GImage[3];
 
 
 	/** Constructor **/
@@ -89,6 +88,13 @@ public class ScreenHandler {
 		centerObject(mainMenuButtonText, Data.TILE_SIZE*11);
 		centerObject(levelSelectionButtonText, Data.TILE_SIZE*13);
 		centerObject(resumeButtonText, Data.TILE_SIZE*15);
+
+		/** End of Level Screen **/
+		for (int i = 0; i < 3; i++) {
+			centerObject(largeStars[i], (2*i - 2)*Data.TILE_SIZE, Data.TILE_SIZE*5);
+			centerObject(largeFadedStars[i], (2*i - 2)*Data.TILE_SIZE, Data.TILE_SIZE*5);
+			centerObject(largeNoStars[i], (2*i - 2)*Data.TILE_SIZE, Data.TILE_SIZE*5);
+		}
 		
 		/** Debugging **/
 		nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
@@ -143,6 +149,15 @@ public class ScreenHandler {
 		musicX.setVisible(false);
 		soundEffectsX = Thing.copyImage(Data.redX);
 		soundEffectsX.setVisible(false);
+
+
+		/** End of Level Screen **/
+
+		for (int i = 0; i < 3; i++) {
+			largeNoStars[i] = Thing.copyImage(Data.noStar);
+			largeFadedStars[i] = Thing.copyImage(Data.fadedStar);
+			largeStars[i] = Thing.copyImage(Data.star);
+		}
 		
 		setLocations();
 		
@@ -181,14 +196,19 @@ public class ScreenHandler {
 
 	/** Draws the end of level screen **/
 	public void drawEndOfLevel() {
-		
-		// add(Data.windowBorder);
-		// for (int i = 0; i < FruitFever.levelInformation[currentLevel].stars; i++)
 			
 		add(Data.endScreenWindow);
-		add(Data.buttonFrame[1]);
+		// add(Data.buttonFrame[1]);
 
-		// fruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
+		for (int i = 0; i < 3; i++) {
+			largeNoStars[i].setVisible(i >= (FruitFever.currentFruitRings*3)/FruitFever.totalFruitRings);
+			largeFadedStars[i].setVisible(i < FruitFever.levelInformation[FruitFever.currentLevel].stars);
+			largeStars[i].setVisible(i < (FruitFever.currentFruitRings*3)/FruitFever.totalFruitRings);
+		}
+
+		add(largeNoStars, largeFadedStars, largeStars);
+
+		fruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
 	}
 	
 	public void drawPauseMenu() {

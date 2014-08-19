@@ -34,7 +34,7 @@ public abstract class Data {
 							sliderCircle, sliderCirclePressed, sliderBar, redX,
 							purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
 							checkpointFlagRed, checkpointFlagGreen,
-							bronzeStar, silverStar, goldStar, starIcon, noStarIcon, locked,
+							star, fadedStar, noStar, starIcon, noStarIcon, locked,
 							energyBar, energyBarBackground, healthBar, healthBarBackground,
 							iconBackgroundBar,
 							menu_background1, menu_background2,
@@ -226,11 +226,11 @@ public abstract class Data {
 		spikesV[0] = ImageTransformer.verticalFlip(spikes[0]);
 				
 		// Stars
-		bronzeStar = makeImage(TILE_SIZE*8, 0, TILE_SIZE, TILE_SIZE);
-		silverStar = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE*2);
-		noStarIcon = ImageTransformer.resize(silverStar, 15, 15);
-		goldStar = makeImage(TILE_SIZE*8, TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE*2);
-		starIcon = ImageTransformer.resize(goldStar, 15, 15);
+		fadedStar = makeImage(TILE_SIZE*8, 0, TILE_SIZE*2, TILE_SIZE*2);
+		star = makeImage(TILE_SIZE*8, TILE_SIZE*4, TILE_SIZE*2, TILE_SIZE*2);
+		noStar = makeImage(TILE_SIZE*8, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE*2);
+		noStarIcon = ImageTransformer.resize(noStar, 15, 15);
+		starIcon = ImageTransformer.resize(star, 15, 15);
 		
 		// Locked
 		locked = makeImage(TILE_SIZE*10, TILE_SIZE, TILE_SIZE*2, TILE_SIZE*2);
