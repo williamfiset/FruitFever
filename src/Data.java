@@ -43,9 +43,8 @@ public abstract class Data {
 						
 	public static GImage[] 	sceneryImages = new GImage[30],
 							
-							gearButton = new GImage[3],
 							fruitRingAnimation = new GImage[6],
-							vortexAnimation = new GImage[5],
+							
 							powerups = new GImage[2],
 							   
 							playerStill = new GImage[1],
@@ -54,28 +53,25 @@ public abstract class Data {
 							playerTongueH = new GImage[5],
 							playerShoot = new GImage[6],
 							playerShootH = new GImage[6],
-							  
-							// fuzzyEnemyAttack = new GImage[4],
-							// fuzzyEnemyAttackH = new GImage[4],
-							// fuzzyEnemyMoving = new GImage[3],
-							// fuzzyEnemyMovingH = new GImage[3],
-							// fuzzyShot = new GImage[8],
-							// wormEnemyMoving = new GImage[4],
-							// wormEnemyMovingH = new GImage[4],
 							   
 							swirlAnimation = new GImage[6],
-							
-							gasBubbles = new GImage[4],
+							vortexAnimation = new GImage[5],
+
 							playerGasBubbles = new GImage[4],
+
+							hintSign = new GImage[3],
+
+							gasBubbles = new GImage[4],
 							lava = new GImage[1],
 							spikesBlood = new GImage[1],
 							spikesBloodV = new GImage[1],
 							spikes = new GImage[1],
 							spikesV = new GImage[1],
+							
+							gearButton = new GImage[3],
 							musicButton = new GImage[2],
 							soundEffectsButton = new GImage[2],
-							hintSign = new GImage[3],
-							refreshButton = new GImage[3],
+							restartButton = new GImage[3],
 							menuButtons = new GImage[12],
 							leftArrowButton = new GImage[3],
 							rightArrowButton = new GImage[3],
@@ -186,7 +182,7 @@ public abstract class Data {
 		// Back Button Images
 		int randomButtonColor = (int) (Math.random()*4);
 		for (int i = 0; i < 3; i++)
-			refreshButton[i] = makeImage(TILE_SIZE*randomButtonColor, TILE_SIZE*(i + 5), TILE_SIZE, TILE_SIZE);	
+			restartButton[i] = makeImage(TILE_SIZE*randomButtonColor, TILE_SIZE*(i + 5), TILE_SIZE, TILE_SIZE);	
 			
 		// Lava Image
 		lava[0] = makeImage(TILE_SIZE*7, 0, TILE_SIZE, TILE_SIZE);
@@ -367,7 +363,7 @@ public abstract class Data {
 			buttonFrame[i] = ImageTransformer.joinSet(tileset[i], 175, 37);
 		
 		windowBorder = ImageTransformer.joinSet(tileset[0], 260, 334);
-		endScreenWindow = ImageTransformer.joinSet( tileset[0], 320, 380 );
+		endScreenWindow = ImageTransformer.joinSet(tileset[0], 320, 400);
 
 		updateLoadingBar(0.05);
 
@@ -404,14 +400,15 @@ public abstract class Data {
 			for (int i = 0; i < 100; i++)
 
 				try {
+
 					Scanner sc = new Scanner(new File("levels/exportedLevels/" + i + ".txt"));
 						
-					FruitFever.levelInformation[i] = new LevelInformation(sc.nextLine(), i, false);
+					FruitFever.levelInformation[i] = new LevelInformation(sc.nextLine(), i, i != 0);
 					infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
 			
-				/** Create unlocked level with no highscore or name or stars since it does not exist **/
+				/** Level does not exist **/
 				} catch (IOException e) {
-					FruitFever.levelInformation[i] = new LevelInformation("", i, false);
+					FruitFever.levelInformation[i] = new LevelInformation("Does not exist!", i, i != 0);
 					infoFile.addItem(String.valueOf(i), FruitFever.levelInformation[i]);
 				}
 		
@@ -706,58 +703,6 @@ public abstract class Data {
 
 			for (int i = 0; i < FruitFever.hints.size(); i++)
 				FruitFever.hints.get(i).hint = sc.nextLine();
-			
-			/** ENEMIES
-
-			while (sc.hasNextLine() && !(line = sc.nextLine()).equals("") && !line.equals("+")) {
-				
-				int characterOffset = 0;
-				
-				// Iterate through each character in the line, instantiating the specified enemy (if it exists)
-				for (int i = 0; i < line.length(); i++) {
-					
-					char character = line.charAt(i);
-
-					// Skip if it's a blank
-					if (character == '-' || character == ' ' || character == '#' || character == '?')
-						continue;
-						
-					// Read in enemy
-					if (character == '<') {
-						int currentCharacterOffset = 1;
-						char enemyType = line.charAt(i - characterOffset + currentCharacterOffset);
-						currentCharacterOffset++;
-						char enemyColor = line.charAt(i - characterOffset + currentCharacterOffset);
-						currentCharacterOffset++;
-						
-						String left = findFirstNumber(line, i - characterOffset + currentCharacterOffset);
-						currentCharacterOffset += left.length() + 1;
-						
-						String right = findFirstNumber(line, i - characterOffset + currentCharacterOffset);
-						currentCharacterOffset += right.length() + 1;
-						
-						String up = findFirstNumber(line, i - characterOffset + currentCharacterOffset);
-						currentCharacterOffset += up.length() + 1;
-						
-						String down = findFirstNumber(line, i - characterOffset + currentCharacterOffset);
-						currentCharacterOffset += down.length();
-						
-						int x = (i - characterOffset);
-						characterOffset += currentCharacterOffset;
-						int y = lineNumber;
-						
-						// if(enemyType == 'a')
-							FruitFever.enemies.add(new Enemy(new int[]{(x - Integer.valueOf(left))*TILE_SIZE, (x + Integer.valueOf(right))*TILE_SIZE}, new int[]{(y - Integer.valueOf(up))*TILE_SIZE, (y + Integer.valueOf(down))*TILE_SIZE}, new GImage[][]{ wormEnemyMoving, wormEnemyMovingH}, true, 2, true, 1, 1));
-
-					}
-		
-				}
-
-				lineNumber++;
-
-			}
-			
-			**/
 
 			sc.close();
 		
@@ -789,8 +734,8 @@ public abstract class Data {
 		/** Adds gear button to the ArrayLists for In-Game Screen **/
 		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, Button.Type.GEAR, gearButton), FruitFever.inGameButtons);
 		
-		/** Adds refresh button to the ArrayList for In-Game Screen **/
-		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.REFRESH, refreshButton), FruitFever.inGameButtons);
+		/** Adds restart button to the ArrayList for In-Game Screen **/
+		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.RESTART, restartButton), FruitFever.inGameButtons);
 		
 		/** Adds sliders and music/sound effect toggles to the ArrayList for Pause Menu Screen **/
 		
@@ -806,13 +751,21 @@ public abstract class Data {
 		addToButtons(new Button((int)((FruitFever.SCREEN_WIDTH - buttonFrame[0].getWidth())/2), TILE_SIZE*12, Button.Type.LEVEL_SELECTION, buttonFrame), FruitFever.pauseMenuButtons);
 		addToButtons(new Button((int)((FruitFever.SCREEN_WIDTH - buttonFrame[0].getWidth())/2), TILE_SIZE*14, Button.Type.RESUME, buttonFrame), FruitFever.pauseMenuButtons);
 		
+		/** Adds buttons to the ArrayLists for End Of Level Screen **/
+
+		addToButtons(new Button((int)((FruitFever.SCREEN_WIDTH - buttonFrame[0].getWidth())/2), TILE_SIZE*10, Button.Type.MAIN_MENU, buttonFrame), FruitFever.levelCompleteButtons, FruitFever.levelIncompleteButtons);
+		addToButtons(new Button((int)((FruitFever.SCREEN_WIDTH - buttonFrame[0].getWidth())/2), TILE_SIZE*12, Button.Type.LEVEL_SELECTION, buttonFrame), FruitFever.levelCompleteButtons, FruitFever.levelIncompleteButtons);
+		addToButtons(new Button((int)((FruitFever.SCREEN_WIDTH - buttonFrame[0].getWidth())/2), TILE_SIZE*14, Button.Type.RESTART, buttonFrame), FruitFever.levelCompleteButtons);
+		addToButtons(new Button((int)((FruitFever.SCREEN_WIDTH - buttonFrame[0].getWidth())/2), TILE_SIZE*16, Button.Type.NEXT_LEVEL, buttonFrame), FruitFever.levelCompleteButtons, FruitFever.levelIncompleteButtons);
+		
 	}
 	
-	private static void addToButtons(Button button, ArrayList<Button> buttonList) {
+	private static void addToButtons(Button button, ArrayList<Button>... buttonLists) {
 		FruitFever.buttons.add(button);
-		buttonList.add(button);
+		for (ArrayList<Button> buttonList : buttonLists)
+			buttonList.add(button);
 	}
-	
+
 	private static void updateLoadingBar(double newProgress) {
 		try {
 			loadingBarProgress += newProgress;
@@ -821,17 +774,5 @@ public abstract class Data {
 			FruitFever.screenHandler.add(loadingScreenBar);
 		} catch (NullPointerException e) { }
 	}
-	
-	/** Grabs an integer out of an enemy entry in the Enemy block 
-	private static String findFirstNumber(String line, int index) {
-	
-		String str = "";
-		
-		while (line.charAt(index) != ',' && line.charAt(index) != '>') {
-			str += line.charAt(index++);
-		}
-		
-		return str;
-	} **/
 	
 }

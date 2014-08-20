@@ -31,9 +31,9 @@ public class Button extends Thing {
 		RIGHT_ARROW,
 		LEVEL_BOXES,
 		
-		/** In-Game **/
+		/* In-Game **/
 		GEAR,
-		REFRESH,
+		RESTART,
 		
 		/** Pause Menu **/
 		SOUND_EFFECTS,
@@ -41,6 +41,7 @@ public class Button extends Thing {
 		MAIN_MENU,
 		LEVEL_SELECTION,
 		RESUME,
+		NEXT_LEVEL,
 		SLIDER;
 	};
 	

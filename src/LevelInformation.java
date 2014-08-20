@@ -10,20 +10,21 @@
  public class LevelInformation implements Serializable {
 	
 	public String name;
-	public int number, highScore;
+	public int number;
 	public byte stars;
 	public boolean locked;
+	public boolean completed;
  
-	public LevelInformation(String name, int number, int highScore, byte stars, boolean locked) {
+	public LevelInformation(String name, int number, byte stars, boolean locked, boolean completed) {
 		this.name = name;
 		this.number = number;
-		this.highScore = highScore;
 		this.stars = stars;
 		this.locked = locked;
+		this.completed = completed;
 	}
 	
 	public LevelInformation(String name, int number, boolean locked) {		
-		this(name, number, 0, (byte) 0, locked);	
+		this(name, number, (byte) 0, locked, false);	
 	}
  
  }

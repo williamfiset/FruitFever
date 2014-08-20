@@ -59,7 +59,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	// Defines ScreenMode constants	
 	public static enum ScreenMode {
 
-		LEVEL_REFRESH,
+		LEVEL_RESTART,
 		LOADING_GAME,
 		MAIN_MENU,
 		LEVEL_SELECTION,
@@ -78,6 +78,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 								levelSelectionButtons = new ArrayList<>(),
 								inGameButtons = new ArrayList<>(),
 								pauseMenuButtons = new ArrayList<>(),
+								levelCompleteButtons = new ArrayList<>(),
+								levelIncompleteButtons = new ArrayList<>(),
 								buttons = new ArrayList<>(); // Includes all buttons (even those in other ArrayLists)
 	static Button clickedOnButton = null;
 	
@@ -166,11 +168,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 						else
 							levelInformation[currentLevel].stars = (byte) Math.max(levelInformation[currentLevel].stars, (((double) currentFruitRings / (double) totalFruitRings)*3.0));
 							
+
+						levelInformation[currentLevel].completed = true;
+						levelInformation[currentLevel + 1].locked = false;
+
 						Data.updateLevelInformation(currentLevel);
 
-						screenHandler.drawEndOfLevel();
+						screenHandler.drawEndOfLevelMenu(true);
 					} else
-						screenHandler.drawLevelSelection();
+						screenHandler.drawEndOfLevelMenu(false);
 					
 				}
 				
@@ -255,7 +261,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			}
 
 
-			if (currentScreen == ScreenMode.LEVEL_REFRESH)
+			if (currentScreen == ScreenMode.LEVEL_RESTART)
 				loadLevel();							
 			
 			pauseLoop(loopTimer);
@@ -463,6 +469,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			checkAndSetClick(pauseMenuButtons, mouse);
 			checkAndSetClick(inGameButtons, mouse);
 		}
+		else if (currentScreen == ScreenMode.END_OF_LEVEL) {
+			if (levelInformation[currentLevel].completed)
+				checkAndSetClick(levelCompleteButtons, mouse);
+			else
+				checkAndSetClick(levelIncompleteButtons, mouse);
+		}
+			
 			
 	}
 	
@@ -476,7 +489,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				/** Play button **/
 				if (clickedOnButton.type == Button.Type.PLAY || clickedOnButton.type == Button.Type.LEVEL_SELECTION)
-					screenHandler.drawLevelSelection();
+					screenHandler.drawLevelSelectionMenu();
 				
 				/** Level left arrow button **/
 				else if (clickedOnButton.type == Button.Type.LEFT_ARROW) {
@@ -523,9 +536,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				} else if (clickedOnButton.type == Button.Type.MAIN_MENU) {
 					screenHandler.drawMainMenu();
 				
-				/** Refresh Button **/
-				} else if (clickedOnButton.type == Button.Type.REFRESH) {
-					currentScreen = ScreenMode.LEVEL_REFRESH;
+				/** Restart Button **/
+				} else if (clickedOnButton.type == Button.Type.RESTART) {
+					currentScreen = ScreenMode.LEVEL_RESTART;
+
+				/** Next Level Button **/
+				} else if (clickedOnButton.type == Button.Type.NEXT_LEVEL) {
+					currentLevel++;
+					loadLevel();
 				}
 				
 			}
@@ -592,7 +610,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 			/** Reload level **/
 			} else if (keyCode == KeyEvent.VK_R){
-				currentScreen = ScreenMode.LEVEL_REFRESH;								
+				currentScreen = ScreenMode.LEVEL_RESTART;								
 			}
 			
 		}

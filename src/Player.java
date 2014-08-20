@@ -25,7 +25,7 @@ public class Player extends Animation {
   // Player Stats
   
 	public static final int MAX_LIVES = 100;
-	private static int STARTING_LIVES = 11;
+	private static int STARTING_LIVES = 3;
 	private int lives                 = STARTING_LIVES;
 	private boolean poisoned          = false;
 	private int poisonLeft            = 0;
