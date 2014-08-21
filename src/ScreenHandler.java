@@ -238,11 +238,7 @@ public class ScreenHandler {
 
 		// Draw buttons and text
 		addButtonsToScreen(FruitFever.endOfLevelButtons);
-		add(playerHasWon ? levelCompleteTitle : levelIncompleteTitle, mainMenuButtonText, levelSelectionButtonText, restartButtonText);
-
-		if (playerHasWon)
-			add(nextLevelButtonText);
-
+		add(playerHasWon ? levelCompleteTitle : levelIncompleteTitle, mainMenuButtonText, levelSelectionButtonText, restartButtonText, nextLevelButtonText);
 
 		fruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
 	}
