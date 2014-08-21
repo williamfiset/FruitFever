@@ -270,7 +270,7 @@ public class ScreenHandler {
 			if (fruitFever.levelInformation[level].locked) {
 				levelLocks[i].setVisible(true);
 				levelNumbers[i].setVisible(false);
-				fruitFever.levelSelectionButtons.get(i).active = false;
+				fruitFever.levelSelectionButtons.get(i).deactivate();
 				for (int j = 0; j < 3; j++) {
 					levelStars[i][j].setVisible(false);
 					levelNoStars[i][j].setVisible(false);
@@ -279,7 +279,7 @@ public class ScreenHandler {
 			} else {
 				levelLocks[i].setVisible(false);
 				levelNumbers[i].setVisible(true);
-				fruitFever.levelSelectionButtons.get(i).active = true;
+				fruitFever.levelSelectionButtons.get(i).activate();
 				for (int j = 0; j < 3; j++) {
 					if (fruitFever.levelInformation[level].stars > j) {
 						levelStars[i][j].setVisible(true);

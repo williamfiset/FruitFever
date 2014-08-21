@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class Button extends Thing {
 
-	public GImage defaultImage, hoverImage, clickImage;
+	public GImage defaultImage, hoverImage, clickImage, inactiveImage;
 	public Type type;
 	public boolean active = true;
 	
@@ -46,7 +46,7 @@ public class Button extends Thing {
 	};
 	
 	/** Designated constructor **/
-	public Button(int x, int y, Type type, GImage defaultImg, GImage hoverImg, GImage clickImg) {
+	public Button(int x, int y, Type type, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage inactiveImg) {
 	
 		super(x, y, (int) defaultImg.getWidth(), (int) defaultImg.getHeight(), defaultImg);
 		
@@ -57,23 +57,24 @@ public class Button extends Thing {
 		this.defaultImage = defaultImg;
 		this.hoverImage = hoverImg;
 		this.clickImage = clickImg;
+		this.inactiveImage = inactiveImg;
 		 
 	}
 	
 	/** Convenience constructor **/
 	public Button(int x, int y, Type type, GImage[] imgArray) {
-		this(x, y, type, imgArray[0], imgArray[1], imgArray[imgArray.length > 2 ? 2 : 1]);
+		this(x, y, type, imgArray[0], imgArray[1], imgArray[imgArray.length > 2 ? 2 : 1], imgArray[imgArray.length > 3 ? 3 : 0]);
 	}
 	
 	/** Constructor used for LEVEL_BOXES button **/
 	public Button(int x, int y, GImage[] imgArray, int level) {
-		this(x, y, Type.LEVEL_BOXES, imgArray[0], imgArray[1], imgArray[1]);
+		this(x, y, Type.LEVEL_BOXES, imgArray[0], imgArray[1], imgArray[1], imgArray[0]);
 		this.level = level;
 	}
 	
 	/** Constructor used for SLIDER button **/
 	public Button(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage bar, double defaultValue) {
-		this((int) (x + bar.getWidth()*defaultValue - Slider.CIRCLE_RADIUS) + FruitFever.viewX, y + FruitFever.viewY, Type.SLIDER, defaultImg, hoverImg, clickImg);
+		this((int) (x + bar.getWidth()*defaultValue - Slider.CIRCLE_RADIUS) + FruitFever.viewX, y + FruitFever.viewY, Type.SLIDER, defaultImg, hoverImg, clickImg, defaultImg);
 		this.bar = copyImage(bar);
 		this.bar.setLocation(x, y);
 	}
@@ -96,6 +97,16 @@ public class Button extends Thing {
 	
 	public void setClick() {
 		changeImage(clickImage);
+	}
+
+	public void activate() {
+		active = true;
+		changeImage(inactiveImage);
+	}
+
+	public void deactivate() {
+		active = false;
+		changeImage(defaultImage);
 	}
 	
 }

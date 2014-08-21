@@ -248,18 +248,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					placed_menu = true;
 				}
 
-				if ( Data.menu_background1.getX() < -MENU_WIDTH ) 
+				if (Data.menu_background1.getX() < -MENU_WIDTH) 
 					Data.menu_background1.setLocation( MENU_WIDTH , 0 );
-
-				else if ( Data.menu_background2.getX() < -MENU_WIDTH ) 
+				else if (Data.menu_background2.getX() < -MENU_WIDTH) 
 					Data.menu_background2.setLocation( MENU_WIDTH , 0 );				
 
-				Data.menu_background1.setLocation(  Data.menu_background1.getX() - MENU_BACKGROUND_SCROLL_SCREEN  , Data.menu_background1.getY() );
-				Data.menu_background2.setLocation(  Data.menu_background2.getX() - MENU_BACKGROUND_SCROLL_SCREEN  , Data.menu_background2.getY() );
-
+				Data.menu_background1.setLocation(Data.menu_background1.getX() - MENU_BACKGROUND_SCROLL_SCREEN, Data.menu_background1.getY());
+				Data.menu_background2.setLocation(Data.menu_background2.getX() - MENU_BACKGROUND_SCROLL_SCREEN, Data.menu_background2.getY());
 
 			}
-
 
 			if (currentScreen == ScreenMode.LEVEL_RESTART)
 				loadLevel();							

@@ -717,10 +717,10 @@ public abstract class Data {
 	public static void addButtonsToArrayList(){
 		
 		// Adds main menu buttons to the ArrayLists
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[0].getWidth()/2), 125, Button.Type.PLAY, menuButtons[0], menuButtons[1], menuButtons[2]), FruitFever.mainMenuButtons);
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[3].getWidth()/2), 125 + 75, Button.Type.CONTROLS, menuButtons[3], menuButtons[3 + 1], menuButtons[3 + 2]), FruitFever.mainMenuButtons);
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[6].getWidth()/2), 125 + 75*2, Button.Type.OPTIONS, menuButtons[3*2], menuButtons[3*2 + 1], menuButtons[3*2 + 2]), FruitFever.mainMenuButtons);
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[9].getWidth()/2), 125 + 75*3, Button.Type.MULTIPLAYER, menuButtons[3*3], menuButtons[3*3 + 1], menuButtons[3*3 + 2]), FruitFever.mainMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[0].getWidth()/2), 125, Button.Type.PLAY, menuButtons[0], menuButtons[1], menuButtons[2], menuButtons[0]), FruitFever.mainMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[3].getWidth()/2), 125 + 75, Button.Type.CONTROLS, menuButtons[3], menuButtons[3 + 1], menuButtons[3 + 2], menuButtons[3]), FruitFever.mainMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[6].getWidth()/2), 125 + 75*2, Button.Type.OPTIONS, menuButtons[3*2], menuButtons[3*2 + 1], menuButtons[3*2 + 2], menuButtons[3*2]), FruitFever.mainMenuButtons);
+		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - menuButtons[9].getWidth()/2), 125 + 75*3, Button.Type.MULTIPLAYER, menuButtons[3*3], menuButtons[3*3 + 1], menuButtons[3*3 + 2], menuButtons[3*3]), FruitFever.mainMenuButtons);
 		
 		/** Adds level box buttons to the ArrayLists for Level Selection Screen **/
 		for (int i = 0; i < 20; i++)
