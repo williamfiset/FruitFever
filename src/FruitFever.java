@@ -78,8 +78,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 								levelSelectionButtons = new ArrayList<>(),
 								inGameButtons = new ArrayList<>(),
 								pauseMenuButtons = new ArrayList<>(),
-								levelCompleteButtons = new ArrayList<>(),
-								levelIncompleteButtons = new ArrayList<>(),
+								endOfLevelButtons = new ArrayList<>(),
 								buttons = new ArrayList<>(); // Includes all buttons (even those in other ArrayLists)
 	static Button clickedOnButton = null;
 	
@@ -466,13 +465,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			checkAndSetClick(pauseMenuButtons, mouse);
 			checkAndSetClick(inGameButtons, mouse);
 		}
-		else if (currentScreen == ScreenMode.END_OF_LEVEL) {
-			if (levelInformation[currentLevel].completed)
-				checkAndSetClick(levelCompleteButtons, mouse);
-			else
-				checkAndSetClick(levelIncompleteButtons, mouse);
-		}
-			
+		else if (currentScreen == ScreenMode.END_OF_LEVEL)
+			checkAndSetClick(endOfLevelButtons, mouse);
 			
 	}
 	

@@ -230,13 +230,19 @@ public class ScreenHandler {
 		}
 
 		add(largeNoStars, largeFadedStars, largeStars);
-		
+
+		if (FruitFever.levelInformation[FruitFever.currentLevel].completed)
+			FruitFever.endOfLevelButtons.get(3).activate();
+		else
+			FruitFever.endOfLevelButtons.get(3).deactivate();
+
 		// Draw buttons and text
-		addButtonsToScreen(playerHasWon ? FruitFever.levelCompleteButtons : FruitFever.levelIncompleteButtons);
+		addButtonsToScreen(FruitFever.endOfLevelButtons);
 		add(playerHasWon ? levelCompleteTitle : levelIncompleteTitle, mainMenuButtonText, levelSelectionButtonText, restartButtonText);
 
 		if (playerHasWon)
 			add(nextLevelButtonText);
+
 
 		fruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
 	}

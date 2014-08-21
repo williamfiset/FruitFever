@@ -61,9 +61,14 @@ public class Button extends Thing {
 		 
 	}
 	
-	/** Convenience constructor **/
+	/** Convenience constructor for buttons using an array for an array of 2-4 images **/
 	public Button(int x, int y, Type type, GImage[] imgArray) {
 		this(x, y, type, imgArray[0], imgArray[1], imgArray[imgArray.length > 2 ? 2 : 1], imgArray[imgArray.length > 3 ? 3 : 0]);
+	}
+
+	/** Convenience constructor to center buttons horizontally **/
+	public Button(int y, Type type, GImage[] imgArray) {
+		this((int) (FruitFever.SCREEN_WIDTH/2 - imgArray[0].getWidth()/2), y, type, imgArray);
 	}
 	
 	/** Constructor used for LEVEL_BOXES button **/
