@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class Button extends Thing {
 
-	public GImage defaultImage, hoverImage, clickImage;
+	public GImage defaultImage, hoverImage, clickImage, inactiveImage;
 	public Type type;
 	public boolean active = true;
 	
@@ -31,9 +31,9 @@ public class Button extends Thing {
 		RIGHT_ARROW,
 		LEVEL_BOXES,
 		
-		/** In-Game **/
+		/* In-Game **/
 		GEAR,
-		REFRESH,
+		RESTART,
 		
 		/** Pause Menu **/
 		SOUND_EFFECTS,
@@ -41,11 +41,12 @@ public class Button extends Thing {
 		MAIN_MENU,
 		LEVEL_SELECTION,
 		RESUME,
+		NEXT_LEVEL,
 		SLIDER;
 	};
 	
 	/** Designated constructor **/
-	public Button(int x, int y, Type type, GImage defaultImg, GImage hoverImg, GImage clickImg) {
+	public Button(int x, int y, Type type, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage inactiveImg) {
 	
 		super(x, y, (int) defaultImg.getWidth(), (int) defaultImg.getHeight(), defaultImg);
 		
@@ -56,23 +57,29 @@ public class Button extends Thing {
 		this.defaultImage = defaultImg;
 		this.hoverImage = hoverImg;
 		this.clickImage = clickImg;
+		this.inactiveImage = inactiveImg;
 		 
 	}
 	
-	/** Convenience constructor **/
+	/** Convenience constructor for buttons using an array for an array of 2-4 images **/
 	public Button(int x, int y, Type type, GImage[] imgArray) {
-		this(x, y, type, imgArray[0], imgArray[1], imgArray[imgArray.length > 2 ? 2 : 1]);
+		this(x, y, type, imgArray[0], imgArray[1], imgArray[imgArray.length > 2 ? 2 : 1], imgArray[imgArray.length > 3 ? 3 : 0]);
+	}
+
+	/** Convenience constructor to center buttons horizontally **/
+	public Button(int y, Type type, GImage[] imgArray) {
+		this((int) (FruitFever.SCREEN_WIDTH/2 - imgArray[0].getWidth()/2), y, type, imgArray);
 	}
 	
 	/** Constructor used for LEVEL_BOXES button **/
 	public Button(int x, int y, GImage[] imgArray, int level) {
-		this(x, y, Type.LEVEL_BOXES, imgArray[0], imgArray[1], imgArray[1]);
+		this(x, y, Type.LEVEL_BOXES, imgArray[0], imgArray[1], imgArray[1], imgArray[0]);
 		this.level = level;
 	}
 	
 	/** Constructor used for SLIDER button **/
 	public Button(int x, int y, GImage defaultImg, GImage hoverImg, GImage clickImg, GImage bar, double defaultValue) {
-		this((int) (x + bar.getWidth()*defaultValue - Slider.CIRCLE_RADIUS) + FruitFever.viewX, y + FruitFever.viewY, Type.SLIDER, defaultImg, hoverImg, clickImg);
+		this((int) (x + bar.getWidth()*defaultValue - Slider.CIRCLE_RADIUS) + FruitFever.viewX, y + FruitFever.viewY, Type.SLIDER, defaultImg, hoverImg, clickImg, defaultImg);
 		this.bar = copyImage(bar);
 		this.bar.setLocation(x, y);
 	}
@@ -95,6 +102,16 @@ public class Button extends Thing {
 	
 	public void setClick() {
 		changeImage(clickImage);
+	}
+
+	public void activate() {
+		active = true;
+		changeImage(defaultImage);
+	}
+
+	public void deactivate() {
+		active = false;
+		changeImage(inactiveImage);
 	}
 	
 }

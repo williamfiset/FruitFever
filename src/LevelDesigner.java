@@ -221,6 +221,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		hints.clear();
 
+		name = null;
+
 	}
 	
 	@Override public void mousePressed(MouseEvent mouse) {
@@ -1236,24 +1238,25 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		if (infoFile.checkItemExists(str)) {
 
 			@SuppressWarnings("unchecked") ArrayList<SerializableImage> tempArr = (ArrayList<SerializableImage>) infoFile.getItem(str);
-			
-			for (SerializableImage obj : tempArr) {
-				GImage img = new GImage(obj.pixelArray);
+			try {
+				for (SerializableImage obj : tempArr) {
+					GImage img = new GImage(obj.pixelArray);
 
-				arr.add(img);
+					arr.add(img);
 
-				img.setLocation(obj.x, obj.y);
+					img.setLocation(obj.x, obj.y);
 
-				if (addToScreen) {
-					if (img.equals(Data.playerStill[0]))
-						player = img;
+					if (addToScreen) {
+						if (img.equals(Data.playerStill[0]))
+							player = img;
 
-					if (img.equals(Data.vortexAnimation[0]))
-						vortex = img;
+						if (img.equals(Data.vortexAnimation[0]))
+							vortex = img;
 
-					add(img);
+						add(img);
+					}
 				}
-			}
+			} catch (ClassCastException e) {}
 			
 		}
 		
