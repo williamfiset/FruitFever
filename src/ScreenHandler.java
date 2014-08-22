@@ -192,11 +192,25 @@ public class ScreenHandler {
 		
 		fruitFever.currentScreen = FruitFever.ScreenMode.MAIN_MENU;
 	}
+
+	public void setActiveStatesOfArrows() {
+		if (FruitFever.levelSelectionPage == 0)
+			FruitFever.leftArrow.deactivate();
+		else
+			FruitFever.leftArrow.activate();
+
+		if (FruitFever.levelSelectionPage == 4)
+			FruitFever.rightArrow.deactivate();
+		else
+			FruitFever.rightArrow.activate();
+	}
 	
 	/** Draws the level selection screen **/
 	public void drawLevelSelectionMenu() {
 		removeAll();
+
 		add(Data.windowBorder);
+
 		addButtonsToScreen(fruitFever.levelSelectionButtons);
 		
 		add(levelNumbers, levelLocks);
@@ -293,6 +307,8 @@ public class ScreenHandler {
 				}
 			}
 		}
+
+		setActiveStatesOfArrows();
 	}
 	
 	/** Adds a black background to screen **/

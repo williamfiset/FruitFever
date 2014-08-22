@@ -5,12 +5,6 @@
  *
  **/
 
-/**
-To-do List 
--Make Fruit Rings spin at different spins
--Make buttons in level selection screen inactive when you can no longer change pages
-**/
-
 import acm.graphics.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -30,14 +24,13 @@ public abstract class Data {
 	public static BufferedImage sheet = null;
 	
 	public static GImage 	loadingScreenBackground, loadingScreenBar, windowBorder, fruitFeverTitle, endScreenWindow,
-							heartImage,
-							sliderCircle, sliderCirclePressed, sliderBar, redX,
-							purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
-							checkpointFlagRed, checkpointFlagGreen,
-							star, fadedStar, noStar, starIcon, noStarIcon, locked,
-							energyBar, energyBarBackground, healthBar, healthBarBackground,
+							sliderCircle, sliderCirclePressed, sliderBar, redX, // Pause Menu
+							// purpleBallSmall, purpleBallBig, fireBallSmall, fireBallBig,
+							checkpointFlagRed, checkpointFlagGreen, // In-Game Object
+							star, fadedStar, noStar, starIcon, noStarIcon, locked, // Level Selection Screen and End of Level Screen
+							heartImage, energyBar, energyBarBackground, healthBar, healthBarBackground, // In-Game Display
 							iconBackgroundBar,
-							menu_background1, menu_background2,
+							menu_background1, menu_background2, // Main Menu Background
 
 							invisibleImage;
 						
@@ -77,8 +70,9 @@ public abstract class Data {
 							musicButton = new GImage[2],
 							soundEffectsButton = new GImage[2],
 							restartButton = new GImage[3],
-							leftArrowButton = new GImage[3],
-							rightArrowButton = new GImage[3],
+
+							leftArrowButton = new GImage[4],
+							rightArrowButton = new GImage[4],
 							levelButton = new GImage[2],
 							
 							buttonFrame = new GImage[4];
@@ -274,10 +268,10 @@ public abstract class Data {
 			swirlAnimation[i] = makeImage(TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		
 		// Fireball and Purple Ball Images
-		purpleBallSmall = makeImage(0, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
-		purpleBallBig = makeImage(TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
-		fireBallSmall = makeImage(TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
-		fireBallBig = makeImage(TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		// purpleBallSmall = makeImage(0, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
+		// purpleBallBig = makeImage(TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
+		// fireBallSmall = makeImage(TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE*2, TILE_SIZE);
+		// fireBallBig = makeImage(TILE_SIZE*5, TILE_SIZE*2, TILE_SIZE, TILE_SIZE);
 
 		updateLoadingBar(0.1);
 		
@@ -353,6 +347,10 @@ public abstract class Data {
 			leftArrowButton[i] = makeImage(0, i*33, 36, 31);
 			rightArrowButton[i] = makeImage(36, i*33, 36, 31);
 		}
+
+		sheet = DataLoader.loadImage("img/LevelSelection/arrows/inactiveArrows.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/LevelSelection/arrows/inactiveArrows.png");
+		leftArrowButton[3] = makeImage(0, 0, 36, 31);
+		rightArrowButton[3] = makeImage(36, 0, 36, 31);
 		
 		updateLoadingBar(0.1);
 		
@@ -735,9 +733,11 @@ public abstract class Data {
 			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55, levelButton, i), FruitFever.levelSelectionButtons);
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton), FruitFever.levelSelectionButtons);
+		FruitFever.leftArrow = new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton);
+		addToButtons(FruitFever.leftArrow, FruitFever.levelSelectionButtons);
 		
-		addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, Button.Type.RIGHT_ARROW, rightArrowButton), FruitFever.levelSelectionButtons);
+		FruitFever.rightArrow = new Button((int) (FruitFever.SCREEN_WIDTH/2 - rightArrowButton[0].getWidth()/2 + 70), 375, Button.Type.RIGHT_ARROW, rightArrowButton);
+		addToButtons(FruitFever.rightArrow, FruitFever.levelSelectionButtons);
 		
 		/** Adds gear button to the ArrayLists for In-Game Screen **/
 		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, Button.Type.GEAR, gearButton), FruitFever.inGameButtons);

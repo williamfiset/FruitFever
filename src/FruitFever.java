@@ -80,7 +80,9 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 								pauseMenuButtons = new ArrayList<>(),
 								endOfLevelButtons = new ArrayList<>(),
 								buttons = new ArrayList<>(); // Includes all buttons (even those in other ArrayLists)
-	static Button clickedOnButton = null;
+
+	static Button 	clickedOnButton = null,
+					leftArrow, rightArrow; // Level selection screen
 	
 	public static int currentLevel = -1, levelSelectionPage = 0;
 	
@@ -484,17 +486,17 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				/** Level left arrow button **/
 				else if (clickedOnButton.type == Button.Type.LEFT_ARROW) {
-					if (levelSelectionPage > 0) {
+					// if (levelSelectionPage > 0) {
 						levelSelectionPage--;
 						screenHandler.shiftLevelLabels(-20);
-					}
+					// }
 			
 				/** Level right arrow button **/
 				} else if (clickedOnButton.type == Button.Type.RIGHT_ARROW) {
-					if (levelSelectionPage < 4) {
+					// if (levelSelectionPage < 4) {
 						levelSelectionPage++;
 						screenHandler.shiftLevelLabels(20);
-					}
+					// }
 				
 				/** Level box button **/
 				} else if (clickedOnButton.type == Button.Type.LEVEL_BOXES) {
