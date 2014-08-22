@@ -523,7 +523,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				} else if (clickedOnButton.type == Button.Type.SOUND_EFFECTS) {
 					screenHandler.toggleVisibility(screenHandler.soundEffectsX);
 					
-				/** Slider button **/
+				/** Main Menu button **/
 				} else if (clickedOnButton.type == Button.Type.MAIN_MENU) {
 					screenHandler.drawMainMenu();
 				
@@ -600,14 +600,14 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				player.setMovementDirection(Player.MovementDirection.RIGHT);
 
 			/** Reload level **/
-			} else if (keyCode == KeyEvent.VK_R){
+			} else if (keyCode == KeyEvent.VK_R) {
 				currentScreen = ScreenMode.LEVEL_RESTART;								
 			}
 			
 		}
 	}
 	
-	@Override public void keyReleased(KeyEvent key){
+	@Override public void keyReleased(KeyEvent key) {
 		
 		if (currentScreen == ScreenMode.PLAYING || currentScreen == ScreenMode.PAUSED) {
 		
@@ -670,16 +670,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		textList.add(obj);
 		screen.add(obj.label);
 	}
-	
-	/** (Deprecated)
-	private void shootEvent() {
-		if (!shootButtonPressed) {
-			shootButtonPressed = true;
-			player.shootProjectile();
-		}
-		shootEventInvoked = false;
-	}
-	**/
 
 	public static void removeThingFromLists(Block obj, ArrayList<Block>... lists) {
 

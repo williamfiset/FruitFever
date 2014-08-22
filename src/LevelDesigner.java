@@ -221,6 +221,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		hints.clear();
 
+		name = null;
+
 	}
 	
 	@Override public void mousePressed(MouseEvent mouse) {

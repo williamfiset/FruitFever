@@ -106,12 +106,12 @@ public class Button extends Thing {
 
 	public void activate() {
 		active = true;
-		changeImage(inactiveImage);
+		changeImage(defaultImage);
 	}
 
 	public void deactivate() {
 		active = false;
-		changeImage(defaultImage);
+		changeImage(inactiveImage);
 	}
 	
 }
