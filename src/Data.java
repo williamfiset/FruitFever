@@ -730,7 +730,7 @@ public abstract class Data {
 		
 		/** Adds level box buttons to the ArrayLists for Level Selection Screen **/
 		for (int i = 0; i < 20; i++)
-			addToButtons(new Button((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55, levelButton, i), FruitFever.levelSelectionButtons);
+			addToButtons(new Button(FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60, 97 + (i/4)*55, levelButton, i), FruitFever.levelSelectionButtons);
 		
 		/** Adds arrow buttons to the ArrayLists for Level Selection Screen **/
 		FruitFever.leftArrow = new Button((int) (FruitFever.SCREEN_WIDTH/2 - leftArrowButton[0].getWidth()/2 - 70), 375, Button.Type.LEFT_ARROW, leftArrowButton);
@@ -740,10 +740,10 @@ public abstract class Data {
 		addToButtons(FruitFever.rightArrow, FruitFever.levelSelectionButtons);
 		
 		/** Adds gear button to the ArrayLists for In-Game Screen **/
-		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, Button.Type.GEAR, gearButton), FruitFever.inGameButtons);
+		addToButtons(new Button(FruitFever.SCREEN_WIDTH - 31 - TILE_SIZE, 0, Button.Type.GEAR, gearButton), FruitFever.inGameButtons);
 		
 		/** Adds restart button to the ArrayList for In-Game Screen **/
-		addToButtons(new Button((int) FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.RESTART, restartButton), FruitFever.inGameButtons);
+		addToButtons(new Button(FruitFever.SCREEN_WIDTH - 31, 0, Button.Type.RESTART, restartButton), FruitFever.inGameButtons);
 		
 		/** Adds sliders and music/sound effect toggles to the ArrayList for Pause Menu Screen **/
 		

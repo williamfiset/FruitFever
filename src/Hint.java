@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class Hint extends Thing {
 
+	private static final long serialVersionUID = 1L;
+
 	/** Public instance variables **/
 	public boolean visiting = false;
 	public String hint = "";

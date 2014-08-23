@@ -14,6 +14,8 @@ import java.lang.reflect.*;
 
 public class Player extends Animation {
 
+	private static final long serialVersionUID = 1L;
+
 	public static int startX, startY;
 	
 	public static Animation poisonAnimation;
@@ -1044,6 +1046,8 @@ public class Player extends Animation {
 
 /** A swirl is a projectile shot from the player as a teleportation method  **/
 class Swirl extends MovingAnimation {
+
+	private static final long serialVersionUID = 1L;
 
 	static final int energyRequired = 50;		
 	static boolean reset = true;

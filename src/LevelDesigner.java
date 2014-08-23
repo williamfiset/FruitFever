@@ -9,6 +9,8 @@ import java.nio.file.*;
 
 public class LevelDesigner extends GraphicsProgram implements MouseMotionListener {
 
+	private static final long serialVersionUID = 1L;
+
 	/** TO DO:
 
 		Necessary:
@@ -939,7 +941,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			for (int x = 0; x < tilesWide; x++) {
 				
 				for (GImage obj : blockLayer)
-					if (obj.getX() - findXOffset((GImage) obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset((GImage) obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
+					if (obj.getX() - findXOffset(obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset(obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
 						
 						/** Fruit **/
 						for (int i = 0; i < Data.fruits.length; i++)
@@ -1033,7 +1035,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			for (int x = 0; x < tilesWide; x++) {
 				
 				for (GImage obj : sceneryLayer)
-					if (obj.getX() - findXOffset(obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset((GImage) obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
+					if (obj.getX() - findXOffset(obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset(obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
 						
 						/** Powerups **/
 						for (int i = 0; i < Data.powerups.length; i++)
@@ -1123,11 +1125,11 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		ArrayList<SerializableHint> serializableHints = new ArrayList<>();
 		
-		for (Map.Entry entry: hints.entrySet()) {
+		for (Map.Entry<GImage, String> entry: hints.entrySet())
 			if (blockLayer.contains(entry.getKey()))
-				serializableHints.add(new SerializableHint(((GImage) entry.getKey()).getX(), ((GImage) entry.getKey()).getY(), (String) entry.getValue()));
-			else hints.remove(entry.getKey());
-		}
+				serializableHints.add(new SerializableHint(entry.getKey().getX(), entry.getKey().getY(), entry.getValue()));
+			else
+				hints.remove(entry.getKey());
 
 		infoFile.addItem("hints", serializableHints);
 

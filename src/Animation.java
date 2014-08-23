@@ -10,6 +10,8 @@ import java.awt.*;
 
 public class Animation extends Thing {
 
+	private static final long serialVersionUID = 1L;
+
 	/** Instance variables **/
 	protected int counter = 0;
 	public Type type;

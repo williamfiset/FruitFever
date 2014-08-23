@@ -14,6 +14,8 @@ import java.awt.*;
 
 public class Block extends Thing {
 
+	private static final long serialVersionUID = 1L;
+
 	private static HashMap<Integer, ArrayList<Block>> xBlocks = new HashMap<>(), yBlocks = new HashMap<>();
 
 	// The blocks that are in the current process of falling 

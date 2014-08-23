@@ -8,6 +8,8 @@
 import acm.graphics.*;
 
 public class Slider extends Button {
+
+	private static final long serialVersionUID = 1L;
 	
 	public static final int CIRCLE_DIAMETER = 17, CIRCLE_RADIUS = 8, CIRCLE_OFFSET = 13;
 

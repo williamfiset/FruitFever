@@ -10,6 +10,8 @@ import java.awt.*;
 
 public class Thing extends Rectangle {
 
+	private static final long serialVersionUID = 1L;
+
 	/** Public instance variables **/
 	public GImage image;
 	public int imageX, imageY;

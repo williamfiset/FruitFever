@@ -13,8 +13,10 @@ import java.util.*;
 
 public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
-/** Constants **/
+	private static final long serialVersionUID = 1L;
 
+/** Constants **/
+	
 	static GraphicsProgram screen;
 	static ScreenHandler screenHandler;
 	final static int 	SCREEN_WIDTH = 700,

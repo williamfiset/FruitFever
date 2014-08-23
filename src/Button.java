@@ -11,6 +11,8 @@ import java.awt.*;
 
 public class Button extends Thing {
 
+	private static final long serialVersionUID = 1L;
+
 	public GImage defaultImage, hoverImage, clickImage, inactiveImage;
 	public Type type;
 	public boolean active = true;

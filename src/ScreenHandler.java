@@ -64,11 +64,11 @@ public class ScreenHandler {
 		/** Lock and Star images for Level Selection Screen **/
 		for (int i = 0; i < 20; i++) {
 		
-			levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
+			levelLocks[i].setLocation(FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60, 97 + (i/4)*55);
   			
   			for (int j = 0; j < 3; j++) {
-  				levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
-  				levelNoStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
+  				levelStars[i][j].setLocation(FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j, 127 + (i/4)*55);
+  				levelNoStars[i][j].setLocation(FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j, 127 + (i/4)*55);
   			}
 		}
 		
@@ -85,9 +85,9 @@ public class ScreenHandler {
 
 		/** Pause Menu **/
 		centerObject(pauseMenuTitle, Data.TILE_SIZE*5);
-		centerObject(musicX, (int) (-Data.TILE_SIZE*4), Data.TILE_SIZE*6);
+		centerObject(musicX, -Data.TILE_SIZE*4, Data.TILE_SIZE*6);
 		centerObject(musicLabel, Data.TILE_SIZE/2, Data.TILE_SIZE*6);
-		centerObject(soundEffectsX, (int) (-Data.TILE_SIZE*4), Data.TILE_SIZE*8);
+		centerObject(soundEffectsX, -Data.TILE_SIZE*4, Data.TILE_SIZE*8);
 		centerObject(soundEffectsLabel, Data.TILE_SIZE/2, Data.TILE_SIZE*8);
 
 		/** Pause Menu and End Of Level Screen **/
