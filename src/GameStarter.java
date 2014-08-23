@@ -9,6 +9,7 @@
 import java.awt.*;
 import javax.swing.*;
 
+@SuppressWarnings("unchecked")
 public class GameStarter {
 
 	// Used PhotoShop to calculate the Border Height
