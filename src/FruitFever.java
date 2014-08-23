@@ -46,6 +46,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<TextAnimator> levelTexts;
 	static TextAnimator hintText;
 
+	MusicPlayer slurpSound = new MusicPlayer("sound/slurp.mp3");
+
 /** Player **/
 
 	static Player player;
@@ -130,9 +132,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3),
 				centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
 		
-		point1 = new GRect(0,0,2,3); point2 = new GRect(0,0,2,3); 
-		point3 = new GRect(0,0,2,3); point4 = new GRect(0,0,2,3);
-		point5 = new GRect(0,0,2,3); point6 = new GRect(0,0,2,3);
+		point1 = new GRect(0,0,2,3); point2 = new GRect(0,0,2,3); point3 = new GRect(0,0,2,3);
+		point4 = new GRect(0,0,2,3); point5 = new GRect(0,0,2,3); point6 = new GRect(0,0,2,3);
 
 		if (debugMode) {
 			leftRect.setFillColor(Color.RED); rightRect.setFillColor(Color.RED); upRect.setFillColor(Color.RED);
@@ -161,7 +162,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			
 			if (currentScreen == ScreenMode.PLAYING) {
 			
-				/** Controls if it is time to return to the level selection menu **/
+				/** Controls if it is time to display end of level screen **/
 				if (levelComplete || player.getLives() <= 0) {
 					
 					if (levelComplete) {
@@ -567,9 +568,6 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		for (Animation item : FruitFever.edibleItems)
 			item.naturalAnimate();
 		
-		// for (Enemy enemy : FruitFever.enemies)
-			// enemy.naturalAnimate();
-		
 		/** Fixes Issue #81 (Teleportation problem) **/
 		player.animate();
 
@@ -642,6 +640,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		if (!tongueButtonPressed && player.grabbedItem == null && player.finishedTongueAnimation){
 			player.finishedTongueAnimation = false;
 			tongueButtonPressed = true;
+			slurpSound.play();
 			player.eat();
 		}
 		
