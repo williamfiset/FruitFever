@@ -73,7 +73,7 @@ public class Button extends Thing {
 	
 	/** Constructor used for LEVEL_BOXES button **/
 	public Button(int x, int y, GImage[] imgArray, int level) {
-		this(x, y, Type.LEVEL_BOXES, imgArray[0], imgArray[1], imgArray[1], imgArray[0]);
+		this(x, y, Type.LEVEL_BOXES, imgArray);
 		this.level = level;
 	}
 	
