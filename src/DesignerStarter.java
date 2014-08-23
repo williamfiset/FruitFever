@@ -13,7 +13,6 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-@SuppressWarnings("unchecked")
 public class DesignerStarter implements ActionListener {
 
 	final static int FRAME_BORDER_HEIGHT = 22;

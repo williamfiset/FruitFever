@@ -9,14 +9,12 @@
 import java.awt.*;
 import javax.swing.*;
 
-@SuppressWarnings("unchecked")
 public class GameStarter {
 
 	// Used PhotoShop to calculate the Border Height
 	final static int FRAME_BORDER_HEIGHT = 22;
 	static JFrame appletFrame;
 
-	@SuppressWarnings("unchecked")
 	public static void main(String... args) {	
 		
 		setMode(args);
@@ -35,7 +33,7 @@ public class GameStarter {
 		gameApplet.init();
 
 		// Set Frame default settings
-		// appletFrame.setResizable(false);
+		appletFrame.setResizable(false);
 		appletFrame.setSize(FruitFever.SCREEN_WIDTH , FruitFever.SCREEN_HEIGHT + FRAME_BORDER_HEIGHT);
 		appletFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		appletFrame.setTitle("Fruit Fever - Micah & Will");	
@@ -85,28 +83,8 @@ public class GameStarter {
 			ProcessBuilder processStarter = new ProcessBuilder("python","dc.py", "./", ".class");
 			processStarter.start();
 			
-		}catch(Exception e){}
+		} catch(Exception e) { }
 		
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
