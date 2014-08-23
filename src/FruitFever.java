@@ -144,8 +144,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			point3.setFilled(true);	point4.setFilled(true); point5.setFilled(true);	point6.setFilled(true);
 		}		
 
-		MusicPlayer backgroundMusic = new MusicPlayer("sound/Fur_Elise.mp3");
-		backgroundMusic.play();
+		//MusicPlayer backgroundMusic = new MusicPlayer("sound/Fur_Elise.mp3");
+		//backgroundMusic.play();
 
 		for (int loops = 0; true; loops++) {
 
