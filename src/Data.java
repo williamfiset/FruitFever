@@ -73,7 +73,7 @@ public abstract class Data {
 
 							leftArrowButton = new GImage[4],
 							rightArrowButton = new GImage[4],
-							levelButton = new GImage[2],
+							levelButton = new GImage[4],
 							
 							buttonFrame = new GImage[4];
 
@@ -96,7 +96,7 @@ public abstract class Data {
 	}
 	    
 	/** Loads all the images from the sprite sheet **/
-	public static void loadImages(){
+	public static void loadImages() {
 	
 		updateLoadingBar(0.1);
 		
@@ -357,13 +357,13 @@ public abstract class Data {
 		/** Import level boxes and button images **/
 		sheet = DataLoader.loadImage("img/menu/tileset.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/menu/tileset.png");
 		
-		levelButton[0] = makeImage(TILE_SIZE*2, 0, TILE_SIZE*2, TILE_SIZE*2);
-		levelButton[1] = makeImage(0, 0, TILE_SIZE*2, TILE_SIZE*2);
-			
+		for (int i = 0; i < 4; i++)
+			levelButton[i] = makeImage(TILE_SIZE*2*i, 0, TILE_SIZE*2, TILE_SIZE*2);
+
 		for (int n = 0; n < 4; n++)
 			for (int y = 0; y < 3; y++)
 				for (int x = 0; x < 3; x++)
-					tileset[n][y][x] = makeImage(TILE_SIZE*4 + TILESET_SIZE*(x + n*3), TILESET_SIZE*y, TILESET_SIZE, TILESET_SIZE);
+					tileset[n][y][x] = makeImage(TILE_SIZE*8 + TILESET_SIZE*(x + n*3), TILESET_SIZE*y, TILESET_SIZE, TILESET_SIZE);
 		
 		for (int i = 0; i < 4; i++)
 			buttonFrame[i] = ImageTransformer.joinSet(tileset[i], 175, 37);
