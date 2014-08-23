@@ -1218,7 +1218,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 
 		hints.clear();
-		ArrayList<SerializableHint> serializedHints = (ArrayList<SerializableHint>) infoFile.getItem("hints");
+		@SuppressWarnings("unchecked") ArrayList<SerializableHint> serializedHints = (ArrayList<SerializableHint>) infoFile.getItem("hints");
 
 		outerLoop:
 		for (SerializableHint hint : serializedHints)

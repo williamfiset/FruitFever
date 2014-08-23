@@ -763,10 +763,15 @@ public abstract class Data {
 		
 	}
 	
-	private static void addToButtons(Button button, ArrayList<Button>... buttonLists) {
+	private static void addToButtons(Button button, ArrayList<Button> buttonList) {
 		FruitFever.buttons.add(button);
-		for (ArrayList<Button> buttonList : buttonLists)
-			buttonList.add(button);
+		buttonList.add(button);
+	}
+
+	private static void addToButtons(Button button, ArrayList<Button> buttonList1, ArrayList<Button> buttonList2) {
+		FruitFever.buttons.add(button);
+		buttonList1.add(button);
+		buttonList2.add(button);
 	}
 
 	private static void updateLoadingBar(double newProgress) {
