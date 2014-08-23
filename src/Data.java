@@ -249,10 +249,10 @@ public abstract class Data {
 		// Energy and Health Bars for Player
 		healthBar = makeImage(116, 176, 122, 11);
 		healthBarBackground = makeImage(116, 188, 122, 11);
-		FruitFever.screenHandler.currentHealthBar = Thing.copyImage(healthBar);
+		ScreenHandler.currentHealthBar = Thing.copyImage(healthBar);
 		energyBar = makeImage(116, 152, 122, 11);
 		energyBarBackground = makeImage(116, 164, 122, 11);
-		FruitFever.screenHandler.currentEnergyBar = Thing.copyImage(energyBar);
+		ScreenHandler.currentEnergyBar = Thing.copyImage(energyBar);
 		
 		updateLoadingBar(0.1);
 	

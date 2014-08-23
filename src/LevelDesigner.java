@@ -871,14 +871,17 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			case POWERUPS:
 				for (int i = 0; i < Data.powerups.length; i++)
 					remove(Data.powerups[i]);
+				break;
 				
 			case SCENERY_1:
 				for (int i = 0; i < 25; i++)
 					remove(Data.sceneryImages[i]);
+				break;
 					
 			case SCENERY_2:
 				for (int i = 25; i < Data.sceneryImages.length; i++)
 					remove(Data.sceneryImages[i]);
+				break;
 		}
 	
 	}

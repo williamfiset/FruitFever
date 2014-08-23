@@ -154,7 +154,7 @@ public class Player extends Animation {
 
 		if (poisoned) {
 			
-			FruitFever.screenHandler.adjustHealthBar(--currentHealth/maxHealth);
+			ScreenHandler.adjustHealthBar(--currentHealth/maxHealth);
 			poisonAnimation.imageX = imageX + Data.TILE_SIZE;
 			poisonAnimation.imageY = imageY - Data.TILE_SIZE;
 			poisonAnimation.animate();
@@ -572,7 +572,7 @@ public class Player extends Animation {
 
 		// You die if you have no more energy or health
 		else if (currentEnergy <= 0 || currentHealth <= 0) {
-			FruitFever.screenHandler.adjustHearts(--lives);	
+			ScreenHandler.adjustHearts(--lives);	
 			respawn();
 
 		// Check for dangerous collisions	
@@ -610,7 +610,7 @@ public class Player extends Animation {
 								bloodySpikes(obj2);
 					
 					collisionOccurred = true;
-					FruitFever.screenHandler.adjustHearts(--lives);	
+					ScreenHandler.adjustHearts(--lives);	
 					respawn();
 
 					break;
@@ -618,7 +618,7 @@ public class Player extends Animation {
 				} else {
 
 					collisionOccurred = true;
-					FruitFever.screenHandler.adjustHearts(--lives);	
+					ScreenHandler.adjustHearts(--lives);	
 					respawn();
 
 					break;
@@ -648,7 +648,7 @@ public class Player extends Animation {
 		boolean playerOutOfBounds = imageY - Data.TILE_SIZE > FruitFever.LEVEL_HEIGHT;
 
 		if (playerOutOfBounds) {
-			FruitFever.screenHandler.adjustHearts(--lives);	
+			ScreenHandler.adjustHearts(--lives);	
 			respawn();
 		}
 
@@ -761,8 +761,8 @@ public class Player extends Animation {
 		focusViewOnPlayer(startX, startY, true);
 		
 		/** Reset health and energy bars **/
-		FruitFever.screenHandler.resetEnergyBar();
-		FruitFever.screenHandler.resetHealthBar();
+		ScreenHandler.resetEnergyBar();
+		ScreenHandler.resetHealthBar();
 
 	}
 
@@ -793,7 +793,7 @@ public class Player extends Animation {
 			if (westNorth == null && westSouth == null && westMiddle == null) {
 
 				// Makes the swirl shoot out of the player from the left
-				swirl.reset = false;
+				Swirl.reset = false;
 				swirl.imageX = x + SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
 				swirl.imageY = y + FruitFever.viewY;
 				swirl.xSpeed = Swirl.dx;
@@ -820,7 +820,7 @@ public class Player extends Animation {
 			if (eastSouth == null && eastNorth == null && eastMiddle == null) {
 
 				// Makes the swirl shoot out of the player from the left
-				swirl.reset = false;
+				Swirl.reset = false;
 				swirl.imageX = x - SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
 				swirl.imageY = y + FruitFever.viewY;
 				swirl.xSpeed = -Swirl.dx;
@@ -932,7 +932,7 @@ public class Player extends Animation {
 						else if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT) {
 
 							currentEnergy = Math.min(currentEnergy + 300, maxEnergy);
-							FruitFever.screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
+							ScreenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
 
 						// Grabs JumpPowerUp
 						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.JUMP_POWERUP) {

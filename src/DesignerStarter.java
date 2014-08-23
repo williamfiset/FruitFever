@@ -318,7 +318,7 @@ public class DesignerStarter implements ActionListener {
 
 	 	gameApplet.export();
 	 	GameStarter gameStarter = new GameStarter();
-	 	gameStarter.main("level=", String.valueOf(LevelDesigner.level));
+	 	GameStarter.main("level=", String.valueOf(LevelDesigner.level));
 
 	 }
 

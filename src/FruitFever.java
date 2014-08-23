@@ -232,7 +232,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				
 				/** Adjust energy bar **/
 				player.currentEnergy = Math.max(player.currentEnergy - 0.1, 0);
-				screenHandler.adjustEnergyBar(player.currentEnergy/player.maxEnergy);
+				ScreenHandler.adjustEnergyBar(player.currentEnergy/player.maxEnergy);
 				
 				if (debugMode)
 					screenHandler.add(point1, point2, point3, point4, point5, point6, leftRect, rightRect, upRect, downRect, centerRect);		
@@ -366,7 +366,7 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		removeAll();
 		screenHandler.addBackground();
 		screenHandler.addImagesToScreen();
-		add(player.poisonAnimation.image); 
+		add(Player.poisonAnimation.image); 
 	
 		/** Add animated level title to the screen **/
 		addToTexts(new TextAnimator(SCREEN_WIDTH/2, 50, levelInformation[currentLevel].name, 30, Color.WHITE, 1.0, 5, 50, "center"), levelTexts);
@@ -519,11 +519,11 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 					
 				/** Music button **/
 				} else if (clickedOnButton.type == Button.Type.MUSIC) {
-					screenHandler.toggleVisibility(screenHandler.musicX);
+					screenHandler.toggleVisibility(ScreenHandler.musicX);
 				
 				/** Sound Effects button **/
 				} else if (clickedOnButton.type == Button.Type.SOUND_EFFECTS) {
-					screenHandler.toggleVisibility(screenHandler.soundEffectsX);
+					screenHandler.toggleVisibility(ScreenHandler.soundEffectsX);
 					
 				/** Main Menu button **/
 				} else if (clickedOnButton.type == Button.Type.MAIN_MENU) {
@@ -651,13 +651,13 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 		
 		if (!swirlButtonPressed && player.finishedTongueAnimation) {
 					
-			if (player.swirl.reset) {
+			if (Swirl.reset) {
 				if (player.currentEnergy - Swirl.energyRequired >= 0)
 					player.shootSwirl();
 			}
 			else {
 				player.currentEnergy = Math.max(player.currentEnergy - Swirl.energyRequired, 0);
-				screenHandler.adjustEnergyBar(player.currentEnergy/player.maxEnergy);
+				ScreenHandler.adjustEnergyBar(player.currentEnergy/player.maxEnergy);
 				player.swirlTeleport();
 			}
 			
