@@ -8,6 +8,8 @@
  import java.io.*;
  
  public class LevelInformation implements Serializable {
+
+ 	private static final long serialVersionUID = 1L;
 	
 	public String name;
 	public int number;

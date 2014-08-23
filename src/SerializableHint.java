@@ -2,7 +2,9 @@ import java.io.*;
 import java.awt.*;
 
 public class SerializableHint implements Serializable {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	int x, y;
 	String hint;
 	
