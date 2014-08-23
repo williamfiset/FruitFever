@@ -183,11 +183,9 @@ public class ScreenHandler {
 
 		removeAll();
 		
-		add(Data.menu_background2);
-		add(Data.menu_background1);
-		
+		add(Data.menu_background2, Data.menu_background1, Data.fruitFeverTitle);
 		addButtonsToScreen(FruitFever.mainMenuButtons);
-		add(Data.fruitFeverTitle);
+
 		fruitFever.levelSelectionPage = 0;
 		
 		fruitFever.currentScreen = FruitFever.ScreenMode.MAIN_MENU;
