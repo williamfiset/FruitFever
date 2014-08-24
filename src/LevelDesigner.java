@@ -896,6 +896,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		for (int i = 0; i < listOfFiles.length; i++)
 			if (listOfFiles[i].isFile()) {
+				newDrawingBoard();
 				loadDesignedLevel(listOfFiles[i].getName());
 				export();
 			}

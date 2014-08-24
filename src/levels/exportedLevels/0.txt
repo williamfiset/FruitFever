@@ -1,0 +1,48 @@
+First Things First
+700
+500
+b@bbbbbbbbbbbbbbbbbbbbbbbbbb
+b----------------bbbbbbbbbbb
+b----------------bbbbbbbbbbb
+b-----------------bbbbbbbbbb
+b------------b----bbbbbbbbbb
+b------------b-----bbbbbbbbb
+b------------b-----bbbbbbbbb
+b------------b------bbbbbbbb
+b------------b-bbbb-bbbbbbbb
+b-----------bb---bb-bbbbbbbb
+b?-----------bbb-bb--bbbbbbb
+bbbbbbbbbbb--b---bb--bbbbbbb
+bbbbbbbbbbbb-b-bbbb---bbbbbb
+bbbbbbbbbbb--b---bbb---bbbbb
+bbbbbbbbbbb--bbb-bbb----bbbb
+bbbbbbbbbbb-bb---bbbbbb-bbbb
+bbbbbbbbbbb----bbbbbbbb-bbbb
+bbbbbbbbbbb---?-b------?--bb
+bbbbbbbbbbbbbbbbb%-bbbbbbbbb
+bbbbbbbbbbbbbbbbbbbbbbbbbbbb
++
+----------------------------
+----------------------------
+----------------------------
+----------------------------
+----------------------------
+----------------------------
+----------------------------
+---------------a------------
+------------p---------------
+----------------------------
+---i--------w---------------
+-DDDDDDDDDD-----------------
+-------------------b--------
+----------------------------
+---------------------c------
+--------------v-------------
+----------------------------
+------------g--t------------
+----------------------------
+----------------------------
++
+Press 'A' to move left and 'D' to move right.
+Press 'W' to jump.
+To complete the level, you must reach the vortex.
