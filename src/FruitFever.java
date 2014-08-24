@@ -46,7 +46,8 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	static ArrayList<TextAnimator> levelTexts;
 	static TextAnimator hintText;
 
-	MusicPlayer slurpSound = new MusicPlayer("sound/slurp.mp3");
+	public static MusicPlayer 	slurpSound = new MusicPlayer("sound/slurp.mp3"),
+								fruitRingCollectionSound = new MusicPlayer("sound/fruitRingCollection.mp3");
 
 /** Player **/
 
