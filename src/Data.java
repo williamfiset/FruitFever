@@ -34,7 +34,7 @@ public abstract class Data {
 
 							invisibleImage;
 						
-	public static GImage[] 	sceneryImages = new GImage[30],
+	public static GImage[] 	sceneryImages = new GImage[31],
 							
 							fruitRingAnimation = new GImage[6],
 							
@@ -170,6 +170,9 @@ public abstract class Data {
 		/** Miscellaneous **/
 		sheet = DataLoader.loadImage("img/sprites/miscellaneous.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/miscellaneous.png");
 		
+		// Critter bones
+		sceneryImages[30] = makeImage(TILE_SIZE*6, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
+
 		// Heart Image
 		heartImage = makeImage(0, 0, TILE_SIZE, TILE_SIZE);
 		
