@@ -786,9 +786,9 @@ public class Player extends Animation {
 			Block westMiddle = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) );
 			Block westSouth = Block.getBlock(x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv);
 
-			FruitFever.point1.setLocation( x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE , y + Data.TILE_SIZE/5 );
-			FruitFever.point2.setLocation( x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE , y + Data.TILE_SIZE - (Data.TILE_SIZE/5) );
-			FruitFever.point3.setLocation( x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE , y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv );
+			ScreenHandler.point1.setLocation( x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE , y + Data.TILE_SIZE/5 );
+			ScreenHandler.point2.setLocation( x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE , y + Data.TILE_SIZE - (Data.TILE_SIZE/5) );
+			ScreenHandler.point3.setLocation( x + Data.TILE_SIZE + SWIRL_MOUTH_DISTANCE , y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv );
 		
 
 			// If there is not Block in front of player
@@ -811,12 +811,12 @@ public class Player extends Animation {
 		} else {
 
 			Block eastNorth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/5);
-			Block eastMiddle = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) );
-			Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv );
+			Block eastMiddle = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5));
+			Block eastSouth = Block.getBlock(x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv);
 
-			FruitFever.point1.setLocation( x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/5 );
-			FruitFever.point2.setLocation( x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) );
-			FruitFever.point3.setLocation( x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv );
+			ScreenHandler.point1.setLocation( x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE/5 );
+			ScreenHandler.point2.setLocation( x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5));
+			ScreenHandler.point3.setLocation( x - SWIRL_MOUTH_DISTANCE, y + Data.TILE_SIZE - (Data.TILE_SIZE/5) + fv);
 
 			// If there is not Block in front of player
 			if (eastSouth == null && eastNorth == null && eastMiddle == null) {

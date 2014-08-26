@@ -91,7 +91,7 @@ public class Block extends Thing {
 		performedNaturalAnimate = false;
 	}
 
-	public static void drawBlocks(){
+	public static void animateAllBlocks() {
 
 		/** Temporary, make sure to optimize block drawing **/
 

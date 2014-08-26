@@ -114,39 +114,15 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 	private static int earthQuakeMagnitude  = 2, quakeBoundary_x = 0, quakeBoundary_y = 0;
 	final private static int QUAKE_BOUNDARY = 5;
 
-/** BUG TESTING COLLISION DETECTION **/
-	static GRect point1, point2, point3, point4, point5, point6;
-
 	@Override public void init() {
 		screen = this;
 	}
+
 	
 	/** Contains the main game loop **/
-	@Override public void run(){
+	@Override public void run() {
 		
 		postInit();
-		
-		/** Temporary **/
-		GRect 	leftRect = new GRect(LEFT_BOUNDARY, 0, 3, SCREEN_HEIGHT),
-				rightRect = new GRect(RIGHT_BOUNDARY, 0, 3, SCREEN_HEIGHT),
-				upRect = new GRect(0, UP_BOUNDARY, SCREEN_WIDTH, 3),
-				downRect = new GRect(0, DOWN_BOUNDARY, SCREEN_WIDTH, 3),
-				centerRect = new GRect(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 3, 3);
-		
-		point1 = new GRect(0,0,2,3); point2 = new GRect(0,0,2,3); point3 = new GRect(0,0,2,3);
-		point4 = new GRect(0,0,2,3); point5 = new GRect(0,0,2,3); point6 = new GRect(0,0,2,3);
-
-		if (debugMode) {
-			leftRect.setFillColor(Color.RED); rightRect.setFillColor(Color.RED); upRect.setFillColor(Color.RED);
-			downRect.setFillColor(Color.RED); centerRect.setFillColor(Color.RED);
-			point1.setFillColor(Color.GREEN); point2.setFillColor(Color.BLUE);
-			point3.setFillColor(Color.ORANGE); point4.setFillColor(Color.YELLOW);
-			point5.setFillColor(Color.RED);	point6.setFillColor(Color.MAGENTA);
-
-			leftRect.setFilled(true); rightRect.setFilled(true); downRect.setFilled(true);
-			upRect.setFilled(true);	centerRect.setFilled(true); point1.setFilled(true);	point2.setFilled(true);
-			point3.setFilled(true);	point4.setFilled(true); point5.setFilled(true);	point6.setFilled(true);
-		}		
 
 		//MusicPlayer backgroundMusic = new MusicPlayer("sound/Fur_Elise.mp3");
 		//backgroundMusic.play();
@@ -164,52 +140,18 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			if (currentScreen == ScreenMode.PLAYING) {
 			
 				/** Controls if it is time to display end of level screen **/
-				if (levelComplete || player.getLives() <= 0) {
-					
-					if (levelComplete) {
-						
-						if (totalFruitRings == 0)
-							levelInformation[currentLevel].stars = 3;
-						else
-							levelInformation[currentLevel].stars = (byte) Math.max(levelInformation[currentLevel].stars, (((double) currentFruitRings / (double) totalFruitRings)*3.0));
-							
-
-						levelInformation[currentLevel].completed = true;
-						levelInformation[currentLevel + 1].locked = false;
-
-						Data.updateLevelInformation(currentLevel);
-
-						screenHandler.drawEndOfLevelMenu(true);
-					} else
-						screenHandler.drawEndOfLevelMenu(false);
-					
-				}
+				if (levelComplete || player.getLives() <= 0)
+					endTheLevel();
 				
 				/** Countdown all of the alarms towards execution **/
-				for (int i = 0; i < powerupAlarms.size(); i++) {	
-					if (!powerupAlarms.get(i).active) {
-						powerupAlarms.remove(i);
-						i--;
-					} else powerupAlarms.get(i).execute();
-				}
-			
-				/** Animate all text **/
-				screenHandler.animateAndRemoveText(levelTexts);
-				if (hintText != null) {
-					if (!screenHandler.animateText(hintText)) {
-						remove(hintText.label);
-						hintText = null;
-					}
-				}
+				countDownAllAlarms();
+
+				/** Do all motion **/
+				fallingBlocks();
+				player.motion();
 
 				/** Animate all objects **/
-				for (int i = 0; i < things.size(); i++) {
-					if (!things.get(i).active) {
-						remove(things.get(i).image);
-						things.remove(i);
-						i--;
-					} else things.get(i).animate();
-				}
+				animateAll();
 
 				/** Actions triggered by user **/
 				if (swirlEventInvoked)		
@@ -217,53 +159,16 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 				if (tongueEventInvoked)		
 					tongueEvent();
 
-
-				// Disaster Blocks
-				// Block.updateNaturalFallingBlockCandidates();
-				// Block.activateFallingBlocksByNaturalDisaster();	
-
-				// Blocks that fall relative to player
-				Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
-				Block.motion();
-
-				Block.drawBlocks();
-				
-				player.swirl.animate();
-				player.motion();
-				player.animate();
-				
-				ScreenHandler.adjustHearts(player.getLives());
-				
-				/** Adjust energy bar **/
+				/** Deplete Energy slowly **/
 				player.currentEnergy = Math.max(player.currentEnergy - 0.1, 0);
-				ScreenHandler.adjustEnergyBar(player.currentEnergy/player.maxEnergy);
 				
-				if (debugMode)
-					screenHandler.add(point1, point2, point3, point4, point5, point6, leftRect, rightRect, upRect, downRect, centerRect);		
-
-			} 
-
-			if (currentScreen == ScreenMode.MAIN_MENU) {
-
-				final byte MENU_BACKGROUND_SCROLL_SCREEN = 2;
-				final double MENU_WIDTH = Data.menu_background1.getWidth() - MENU_BACKGROUND_SCROLL_SCREEN;
-
-				if (!placed_menu) {
-					Data.menu_background2.setLocation( MENU_WIDTH , 0 );
-					placed_menu = true;
-				}
-
-				if (Data.menu_background1.getX() < -MENU_WIDTH) 
-					Data.menu_background1.setLocation( MENU_WIDTH , 0 );
-				else if (Data.menu_background2.getX() < -MENU_WIDTH) 
-					Data.menu_background2.setLocation( MENU_WIDTH , 0 );				
-
-				Data.menu_background1.setLocation(Data.menu_background1.getX() - MENU_BACKGROUND_SCROLL_SCREEN, Data.menu_background1.getY());
-				Data.menu_background2.setLocation(Data.menu_background2.getX() - MENU_BACKGROUND_SCROLL_SCREEN, Data.menu_background2.getY());
-
-			}
-
-			if (currentScreen == ScreenMode.LEVEL_RESTART)
+				/** Adjust display **/
+				ScreenHandler.adjustDisplay();
+				
+			} else if (currentScreen == ScreenMode.MAIN_MENU)
+				animateMainMenuBackground();
+			
+			else if (currentScreen == ScreenMode.LEVEL_RESTART)
 				loadLevel();							
 			
 			pauseLoop(loopTimer);
@@ -300,6 +205,69 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 
 	}
 
+	private void endTheLevel() {
+		if (levelComplete) {
+						
+			if (totalFruitRings == 0)
+				levelInformation[currentLevel].stars = 3;
+			else
+				levelInformation[currentLevel].stars = (byte) Math.max(levelInformation[currentLevel].stars, (((double) currentFruitRings / (double) totalFruitRings)*3.0));
+				
+			levelInformation[currentLevel].completed = true;
+			levelInformation[currentLevel + 1].locked = false;
+
+			Data.updateLevelInformation(currentLevel);
+
+			screenHandler.drawEndOfLevelMenu(true);
+
+		} else
+			screenHandler.drawEndOfLevelMenu(false);
+	}
+
+	private void countDownAllAlarms() {
+		for (int i = 0; i < powerupAlarms.size(); i++) {	
+			if (!powerupAlarms.get(i).active) {
+				powerupAlarms.remove(i);
+				i--;
+			} else powerupAlarms.get(i).execute();
+		}
+	}
+
+	private void animateAll() {
+		/** Animate all text **/
+		screenHandler.animateAndRemoveText(levelTexts);
+		if (hintText != null) {
+			if (!screenHandler.animateText(hintText)) {
+				remove(hintText.label);
+				hintText = null;
+			}
+		}
+
+		player.animate();
+		player.swirl.animate();
+		Block.animateAllBlocks();
+
+		/** Animate all objects **/
+		for (int i = 0; i < things.size(); i++) {
+			if (!things.get(i).active) {
+				remove(things.get(i).image);
+				things.remove(i);
+				i--;
+			} else things.get(i).animate();
+		}
+
+	}
+
+	private void fallingBlocks() {
+		// Disaster Blocks
+		// Block.updateNaturalFallingBlockCandidates();
+		// Block.activateFallingBlocksByNaturalDisaster();	
+
+		// Blocks that fall relative to player
+		Block.activateFallingBlocksWithPlayerPosition(player.imageX, player.y, player.onSurface());
+		Block.motion();
+	}
+
 	/** Makes the screen shake violently like an earthquake **/
 	private void earthQuakeEffect(){
 
@@ -321,6 +289,24 @@ public class FruitFever extends GraphicsProgram implements MouseMotionListener {
 			quakeBoundary_y += yShift;
 		}
 
+	}
+
+	private void animateMainMenuBackground() {
+		final byte MENU_BACKGROUND_SCROLL_SCREEN = 2;
+		final double MENU_WIDTH = Data.menu_background1.getWidth() - MENU_BACKGROUND_SCROLL_SCREEN;
+
+		if (!placed_menu) {
+			Data.menu_background2.setLocation(MENU_WIDTH , 0);
+			placed_menu = true;
+		}
+
+		if (Data.menu_background1.getX() < -MENU_WIDTH) 
+			Data.menu_background1.setLocation(MENU_WIDTH , 0);
+		else if (Data.menu_background2.getX() < -MENU_WIDTH) 
+			Data.menu_background2.setLocation(MENU_WIDTH , 0);				
+
+		Data.menu_background1.setLocation(Data.menu_background1.getX() - MENU_BACKGROUND_SCROLL_SCREEN, Data.menu_background1.getY());
+		Data.menu_background2.setLocation(Data.menu_background2.getX() - MENU_BACKGROUND_SCROLL_SCREEN, Data.menu_background2.getY());
 	}
 
 	/** Loads and displays all initial graphics of a level on the screen  **/

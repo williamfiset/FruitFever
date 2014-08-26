@@ -49,6 +49,8 @@ public class ScreenHandler {
 	/** End of Level Screen **/	
 	static GImage[] largeStars = new GImage[3], largeNoStars = new GImage[3], largeFadedStars = new GImage[3];
 
+	/** DEBUGGING **/
+	static GRect point1, point2, point3, point4, point5, point6, leftRect, rightRect, upRect, downRect, centerRect;
 
 	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
@@ -107,11 +109,24 @@ public class ScreenHandler {
 		centerObject(nextLevelButtonText, Data.TILE_SIZE*17);
 		
 		/** Debugging **/
-		nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
-		speed.setLocation(FruitFever.SCREEN_WIDTH - 110, FruitFever.SCREEN_HEIGHT - 9);
-		speedBackground.setSize(114, (int)speed.getHeight());
-		speedBackground.setLocation(FruitFever.SCREEN_WIDTH - 114, FruitFever.SCREEN_HEIGHT - (int)speed.getHeight() - 7);
-		
+		if (FruitFever.debugMode) {
+			nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
+			speed.setLocation(FruitFever.SCREEN_WIDTH - 110, FruitFever.SCREEN_HEIGHT - 9);
+			speedBackground.setSize(114, (int)speed.getHeight());
+			speedBackground.setLocation(FruitFever.SCREEN_WIDTH - 114, FruitFever.SCREEN_HEIGHT - (int)speed.getHeight() - 7);
+
+
+			leftRect.setFillColor(Color.RED); rightRect.setFillColor(Color.RED); upRect.setFillColor(Color.RED);
+			downRect.setFillColor(Color.RED); centerRect.setFillColor(Color.RED);
+			point1.setFillColor(Color.GREEN); point2.setFillColor(Color.BLUE);
+			point3.setFillColor(Color.ORANGE); point4.setFillColor(Color.YELLOW);
+			point5.setFillColor(Color.RED);	point6.setFillColor(Color.MAGENTA);
+
+			leftRect.setFilled(true); rightRect.setFilled(true); downRect.setFilled(true);
+			upRect.setFilled(true);	centerRect.setFilled(true); point1.setFilled(true);	point2.setFilled(true);
+			point3.setFilled(true);	point4.setFilled(true); point5.setFilled(true);	point6.setFilled(true);
+		}
+
 	}
 	
 	/** Create the images and set their starting locations **/
@@ -139,7 +154,6 @@ public class ScreenHandler {
 		centerObject(Data.healthBarBackground, 1);
 		centerObject(Data.energyBarBackground, 13);
 		
-		
 		Data.fruitRingAnimation[5].setLocation(Data.TILE_SIZE*4, 0);
 		numberOfFruitRings.setColor(Color.white);
 		numberOfLives.setColor(Color.white);
@@ -163,16 +177,31 @@ public class ScreenHandler {
 			largeFadedStars[i] = Thing.copyImage(Data.fadedStar);
 			largeStars[i] = Thing.copyImage(Data.star);
 		}
+
 		levelCompleteTitle.setFont(new Font("Helvetica", Font.BOLD, 35));
 		levelIncompleteTitle.setFont(new Font("Helvetica", Font.BOLD, 35));
 		restartButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
 		nextLevelButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
 
 		/** Debugging **/
-		nodes.setColor(Color.white);
-		nodesBackground.setFilled(true);
-		speed.setColor(Color.white);
-		speedBackground.setFilled(true);
+		if (FruitFever.debugMode) {
+			nodes.setColor(Color.white);
+			nodesBackground.setFilled(true);
+			speed.setColor(Color.white);
+			speedBackground.setFilled(true);
+
+			point1 = new GRect(0,0,2,3);
+			point2 = new GRect(0,0,2,3);
+			point3 = new GRect(0,0,2,3);
+			point4 = new GRect(0,0,2,3);
+			point5 = new GRect(0,0,2,3);
+			point6 = new GRect(0,0,2,3);
+			leftRect = new GRect(FruitFever.LEFT_BOUNDARY, 0, 3, FruitFever.SCREEN_HEIGHT);
+			rightRect = new GRect(FruitFever.RIGHT_BOUNDARY, 0, 3, FruitFever.SCREEN_HEIGHT);
+			upRect = new GRect(0, FruitFever.UP_BOUNDARY, FruitFever.SCREEN_WIDTH, 3);
+			downRect = new GRect(0, FruitFever.DOWN_BOUNDARY, FruitFever.SCREEN_WIDTH, 3);
+			centerRect = new GRect(FruitFever.SCREEN_WIDTH/2, FruitFever.SCREEN_HEIGHT/2, 3, 3);
+		}
 
 		setLocations();
 		
@@ -340,6 +369,10 @@ public class ScreenHandler {
 		add(livesImages);
 		
 		addButtonsToScreen(FruitFever.inGameButtons);
+
+		if (FruitFever.debugMode)
+			add(leftRect, rightRect, upRect, downRect, centerRect, point1, point2, point3, point4, point5, point6);		
+
 		
 	}
 	
@@ -361,6 +394,14 @@ public class ScreenHandler {
 		speed.setLabel("FPS: " + f.format(fps) + " (" + f.format(milliSeconds) + ")");
 		
 		add(nodesBackground, nodes, speedBackground, speed);
+	}
+
+	public static void adjustDisplay() {
+		/** Adjust lives display **/
+		adjustHearts(FruitFever.player.getLives());
+		
+		/** Adjust energy bar **/
+		adjustEnergyBar(FruitFever.player.currentEnergy/FruitFever.player.maxEnergy);
 	}
 	
 	/** Magical code that redraws the hearts according to the amount of lives left */
