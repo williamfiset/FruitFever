@@ -130,7 +130,7 @@ public abstract class Data {
 		sceneryImages[24] = makeImage(TILE_SIZE*8, TILE_SIZE*3, TILE_SIZE*2, TILE_SIZE);
 		
 		// Scenery (Row 4)
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 4; i++)
 			sceneryImages[i + 25] = makeImage(TILE_SIZE*i, TILE_SIZE*4, TILE_SIZE, TILE_SIZE);
 		
 		// Moss for blocks
@@ -169,9 +169,6 @@ public abstract class Data {
 		
 		/** Miscellaneous **/
 		sheet = DataLoader.loadImage("img/sprites/miscellaneous.png", "https://raw.githubusercontent.com/MicahAndWill/FruitFever/master/src/img/sprites/miscellaneous.png");
-		
-		// Critter bones
-		sceneryImages[30] = makeImage(TILE_SIZE*6, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
 
 		// Heart Image
 		heartImage = makeImage(0, 0, TILE_SIZE, TILE_SIZE);
