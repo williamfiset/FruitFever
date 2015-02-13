@@ -3,6 +3,8 @@ import java.awt.*;
 
 public class SerializableRect implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+	
 	int x, y, width, height;
 	Color color;
 	

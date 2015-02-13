@@ -14,6 +14,8 @@ import java.lang.reflect.*;
 
 public class Player extends Animation {
 
+	private static final long serialVersionUID = 1L;
+
 	public static int startX, startY;
 	
 	public static Animation poisonAnimation;
@@ -25,7 +27,7 @@ public class Player extends Animation {
   // Player Stats
   
 	public static final int MAX_LIVES = 100;
-	private static int STARTING_LIVES = 11;
+	private static int STARTING_LIVES = 3;
 	private int lives                 = STARTING_LIVES;
 	private boolean poisoned          = false;
 	private int poisonLeft            = 0;
@@ -147,14 +149,12 @@ public class Player extends Animation {
 		grabbingItem();
 		checkCollisionWithHintSigns();
 	}
-
-
 	
 	public void poison() {
 
 		if (poisoned) {
 			
-			FruitFever.screenHandler.adjustHealthBar(--currentHealth/maxHealth);
+			ScreenHandler.adjustHealthBar(--currentHealth/maxHealth);
 			poisonAnimation.imageX = imageX + Data.TILE_SIZE;
 			poisonAnimation.imageY = imageY - Data.TILE_SIZE;
 			poisonAnimation.animate();
@@ -264,7 +264,7 @@ public class Player extends Animation {
 	}
 
 	/** Responds accordingly to collision detection **/
-	private void checkCollisionDetection(){
+	private void checkCollisionDetection() {
 
 		downwardsCollision(); // downwardsCollision can make onSurface false, so it is first
 		extraCollisionChecks();
@@ -274,7 +274,7 @@ public class Player extends Animation {
 	}
 
 	/** Side Collisions **/
-	private void sidewaysCollision(){
+	private void sidewaysCollision() {
 
 		// Player is moving EAST
 		if (movementDirection == MovementDirection.RIGHT) {
@@ -322,7 +322,7 @@ public class Player extends Animation {
 	}
 
 	/** Test if player is going to hit a platform while falling **/
-	private void downwardsCollision(){
+	private void downwardsCollision() {
 
 		// SOUTH
 		Block southWest = null, southEast = null;
@@ -347,8 +347,10 @@ public class Player extends Animation {
 			onSurface = true;	
 
 			// This is what actually stops the fall 
-			if (southEast != null) placePlayerOnBlock(southEast);
-			else placePlayerOnBlock(southWest);
+			if (southEast != null)
+				placePlayerOnBlock(southEast);
+			else
+				placePlayerOnBlock(southWest);
 			
 		} else
 			onSurface = false;
@@ -363,7 +365,7 @@ public class Player extends Animation {
 		// Executes only when falling downwards 
 		if (!isJumping ) { // && fallingVelocity > STARTING_FALLING_VELOCITY
 
-			for (int horizontalPosition = 3; horizontalPosition <= 22 ; horizontalPosition++){
+			for (int horizontalPosition = 3; horizontalPosition <= 22 ; horizontalPosition++) {
 
 				// optimization (we don't need to check all the points)
 				if (horizontalPosition > 6 && horizontalPosition < 19) continue;
@@ -440,7 +442,7 @@ public class Player extends Animation {
 		isJumping = false;
 	}
 
-	/** triggers the variables that make the player jump **/
+	/** Triggers the variables that make the player jump **/
 	public void jump() {
 
 		if (keepJumping)
@@ -452,7 +454,7 @@ public class Player extends Animation {
 	/** 
 	 * It was a good idea to have a setter for IsJumping.  
 	 * For example you don't always want to set isJumping to true if the character is in free fall. **/
-	public void setIsJumping(boolean value){
+	public void setIsJumping(boolean value) {
 
 		// If you are not jumping and are on a platform
 		if (!setBaseLine && onSurface)
@@ -462,7 +464,7 @@ public class Player extends Animation {
 	/** Resets players ability to jump if applicable **/
 	private void enableJumping() {
 		
-		if(onSurface)
+		if (onSurface)
 			setBaseLine = false;
 		
 	}
@@ -547,7 +549,7 @@ public class Player extends Animation {
  		
 	}
 
-	public void eat(){
+	public void eat() {
 		
 		// Makes sure you finish a cycle of images before starting a new one
 		if (!images.equals(tongueAnim) && !images.equals(tongueAnimH))
@@ -572,7 +574,7 @@ public class Player extends Animation {
 
 		// You die if you have no more energy or health
 		else if (currentEnergy <= 0 || currentHealth <= 0) {
-			FruitFever.screenHandler.adjustHearts(--lives);	
+			ScreenHandler.adjustHearts(--lives);	
 			respawn();
 
 		// Check for dangerous collisions	
@@ -610,7 +612,7 @@ public class Player extends Animation {
 								bloodySpikes(obj2);
 					
 					collisionOccurred = true;
-					FruitFever.screenHandler.adjustHearts(--lives);	
+					ScreenHandler.adjustHearts(--lives);	
 					respawn();
 
 					break;
@@ -618,7 +620,7 @@ public class Player extends Animation {
 				} else {
 
 					collisionOccurred = true;
-					FruitFever.screenHandler.adjustHearts(--lives);	
+					ScreenHandler.adjustHearts(--lives);	
 					respawn();
 
 					break;
@@ -648,7 +650,7 @@ public class Player extends Animation {
 		boolean playerOutOfBounds = imageY - Data.TILE_SIZE > FruitFever.LEVEL_HEIGHT;
 
 		if (playerOutOfBounds) {
-			FruitFever.screenHandler.adjustHearts(--lives);	
+			ScreenHandler.adjustHearts(--lives);	
 			respawn();
 		}
 
@@ -761,8 +763,8 @@ public class Player extends Animation {
 		focusViewOnPlayer(startX, startY, true);
 		
 		/** Reset health and energy bars **/
-		FruitFever.screenHandler.resetEnergyBar();
-		FruitFever.screenHandler.resetHealthBar();
+		ScreenHandler.resetEnergyBar();
+		ScreenHandler.resetHealthBar();
 
 	}
 
@@ -793,7 +795,7 @@ public class Player extends Animation {
 			if (westNorth == null && westSouth == null && westMiddle == null) {
 
 				// Makes the swirl shoot out of the player from the left
-				swirl.reset = false;
+				Swirl.reset = false;
 				swirl.imageX = x + SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
 				swirl.imageY = y + FruitFever.viewY;
 				swirl.xSpeed = Swirl.dx;
@@ -820,7 +822,7 @@ public class Player extends Animation {
 			if (eastSouth == null && eastNorth == null && eastMiddle == null) {
 
 				// Makes the swirl shoot out of the player from the left
-				swirl.reset = false;
+				Swirl.reset = false;
 				swirl.imageX = x - SWIRL_MOUTH_DISTANCE + FruitFever.viewX;
 				swirl.imageY = y + FruitFever.viewY;
 				swirl.xSpeed = -Swirl.dx;
@@ -924,15 +926,16 @@ public class Player extends Animation {
 
 					if (FruitFever.edibleItems.get(i).equals(grabbedItem)) {
 						
-						// Grabs FruitRing
-						if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT_RING)
+						// Grabs Fruit Ring
+						if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT_RING) {
 							FruitFever.screenHandler.updateFruitRingDisplay(1);
+							FruitFever.fruitRingCollectionSound.play();
 
 						// Grabs Fruit
-						else if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT) {
+						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.FRUIT) {
 
 							currentEnergy = Math.min(currentEnergy + 300, maxEnergy);
-							FruitFever.screenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
+							ScreenHandler.adjustEnergyBar(currentEnergy/maxEnergy);
 
 						// Grabs JumpPowerUp
 						} else if (FruitFever.edibleItems.get(i).type == Animation.Type.JUMP_POWERUP) {
@@ -1044,6 +1047,8 @@ public class Player extends Animation {
 
 /** A swirl is a projectile shot from the player as a teleportation method  **/
 class Swirl extends MovingAnimation {
+
+	private static final long serialVersionUID = 1L;
 
 	static final int energyRequired = 50;		
 	static boolean reset = true;

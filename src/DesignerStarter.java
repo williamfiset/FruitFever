@@ -13,7 +13,6 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-
 public class DesignerStarter implements ActionListener {
 
 	final static int FRAME_BORDER_HEIGHT = 22;
@@ -40,12 +39,12 @@ public class DesignerStarter implements ActionListener {
    		appletFrame.setLocation(screenStartX - FruitFever.SCREEN_WIDTH/2, screenStartY - FruitFever.SCREEN_HEIGHT/2 - FRAME_BORDER_HEIGHT/2);
 
    		// Set Applet Default Settings
-		gameApplet.setSize(FruitFever.SCREEN_WIDTH, FruitFever.SCREEN_HEIGHT + LevelDesigner.MENU_HEIGHT);
+		gameApplet.setSize(FruitFever.SCREEN_WIDTH, FruitFever.SCREEN_HEIGHT + LevelDesigner.MENU_HEIGHT + 25); // 25 is estimated MenuBar height
 		gameApplet.init();
 
 		// Set Frame default settings
 		appletFrame.setResizable(false);
-		appletFrame.setSize(FruitFever.SCREEN_WIDTH, FruitFever.SCREEN_HEIGHT  + LevelDesigner.MENU_HEIGHT + FRAME_BORDER_HEIGHT);
+		appletFrame.setSize(FruitFever.SCREEN_WIDTH, FruitFever.SCREEN_HEIGHT + LevelDesigner.MENU_HEIGHT + FRAME_BORDER_HEIGHT + 25); // 25 is estimated MenuBar height
 		appletFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		appletFrame.setTitle("Level Designer");	
 		appletFrame.setVisible(true);
@@ -319,7 +318,7 @@ public class DesignerStarter implements ActionListener {
 
 	 	gameApplet.export();
 	 	GameStarter gameStarter = new GameStarter();
-	 	gameStarter.main("level=", String.valueOf(LevelDesigner.level));
+	 	GameStarter.main("level=", String.valueOf(LevelDesigner.level));
 
 	 }
 

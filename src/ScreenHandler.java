@@ -40,26 +40,35 @@ public class ScreenHandler {
 					soundEffectsLabel = new GLabel("Sound Effects"),
 					mainMenuButtonText = new GLabel("Main Menu"),
 					levelSelectionButtonText = new GLabel("Level Selection"),
-					resumeButtonText = new GLabel("Resume");
+					resumeButtonText = new GLabel("Resume"),
+					levelCompleteTitle = new GLabel("Level Complete!"),
+					levelIncompleteTitle = new GLabel("Game Over!"),
+					restartButtonText = new GLabel("Play Again"),
+					nextLevelButtonText = new GLabel("Next Level");
 	
+	/** End of Level Screen **/	
+	static GImage[] largeStars = new GImage[3], largeNoStars = new GImage[3], largeFadedStars = new GImage[3];
+
+
 	/** Constructor **/
 	public ScreenHandler(FruitFever fruitFever) {
-		this.fruitFever = fruitFever;
+		ScreenHandler.fruitFever = fruitFever;
 	}
 	
 	private void setLocations() {
 	
 		centerObject(Data.fruitFeverTitle, 50);
 		centerObject(Data.windowBorder);
+		centerObject(Data.endScreenWindow);
 		
-		/** Lock and Star images **/
+		/** Lock and Star images for Level Selection Screen **/
 		for (int i = 0; i < 20; i++) {
 		
-			levelLocks[i].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60), 97 + (i/4)*55);
+			levelLocks[i].setLocation(FruitFever.SCREEN_WIDTH/2 - 115 + (i%4)*60, 97 + (i/4)*55);
   			
   			for (int j = 0; j < 3; j++) {
-  				levelStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
-  				levelNoStars[i][j].setLocation((int) (FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j), 127 + (i/4)*55);
+  				levelStars[i][j].setLocation(FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j, 127 + (i/4)*55);
+  				levelNoStars[i][j].setLocation(FruitFever.SCREEN_WIDTH/2 - 110 + (i%4)*60 + 12*j, 127 + (i/4)*55);
   			}
 		}
 		
@@ -76,13 +85,26 @@ public class ScreenHandler {
 
 		/** Pause Menu **/
 		centerObject(pauseMenuTitle, Data.TILE_SIZE*5);
-		centerObject(musicX, (int) (-Data.TILE_SIZE*4), Data.TILE_SIZE*6);
+		centerObject(musicX, -Data.TILE_SIZE*4, Data.TILE_SIZE*6);
 		centerObject(musicLabel, Data.TILE_SIZE/2, Data.TILE_SIZE*6);
-		centerObject(soundEffectsX, (int) (-Data.TILE_SIZE*4), Data.TILE_SIZE*8);
+		centerObject(soundEffectsX, -Data.TILE_SIZE*4, Data.TILE_SIZE*8);
 		centerObject(soundEffectsLabel, Data.TILE_SIZE/2, Data.TILE_SIZE*8);
+
+		/** Pause Menu and End Of Level Screen **/
 		centerObject(mainMenuButtonText, Data.TILE_SIZE*11);
 		centerObject(levelSelectionButtonText, Data.TILE_SIZE*13);
 		centerObject(resumeButtonText, Data.TILE_SIZE*15);
+
+		/** End of Level Screen **/
+		for (int i = 0; i < 3; i++) {
+			centerObject(largeStars[i], (2*i - 2)*Data.TILE_SIZE, Data.TILE_SIZE*5);
+			centerObject(largeFadedStars[i], (2*i - 2)*Data.TILE_SIZE, Data.TILE_SIZE*5);
+			centerObject(largeNoStars[i], (2*i - 2)*Data.TILE_SIZE, Data.TILE_SIZE*5);
+		}
+		centerObject(levelCompleteTitle, Data.TILE_SIZE*4);
+		centerObject(levelIncompleteTitle, Data.TILE_SIZE*4);
+		centerObject(restartButtonText, Data.TILE_SIZE*15);
+		centerObject(nextLevelButtonText, Data.TILE_SIZE*17);
 		
 		/** Debugging **/
 		nodes.setLocation(2, FruitFever.SCREEN_HEIGHT - 9);
@@ -124,20 +146,34 @@ public class ScreenHandler {
 		for (int i = 0; i < Player.MAX_LIVES; i++)
 			livesImages[i] = Thing.copyImage(Data.heartImage);
 		
-		nodes.setColor(Color.white);
-		nodesBackground.setFilled(true);
-		speed.setColor(Color.white);
-		speedBackground.setFilled(true);
-		
 		pauseMenuTitle.setFont(new Font("Helvetica", Font.BOLD, 35));
 		mainMenuButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
 		levelSelectionButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
 		resumeButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
+		
 		musicX = Thing.copyImage(Data.redX);
 		musicX.setVisible(false);
 		soundEffectsX = Thing.copyImage(Data.redX);
 		soundEffectsX.setVisible(false);
-		
+
+		/** End of Level Screen **/
+
+		for (int i = 0; i < 3; i++) {
+			largeNoStars[i] = Thing.copyImage(Data.noStar);
+			largeFadedStars[i] = Thing.copyImage(Data.fadedStar);
+			largeStars[i] = Thing.copyImage(Data.star);
+		}
+		levelCompleteTitle.setFont(new Font("Helvetica", Font.BOLD, 35));
+		levelIncompleteTitle.setFont(new Font("Helvetica", Font.BOLD, 35));
+		restartButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
+		nextLevelButtonText.setFont(new Font("Helvetica", Font.BOLD, 20));
+
+		/** Debugging **/
+		nodes.setColor(Color.white);
+		nodesBackground.setFilled(true);
+		speed.setColor(Color.white);
+		speedBackground.setFilled(true);
+
 		setLocations();
 		
 	}
@@ -147,21 +183,33 @@ public class ScreenHandler {
 
 		removeAll();
 		
-		add(Data.menu_background2);
-		add(Data.menu_background1);
-		
+		add(Data.menu_background2, Data.menu_background1, Data.fruitFeverTitle);
 		addButtonsToScreen(FruitFever.mainMenuButtons);
-		add(Data.fruitFeverTitle);
-		fruitFever.levelSelectionPage = 0;
+
+		FruitFever.levelSelectionPage = 0;
 		
-		fruitFever.currentScreen = FruitFever.ScreenMode.MAIN_MENU;
+		FruitFever.currentScreen = FruitFever.ScreenMode.MAIN_MENU;
+	}
+
+	public void setActiveStatesOfArrows() {
+		if (FruitFever.levelSelectionPage == 0)
+			FruitFever.leftArrow.deactivate();
+		else
+			FruitFever.leftArrow.activate();
+
+		if (FruitFever.levelSelectionPage == 4)
+			FruitFever.rightArrow.deactivate();
+		else
+			FruitFever.rightArrow.activate();
 	}
 	
 	/** Draws the level selection screen **/
-	public void drawLevelSelection() {
+	public void drawLevelSelectionMenu() {
 		removeAll();
+
 		add(Data.windowBorder);
-		addButtonsToScreen(fruitFever.levelSelectionButtons);
+
+		addButtonsToScreen(FruitFever.levelSelectionButtons);
 		
 		add(levelNumbers, levelLocks);
 		add(levelStars, levelNoStars);
@@ -170,17 +218,41 @@ public class ScreenHandler {
 		
 		shiftLevelLabels(0);
 			
-		fruitFever.currentScreen = FruitFever.ScreenMode.LEVEL_SELECTION;
+		FruitFever.currentScreen = FruitFever.ScreenMode.LEVEL_SELECTION;
 	}
 
 	/** Draws the end of level screen **/
-	public void drawEndOfLevel() {
-		
-		add(Data.windowBorder);
-
-		// for (int i = 0; i < FruitFever.levelInformation[currentLevel].stars; i++)
+	public void drawEndOfLevelMenu(boolean playerHasWon) {
 			
-		fruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
+		add(Data.endScreenWindow);
+
+		for (int i = 0; i < 3; i++) {
+			
+			if (FruitFever.totalFruitRings == 0)
+				largeNoStars[i].setVisible(!playerHasWon);
+			else
+				largeNoStars[i].setVisible(i >= (FruitFever.currentFruitRings*3)/FruitFever.totalFruitRings);
+			
+			largeFadedStars[i].setVisible(i < FruitFever.levelInformation[FruitFever.currentLevel].stars);
+
+			if (FruitFever.totalFruitRings == 0)
+				largeStars[i].setVisible(playerHasWon);
+			else
+				largeStars[i].setVisible(playerHasWon && i < (FruitFever.currentFruitRings*3)/FruitFever.totalFruitRings);
+		}
+
+		add(largeNoStars, largeFadedStars, largeStars);
+
+		if (FruitFever.levelInformation[FruitFever.currentLevel].completed)
+			FruitFever.endOfLevelButtons.get(3).activate();
+		else
+			FruitFever.endOfLevelButtons.get(3).deactivate();
+
+		// Draw buttons and text
+		addButtonsToScreen(FruitFever.endOfLevelButtons);
+		add(playerHasWon ? levelCompleteTitle : levelIncompleteTitle, mainMenuButtonText, levelSelectionButtonText, restartButtonText, nextLevelButtonText);
+
+		FruitFever.currentScreen = FruitFever.ScreenMode.END_OF_LEVEL;
 	}
 	
 	public void drawPauseMenu() {
@@ -209,10 +281,10 @@ public class ScreenHandler {
 			int level = Integer.valueOf(levelNumbers[i].getLabel());
 			
 			/** Level is locked **/
-			if (fruitFever.levelInformation[level].locked) {
+			if (FruitFever.levelInformation[level].locked) {
 				levelLocks[i].setVisible(true);
 				levelNumbers[i].setVisible(false);
-				fruitFever.levelSelectionButtons.get(i).active = false;
+				FruitFever.levelSelectionButtons.get(i).deactivate();
 				for (int j = 0; j < 3; j++) {
 					levelStars[i][j].setVisible(false);
 					levelNoStars[i][j].setVisible(false);
@@ -221,9 +293,9 @@ public class ScreenHandler {
 			} else {
 				levelLocks[i].setVisible(false);
 				levelNumbers[i].setVisible(true);
-				fruitFever.levelSelectionButtons.get(i).active = true;
+				FruitFever.levelSelectionButtons.get(i).activate();
 				for (int j = 0; j < 3; j++) {
-					if (fruitFever.levelInformation[level].stars > j) {
+					if (FruitFever.levelInformation[level].stars > j) {
 						levelStars[i][j].setVisible(true);
 						levelNoStars[i][j].setVisible(false);
 					} else {
@@ -233,6 +305,8 @@ public class ScreenHandler {
 				}
 			}
 		}
+
+		setActiveStatesOfArrows();
 	}
 	
 	/** Adds a black background to screen **/
@@ -246,26 +320,26 @@ public class ScreenHandler {
 	/** Adds all images including blocks, things, fruits, and enemies to the screen **/
 	public void addImagesToScreen() {
 
-		for (Thing obj : fruitFever.things)
+		for (Thing obj : FruitFever.things)
 			if (obj.layer == Thing.Layer.BELOW_BLOCKS)
 				add(obj.image);
 
-		for (Block obj : fruitFever.blocks)
+		for (Block obj : FruitFever.blocks)
 			add(obj.image);
 		
-		for (Thing obj : fruitFever.things)
-			if (obj.layer == Thing.Layer.ABOVE_BLOCKS)
+		for (Thing obj : FruitFever.things)
+			if (obj.layer != Thing.Layer.ABOVE_BLOCKS)
 				add(obj.image);
 		
 		/** Player Images **/
-		add(fruitFever.player.image, fruitFever.player.swirl.image);
+		add(FruitFever.player.image, FruitFever.player.swirl.image);
 
 		/** GUI **/
 		add(Data.iconBackgroundBar, Data.fruitRingAnimation[5], numberOfFruitRings, numberOfLives);
 		add(Data.healthBarBackground, currentHealthBar, Data.energyBarBackground, currentEnergyBar);
 		add(livesImages);
 		
-		addButtonsToScreen(fruitFever.inGameButtons);
+		addButtonsToScreen(FruitFever.inGameButtons);
 		
 	}
 	

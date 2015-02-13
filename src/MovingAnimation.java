@@ -11,6 +11,8 @@ import java.awt.*;
 
 public class MovingAnimation extends Animation {
 
+	private static final long serialVersionUID = 1L;
+
 	/** Public instance variables **/
 	public double xSpeed, ySpeed, xLeftover, yLeftover;
 

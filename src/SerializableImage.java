@@ -2,6 +2,8 @@ import java.io.*;
 
 public class SerializableImage implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	int x, y;
 	int[][] pixelArray;
 	

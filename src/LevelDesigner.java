@@ -9,6 +9,8 @@ import java.nio.file.*;
 
 public class LevelDesigner extends GraphicsProgram implements MouseMotionListener {
 
+	private static final long serialVersionUID = 1L;
+
 	/** TO DO:
 
 		Necessary:
@@ -220,6 +222,8 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			remove(obj);
 
 		hints.clear();
+
+		name = null;
 
 	}
 	
@@ -869,14 +873,17 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			case POWERUPS:
 				for (int i = 0; i < Data.powerups.length; i++)
 					remove(Data.powerups[i]);
+				break;
 				
 			case SCENERY_1:
 				for (int i = 0; i < 25; i++)
 					remove(Data.sceneryImages[i]);
+				break;
 					
 			case SCENERY_2:
 				for (int i = 25; i < Data.sceneryImages.length; i++)
 					remove(Data.sceneryImages[i]);
+				break;
 		}
 	
 	}
@@ -889,6 +896,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		for (int i = 0; i < listOfFiles.length; i++)
 			if (listOfFiles[i].isFile()) {
+				newDrawingBoard();
 				loadDesignedLevel(listOfFiles[i].getName());
 				export();
 			}
@@ -934,7 +942,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			for (int x = 0; x < tilesWide; x++) {
 				
 				for (GImage obj : blockLayer)
-					if (obj.getX() - findXOffset((GImage) obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset((GImage) obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
+					if (obj.getX() - findXOffset(obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset(obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
 						
 						/** Fruit **/
 						for (int i = 0; i < Data.fruits.length; i++)
@@ -1028,7 +1036,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 			for (int x = 0; x < tilesWide; x++) {
 				
 				for (GImage obj : sceneryLayer)
-					if (obj.getX() - findXOffset(obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset((GImage) obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
+					if (obj.getX() - findXOffset(obj) == x*Data.TILE_SIZE && obj.getY() - findYOffset(obj) == y*Data.TILE_SIZE + MENU_HEIGHT) {
 						
 						/** Powerups **/
 						for (int i = 0; i < Data.powerups.length; i++)
@@ -1118,11 +1126,11 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 		ArrayList<SerializableHint> serializableHints = new ArrayList<>();
 		
-		for (Map.Entry entry: hints.entrySet()) {
+		for (Map.Entry<GImage, String> entry: hints.entrySet())
 			if (blockLayer.contains(entry.getKey()))
-				serializableHints.add(new SerializableHint(((GImage) entry.getKey()).getX(), ((GImage) entry.getKey()).getY(), (String) entry.getValue()));
-			else hints.remove(entry.getKey());
-		}
+				serializableHints.add(new SerializableHint(entry.getKey().getX(), entry.getKey().getY(), entry.getValue()));
+			else
+				hints.remove(entry.getKey());
 
 		infoFile.addItem("hints", serializableHints);
 
@@ -1216,7 +1224,7 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 
 
 		hints.clear();
-		ArrayList<SerializableHint> serializedHints = (ArrayList<SerializableHint>) infoFile.getItem("hints");
+		@SuppressWarnings("unchecked") ArrayList<SerializableHint> serializedHints = (ArrayList<SerializableHint>) infoFile.getItem("hints");
 
 		outerLoop:
 		for (SerializableHint hint : serializedHints)
@@ -1236,24 +1244,25 @@ public class LevelDesigner extends GraphicsProgram implements MouseMotionListene
 		if (infoFile.checkItemExists(str)) {
 
 			@SuppressWarnings("unchecked") ArrayList<SerializableImage> tempArr = (ArrayList<SerializableImage>) infoFile.getItem(str);
-			
-			for (SerializableImage obj : tempArr) {
-				GImage img = new GImage(obj.pixelArray);
+			try {
+				for (SerializableImage obj : tempArr) {
+					GImage img = new GImage(obj.pixelArray);
 
-				arr.add(img);
+					arr.add(img);
 
-				img.setLocation(obj.x, obj.y);
+					img.setLocation(obj.x, obj.y);
 
-				if (addToScreen) {
-					if (img.equals(Data.playerStill[0]))
-						player = img;
+					if (addToScreen) {
+						if (img.equals(Data.playerStill[0]))
+							player = img;
 
-					if (img.equals(Data.vortexAnimation[0]))
-						vortex = img;
+						if (img.equals(Data.vortexAnimation[0]))
+							vortex = img;
 
-					add(img);
+						add(img);
+					}
 				}
-			}
+			} catch (ClassCastException e) {}
 			
 		}
 		
