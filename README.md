@@ -3,6 +3,15 @@ FruitFever
 
 Game Development for Fruit Fever by Micah Stairs and William Fiset.
 
+Use the **RUN.sh** or **RUN.bat** script to run this program. Here's how:
+```bash
+sh RUN.sh GameStarter
+```
+If you want to create your own levels you can execute:
+```
+sh RUN.sh DesginerStarter
+```
+
 
 ![Alt text](https://github.com/MicahAndWill/FruitFever/blob/master/ScreenShots/FruitFever1.png "FruitFever Screen Shot")
 
