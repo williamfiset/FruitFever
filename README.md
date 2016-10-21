@@ -9,7 +9,7 @@ sh RUN.sh GameStarter
 ```
 If you want to create your own levels you can execute:
 ```
-sh RUN.sh DesginerStarter
+sh RUN.sh DesignerStarter
 ```
 
 
